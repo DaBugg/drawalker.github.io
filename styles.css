@@ -70,8 +70,132 @@
     border-block: 1px solid var(--border);
     padding: 1rem 0;
   }
+
+  /* Flexbox nav: evenly spaced */
+.nav-items {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* even spacing across the row */
+    gap: 0.75rem;                   /* keeps a little breathing room on narrow screens */
+  }
+  
+  /* Make the clickable area comfy */
+  .nav-items a {
+    display: inline-block;
+    padding: 0.5rem 0.75rem;
+    text-decoration: none;
+    color: var(--text);
+    border-radius: var(--radius);
+  }
+  
+  .nav-items a:hover,
+  .nav-items a:focus-visible {
+    background: color-mix(in oklab, var(--primary) 12%, transparent);
+    outline: none;
+    text-decoration: none;
+  }
+  
+  /* Optional: equal-width tabs look */
+  .nav-items.equal li {
+    flex: 1 1 0;
+    text-align: center;
+  }
+  
+  /* Optional: keep items from squishing too much on narrow screens */
+  @media (max-width: 420px) {
+    .nav-items {
+      justify-content: space-around; /* a touch more space at the ends */
+    }
+  }
+  
   
   main { padding: 2rem 0; }
+
+  /* Checkbox-style list */
+.checklist {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  
+  .checklist li {
+    position: relative;
+    padding-left: 2rem;                 /* space for faux checkbox */
+    line-height: 1.6;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding-block: 0.6rem;
+    padding-inline-end: 0.75rem;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, opacity 0.2s;
+  }
+  
+  /* Faux checkbox box */
+  .checklist li::before {
+    content: "";
+    position: absolute;
+    left: 0.6rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid var(--border);
+    border-radius: 6px;                 /* make 0 for sharp corners */
+    background: var(--bg);
+    box-shadow: inset 0 1px 0 rgba(0,0,0,0.04);
+  }
+  
+  /* Checkmark (hidden by default) */
+  .checklist li::after {
+    content: "";
+    position: absolute;
+    left: 0.82rem;
+    top: 50%;
+    width: 0.55rem;
+    height: 0.28rem;
+    border: 2px solid transparent;
+    border-top: 0;
+    border-right: 0;
+    transform: translateY(-45%) rotate(-45deg);
+    opacity: 0;
+  }
+  
+  /* Hover focus affordance */
+  .checklist li:hover {
+    border-color: color-mix(in oklab, var(--primary) 30%, var(--border));
+  }
+  
+  /* Checked state */
+  .checklist li.checked {
+    color: var(--muted);
+    text-decoration: line-through;
+    background: color-mix(in oklab, var(--surface) 70%, var(--bg));
+    border-color: color-mix(in oklab, var(--primary) 35%, var(--border));
+    opacity: 0.9;
+  }
+  
+  /* Checked: filled box + checkmark color */
+  .checklist li.checked::before {
+    background: var(--primary);
+    border-color: var(--primary);
+  }
+  
+  .checklist li.checked::after {
+    border-color: var(--primary-contrast);
+    opacity: 1;
+  }
+  
+  /* Compact variant (optional) */
+  .checklist.compact li {
+    padding-block: 0.4rem;
+    border-radius: 8px;
+  }
+  
   
   /* 5) Links & buttons */
   a {
@@ -131,5 +255,24 @@
   /* 8) Utilities (handy one-offs) */
   .center       { text-align: center; }
   .m-0          { margin: 0 !important; }
-  .mt-1         { margin-
+  .mt-1         { margin-top: 0.5rem !important; }
+  .mt-2         { margin-top: 1rem !important; }
+  .mt-3         { margin-top: 1.5rem !important; }
+  .mb-1         { margin-bottom: 0.5rem !important; }
+  .mb-2         { margin-bottom: 1rem !important; }
+  .mb-3         { margin-bottom: 1.5rem !important; }
+  .p-1          { padding: 0.5rem !important; }
+  .p-2          { padding: 1rem !important; }
+  .grid         { display: grid; gap: 1rem; }
+  .grid-2       { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-3       { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  
+  /* 9) Responsive tweaks */
+  @media (max-width: 640px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    main { padding: 1.25rem 0; }
+  }
+  
+  /* 10) Example footer year spacing */
+  footer small { display: inline-block; padding: 0.25rem 0; }
   
