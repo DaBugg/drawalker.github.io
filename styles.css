@@ -1,278 +1,482 @@
-/* ========== CSS Starter Kit ========== */
-/* 1) Root variables (easy theming) */
+/* ========================================================================
+   Portfolio Starter – styles.css
+   - Modern reset
+   - Design tokens (with light/dark themes)
+   - Layout utilities
+   - Components: header/nav, cards, quote, link-cards, blog, projects, footer
+   - Responsive, a11y focus states, reduced motion, print styles
+   ======================================================================== */
+
+/* ----------------------------- */
+/* 0) Modern CSS Reset           */
+/* ----------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html, body { height: 100%; }
+body { line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+img, picture, video, canvas, svg { display: block; max-width: 100%; }
+input, button, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: inherit; }
+ul[role='list'], ol[role='list'] { list-style: none; }
+:target { scroll-margin-top: 6rem; }
+
+/* Focus visibility */
+:focus:not(:focus-visible) { outline: none; }
+:focus-visible {
+  outline: 3px solid hsl(152 61% 45% / .9);
+  outline-offset: 2px;
+}
+
+/* Smooth scroll for keyboard users too */
+html:focus-within { scroll-behavior: smooth; }
+
+/* ----------------------------- */
+/* 1) Design Tokens              */
+/*    (Dark default + Light alt) */
+/* ----------------------------- */
 :root {
-    --bg: #ffffff;
-    --text: #0f172a;      /* slate-900 */
-    --muted: #475569;     /* slate-600 */
-    --border: #e2e8f0;    /* slate-200 */
-    --primary: #2563eb;   /* blue-600 */
-    --primary-contrast: #ffffff;
-    --surface: #f8fafc;   /* slate-50 */
-    --radius: 12px;
-  }
-  
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #0b1220;
-      --text: #e5e7eb;    /* slate-200 */
-      --muted: #94a3b8;   /* slate-400 */
-      --border: #1f2a44;
-      --primary: #3b82f6; /* blue-500 */
-      --primary-contrast: #0b1220;
-      --surface: #0f172a; /* slate-900 */
-    }
-  }
-  
-  /* 2) CSS reset (sane defaults) */
-  *,
-  *::before,
-  *::after { box-sizing: border-box; }
-  
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-  
-  img, picture, svg, video, canvas {
-    max-width: 100%;
-    display: block;
-  }
-  
-  input, button, textarea, select { font: inherit; }
-  
-  /* 3) Base typography & layout */
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  
-  h1, h2, h3, h4 {
-    line-height: 1.2;
-    margin: 0 0 0.5em;
-  }
-  
-  p { margin: 0 0 1rem; }
-  small { color: var(--muted); }
-  
-  /* 4) Container & sections */
-  .container {
-    width: min(100% - 2rem, 70ch);
-    margin-inline: auto;
-  }
-  
-  header, footer {
-    background: var(--surface);
-    border-block: 1px solid var(--border);
-    padding: 1rem 0;
-  }
+  /* Typography */
+  --font-sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
 
-  /* Flexbox nav: evenly spaced */
-.nav-items {
-    list-style: none;
-    margin: 0;
-    padding: 0.5rem 1rem;
-    display: flex;
+  /* Radii, elevation, spacing */
+  --radius-xs: .5rem;
+  --radius: 1.25rem;
+  --gap-1: .5rem;
+  --gap-2: 1rem;
+  --gap-3: 1.25rem;
+  --gap-4: 2rem;
+
+  /* Color (dark theme default) */
+  --bg: #0b1220;
+  --bg-soft: #0f172a;
+  --surface: #111827;
+  --surface-border: #1f2937;
+  --text: #e5e7eb;
+  --text-muted: #94a3b8;
+  --accent: #22c55e;
+  --accent-strong: #16a34a;
+  --link: #93c5fd;
+
+  /* Misc */
+  --shadow: 0 8px 24px rgba(0,0,0,.35);
+}
+
+/* Light scheme (optional toggle via [data-theme="light"]) */
+:root[data-theme="light"] {
+  --bg: #f8fafc;
+  --bg-soft: #f1f5f9;
+  --surface: #ffffff;
+  --surface-border: #e5e7eb;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --accent: #16a34a;
+  --accent-strong: #15803d;
+  --link: #1d4ed8;
+  --shadow: 0 6px 20px rgba(2,6,23,.08);
+}
+
+/* Respect system preference by default (no JS needed) */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f8fafc;
+    --bg-soft: #f1f5f9;
+    --surface: #ffffff;
+    --surface-border: #e5e7eb;
+    --text: #0f172a;
+    --text-muted: #475569;
+    --accent: #16a34a;
+    --accent-strong: #15803d;
+    --link: #1d4ed8;
+    --shadow: 0 6px 20px rgba(2,6,23,.08);
+  }
+}
+
+/* ----------------------------- */
+/* 2) Base                       */
+/* ----------------------------- */
+html { color-scheme: dark light; }
+body {
+  font-family: var(--font-sans);
+  color: var(--text);
+  background:
+    radial-gradient(1200px 800px at 80% -10%, color-mix(in oklab, var(--surface), black 20%) 0%, transparent 60%),
+    var(--bg);
+}
+
+/* Headings & text rhythm */
+h1, h2, h3 { line-height: 1.15; }
+h1 { font-size: clamp(1.75rem, 1.2rem + 2vw, 3rem); }
+h2 { font-size: clamp(1.35rem, 1rem + 1.4vw, 2rem); margin-bottom: .6rem; }
+h3 { font-size: clamp(1.05rem, .9rem + .6vw, 1.25rem); }
+p + p { margin-top: .8rem; }
+
+/* Utility text */
+.lead { font-size: 1.05rem; }
+.small { font-size: .9rem; }
+.muted { color: var(--text-muted); }
+.accent { color: var(--accent); }
+.visually-hidden {
+  position: absolute !important; height: 1px; width: 1px; overflow: hidden;
+  clip: rect(1px,1px,1px,1px); white-space: nowrap; border: 0; padding: 0; margin: -1px;
+}
+
+/* Containers & sections */
+.container { width: min(1100px, 92%); margin-inline: auto; }
+.section { padding: 4rem 0; }
+.section--soft { background: var(--bg-soft); }
+
+/* Grid helpers */
+.grid-2 {
+  display: grid; gap: 2rem;
+  grid-template-columns: 1.1fr 0.9fr;
+}
+@media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+
+/* Links */
+a { text-decoration: none; }
+a.underlined { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Animation helper */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp .4s ease both; }
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
+/* ----------------------------- */
+/* 3) Header & Navigation        */
+/* ----------------------------- */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in oklab, var(--bg), transparent 20%);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--surface-border);
+}
+.header__inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .9rem 0;
+}
+.brand {
+  font-weight: 800; letter-spacing: .3px;
+  color: var(--text);
+  font-size: 1.15rem;
+}
+.brand span { color: var(--accent); }
+.nav {
+  display: flex; gap: 1rem; list-style: none; margin: 0; padding: 0;
+}
+.nav a {
+  padding: .5rem .8rem;
+  border-radius: .65rem;
+  color: var(--text);
+}
+.nav a:hover, .nav a:focus-visible {
+  background: color-mix(in oklab, var(--bg-soft), white 2%);
+}
+
+/* ----------------------------- */
+/* 4) Card Primitive             */
+/* ----------------------------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.card > *:not(img) { padding: 1.1rem 1.2rem; }
+
+/* ----------------------------- */
+/* 5) Profile Card               */
+/* ----------------------------- */
+.profile img {
+  width: 100%; display: block; aspect-ratio: 1 / 1; object-fit: cover;
+}
+.profile figcaption {
+  border-top: 1px solid var(--surface-border);
+  color: var(--text-muted);
+}
+
+/* ----------------------------- */
+/* 6) Spotify Section            */
+/* ----------------------------- */
+/* ===== Spotify Now Playing ===== */
+:root {
+    --spotify: #1db954; /* official spotify green */
+  }
+  
+  .spotify {
+    padding: 0; /* card already has padding for children except images */
+  }
+  
+  .spotify__badge {
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between; /* even spacing across the row */
-    gap: 0.75rem;                   /* keeps a little breathing room on narrow screens */
+    gap: .5rem;
+    margin: 1rem 1.2rem 0;
+    color: var(--spotify);
+    font-weight: 700;
   }
   
-  /* Make the clickable area comfy */
-  .nav-items a {
-    display: inline-block;
-    padding: 0.5rem 0.75rem;
-    text-decoration: none;
-    color: var(--text);
-    border-radius: var(--radius);
+  .spotify__badge svg { display: inline-block; }
+  .spotify__live {
+    position: relative;
+    width: 8px; height: 8px; border-radius: 999px;
+    background: var(--spotify);
+    margin-left: .15rem;
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--spotify), transparent 0%);
+    animation: spotifyPulse 1.8s ease-out infinite;
+  }
+  @keyframes spotifyPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(29,185,84,.6); }
+    70%  { box-shadow: 0 0 0 10px rgba(29,185,84,0); }
+    100% { box-shadow: 0 0 0 0 rgba(29,185,84,0); }
   }
   
-  .nav-items a:hover,
-  .nav-items a:focus-visible {
-    background: color-mix(in oklab, var(--primary) 12%, transparent);
-    outline: none;
-    text-decoration: none;
+  .spotify__content {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.2rem;
+    padding: 1.2rem;
+    padding-top: .6rem;
   }
   
-  /* Optional: equal-width tabs look */
-  .nav-items.equal li {
-    flex: 1 1 0;
-    text-align: center;
+  .spotify__media {
+    width: 140px; min-width: 140px;
+    aspect-ratio: 1/1;
+    border-radius: .9rem;
+    overflow: hidden;
+    border: 1px solid var(--surface-border);
+    background: var(--bg);
+  }
+  .spotify__media img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
   }
   
-  /* Optional: keep items from squishing too much on narrow screens */
-  @media (max-width: 420px) {
-    .nav-items {
-      justify-content: space-around; /* a touch more space at the ends */
+  .spotify__meta h3 {
+    margin: .25rem 0 .2rem;
+    font-size: clamp(1.05rem, .95rem + .3vw, 1.2rem);
+  }
+  .spotify__meta p { margin: 0; }
+  
+  .spotify__progress {
+    margin-top: .9rem;
+  }
+  .spotify__bar {
+    --track: color-mix(in oklab, var(--surface-border), white 10%);
+    --fill: var(--spotify);
+    position: relative; height: 8px; border-radius: 999px;
+    background: var(--track);
+    overflow: hidden; border: 1px solid var(--surface-border);
+  }
+  .spotify__bar > span {
+    display: block; height: 100%; background: var(--fill);
+    border-right: 1px solid color-mix(in oklab, var(--spotify), black 15%);
+  }
+  .spotify__times {
+    display: flex; justify-content: space-between;
+    margin-top: .35rem;
+  }
+  
+  .spotify__actions {
+    margin-top: 1rem;
+    display: flex; gap: .5rem; flex-wrap: wrap;
+  }
+  
+  /* Compact on narrow screens */
+  @media (max-width: 620px) {
+    .spotify__content {
+      grid-template-columns: 1fr;
+    }
+    .spotify__media {
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
     }
   }
   
-  
-  main { padding: 2rem 0; }
-
-  /* Checkbox-style list */
-.checklist {
-    list-style: none;
-    padding: 0;
-    margin: 1rem 0;
-    display: grid;
-    gap: 0.5rem;
-  }
-  
-  .checklist li {
-    position: relative;
-    padding-left: 2rem;                 /* space for faux checkbox */
-    line-height: 1.6;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding-block: 0.6rem;
-    padding-inline-end: 0.75rem;
-    transition: background 0.2s, border-color 0.2s, color 0.2s, opacity 0.2s;
-  }
-  
-  /* Faux checkbox box */
-  .checklist li::before {
-    content: "";
-    position: absolute;
-    left: 0.6rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1rem;
-    height: 1rem;
-    border: 2px solid var(--border);
-    border-radius: 6px;                 /* make 0 for sharp corners */
-    background: var(--bg);
-    box-shadow: inset 0 1px 0 rgba(0,0,0,0.04);
-  }
-  
-  /* Checkmark (hidden by default) */
-  .checklist li::after {
-    content: "";
-    position: absolute;
-    left: 0.82rem;
-    top: 50%;
-    width: 0.55rem;
-    height: 0.28rem;
-    border: 2px solid transparent;
-    border-top: 0;
-    border-right: 0;
-    transform: translateY(-45%) rotate(-45deg);
+  /* Optional skeleton state (add .is-loading to .spotify to use) */
+  .spotify.is-loading .spotify__media img {
     opacity: 0;
   }
-  
-  /* Hover focus affordance */
-  .checklist li:hover {
-    border-color: color-mix(in oklab, var(--primary) 30%, var(--border));
+  .spotify.is-loading .spotify__media {
+    background: linear-gradient(90deg, #0b1220 0%, #0f172a 40%, #0b1220 80%);
+    background-size: 300% 100%;
+    animation: shimmer 1.6s infinite linear;
   }
-  
-  /* Checked state */
-  .checklist li.checked {
-    color: var(--muted);
-    text-decoration: line-through;
-    background: color-mix(in oklab, var(--surface) 70%, var(--bg));
-    border-color: color-mix(in oklab, var(--primary) 35%, var(--border));
-    opacity: 0.9;
+  .spotify.is-loading #spotify-track,
+  .spotify.is-loading #spotify-artist,
+  .spotify.is-loading #spotify-album {
+    color: transparent;
+    background: linear-gradient(90deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.12) 40%, rgba(255,255,255,.06) 80%);
+    background-size: 300% 100%;
+    border-radius: .4rem;
+    animation: shimmer 1.6s infinite linear;
   }
-  
-  /* Checked: filled box + checkmark color */
-  .checklist li.checked::before {
-    background: var(--primary);
-    border-color: var(--primary);
+  @keyframes shimmer {
+    0% { background-position: 0% 0; }
+    100% { background-position: 300% 0; }
   }
+
+  /* ----------------------------- */
+/* 6) Spotify Section            */
+/* ----------------------------- */
   
-  .checklist li.checked::after {
-    border-color: var(--primary-contrast);
-    opacity: 1;
-  }
-  
-  /* Compact variant (optional) */
-  .checklist.compact li {
-    padding-block: 0.4rem;
-    border-radius: 8px;
-  }
-  
-  
-  /* 5) Links & buttons */
-  a {
-    color: var(--primary);
-    text-decoration: none;
-  }
-  a:hover, a:focus {
-    text-decoration: underline;
-  }
-  
-  .button {
-    display: inline-block;
-    padding: 0.625rem 1rem;
-    border-radius: var(--radius);
-    background: var(--primary);
-    color: var(--primary-contrast);
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: transform 0.04s ease, box-shadow 0.2s ease, background 0.2s ease;
-  }
-  .button:hover { filter: brightness(1.05); }
-  .button:active { transform: translateY(1px); }
-  .button.outline {
-    background: transparent;
-    color: var(--primary);
-    border-color: var(--primary);
-  }
-  
-  /* 6) Cards & surfaces */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1rem;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
-  }
-  
-  /* 7) Forms */
-  label { display: block; margin: 0.5rem 0 0.25rem; }
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  select, textarea {
-    width: 100%;
-    padding: 0.6rem 0.75rem;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: var(--bg);
-    color: var(--text);
-    outline: none;
-  }
-  input:focus, select:focus, textarea:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary) 25%, transparent);
-  }
-  
-  /* 8) Utilities (handy one-offs) */
-  .center       { text-align: center; }
-  .m-0          { margin: 0 !important; }
-  .mt-1         { margin-top: 0.5rem !important; }
-  .mt-2         { margin-top: 1rem !important; }
-  .mt-3         { margin-top: 1.5rem !important; }
-  .mb-1         { margin-bottom: 0.5rem !important; }
-  .mb-2         { margin-bottom: 1rem !important; }
-  .mb-3         { margin-bottom: 1.5rem !important; }
-  .p-1          { padding: 0.5rem !important; }
-  .p-2          { padding: 1rem !important; }
-  .grid         { display: grid; gap: 1rem; }
-  .grid-2       { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .grid-3       { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  
-  /* 9) Responsive tweaks */
-  @media (max-width: 640px) {
-    .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    main { padding: 1.25rem 0; }
-  }
-  
-  /* 10) Example footer year spacing */
-  footer small { display: inline-block; padding: 0.25rem 0; }
-  
+
+/* ----------------------------- */
+/* 7) Quote Block                */
+/* ----------------------------- */
+.quote {
+  margin-top: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-left: 4px solid var(--accent);
+  background: color-mix(in oklab, var(--bg), white 2% / 80%);
+  border-radius: .75rem;
+}
+.quote p { margin: 0 0 .5rem; font-size: 1.1rem; }
+.quote footer { color: var(--text-muted); }
+
+/* ----------------------------- */
+/* 8) Link Cards (Socials)       */
+/* ----------------------------- */
+.link-cards {
+  display: grid; gap: var(--gap-3);
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  margin-top: 1rem; padding: 0; list-style: none;
+}
+@media (max-width: 700px) { .link-cards { grid-template-columns: 1fr; } }
+
+.link-cards .card a {
+  display: grid; grid-template-columns: auto 1fr; gap: 1rem;
+  align-items: start; color: var(--text);
+}
+.link-cards .card a:hover .emoji,
+.link-cards .card a:focus-visible .emoji {
+  transform: translateY(-1px);
+}
+.link-cards .emoji {
+  font-size: 1.6rem; display: grid; place-content: center;
+  width: 44px; height: 44px;
+  background: var(--bg-soft); border-radius: .8rem;
+  border: 1px solid var(--surface-border);
+  transition: transform .15s ease;
+}
+
+/* ----------------------------- */
+/* 9) Blog (Posts + Composer)    */
+/* ----------------------------- */
+.post h3 { margin: .2rem 0 .4rem; }
+.post .small { margin-bottom: .5rem; }
+
+.composer form { display: grid; gap: .75rem; }
+.composer input, .composer textarea {
+  width: 100%;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--surface-border);
+  border-radius: .75rem;
+  padding: .75rem .9rem;
+}
+.composer input::placeholder,
+.composer textarea::placeholder { color: color-mix(in oklab, var(--text-muted), white 10%); }
+.composer button {
+  border: 1px solid var(--surface-border);
+  background: var(--bg-soft);
+  color: var(--text-muted);
+  padding: .6rem .9rem; border-radius: .75rem; font-weight: 600;
+}
+
+/* ----------------------------- */
+/* 10) Projects Grid & Cards      */
+/* ----------------------------- */
+.projects {
+  display: grid; gap: var(--gap-3);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (max-width: 1100px) { .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px)  { .projects { grid-template-columns: 1fr; } }
+
+.project__media img {
+  width: 100%; display: block; aspect-ratio: 16 / 10; object-fit: cover;
+  border-bottom: 1px solid var(--surface-border);
+}
+.project__body { padding-top: 1rem !important; }
+.project__links { display: flex; gap: .6rem; margin-top: .8rem; }
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  background: var(--accent); color: color-mix(in oklab, var(--bg), black 10%);
+  border: 1px solid var(--accent-strong);
+  font-weight: 700; text-decoration: none;
+  padding: .55rem .9rem; border-radius: .7rem;
+  transition: transform .08s ease, filter .15s ease;
+}
+.btn:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn--ghost {
+  background: transparent; color: var(--text);
+  border: 1px solid var(--surface-border);
+}
+
+/* ----------------------------- */
+/* 11) Footer                    */
+/* ----------------------------- */
+.site-footer {
+  padding: 2.2rem 0;
+  border-top: 1px solid var(--surface-border);
+  background: var(--bg);
+}
+.footer__inner {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+}
+.back-to-top {
+  color: var(--text-muted);
+  text-decoration: none;
+  border: 1px dashed var(--surface-border);
+  padding: .35rem .6rem; border-radius: .6rem;
+}
+.back-to-top:hover { color: var(--text); border-style: solid; }
+
+/* ----------------------------- */
+/* 11) Utilities                 */
+/* ----------------------------- */
+.stack > * + * { margin-top: var(--gap-2); }
+.cluster { display: flex; gap: var(--gap-2); align-items: center; flex-wrap: wrap; }
+.title { margin: 0 0 1rem; }
+hr { border: 0; border-top: 1px solid var(--surface-border); margin: 1.5rem 0; }
+
+/* Link styles for content areas */
+.prose a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
+.prose a:hover { opacity: .9; }
+
+/* ----------------------------- */
+/* 12) Print Styles              */
+/* ----------------------------- */
+@media print {
+  :root { --bg: #ffffff; --bg-soft: #ffffff; --surface: #ffffff; --text: #000; --text-muted: #444; --surface-border: #ddd; --shadow: none; }
+  body { background: #fff; }
+  .site-header, .back-to-top { display: none !important; }
+  .card { box-shadow: none; border: 1px solid var(--surface-border); }
+  a { text-decoration: underline; color: #000; }
+}
+
+/* ----------------------------- */
+/* 13) Optional Helpers          */
+/* ----------------------------- */
+/* Accent underline (use on headings/links) */
+.underline-accent {
+  position: relative;
+}
+.underline-accent::after {
+  content: "";
+  position: absolute; left: 0; bottom: -.25rem;
+  width: 3rem; height: 3px; background: var(--accent);
+  border-radius: 999px;
+}

@@ -3,57 +3,268 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Your Page Title</title>
-  <meta name="description" content="Short page description for SEO." />
-  <link rel="icon" href="favicon.ico" />
+  <title>Your Name • Portfolio</title>
+
+  <!-- Fonts (optional) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Site styles -->
   <link rel="stylesheet" href="styles.css" />
-  <script src="app.js" defer></script>
 </head>
 <body>
-  <header>
-    
-        <h1> Hello, world!</h1>
-           
-        <nav aria-label="Primary">
-            <ul class="nav-items">
-              <li><a href="main.html">🏠</a></li>
-              <li><a href="one-day-at-a-time.html">Each Day</a></li>
-              <li><a href="one-week-at-a-time.html">Each Week</a></li>
-              <li><a href="one-month-at-a-time.html">Each Month</a></li>
-            </ul>
-          </nav>
-            </header>
-
-  <main>
-    <div> 
-        <h2> Projects </h2>
-        <ul class="checklist">
-            <li>Wireframe the homepage</li>
-            <li class="checked">Connect domain and SSL</li>
-            <li>Write launch email</li>
-            <li class="checked">Create GitHub repo</li>
-          </ul>          
+  <!-- ===== Header / Nav ===== -->
+  <header class="site-header">
+    <div class="container header__inner">
+      <a class="brand" href="#top" aria-label="Go to top">Your<span>Portfolio</span></a>
+      <nav aria-label="Primary">
+        <ul class="nav">
+          <li><a href="#about">About</a></li>
+          <li><a href="#quote">Quote</a></li>
+          <li><a href="#links">Links</a></li>
+          <li><a href="#blog">Quick Blog</a></li>
+          <li><a href="#projects">Projects</a></li>
+        </ul>
+      </nav>
     </div>
+  </header>
 
-    <div> 
-        <h2> Goals For October </h2>
-        <ul class="checklist">
-            <li> Start Learning Mandarin </li>
-            <li> Learn CAD and able to do ISOmetrics for plumbing </li>
-            <li> self host a web server </li> 
-            <li> Build up the moc for: CodeLink & Credit Financial</li>
-        </ul>  
+  <main id="top">
+    <!-- ===== About Me ===== -->
+    <section id="about" class="section">
+      <div class="container grid-2">
+        <div>
+          <h1 class="title">Hey, I’m <span class="accent">Your Name</span> 👋</h1>
+          <p class="lead">
+            I’m a <strong>Network Engineer</strong> and <strong>App Designer</strong> who loves clean UI, accessible UX,
+            and building fast, delightful web apps. I enjoy working with HTML/CSS/JS, modern frameworks,
+            and thoughtful design systems.
+          </p>
+          <p>
+            Currently exploring <em>performance tooling</em>, <em>design tokens</em>, and <em>edge rendering</em>.
+            When I’m not coding, I’m reading about product strategy and tinkering with automation scripts.
+          </p>
+        </div>
+        <figure class="card profile">
+          <img src="https://picsum.photos/600/600?grayscale" alt="Portrait of Your Name" />
+          <figcaption>Based in Your City · Available for freelance</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===== Spotify Now Playing (placeholder) ===== -->
+<section id="now-playing" class="section section--soft" aria-label="Spotify Now Playing">
+    <div class="container">
+      <div class="spotify card" role="group" aria-labelledby="spotify-heading">
+        <div class="spotify__badge" aria-hidden="true">
+          <!-- tiny spotify icon -->
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+            <path fill="currentColor"
+              d="M12 0C5.373 0 0 5.373 0 12c0 6.628 5.373 12 12 12s12-5.372 12-12C24 5.373 18.627 0 12 0Zm5.406 17.41a.9.9 0 0 1-1.24.297c-3.392-2.075-7.672-2.545-12.71-1.398a.9.9 0 1 1-.406-1.754c5.5-1.275 10.227-.741 14.01 1.548a.9.9 0 0 1 .346 1.307Zm1.67-3.253a1.125 1.125 0 0 1-1.545.371c-3.88-2.367-9.795-3.056-14.387-1.68a1.125 1.125 0 1 1-.64-2.157c5.256-1.56 11.82-.784 16.195 1.905a1.125 1.125 0 0 1 .377 1.561Zm.158-3.43c-4.47-2.66-12.117-2.904-16.46-1.6a1.35 1.35 0 1 1-.773-2.588c5.045-1.506 13.4-1.206 18.47 1.79a1.35 1.35 0 0 1-1.237 2.397Z"/>
+          </svg>
+          <span id="spotify-heading">Now Playing</span>
+          <span class="spotify__live" aria-hidden="true"></span>
+        </div>
+  
+        <div class="spotify__content">
+          <div class="spotify__media">
+            <img
+              id="spotify-cover"
+              src="https://picsum.photos/seed/album/280/280"
+              alt="Album cover artwork placeholder"
+              width="140" height="140"
+            />
+          </div>
+  
+          <div class="spotify__meta">
+            <h3 id="spotify-track">Song Title (placeholder)</h3>
+            <p id="spotify-artist" class="muted">Artist Name</p>
+            <p id="spotify-album" class="muted small">Album Name</p>
+  
+            <div class="spotify__progress" aria-hidden="true">
+              <div class="spotify__bar"><span style="width: 40%"></span></div>
+              <div class="spotify__times small muted">
+                <time id="spotify-elapsed">1:12</time>
+                <time id="spotify-duration">3:45</time>
+              </div>
+            </div>
+  
+            <div class="spotify__actions">
+              <a class="btn btn--ghost" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">
+                Open in Spotify
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
+  
+
+    <!-- ===== Quote of the Day ===== -->
+    <section id="quote" class="section section--soft">
+      <div class="container">
+        <h2>Quote of the Day</h2>
+        <!-- Static placeholder (swap text daily or wire to JS later) -->
+        <blockquote class="quote">
+          <p>“We are what we repeatedly do. Excellence, then, is not an act, but a habit.”</p>
+          <footer>— Will Durant</footer>
+        </blockquote>
+        <!-- Optional: add small note or remove -->
+        <p class="muted small">
+          Tip: If you want this to rotate automatically, add a small JS file later (kept separate for SoC).
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== Links / Socials ===== -->
+    <section id="links" class="section">
+      <div class="container">
+        <h2>Links & Socials</h2>
+        <ul class="link-cards">
+          <li class="card">
+            <a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">
+              <span class="emoji" aria-hidden="true">💻</span>
+              <div>
+                <strong>GitHub</strong>
+                <p>Projects, experiments, and open source contributions</p>
+              </div>
+            </a>
+          </li>
+          <li class="card">
+            <a href="https://www.linkedin.com/in/your-username" target="_blank" rel="noopener noreferrer">
+              <span class="emoji" aria-hidden="true">🔗</span>
+              <div>
+                <strong>LinkedIn</strong>
+                <p>Resume, roles, and professional updates</p>
+              </div>
+            </a>
+          </li>
+          <li class="card">
+            <a href="mailto:you@example.com" target="_blank" rel="noopener noreferrer">
+              <span class="emoji" aria-hidden="true">✉️</span>
+              <div>
+                <strong>Email</strong>
+                <p>you@example.com</p>
+              </div>
+            </a>
+          </li>
+          <li class="card">
+            <a href="https://your-domain.com" target="_blank" rel="noopener noreferrer">
+              <span class="emoji" aria-hidden="true">🌐</span>
+              <div>
+                <strong>Website</strong>
+                <p>Blog, notes, and longer form writing</p>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Quick Blog (Writing Block) ===== -->
+    <section id="blog" class="section section--soft">
+      <div class="container grid-2">
+        <div>
+          <h2>Quick Blog</h2>
+          <article class="card post">
+            <h3>Latest Post Title</h3>
+            <p class="muted small">Posted on 2025-10-11</p>
+            <p>
+              This is a short example post. Replace with your own content, or hook this section up to a
+              static site generator or CMS later.
+            </p>
+          </article>
+
+          <article class="card post">
+            <h3>Another Thought</h3>
+            <p class="muted small">Posted on 2025-09-28</p>
+            <p>
+              Keep posts concise and scannable. Use clear headings, short paragraphs, and links to longer write-ups.
+            </p>
+          </article>
+        </div>
+
+        <!-- Non-persistent writing block (front-end only) -->
+        <aside class="card composer" aria-labelledby="composer-title">
+          <h3 id="composer-title">New Post (Draft)</h3>
+          <form action="#" method="post" onsubmit="return false" aria-describedby="composer-help">
+            <label class="visually-hidden" for="post-title">Title</label>
+            <input id="post-title" name="title" type="text" placeholder="Post title…" />
+            <label class="visually-hidden" for="post-body">Body</label>
+            <textarea id="post-body" name="body" rows="6" placeholder="Write something…"></textarea>
+            <button type="button" disabled title="Wire to JS/CMS to enable">Save Draft</button>
+            <p id="composer-help" class="muted small">
+              This is a front-end placeholder. Connect to a CMS or add JS to store drafts.
+            </p>
+          </form>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===== Projects ===== -->
+    <section id="projects" class="section">
+      <div class="container">
+        <h2>Projects</h2>
+        <div class="projects">
+          <!-- Project Card -->
+          <article class="card project">
+            <div class="project__media">
+              <img src="https://picsum.photos/seed/p1/800/500" alt="Screenshot of Project Alpha" />
+            </div>
+            <div class="project__body">
+              <h3>Project Alpha</h3>
+              <p>A fast, accessible landing page template with dark mode and semantic HTML.</p>
+              <div class="project__links">
+                <a class="btn" href="https://example.com/project-alpha" target="_blank" rel="noopener noreferrer">Live</a>
+                <a class="btn btn--ghost" href="https://github.com/your-username/project-alpha" target="_blank" rel="noopener noreferrer">Code</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project">
+            <div class="project__media">
+              <img src="https://picsum.photos/seed/p2/800/500" alt="Screenshot of UI Component Library" />
+            </div>
+            <div class="project__body">
+              <h3>UI Component Library</h3>
+              <p>Composable, themeable components built with modern CSS and zero JS dependencies.</p>
+              <div class="project__links">
+                <a class="btn" href="https://example.com/ui-library" target="_blank" rel="noopener noreferrer">Docs</a>
+                <a class="btn btn--ghost" href="https://github.com/your-username/ui-library" target="_blank" rel="noopener noreferrer">Code</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project">
+            <div class="project__media">
+              <img src="https://picsum.photos/seed/p3/800/500" alt="Screenshot of Analytics Dashboard" />
+            </div>
+            <div class="project__body">
+              <h3>Analytics Dashboard</h3>
+              <p>Lightweight dashboard with charts, filters, and accessible data tables.</p>
+              <div class="project__links">
+                <a class="btn" href="https://example.com/analytics" target="_blank" rel="noopener noreferrer">Live</a>
+                <a class="btn btn--ghost" href="https://github.com/your-username/analytics" target="_blank" rel="noopener noreferrer">Code</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer>
-    <small>&copy; <span id="year"></span> Your Name</small>
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="container footer__inner">
+      <p>© <span id="year"></span> Your Name. All rights reserved.</p>
+      <a href="#top" class="back-to-top">Back to top ↑</a>
+    </div>
   </footer>
 
+  <!-- Tiny, optional progressive enhancement: year only (kept inline small or move to an external js file if you prefer strict SoC) -->
   <script>
-    // Example: set current year in footer
     document.getElementById('year').textContent = new Date().getFullYear();
-</script>
-  <!-- <script src="app.js" defer></script> -->
+  </script>
 </body>
 </html>
