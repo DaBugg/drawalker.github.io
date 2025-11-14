@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Name – Portfolio</title>
+  <title>David  – Portfolio</title>
 
   <!-- Site styles -->
   <link rel="stylesheet" href="styles.css" />
@@ -12,13 +12,13 @@
   <!-- ===== Header / Nav ===== -->
   <header class="site-header">
     <div class="container header__inner">
-      <a class="brand" href="#top" aria-label="Go to top">Your<span>Portfolio</span></a>
+      <a class="brand" href="#top" aria-label="Go to top">David's<span> Portfolio</span></a>
       <nav aria-label="Primary">
         <ul class="nav">
           <li><a href="#about">About</a></li>
           <li><a href="#quote">Quote</a></li>
           <li><a href="#links">Links</a></li>
-          <li><a href="#blog">Quick Blog</a></li>
+          <li><a href="#spotify">Spotify</a></li>
           <li><a href="#projects">Projects</a></li>
         </ul>
       </nav>
@@ -26,114 +26,173 @@
   </header>
 
   <main id="top">
-    <!-- ===== About Me ===== -->
     <section id="about" class="section">
-      <div class="container grid-2">
-        <div>
-          <h1 class="title">Hey, I’m <span class="accent">Your Name</span> 👋</h1>
+      <div class="container grid-2 about">
+        <!-- Left: Intro -->
+        <div class="about__intro">
+          <p class="small muted">About</p>
+          <h1 class="title">
+            Hey, I’m <span class="accent">David W.</span> 👋
+          </h1>
+    
           <p class="lead">
-            I’m a <strong>Network Engineer</strong> and <strong>App Designer</strong> who loves clean UI, accessible UX,
-            and building fast, delightful web apps. I enjoy working with HTML/CSS/JS, modern frameworks,
-            and thoughtful design systems.
+            I’m a <strong>Network Engineer</strong> and <strong>Software Developer</strong> who enjoys building
+            fast, secure, and visually clean experiences—from small scale web-scraping infrastructure to production-ready
+            websites & apps. 
           </p>
+          <br>
           <p>
-            Currently exploring <em>performance tooling</em>, <em>design tokens</em>, and <em>edge rendering</em>.
-            When I’m not coding, I’m reading about product strategy and tinkering with automation scripts.
+            I like working across the stack <strong> MERN </strong> (MongoDB, Express, React, Node.js) designing resilient networks, scripting automations in
+            Python, and crafting front-ends with HTML, CSS, and JavaScript. Outside of software I Practice Micro Soldering, CAD & KiCad, Tech Repair and Desiging
+            the Front-Ends & Back-Ends for some start up apps I am working on. 
           </p>
+          <br>
+          <span class="about__meta-value">
+            Check my
+            <a href="#links" class="underlined">Links</a>
+            section to see ways to contact me
+          </span>
+          
+            <br>
+            <div class="about__meta-item">
+              <span class="about__meta-value">Networking · Automation · Security · App Design</span>
+            </div>
+          <ul class="about__tags">
+            <li>Network Engineering</li>
+            <li>Python Web-Scraping & Automation</li>
+            <li>Web Server Hosting & Dev</li>
+            <li>Security Tools & Pen* Testing</li>
+          </ul>
         </div>
-        <figure class="card profile">
-          <img src="https://picsum.photos/600/600?grayscale" alt="Portrait of Your Name" />
-          <figcaption>Based in Your City · Available for freelance</figcaption>
-        </figure>
+    
+        <!-- Right: Spotify Now Playing card -->
+        <article class="card spotify is-loading about__spotify" id="spotify-card">
+          <!-- Badge -->
+          <div class="spotify__badge">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 168 168">
+              <circle fill="currentColor" cx="84" cy="84" r="84"></circle>
+              <path fill="#0b1220" d="M120.2 119.1c-1.6 2.7-5 3.6-7.7 2-21.1-12.6-47.6-15.5-78.8-8.5-3 0.7-6-1.2-6.7-4.2-.7-3 1.2-6 4.2-6.7 34.9-7.8 64.7-4.5 88 9.7 2.7 1.6 3.6 5 2 7.7zm10.9-24.2c-2 3.3-6.3 4.3-9.6 2.3-24.1-14.8-60.8-19.1-89.3-10.4-3.7 1.1-7.5-1-8.7-4.7-1.1-3.7 1-7.5 4.7-8.7 32.9-9.9 73.4-5.1 101.8 12.3 3.3 2 4.3 6.3 2.3 9.6zm1-25.7C103 50.9 61.1 49.3 36.2 56.9 31.8 58.3 27 55.9 25.6 51.6s1.4-8.9 5.7-10.3c29.7-9.3 76.1-7.4 106.9 11.1 3.9 2.3 5.2 7.3 2.9 11.2-2.4 3.9-7.4 5.2-11.2 2.9z"></path>
+            </svg>
+            <span>Spotify</span>
+            <span class="spotify__live" aria-hidden="true"></span>
+          </div>
+    
+          <!-- Content -->
+          <div class="spotify__content">
+            <!-- Album art -->
+            <div class="spotify__media">
+              <img
+                id="spotify-cover"
+                src="https://via.placeholder.com/300x300?text=Spotify"
+                alt="Album cover"
+              />
+            </div>
+    
+            <!-- Track meta -->
+            <div class="spotify__meta">
+              <p class="small muted" id="spotify-status">Loading…</p>
+    
+              <h3 id="spotify-track">Track title</h3>
+              <p id="spotify-artist" class="small">Artist name</p>
+              <p id="spotify-album" class="small muted">Album name</p>
+    
+              <div class="spotify__progress">
+                <div class="spotify__bar">
+                  <span id="spotify-progress" style="width: 0%;"></span>
+                </div>
+                <div class="spotify__times small muted">
+                  <span id="spotify-current-time">0:00</span>
+                  <span id="spotify-duration">0:00</span>
+                </div>
+              </div>
+    
+              <div class="spotify__actions">
+                <a
+                  href="https://open.spotify.com/user/YOUR_SPOTIFY_ID"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn--ghost small"
+                >
+                  View my profile
+                </a>
+                <a
+                  id="spotify-open-link"
+                  href="https://open.spotify.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn small"
+                >
+                  Open in Spotify
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
+    
 
-        <!-- ===== Spotify Now Playing ===== -->
-        <section id="spotify" class="section">
+    <!-- ===== Left: Quote of the Day ===== -->
+    <section id="quote" class="section section--soft">
+      <div class="container quote-book">
+        <!-- Flex left: Quote of the Day -->
+        <div class="quote-book__quote">
+          <h2>Quote of the Day</h2>
+          <blockquote class="quote">
+            <p>“We are what we repeatedly do. Excellence, then, is not an act, but a habit.”</p>
+            <footer>— Will Durant</footer>
+          </blockquote>
+        </div>
+    
+        <!-- Flex center: Book title + Amazon link -->
+        <article class="card quote-book__book book-min">
+          <div class="book-min__content">
+            <h2>Book of the Month</h2>
+            <h3 class="book-min__title">Apple in China</h3>
+            <a
+              class="underlined small"
+              href="https://www.amazon.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View on Amazon
+            </a>
+          </div>
+        </article>
+    
+        <!-- Flex right: Book cover image -->
+        <div class="quote-book__cover">
+          <figure class="book-min__cover">
+            <img
+              src="images/book-of-the-month.png"
+              alt="Cover of Book"
+            />
+          </figure>
+        </div>
+      </div>
+    </section>
+    
+    
+
+        <!-- ===== Skills ===== -->
+        <section id="skills" class="section">
           <div class="container">
-            <h2>Now Playing on Spotify</h2>
+            <h2>Skills</h2>
+            <p class="muted small">A snapshot of the tools and domains I work with regularly.</p>
     
-            <article class="card spotify is-loading" id="spotify-card">
-              <!-- Badge -->
-              <div class="spotify__badge">
-                <!-- Simple Spotify icon using SVG -->
-                <svg aria-hidden="true" width="18" height="18" viewBox="0 0 168 168">
-                  <circle fill="currentColor" cx="84" cy="84" r="84"></circle>
-                  <path fill="#0b1220" d="M120.2 119.1c-1.6 2.7-5 3.6-7.7 2-21.1-12.6-47.6-15.5-78.8-8.5-3 0.7-6-1.2-6.7-4.2-.7-3 1.2-6 4.2-6.7 34.9-7.8 64.7-4.5 88 9.7 2.7 1.6 3.6 5 2 7.7zm10.9-24.2c-2 3.3-6.3 4.3-9.6 2.3-24.1-14.8-60.8-19.1-89.3-10.4-3.7 1.1-7.5-1-8.7-4.7-1.1-3.7 1-7.5 4.7-8.7 32.9-9.9 73.4-5.1 101.8 12.3 3.3 2 4.3 6.3 2.3 9.6zm1-25.7C103 50.9 61.1 49.3 36.2 56.9 31.8 58.3 27 55.9 25.6 51.6s1.4-8.9 5.7-10.3c29.7-9.3 76.1-7.4 106.9 11.1 3.9 2.3 5.2 7.3 2.9 11.2-2.4 3.9-7.4 5.2-11.2 2.9z"></path>
-                </svg>
-                <span>Spotify</span>
-                <span class="spotify__live" aria-hidden="true"></span>
-              </div>
-    
-              <!-- Content -->
-              <div class="spotify__content">
-                <!-- Album art -->
-                <div class="spotify__media">
-                  <img
-                    id="spotify-cover"
-                    src="https://via.placeholder.com/300x300?text=Spotify"
-                    alt="Album cover"
-                  />
-                </div>
-    
-                <!-- Track meta -->
-                <div class="spotify__meta">
-                  <p class="small muted" id="spotify-status">Not playing right now</p>
-    
-                  <h3 id="spotify-track">Track title</h3>
-                  <p id="spotify-artist" class="small">Artist name</p>
-                  <p id="spotify-album" class="small muted">Album name</p>
-    
-                  <div class="spotify__progress">
-                    <div class="spotify__bar">
-                      <span id="spotify-progress" style="width: 0%;"></span>
-                    </div>
-                    <div class="spotify__times small muted">
-                      <span id="spotify-current-time">0:00</span>
-                      <span id="spotify-duration">0:00</span>
-                    </div>
-                  </div>
-    
-                  <div class="spotify__actions">
-                    <!-- Replace YOUR_SPOTIFY_ID with your real Spotify user id -->
-                    <a
-                      href="https://open.spotify.com/user/c6azt9yno82jmjvzxxx0kpwlv?si=817f1aa53aa74055"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="btn btn--ghost small"
-                    >
-                      View my profile
-                    </a>
-                    <a
-                      id="spotify-open-link"
-                      href="https://open.spotify.com/user/c6azt9yno82jmjvzxxx0kpwlv?si=817f1aa53aa74055s"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="btn small"
-                    >
-                      Open in Spotify
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </article>
+            <ul class="skills-list">
+              <li>Network Design &amp; Troubleshooting</li>
+              <li>Linux / CLI / Shell Scripting</li>
+              <li>Python Automation</li>
+              <li>Docker &amp; Containerization</li>
+              <li>Web: HTML, CSS, JavaScript</li>
+              <li>Cloud &amp; Virtualization (GCP, VMs)</li>
+              <li>Cisco Switching &amp; Routing</li>
+              <li>Wireshark / Burp Suite / Security Tools</li>
+              <li>UX/UI Prototyping &amp; App Design</li>
+            </ul>
           </div>
         </section>
-    
-
-    <!-- ===== Quote of the Day ===== -->
-    <section id="quote" class="section section--soft">
-      <div class="container">
-        <h2>Quote of the Day</h2>
-        <blockquote class="quote">
-          <p>“We are what we repeatedly do. Excellence, then, is not an act, but a habit.”</p>
-          <footer>— Will Durant</footer>
-        </blockquote>
-        <p class="muted small">
-          Tip: If you want this to rotate automatically, add a small JS file later (kept separate for SoC).
-        </p>
-      </div>
-    </section>
 
     <!-- ===== Links / Socials ===== -->
     <section id="links" class="section">
@@ -180,46 +239,6 @@
       </div>
     </section>
 
-    <!-- ===== Quick Blog (Writing Block) ===== -->
-    <section id="blog" class="section section--soft">
-      <div class="container grid-2">
-        <div>
-          <h2>Quick Blog</h2>
-          <article class="card post">
-            <h3>Latest Post Title</h3>
-            <p class="muted small">Posted on 2025-10-11</p>
-            <p>
-              This is a short example post. Replace with your own content, or hook this section up to a
-              static site generator or CMS later.
-            </p>
-          </article>
-
-          <article class="card post">
-            <h3>Another Thought</h3>
-            <p class="muted small">Posted on 2025-09-28</p>
-            <p>
-              Keep posts concise and scannable. Use clear headings, short paragraphs, and links to longer write-ups.
-            </p>
-          </article>
-        </div>
-
-        <!-- Non-persistent writing block (front-end only) -->
-        <aside class="card composer" aria-labelledby="composer-title">
-          <h3 id="composer-title">New Post (Draft)</h3>
-          <form action="#" method="post" onsubmit="return false" aria-describedby="composer-help">
-            <label class="visually-hidden" for="post-title">Title</label>
-            <input id="post-title" name="title" type="text" placeholder="Post title…" />
-            <label class="visually-hidden" for="post-body">Body</label>
-            <textarea id="post-body" name="body" rows="6" placeholder="Write something…"></textarea>
-            <button type="button" disabled title="Wire to JS/CMS to enable">Save Draft</button>
-            <p id="composer-help" class="muted small">
-              This is a front-end placeholder. Connect to a CMS or add JS to store drafts.
-            </p>
-          </form>
-        </aside>
-      </div>
-    </section>
-
     <!-- ===== Projects ===== -->
     <section id="projects" class="section">
       <div class="container">
@@ -230,11 +249,11 @@
               <img src="https://picsum.photos/seed/p1/800/500" alt="Screenshot of Project Alpha" />
             </div>
             <div class="project__body">
-              <h3>Project Alpha</h3>
-              <p>A fast, accessible landing page template with dark mode and semantic HTML.</p>
+              <h3>Web Scrape & Form Filling Automation Tool </h3>
+              <p>Turns repetitive web form input and scraping into a one-click workflow.</p>
               <div class="project__links">
-                <a class="btn" href="https://example.com/project-alpha" target="_blank" rel="noopener noreferrer">Live</a>
-                <a class="btn btn--ghost" href="https://github.com/your-username/project-alpha" target="_blank" rel="noopener noreferrer">Code</a>
+                <a class="btn" href="https://example.com/project-alpha" target="_blank" rel="noopener noreferrer">Quote</a>
+                <a class="btn btn--ghost" href="https://github.com/your-username/project-alpha" target="_blank" rel="noopener noreferrer">Overview</a>
               </div>
             </div>
           </article>

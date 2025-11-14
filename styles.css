@@ -1,12 +1,3 @@
-/* ========================================================================
-   Portfolio Starter – styles.css
-   - Modern reset
-   - Design tokens (with light/dark themes)
-   - Layout utilities
-   - Components: header/nav, cards, quote, link-cards, blog, projects, footer
-   - Responsive, a11y focus states, reduced motion, print styles
-   ======================================================================== */
-
 /* ----------------------------- */
 /* 0) Modern CSS Reset           */
 /* ----------------------------- */
@@ -126,6 +117,13 @@ p + p { margin-top: .8rem; }
 .section { padding: 4rem 0; }
 .section--soft { background: var(--bg-soft); }
 
+/* Make consecutive soft sections feel like one combined band */
+.section--soft + .section--soft {
+  padding-top: 1.5rem;
+  margin-top: -1rem;
+  border-top: 1px solid var(--surface-border);
+}
+
 /* Grid helpers */
 .grid-2 {
   display: grid; gap: 2rem;
@@ -146,7 +144,12 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
 
 /* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
-  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ----------------------------- */
@@ -181,166 +184,205 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
 }
 
 /* ----------------------------- */
-/* 4) Card Primitive             */
+/* 4)   About Section            */
 /* ----------------------------- */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--surface-border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-.card > *:not(img) { padding: 1.1rem 1.2rem; }
-
 /* ----------------------------- */
-/* 5) Profile Card               */
+/* Spotify in About (vertical)   */
 /* ----------------------------- */
-.profile img {
-  width: 100%; display: block; aspect-ratio: 1 / 1; object-fit: cover;
-}
-.profile figcaption {
-  border-top: 1px solid var(--surface-border);
-  color: var(--text-muted);
-}
-
-/* ----------------------------- */
-/* 6) Spotify Section            */
-/* ----------------------------- */
-/* ===== Spotify Now Playing ===== */
 :root {
-    --spotify: #1db954; /* official spotify green */
-  }
-  
-  .spotify {
-    padding: 0; /* card already has padding for children except images */
-  }
-  
-  .spotify__badge {
-    display: inline-flex;
-    align-items: center;
-    gap: .5rem;
-    margin: 1rem 1.2rem 0;
-    color: var(--spotify);
-    font-weight: 700;
-  }
-  
-  .spotify__badge svg { display: inline-block; }
-  .spotify__live {
-    position: relative;
-    width: 8px; height: 8px; border-radius: 999px;
-    background: var(--spotify);
-    margin-left: .15rem;
-    box-shadow: 0 0 0 0 color-mix(in oklab, var(--spotify), transparent 0%);
-    animation: spotifyPulse 1.8s ease-out infinite;
-  }
-  @keyframes spotifyPulse {
-    0%   { box-shadow: 0 0 0 0 rgba(29,185,84,.6); }
-    70%  { box-shadow: 0 0 0 10px rgba(29,185,84,0); }
-    100% { box-shadow: 0 0 0 0 rgba(29,185,84,0); }
-  }
-  
-  .spotify__content {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 1.2rem;
-    padding: 1.2rem;
-    padding-top: .6rem;
-  }
-  
-  .spotify__media {
-    width: 140px; min-width: 140px;
-    aspect-ratio: 1/1;
-    border-radius: .9rem;
-    overflow: hidden;
-    border: 1px solid var(--surface-border);
-    background: var(--bg);
-  }
-  .spotify__media img {
-    width: 100%; height: 100%; object-fit: cover; display: block;
-  }
-  
-  .spotify__meta h3 {
-    margin: .25rem 0 .2rem;
-    font-size: clamp(1.05rem, .95rem + .3vw, 1.2rem);
-  }
-  .spotify__meta p { margin: 0; }
-  
-  .spotify__progress {
-    margin-top: .9rem;
-  }
-  .spotify__bar {
-    --track: color-mix(in oklab, var(--surface-border), white 10%);
-    --fill: var(--spotify);
-    position: relative; height: 8px; border-radius: 999px;
-    background: var(--track);
-    overflow: hidden; border: 1px solid var(--surface-border);
-  }
-  .spotify__bar > span {
-    display: block; height: 100%; background: var(--fill);
-    border-right: 1px solid color-mix(in oklab, var(--spotify), black 15%);
-  }
-  .spotify__times {
-    display: flex; justify-content: space-between;
-    margin-top: .35rem;
-  }
-  
-  .spotify__actions {
-    margin-top: 1rem;
-    display: flex; gap: .5rem; flex-wrap: wrap;
-  }
-  
-  /* Compact on narrow screens */
-  @media (max-width: 620px) {
-    .spotify__content {
-      grid-template-columns: 1fr;
-    }
-    .spotify__media {
-      width: 100%;
-      max-width: 420px;
-      margin: 0 auto;
-    }
-  }
-  
-  /* Optional skeleton state (add .is-loading to .spotify to use) */
-  .spotify.is-loading .spotify__media img {
-    opacity: 0;
-  }
-  .spotify.is-loading .spotify__media {
-    background: linear-gradient(90deg, #0b1220 0%, #0f172a 40%, #0b1220 80%);
-    background-size: 300% 100%;
-    animation: shimmer 1.6s infinite linear;
-  }
-  .spotify.is-loading #spotify-track,
-  .spotify.is-loading #spotify-artist,
-  .spotify.is-loading #spotify-album {
-    color: transparent;
-    background: linear-gradient(90deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.12) 40%, rgba(255,255,255,.06) 80%);
-    background-size: 300% 100%;
-    border-radius: .4rem;
-    animation: shimmer 1.6s infinite linear;
-  }
-  @keyframes shimmer {
-    0% { background-position: 0% 0; }
-    100% { background-position: 300% 0; }
-  }
-
-  /* ----------------------------- */
-/* 6) Spotify Section            */
-/* ----------------------------- */
-  
-
-/* ----------------------------- */
-/* 7) Quote Block                */
-/* ----------------------------- */
-.quote {
-  margin-top: 1rem;
-  padding: 1.25rem 1.5rem;
-  border-left: 4px solid var(--accent);
-  background: color-mix(in oklab, var(--bg), white 2% / 80%);
-  border-radius: .75rem;
+  --spotify: #1db954; /* official spotify green */
 }
-.quote p { margin: 0 0 .5rem; font-size: 1.1rem; }
-.quote footer { color: var(--text-muted); }
+
+.about__spotify {
+  align-self: flex-start;
+}
+
+.spotify {
+  padding: 0;
+}
+
+/* Badge at top of card */
+.spotify__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin: 1rem 1.2rem 0;
+  color: var(--spotify);
+  font-weight: 700;
+}
+
+.spotify__badge svg { display: inline-block; }
+
+.spotify__live {
+  position: relative;
+  width: 8px; height: 8px; border-radius: 999px;
+  background: var(--spotify);
+  margin-left: .15rem;
+  box-shadow: 0 0 0 0 color-mix(in oklab, var(--spotify), transparent 0%);
+  animation: spotifyPulse 1.8s ease-out infinite;
+}
+
+@keyframes spotifyPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(29,185,84,.6); }
+  70%  { box-shadow: 0 0 0 10px rgba(29,185,84,0); }
+  100% { box-shadow: 0 0 0 0 rgba(29,185,84,0); }
+}
+
+/* Always vertical: cover on top, text below */
+.spotify__content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: 1.2rem;
+  padding-top: .6rem;
+}
+
+/* Album art */
+.spotify__media {
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto 0.5rem;
+  aspect-ratio: 1/1;
+  border-radius: .9rem;
+  overflow: hidden;
+  border: 1px solid var(--surface-border);
+  background: var(--bg);
+}
+
+.spotify__media img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+
+/* Meta & text */
+.spotify__meta h3 {
+  margin: .25rem 0 .2rem;
+  font-size: clamp(1.05rem, .95rem + .3vw, 1.2rem);
+}
+.spotify__meta p { margin: 0; }
+
+.spotify__progress {
+  margin-top: .9rem;
+}
+.spotify__bar {
+  --track: color-mix(in oklab, var(--surface-border), white 10%);
+  --fill: var(--spotify);
+  position: relative; height: 8px; border-radius: 999px;
+  background: var(--track);
+  overflow: hidden; border: 1px solid var(--surface-border);
+}
+.spotify__bar > span {
+  display: block; height: 100%; background: var(--fill);
+  border-right: 1px solid color-mix(in oklab, var(--spotify), black 15%);
+}
+.spotify__times {
+  display: flex; justify-content: space-between;
+  margin-top: .35rem;
+}
+
+.spotify__actions {
+  margin-top: 1rem;
+  display: flex; gap: .5rem; flex-wrap: wrap;
+}
+
+/* Skeleton / loading state */
+.spotify.is-loading .spotify__media img {
+  opacity: 0;
+}
+.spotify.is-loading .spotify__media {
+  background: linear-gradient(90deg, #0b1220 0%, #0f172a 40%, #0b1220 80%);
+  background-size: 300% 100%;
+  animation: shimmer 1.6s infinite linear;
+}
+.spotify.is-loading #spotify-track,
+.spotify.is-loading #spotify-artist,
+.spotify.is-loading #spotify-album {
+  color: transparent;
+  background: linear-gradient(90deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.12) 40%, rgba(255,255,255,.06) 80%);
+  background-size: 300% 100%;
+  border-radius: .4rem;
+  animation: shimmer 1.6s infinite linear;
+}
+@keyframes shimmer {
+  0% { background-position: 0% 0; }
+  100% { background-position: 300% 0; }
+}
+
+
+/* ----------------------------- */
+/* Quote + Book combined section */
+/* ----------------------------- */
+.quote-book {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+/* Left: quote column */
+.quote-book__quote {
+  flex: 2 1 280px;
+}
+
+/* Center: Book title + link card */
+.quote-book__book {
+  flex: 1 1 220px;
+  display: flex;
+  align-items: center;
+}
+
+.quote-book__quote h2,
+.quote-book__book h2 {
+  margin-bottom: 0.75rem;
+}
+
+/* Right: cover image column */
+.quote-book__cover {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Compact "Book of the Month" card */
+.book-min {
+  height: 100%;
+}
+
+.book-min__content {
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.book-min__title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Fixed-size thumbnail for the cover */
+.book-min__cover {
+  margin: 0;
+}
+
+.book-min__cover img {
+  width: 110px;   /* tweak these if you want slightly bigger/smaller */
+  height: 160px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  border: 1px solid var(--surface-border);
+}
+
+/* Stack nicely on small screens */
+@media (max-width: 800px) {
+  .quote-book {
+    flex-direction: column;
+  }
+
+  .quote-book__cover {
+    justify-content: flex-start;
+  }
+}
 
 /* ----------------------------- */
 /* 8) Link Cards (Socials)       */
@@ -369,31 +411,74 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
 }
 
 /* ----------------------------- */
-/* 9) Blog (Posts + Composer)    */
+/* 9) Skills Section             */
 /* ----------------------------- */
-.post h3 { margin: .2rem 0 .4rem; }
-.post .small { margin-bottom: .5rem; }
-
-.composer form { display: grid; gap: .75rem; }
-.composer input, .composer textarea {
-  width: 100%;
-  color: var(--text);
-  background: var(--bg);
-  border: 1px solid var(--surface-border);
-  border-radius: .75rem;
-  padding: .75rem .9rem;
+.skills-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.25rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
 }
-.composer input::placeholder,
-.composer textarea::placeholder { color: color-mix(in oklab, var(--text-muted), white 10%); }
-.composer button {
+
+.skills-list li {
+  flex: 1 1 calc(33.333% - 1rem); /* 3 per row on wide screens */
+  background: var(--surface);
   border: 1px solid var(--surface-border);
-  background: var(--bg-soft);
+  border-radius: var(--radius-xs);
+  padding: 0.6rem 0.8rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
-  padding: .6rem .9rem; border-radius: .75rem; font-weight: 600;
+}
+
+/* 2 per row on medium screens */
+@media (max-width: 900px) {
+  .skills-list li {
+    flex: 1 1 calc(50% - 1rem);
+  }
+}
+
+/* 1 per row on small screens */
+@media (max-width: 600px) {
+  .skills-list li {
+    flex: 1 1 100%;
+  }
 }
 
 /* ----------------------------- */
-/* 10) Projects Grid & Cards      */
+/* 10) Book of the Month         */
+/* ----------------------------- */
+.book {
+  display: block;
+}
+
+.book__body {
+  padding: 1.1rem 1.2rem;
+}
+
+.book__title {
+  margin-bottom: 0.4rem;
+}
+
+.book__cover figure {
+  margin: 0;
+}
+
+.book__cover img {
+  width: 100%;
+  display: block;
+  border-bottom: 1px solid var(--surface-border);
+  object-fit: cover;
+}
+
+.book__cover figcaption {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--surface-border);
+}
+
+/* ----------------------------- */
+/* 11) Projects Grid & Cards     */
 /* ----------------------------- */
 .projects {
   display: grid; gap: var(--gap-3);
@@ -426,7 +511,7 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
 }
 
 /* ----------------------------- */
-/* 11) Footer                    */
+/* 12) Footer                    */
 /* ----------------------------- */
 .site-footer {
   padding: 2.2rem 0;
@@ -445,7 +530,7 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
 .back-to-top:hover { color: var(--text); border-style: solid; }
 
 /* ----------------------------- */
-/* 11) Utilities                 */
+/* 13) Utilities                 */
 /* ----------------------------- */
 .stack > * + * { margin-top: var(--gap-2); }
 .cluster { display: flex; gap: var(--gap-2); align-items: center; flex-wrap: wrap; }
@@ -456,20 +541,6 @@ hr { border: 0; border-top: 1px solid var(--surface-border); margin: 1.5rem 0; }
 .prose a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
 .prose a:hover { opacity: .9; }
 
-/* ----------------------------- */
-/* 12) Print Styles              */
-/* ----------------------------- */
-@media print {
-  :root { --bg: #ffffff; --bg-soft: #ffffff; --surface: #ffffff; --text: #000; --text-muted: #444; --surface-border: #ddd; --shadow: none; }
-  body { background: #fff; }
-  .site-header, .back-to-top { display: none !important; }
-  .card { box-shadow: none; border: 1px solid var(--surface-border); }
-  a { text-decoration: underline; color: #000; }
-}
-
-/* ----------------------------- */
-/* 13) Optional Helpers          */
-/* ----------------------------- */
 /* Accent underline (use on headings/links) */
 .underline-accent {
   position: relative;
@@ -479,4 +550,23 @@ hr { border: 0; border-top: 1px solid var(--surface-border); margin: 1.5rem 0; }
   position: absolute; left: 0; bottom: -.25rem;
   width: 3rem; height: 3px; background: var(--accent);
   border-radius: 999px;
+}
+
+/* ----------------------------- */
+/* 14) Print Styles              */
+/* ----------------------------- */
+@media print {
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #ffffff;
+    --surface: #ffffff;
+    --text: #000;
+    --text-muted: #444;
+    --surface-border: #ddd;
+    --shadow: none;
+  }
+  body { background: #fff; }
+  .site-header, .back-to-top { display: none !important; }
+  .card { box-shadow: none; border: 1px solid var(--surface-border); }
+  a { text-decoration: underline; color: #000; }
 }
