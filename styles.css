@@ -384,6 +384,59 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   }
 }
 
+/* ───────────────────────────────────────────── */
+/* PARTICLE BACKDROP FOR SKILLS / LINKS / PROJECTS */
+/* ───────────────────────────────────────────── */
+
+/* Wrapper that hosts content + particles */
+.section--with-particles {
+  position: relative;
+  overflow: hidden;
+  /* If you want to keep your existing site bg, comment this out.
+     If you want the old gradient from the PDF, leave it in or tweak it. */
+  /* background: linear-gradient(#ebf8ff .02%, #001833 100%); */
+}
+
+/* Foreground content stays clickable and above particles */
+.section--with-particles .stacked-section__content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Shared particle layer (like .cf-particles-container from PDF) */
+.cf-particles-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;   /* above background, below content */
+}
+
+/* Individual particle dot */
+.cf-particle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(1px);
+  z-index: 1;
+}
+
+/* Smooth drifting + fade (from your cf-float keyframes) */
+@keyframes cf-float {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--cf-move-x), var(--cf-move-y), 0);
+    opacity: 0;
+  }
+}
+
 /* ----------------------------- */
 /* 8) Link Cards (Socials)       */
 /* ----------------------------- */

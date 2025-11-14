@@ -167,20 +167,19 @@
         </div>
       </div>
     </section>
-    
     <!-- ====================================================== -->
 <!--  Combined Particles Section: Skills + Links + Projects -->
-<!--  Particles script should target #skills-links-projects -->
+<!--  This whole section gets the drifting particle effect. -->
 <!-- ====================================================== -->
-<section id="skills-links-projects" class="section--with-particles">
-  <!-- Background layer for particles (canvas or absolutely positioned div) -->
-  <div class="particles-layer" aria-hidden="true"></div>
+<section id="skills-links-projects" class="section section--with-particles">
+  <!-- Particle layer (like cfParticlesContainer in the PDF) -->
+  <div id="skillsParticlesContainer" class="cf-particles-container" aria-hidden="true"></div>
 
-  <!-- Foreground content (your existing sections, unchanged) -->
+  <!-- Foreground content (stays above particles) -->
   <div class="stacked-section__content">
-    
-    <!-- ===== Skills ===== -->
-    <!-- (ID + classes unchanged) -->
+
+    <!-- ===== Skills (Sub-section 1) ===== -->
+    <!-- Keeps original id/class for nav + styling -->
     <section id="skills" class="section">
       <div class="container">
         <h2 class="accent">Skills</h2>
@@ -199,8 +198,7 @@
       </div>
     </section>
 
-    <!-- ===== Links / Socials ===== -->
-    <!-- (ID + classes unchanged) -->
+    <!-- ===== Links / Socials (Sub-section 2) ===== -->
     <section id="links" class="section">
       <div class="container">
         <h2 class="accent">Links & Socials</h2>
@@ -245,8 +243,7 @@
       </div>
     </section>
 
-    <!-- ===== Projects ===== -->
-    <!-- (ID + classes unchanged) -->
+    <!-- ===== Projects (Sub-section 3) ===== -->
     <section id="projects" class="section">
       <div class="container">
         <h2 class="accent">Projects</h2>
@@ -256,7 +253,7 @@
               <img src="https://picsum.photos/seed/p1/800/500" alt="Screenshot of Project Alpha" />
             </div>
             <div class="project__body">
-              <h3>Web Scrape & Form Filling Automation Tool </h3>
+              <h3>Web Scrape &amp; Form Filling Automation Tool</h3>
               <p>
                 A powerful form-fill and web scraping tool featuring a GUI for configuring targets, 
                 custom script support, data analytics tracking, 
@@ -280,7 +277,6 @@
                 focusing on SEO optimization, clear conversion-focused layouts, and modern branding
                 to help small businesses and startups stand out and market themselves more effectively online.
               </p>
-              
               <div class="project__links">
                 <a class="btn" href="https://your-portfolio-url.com" target="_blank" rel="noopener noreferrer">Get A Quote</a>
                 <a class="btn btn--ghost" href="https://github.com/your-username/portfolio" target="_blank" rel="noopener noreferrer">Code</a>
@@ -288,7 +284,6 @@
             </div>
           </article>
           
-
           <article class="card project">
             <div class="project__media">
               <img src="images/project-codelink.png" alt="Screenshot of Analytics Dashboard" />
@@ -297,7 +292,7 @@
               <h3>Code Link</h3>
               <p>
                 CodeLink helps developers find real projects, form teams fast, and ship ideas together.
-                Whether you’re building your portfolio or joining a funded gig, you can post, apply, chat, 
+                Whether you’re building your portfolio or joining a funded gig, you can post, apply, chat,
                 and code—all in one streamlined workspace.
               </p>
               <div class="project__links">
@@ -313,7 +308,6 @@
 </section>
 
           
-
   </main>
 
   <!-- ===== Footer ===== -->
