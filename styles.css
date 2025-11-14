@@ -447,38 +447,7 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
 }
 
 /* ----------------------------- */
-/* 10) Book of the Month         */
-/* ----------------------------- */
-.book {
-  display: block;
-}
-
-.book__body {
-  padding: 1.1rem 1.2rem;
-}
-
-.book__title {
-  margin-bottom: 0.4rem;
-}
-
-.book__cover figure {
-  margin: 0;
-}
-
-.book__cover img {
-  width: 100%;
-  display: block;
-  border-bottom: 1px solid var(--surface-border);
-  object-fit: cover;
-}
-
-.book__cover figcaption {
-  padding: 0.75rem 1rem;
-  border-top: 1px solid var(--surface-border);
-}
-
-/* ----------------------------- */
-/* 11) Projects Grid & Cards     */
+/* 10) Projects Grid & Cards     */
 /* ----------------------------- */
 .projects {
   display: grid; gap: var(--gap-3);

@@ -51,18 +51,15 @@
             Check my
             <a href="#links" class="accent">Links</a>
             section to see ways to contact me
-          </span>
-          
+          </span>     
             <br>
-            <div class="about__meta-item">
-              <span class="about__meta-value">Networking · Automation · Security · App Design</span>
-            </div>
-          <ul class="about__tags">
-            <li>Network Engineering</li>
-            <li>Python Web-Scraping & Automation</li>
-            <li>Web Server Hosting & Dev</li>
-            <li>Security Tools & Pen* Testing</li>
-          </ul>
+            <ul class="about__tags">
+              <li>Security-Focused Web Development</li>
+              <li>Python Automation & Web Scraping</li>
+              <li>Network & Cloud Infrastructure</li>
+              <li>UX/UI & App Design</li>
+            </ul>
+            
         </div>
     
         <!-- Right: Spotify Now Playing card -->
@@ -171,35 +168,45 @@
       </div>
     </section>
     
-    
+    <!-- ====================================================== -->
+<!--  Combined Particles Section: Skills + Links + Projects -->
+<!--  Particles script should target #skills-links-projects -->
+<!-- ====================================================== -->
+<section id="skills-links-projects" class="section--with-particles">
+  <!-- Background layer for particles (canvas or absolutely positioned div) -->
+  <div class="particles-layer" aria-hidden="true"></div>
 
-        <!-- ===== Skills ===== -->
-        <section id="skills" class="section">
-          <div class="container">
-            <h2 class="accent">Skills</h2>
-            <p class="muted small">Tools and domains I work with regularly.</p>
+  <!-- Foreground content (your existing sections, unchanged) -->
+  <div class="stacked-section__content">
     
-            <ul class="skills-list">
-              <li>Network Design &amp; Troubleshooting</li>
-              <li>Linux / CLI / Shell Scripting</li>
-              <li>Python Automation</li>
-              <li>Docker &amp; Containerization</li>
-              <li>Web: HTML, CSS, JavaScript</li>
-              <li>Cloud &amp; Virtualization (GCP, VMs)</li>
-              <li>Cisco Switching &amp; Routing</li>
-              <li>Wireshark / Burp Suite / Security Tools</li>
-              <li>UX/UI Prototyping &amp; App Design</li>
-            </ul>
-          </div>
-        </section>
+    <!-- ===== Skills ===== -->
+    <!-- (ID + classes unchanged) -->
+    <section id="skills" class="section">
+      <div class="container">
+        <h2 class="accent">Skills</h2>
+        <p class="muted small">Tools and domains I work with regularly.</p>
+    
+        <ul class="skills-list">
+          <li>Web Development (HTML, CSS, JavaScript, Node.js/Express)</li>
+          <li>Python Automation &amp; Web Scraping</li>
+          <li>Linux CLI &amp; Windows Server Shell Scripting</li>
+          <li>Network Design &amp; Troubleshooting (Cisco, UniFi, Juniper)</li>
+          <li>Docker &amp; Containerization</li>
+          <li>Cloud &amp; Virtualization (GCP, VMs)</li>
+          <li>Security Tools (Pi-hole DNS, Wireshark, Burp Suite)</li>
+          <li>UX/UI Prototyping &amp; App Design</li>
+        </ul>
+      </div>
+    </section>
 
     <!-- ===== Links / Socials ===== -->
+    <!-- (ID + classes unchanged) -->
     <section id="links" class="section">
       <div class="container">
         <h2 class="accent">Links & Socials</h2>
         <ul class="link-cards">
           <li class="card">
-            <a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/DaBugg" target="_blank" rel="noopener noreferrer">
               <span class="emoji" aria-hidden="true">💻</span>
               <div>
                 <strong>GitHub</strong>
@@ -239,6 +246,7 @@
     </section>
 
     <!-- ===== Projects ===== -->
+    <!-- (ID + classes unchanged) -->
     <section id="projects" class="section">
       <div class="container">
         <h2 class="accent">Projects</h2>
@@ -249,11 +257,13 @@
             </div>
             <div class="project__body">
               <h3>Web Scrape & Form Filling Automation Tool </h3>
-              <p>  A powerful form-fill and web scraping tool featuring a GUI for configuring targets, 
+              <p>
+                A powerful form-fill and web scraping tool featuring a GUI for configuring targets, 
                 custom script support, data analytics tracking, 
-                and proxy and CAPTCHA integration.</p>
+                and proxy and CAPTCHA integration.
+              </p>
               <div class="project__links">
-                <a class="btn" href="https://example.com/project-alpha" target="_blank" rel="noopener noreferrer">Quote</a>
+                <a class="btn" href="https://example.com/project-alpha" target="_blank" rel="noopener noreferrer">Get A Quote</a>
                 <a class="btn btn--ghost" href="https://github.com/your-username/project-alpha" target="_blank" rel="noopener noreferrer">Overview</a>
               </div>
             </div>
@@ -261,17 +271,23 @@
 
           <article class="card project">
             <div class="project__media">
-              <img src="https://picsum.photos/seed/p2/800/500" alt="Screenshot of UI Component Library" />
+              <img src="https://picsum.photos/seed/web/800/500" alt="Screenshots of portfolio and client-style websites" />
             </div>
             <div class="project__body">
-              <h3>UI Component Library</h3>
-              <p>Composable, themeable components built with modern CSS and zero JS dependencies.</p>
+              <h3>Web Development &amp; Portfolio Sites</h3>
+              <p>
+                Over 15+ designed and deployed responsive web services with Node.js, Express, and Vercel,
+                focusing on SEO optimization, clear conversion-focused layouts, and modern branding
+                to help small businesses and startups stand out and market themselves more effectively online.
+              </p>
+              
               <div class="project__links">
-                <a class="btn" href="https://example.com/ui-library" target="_blank" rel="noopener noreferrer">Docs</a>
-                <a class="btn btn--ghost" href="https://github.com/your-username/ui-library" target="_blank" rel="noopener noreferrer">Code</a>
+                <a class="btn" href="https://your-portfolio-url.com" target="_blank" rel="noopener noreferrer">Get A Quote</a>
+                <a class="btn btn--ghost" href="https://github.com/your-username/portfolio" target="_blank" rel="noopener noreferrer">Code</a>
               </div>
             </div>
           </article>
+          
 
           <article class="card project">
             <div class="project__media">
@@ -279,22 +295,31 @@
             </div>
             <div class="project__body">
               <h3>Code Link</h3>
-              <p>CodeLink helps developers find real projects, form teams fast, and ship ideas together. Whether you’re building your portfolio or joining a funded gig, you can post, apply, chat, and code—all in one streamlined workspace.</p>
+              <p>
+                CodeLink helps developers find real projects, form teams fast, and ship ideas together.
+                Whether you’re building your portfolio or joining a funded gig, you can post, apply, chat, 
+                and code—all in one streamlined workspace.
+              </p>
               <div class="project__links">
-                <a class="btn" href="https://example.com/analytics" target="_blank" rel="noopener noreferrer">Live</a>
-                <a class="btn btn--ghost" href="https://github.com/your-username/analytics" target="_blank" rel="noopener noreferrer">Code</a>
+                <a class="btn" href="https://example.com/analytics" target="_blank" rel="noopener noreferrer">Join Waitlist</a>
               </div>
             </div>
           </article>
         </div>
       </div>
     </section>
+
+  </div>
+</section>
+
+          
+
   </main>
 
   <!-- ===== Footer ===== -->
   <footer class="site-footer">
     <div class="container footer__inner">
-      <p>© <span id="year"></span> Your Name. All rights reserved.</p>
+      <p>© <span id="year"></span> Made By David. All rights reserved.</p>
       <a href="#top" class="back-to-top">Back to top ↑</a>
     </div>
   </footer>
