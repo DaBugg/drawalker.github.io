@@ -9,10 +9,14 @@ export default async function handler(req, res) {
       } = process.env;
   
       if (!SPOTIFY_CLIENT_ID || !SPOTIFY_CLIENT_SECRET || !SPOTIFY_REFRESH_TOKEN) {
-        return res.status(500).json({ error: 'Spotify env vars not set' });
+        console.error('Missing Spotify env vars');
+        return res.status(500).json({
+          isPlaying: false,
+          error: 'Spotify environment variables not set',
+        });
       }
   
-      // 1) Get access token using refresh token
+      // 1) Exchange refresh token for access token
       const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
         method: 'POST',
         headers: {
@@ -29,14 +33,25 @@ export default async function handler(req, res) {
   
       if (!tokenResponse.ok) {
         const text = await tokenResponse.text();
-        console.error('Spotify token error:', text);
-        return res.status(500).json({ error: 'Failed to get access token' });
+        console.error('Spotify token error:', tokenResponse.status, text);
+        return res.status(500).json({
+          isPlaying: false,
+          error: 'Failed to get access token',
+        });
       }
   
       const tokenData = await tokenResponse.json();
       const accessToken = tokenData.access_token;
   
-      // 2) Call currently-playing endpoint
+      if (!accessToken) {
+        console.error('No access token in Spotify token response', tokenData);
+        return res.status(500).json({
+          isPlaying: false,
+          error: 'No access token returned',
+        });
+      }
+  
+      // 2) Call "currently playing"
       const nowPlayingResponse = await fetch(
         'https://api.spotify.com/v1/me/player/currently-playing',
         {
@@ -46,39 +61,58 @@ export default async function handler(req, res) {
         }
       );
   
+      // 204 No Content = nothing playing
       if (nowPlayingResponse.status === 204) {
-        // No content = nothing playing
-        return res.status(200).json({ playing: false });
+        return res.status(200).json({ isPlaying: false });
       }
   
       if (!nowPlayingResponse.ok) {
         const text = await nowPlayingResponse.text();
-        console.error('Spotify now playing error:', text);
-        return res.status(500).json({ error: 'Failed to get now playing' });
+        console.error(
+          'Spotify now playing error:',
+          nowPlayingResponse.status,
+          text
+        );
+        return res.status(500).json({
+          isPlaying: false,
+          error: 'Failed to get now playing',
+        });
       }
   
-      const bodyText = await nowPlayingResponse.text();
-      if (!bodyText) {
-        return res.status(200).json({ playing: false });
+      const nowPlaying = await nowPlayingResponse.json();
+  
+      if (!nowPlaying || !nowPlaying.item) {
+        return res.status(200).json({ isPlaying: false });
       }
   
-      const nowPlaying = JSON.parse(bodyText);
+      const item = nowPlaying.item;
   
-      const item = nowPlaying.item || {};
+      const title = item.name || null;
+      const artists = (item.artists || []).map((a) => a.name);
+      const artist = artists.join(', ') || null;
+      const album = item.album?.name || null;
+      const albumImageUrl = item.album?.images?.[0]?.url || null;
+      const trackUrl = item.external_urls?.spotify || null;
+      const progressMs = nowPlaying.progress_ms ?? 0;
+      const durationMs = item.duration_ms ?? 0;
   
+      // This shape matches your updateSpotifyCard expectations
       return res.status(200).json({
-        playing: !!nowPlaying.is_playing,
-        track: {
-          name: item.name || null,
-          artists: (item.artists || []).map(a => a.name),
-          album: item.album?.name || null,
-          image: item.album?.images?.[0]?.url || null,
-          url: item.external_urls?.spotify || null,
-        },
+        isPlaying: !!nowPlaying.is_playing,
+        title,
+        artist,
+        album,
+        albumImageUrl,
+        progressMs,
+        durationMs,
+        trackUrl,
       });
     } catch (err) {
       console.error('Spotify handler error:', err);
-      return res.status(500).json({ error: 'Internal server error' });
+      return res.status(500).json({
+        isPlaying: false,
+        error: 'Internal server error',
+      });
     }
   }
   
