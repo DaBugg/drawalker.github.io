@@ -1,8 +1,12 @@
 // api/spotify.js
-
 // Node 18+ on Vercel has global `fetch`, so no import needed.
 
 module.exports = async (req, res) => {
+    if (req.method !== 'GET') {
+      res.setHeader('Allow', 'GET');
+      return res.status(405).end('Method Not Allowed');
+    }
+  
     try {
       const {
         SPOTIFY_CLIENT_ID,
@@ -100,7 +104,7 @@ module.exports = async (req, res) => {
       const progressMs = nowPlaying.progress_ms ?? 0;
       const durationMs = item.duration_ms ?? 0;
   
-      // Shape matches your updateSpotifyCard expectations
+      // Shape matches updateSpotifyCard expectations
       return res.status(200).json({
         isPlaying: !!nowPlaying.is_playing,
         title,
