@@ -1,4 +1,131 @@
 /* ----------------------------- */
+/* Header + Nav                  */
+/* ----------------------------- */
+
+.site-header {
+    padding: 1.4rem 1.5rem 2.2rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+    background: radial-gradient(circle at top, #020617 0, #020617 55%, #000 100%);
+    position: relative;
+    z-index: 20;
+  }
+  
+  /* Generic container for header/footer rows */
+  .container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+  }
+  
+  /* Top row: brand + nav */
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 1.6rem;
+  }
+  
+  /* Brand */
+  .brand {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .brand span {
+    color: var(--accent);
+  }
+  
+  /* Nav list */
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.9rem;
+  }
+  
+  .nav a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 0.78rem;
+    transition:
+      color 0.18s ease,
+      transform 0.14s ease;
+  }
+  
+  .nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.2rem;
+    width: 0;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #0ea5e9, #22c55e);
+    transition: width 0.18s ease;
+  }
+  
+  .nav a:hover,
+  .nav a:focus-visible {
+    color: var(--accent);
+    transform: translateY(-1px);
+  }
+  
+  .nav a:hover::after,
+  .nav a:focus-visible::after {
+    width: 100%;
+  }
+  
+  /* Existing title/subtitle block under nav */
+  .site-header__inner {
+    max-width: var(--container-width);
+    margin: 0 auto;
+  }
+  
+  .site-title {
+    margin: 0 0 0.4rem;
+    font-size: clamp(1.9rem, 3vw, 2.4rem);
+    letter-spacing: 0.04em;
+  }
+  
+  .site-subtitle {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+  
+  /* Responsive tweaks */
+  @media (max-width: 780px) {
+    .header__inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.8rem;
+    }
+  
+    .nav {
+      flex-wrap: wrap;
+      row-gap: 0.4rem;
+    }
+  }
+  
+
+/* ----------------------------- */
 /* Base reset & tokens           */
 /* ----------------------------- */
 *,
@@ -611,3 +738,24 @@ body {
 .demo-cta__button span:nth-child(4) {
   transform: rotateX(270deg) translateZ(27px);
 }
+
+
+/* ----------------------------- */
+/* Footer                    */
+/* ----------------------------- */
+.site-footer {
+    padding: 2.2rem 0;
+    border-top: 1px solid var(--surface-border);
+    background: var(--bg);
+  }
+  .footer__inner {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .back-to-top {
+    color: var(--text-muted);
+    text-decoration: none;
+    border: 1px dashed var(--surface-border);
+    padding: .35rem .6rem; border-radius: .6rem;
+  }
+  .back-to-top:hover { color: var(--text); border-style: solid; }
+  

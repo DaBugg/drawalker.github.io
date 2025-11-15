@@ -6,15 +6,39 @@
   <title>CSS / UI Design Showcase</title>
   <link rel="stylesheet" href="my-designs.css" />
 </head>
-<body>
-  <header class="site-header">
-    <div class="site-header__inner">
-      <h1 class="site-title">CSS / UI Design Showcase</h1>
-      <p class="site-subtitle">
-        Selected components and effects pulled out from my main portfolio.
-      </p>
-    </div>
-  </header>
+<body id="top">
+    <header class="site-header">
+      <!-- Top row: brand + nav -->
+      <div class="container header__inner">
+        <a class="brand" href="#top" aria-label="Go to top">
+          David's<span> Portfolio</span>
+        </a>
+        <nav aria-label="Primary">
+          <ul class="nav">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#quote">Quote</a></li>
+            <li><a href="index.html#links">Links</a></li>
+            <li>
+              <a href="https://open.spotify.com/user/958bb618c89849528b53fd2e76c88947">
+                Spotify
+              </a>
+            </li>
+            <li><a href="index.html#projects">Projects</a></li>
+          </ul>
+          
+        </nav>
+      </div>
+  
+      <!-- Page-specific heading block, same as before -->
+      <div class="site-header__inner">
+        <h1 class="site-title">CSS / UI Design Showcase</h1>
+        <p class="site-subtitle">
+          Selected components and effects pulled out from my main portfolio.
+        </p>
+      </div>
+    </header>
+  
+   
 
   <main class="designs">
     <!-- 1) Drifting Particles Field -->
@@ -465,4 +489,13 @@ cards.forEach(card =&gt; {
   <!-- JS for copy buttons + particles + spotlight -->
   <script src="my-designs.js"></script>
 </body>
+
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="container footer__inner">
+      <p>© <span id="year"></span> Made By David. All rights reserved.</p>
+      <a href="index.html#about" class="back-to-top">Home</a>
+    </div>
+  </footer>
 </html>
