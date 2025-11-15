@@ -2,19 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Document</title>
+  <title>This Page Is Under Construction</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="" />
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    :root {
+      --bg: #37a4e0;       /* fallback background behind the art */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    /* Banner wrapper */
+    .uc-banner {
+      width: 100%;
+      max-width: 1200px;        /* adjust to taste */
+      overflow: hidden;
+    }
+
+    .uc-banner img {
+      display: block;
+      width: 100%;
+      height: auto;
+      /* keep the pixel art crispy when scaled */
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+  </style>
 </head>
 <body>
-
-  <h1>Hello, world</h1>
-  <p>Starter HTML boilerplate.</p>
-
-  <!-- Scripts -->
-  <script src="main.js"></script>
+  <main class="uc-banner">
+    <!--
+      Replace the src value below with the path/filename
+      of your exported pixel-art banner.
+      Example: src="images/under-construction-cats.png"
+    -->
+    <img
+      src="images/under-construction.png"
+      alt="This page is under construction – pixel art cats building a site."
+    />
+  </main>
 </body>
 </html>
