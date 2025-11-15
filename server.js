@@ -29,8 +29,8 @@ const REFRESH_TOKEN = process.env.SPOTIFY_REFRESH_TOKEN;
 // If you're on Node < 18 and "fetch" is not defined, uncomment this block
 // and run: npm install node-fetch
 //
-// const fetch = (...args) =>
-//   import('node-fetch').then(({ default: fetch }) => fetch(...args));
+//const fetch = (...args) =>
+//import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 // -----------------------------
 // 2) Static files
