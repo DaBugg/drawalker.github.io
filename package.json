@@ -1,11 +1,12 @@
 {
   "name": "drawalker.github.io",
   "version": "1.0.0",
-  "description": "",
-  "main": "script.js",
+  "description": "Portfolio site with Spotify Now Playing widget",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "dev": "vercel dev",
+    "local-server": "node local.server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
