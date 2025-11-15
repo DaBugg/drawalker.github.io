@@ -4,7 +4,6 @@
   "description": "Portfolio site with Spotify Now Playing widget",
   "private": true,
   "scripts": {
-    "dev": "vercel dev",
     "local-server": "node local.server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
