@@ -1,10 +1,18 @@
 // script.js
 
-document.addEventListener('DOMContentLoaded', () => {
+function bootApp() {
   setCurrentYear();
   initSpotifyCard();
-  initSkillsLinksProjectsParticles(); // NEW: particles for Skills + Links + Projects
-});
+  initSkillsLinksProjectsParticles();
+}
+
+// Run immediately if DOM is already ready, otherwise wait for DOMContentLoaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', bootApp);
+} else {
+  bootApp();
+}
+
 
 
 // =====================================
@@ -16,7 +24,6 @@ function setCurrentYear() {
     yearEl.textContent = new Date().getFullYear();
   }
 }
-
 
 // =====================================
 // 2) Initialize Spotify card (backend API)
