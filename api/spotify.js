@@ -1,6 +1,8 @@
 // api/spotify.js
 
-export default async function handler(req, res) {
+// Node 18+ on Vercel has global `fetch`, so no import needed.
+
+module.exports = async (req, res) => {
     try {
       const {
         SPOTIFY_CLIENT_ID,
@@ -23,7 +25,9 @@ export default async function handler(req, res) {
           'Content-Type': 'application/x-www-form-urlencoded',
           Authorization:
             'Basic ' +
-            Buffer.from(`${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`).toString('base64'),
+            Buffer.from(
+              `${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`
+            ).toString('base64'),
         },
         body: new URLSearchParams({
           grant_type: 'refresh_token',
@@ -51,7 +55,7 @@ export default async function handler(req, res) {
         });
       }
   
-      // 2) Call "currently playing"
+      // 2) Call “currently playing”
       const nowPlayingResponse = await fetch(
         'https://api.spotify.com/v1/me/player/currently-playing',
         {
@@ -61,7 +65,7 @@ export default async function handler(req, res) {
         }
       );
   
-      // 204 No Content = nothing playing
+      // 204 = nothing playing
       if (nowPlayingResponse.status === 204) {
         return res.status(200).json({ isPlaying: false });
       }
@@ -96,7 +100,7 @@ export default async function handler(req, res) {
       const progressMs = nowPlaying.progress_ms ?? 0;
       const durationMs = item.duration_ms ?? 0;
   
-      // This shape matches your updateSpotifyCard expectations
+      // Shape matches your updateSpotifyCard expectations
       return res.status(200).json({
         isPlaying: !!nowPlaying.is_playing,
         title,
@@ -114,5 +118,5 @@ export default async function handler(req, res) {
         error: 'Internal server error',
       });
     }
-  }
+  };
   
