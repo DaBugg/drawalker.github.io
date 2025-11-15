@@ -30,28 +30,34 @@ function setCurrentYear() {
 // =====================================
 function initSpotifyCard() {
   const card = document.getElementById('spotify-card');
-  if (!card) return; // if the card isn't on the page, do nothing
+  if (!card) {
+    console.warn('[Spotify] #spotify-card not found in DOM');
+    return; // if the card isn't on the page, do nothing
+  }
 
-  // Ask our Node server for the current-song data
-  fetch('/api/spotify')
+  console.log('[Spotify] initSpotifyCard: fetching /api/spotify');
+
+  // Ask our Vercel API for the current-song data
+  fetch('/api/spotify', { cache: 'no-store' })
     .then((res) => {
+      console.log('[Spotify] /api/spotify status:', res.status);
       if (!res.ok) {
         throw new Error('Failed to fetch /api/spotify');
       }
       return res.json();
     })
     .then((data) => {
+      console.log('[Spotify] /api/spotify payload:', data);
       updateSpotifyCard(card, data);
     })
     .catch((err) => {
-      console.error(err);
+      console.error('[Spotify] Error fetching /api/spotify:', err);
       // Show a friendly error state
       updateSpotifyCard(card, {
         isPlaying: false, // tells the card to use the "not playing" view
       });
     });
 }
-
 
 // =====================================
 // 3) Update the DOM using a Spotify "now playing" object
