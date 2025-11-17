@@ -170,3 +170,67 @@ function formatMs(ms) {
   const seconds = totalSeconds % 60;
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
+
+// =====================================
+// 5) Particles for Skills + Links + Projects section
+// =====================================
+//
+// - Targets the combined wrapper: #skills-links-projects
+// - Uses the overlay container:   #skillsParticlesContainer
+// - Uses .cf-particle + @keyframes cf-float from CSS
+//
+function initSkillsLinksProjectsParticles() {
+  const sectionEl = document.getElementById('skills-links-projects');
+  const containerEl = document.getElementById('skillsParticlesContainer');
+
+  // If the section or container doesn't exist, bail quietly
+  if (!sectionEl || !containerEl) return;
+
+  const PARTICLE_COUNT = 200; // tweak for more/less density
+
+  function spawnParticles() {
+    // Clear any existing particles (e.g. after a resize)
+    containerEl.innerHTML = '';
+
+    const W = sectionEl.offsetWidth || sectionEl.clientWidth || window.innerWidth;
+    const H = sectionEl.offsetHeight || sectionEl.clientHeight || window.innerHeight;
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const p = document.createElement('div');
+      p.className = 'cf-particle';
+
+      const size = 1 + Math.random() * 3;
+      const startLeft = Math.random() * W;
+      const startTop = Math.random() * H;
+
+      // How far each particle drifts over the animation
+      const dx = (Math.random() - 0.5) * W;   // drift left/right
+      const dy = -H - Math.random() * 200;    // drift upward and off-screen
+
+      const duration = 18 + Math.random() * 18; // 18–36s
+      const delay = Math.random() * duration;
+
+      Object.assign(p.style, {
+        width: `${size}px`,
+        height: `${size}px`,
+        left: `${startLeft}px`,
+        top: `${startTop}px`,
+        backgroundColor: `rgba(255, 255, 255, ${0.2 + Math.random() * 0.5})`,
+        animation: `cf-float ${duration}s linear ${delay}s infinite`,
+        willChange: 'transform, opacity'
+      });
+
+      // Feed offsets into the keyframes via CSS variables
+      p.style.setProperty('--cf-move-x', `${dx}px`);
+      p.style.setProperty('--cf-move-y', `${dy}px`);
+
+      containerEl.appendChild(p);
+    }
+  }
+
+  // Initial draw
+  spawnParticles();
+
+  // Rebuild particles on resize so they match new dimensions
+  window.addEventListener('resize', spawnParticles);
+}

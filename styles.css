@@ -488,6 +488,53 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   }
 }
 
+/* Light theme: turn particles into colorful confetti */
+html[data-theme="light"] .cf-particle {
+  position: absolute;
+  z-index: 1;
+
+  /* Size from custom properties, with sane defaults */
+  width: var(--cf-size, 7px);
+  height: var(--cf-length, 18px);
+
+  border-radius: 999px;
+  opacity: 0.95;
+  filter: none;
+
+  /* Kill any inline gradients from JS and force solid colors */
+  background-image: none !important;
+  background-color: #0ea5e9 !important;  /* default cyan/blue */
+
+  box-shadow:
+    0 0 3px rgba(15, 23, 42, 0.28),
+    0 0 10px rgba(15, 23, 42, 0.16);
+}
+
+/* Multicolor stripes */
+html[data-theme="light"] .cf-particle:nth-child(5n + 1) {
+  background-color: #0ea5e9 !important;  /* cyan/blue */
+}
+html[data-theme="light"] .cf-particle:nth-child(5n + 2) {
+  background-color: #22c55e !important;  /* green */
+}
+html[data-theme="light"] .cf-particle:nth-child(5n + 3) {
+  background-color: #f97316 !important;  /* orange */
+}
+html[data-theme="light"] .cf-particle:nth-child(5n + 4) {
+  background-color: #a855f7 !important;  /* purple */
+}
+html[data-theme="light"] .cf-particle:nth-child(5n + 5) {
+  background-color: #e11d48 !important;  /* pink/red */
+}
+
+/* Some shorter dots mixed in for variety */
+html[data-theme="light"] .cf-particle:nth-child(7n) {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+
 /* ----------------------------- */
 /* 8) Link Cards (Socials)       */
 /* ----------------------------- */
