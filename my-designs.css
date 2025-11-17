@@ -424,7 +424,7 @@ body {
     background: radial-gradient(circle at top, #020617 0, #000 70%);
   }
   
-  /* JS-driven dots on top of drifting layers */
+  /* MONO base dots */
   .demo-particles__dot {
     position: absolute;
     width: 3px;
@@ -454,6 +454,77 @@ body {
     }
   }
   
+  /* Toggle UI */
+.particles-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.8rem;
+  padding: 0.25rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.particles-mode-btn {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.particles-mode-btn.is-active {
+  background: var(--accent);
+  color: #020617;
+}
+
+/* CONFETTI MODE – overrides only when the container has the class */
+.demo-particles--confetti .demo-particles__dot {
+  width: 7px;
+  height: 18px;
+  border-radius: 999px;
+  opacity: 0.95;
+  filter: none;
+
+  /* kill mono glow look */
+  background-image: none;
+  background-color: #0ea5e9;
+  box-shadow:
+    0 0 3px rgba(15, 23, 42, 0.28),
+    0 0 10px rgba(15, 23, 42, 0.16);
+}
+
+/* Multicolor stripes */
+.demo-particles--confetti .demo-particles__dot:nth-child(5n + 1) {
+  background-color: #0ea5e9; /* cyan/blue */
+}
+.demo-particles--confetti .demo-particles__dot:nth-child(5n + 2) {
+  background-color: #22c55e; /* green */
+}
+.demo-particles--confetti .demo-particles__dot:nth-child(5n + 3) {
+  background-color: #f97316; /* orange */
+}
+.demo-particles--confetti .demo-particles__dot:nth-child(5n + 4) {
+  background-color: #a855f7; /* purple */
+}
+.demo-particles--confetti .demo-particles__dot:nth-child(5n + 5) {
+  background-color: #e11d48; /* pink/red */
+}
+
+/* Some dots instead of stripes */
+.demo-particles--confetti .demo-particles__dot:nth-child(7n) {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
   /* Layers sit inside the container, slightly oversized for soft edges */
   .demo-particles__layer {
     position: absolute;
