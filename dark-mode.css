@@ -23,7 +23,7 @@ ul[role='list'], ol[role='list'] { list-style: none; }
 html:focus-within { scroll-behavior: smooth; }
 
 /* ----------------------------- */
-/* 1) Design Tokens (Light)      */
+/* 1) Design Tokens (Dark)       */
 /* ----------------------------- */
 :root {
   /* Typography */
@@ -37,31 +37,31 @@ html:focus-within { scroll-behavior: smooth; }
   --gap-3: 1.25rem;
   --gap-4: 2rem;
 
-  /* Color (light theme) */
-  --bg: #f8fafc;
-  --bg-soft: #f1f5f9;
-  --surface: #ffffff;
-  --surface-border: #e5e7eb;
-  --text: #0f172a;
-  --text-muted: #475569;
-  --accent: #16a34a;
-  --accent-strong: #15803d;
-  --link: #1d4ed8;
+  /* Color (dark theme) */
+  --bg: #0b1220;
+  --bg-soft: #0f172a;
+  --surface: #111827;
+  --surface-border: #1f2937;
+  --text: #e5e7eb;
+  --text-muted: #94a3b8;
+  --accent: #22c55e;
+  --accent-strong: #16a34a;
+  --link: #93c5fd;
 
   /* Misc */
-  --shadow: 0 6px 20px rgba(2,6,23,.08);
+  --shadow: 0 8px 24px rgba(0,0,0,.35);
 }
 
 /* ----------------------------- */
 /* 2) Base                       */
 /* ----------------------------- */
-html { color-scheme: light; }
+html { color-scheme: dark; }
 
 body {
   font-family: var(--font-sans);
   color: var(--text);
   background:
-    radial-gradient(1200px 800px at 80% -10%, color-mix(in oklab, var(--surface), black 10%) 0%, transparent 60%),
+    radial-gradient(1200px 800px at 80% -10%, color-mix(in oklab, var(--surface), black 20%) 0%, transparent 60%),
     var(--bg);
 }
 
@@ -329,7 +329,7 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   opacity: 0;
 }
 .spotify.is-loading .spotify__media {
-  background: linear-gradient(90deg, #e5e7eb 0%, #cbd5f5 40%, #e5e7eb 80%);
+  background: linear-gradient(90deg, #0b1220 0%, #0f172a 40%, #0b1220 80%);
   background-size: 300% 100%;
   animation: shimmer 1.6s infinite linear;
 }
@@ -337,10 +337,7 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
 .spotify.is-loading #spotify-artist,
 .spotify.is-loading #spotify-album {
   color: transparent;
-  background: linear-gradient(90deg,
-    rgba(148,163,184,.35) 0%,
-    rgba(148,163,184,.55) 40%,
-    rgba(148,163,184,.35) 80%);
+  background: linear-gradient(90deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.12) 40%, rgba(255,255,255,.06) 80%);
   background-size: 300% 100%;
   border-radius: .4rem;
   animation: shimmer 1.6s infinite linear;
@@ -427,19 +424,22 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
 }
 
 /* ───────────────────────────────────────────── */
-/* PARTICLE BACKDROP – LIGHT CONFETTI VERSION   */
+/* PARTICLE BACKDROP FOR SKILLS / LINKS / PROJECTS */
 /* ───────────────────────────────────────────── */
 
+/* Wrapper that hosts content + particles */
 .section--with-particles {
   position: relative;
   overflow: hidden;
 }
 
+/* Foreground content stays clickable and above particles */
 .section--with-particles .stacked-section__content {
   position: relative;
   z-index: 2;
 }
 
+/* Shared particle layer */
 .cf-particles-container {
   position: absolute;
   inset: 0;
@@ -447,54 +447,15 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   z-index: 1;
 }
 
-/* Base confetti particle – bright and solid */
+/* Individual particle dot */
 .cf-particle {
   position: absolute;
+  border-radius: 50%;
+  filter: blur(1px);
   z-index: 1;
-
-  /* default size, JS can override via CSS vars if needed */
-  width: var(--cf-size, 7px);
-  height: var(--cf-length, 18px);
-
-  border-radius: 999px;          /* pill shape */
-  opacity: 0.95;
-  filter: none;                  /* no blur, we want crisp confetti */
-
-  background: #0ea5e9;           /* default blue */
-  box-shadow:
-    0 0 3px rgba(15, 23, 42, 0.28),
-    0 0 10px rgba(15, 23, 42, 0.16);
 }
 
-/* Multicolor + slight variation in size/shape */
-.cf-particle:nth-child(5n + 1) {
-  background: #0ea5e9;           /* cyan/blue */
-}
-
-.cf-particle:nth-child(5n + 2) {
-  background: #22c55e;           /* green */
-}
-
-.cf-particle:nth-child(5n + 3) {
-  background: #f97316;           /* orange */
-}
-
-.cf-particle:nth-child(5n + 4) {
-  background: #a855f7;           /* purple */
-}
-
-.cf-particle:nth-child(5n + 5) {
-  background: #e11d48;           /* pink/red */
-}
-
-/* Some shorter "dot" confetti mixed in */
-.cf-particle:nth-child(7n) {
-  height: 9px;
-  width: 9px;
-  border-radius: 50%;            /* small dot */
-}
-
-/* Float animation (keep your existing movement logic) */
+/* Smooth drifting + fade */
 @keyframes cf-float {
   0% {
     transform: translate3d(0, 0, 0);
@@ -512,8 +473,6 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   }
 }
 
-
-
 /* ----------------------------- */
 /* 8) Link Cards (Socials)       */
 /* ----------------------------- */
@@ -529,6 +488,7 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   align-items: start; color: var(--text);
 }
 
+/* Base emoji icon styling */
 .link-cards .emoji,
 .link-cards .emoji-w {
   font-size: 1.6rem;
@@ -547,6 +507,7 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
     background-color 0.12s ease;
 }
 
+/* Hover / focus = subtle lift + accent border + slight glow */
 .link-cards .card a:hover .emoji,
 .link-cards .card a:focus-visible .emoji,
 .link-cards .card a:hover .emoji-w,
@@ -585,6 +546,7 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
     background-color 0.12s ease;
 }
 
+/* Hover / focus = subtle lift + accent border + slight glow */
 .skills-list li:hover,
 .skills-list li:focus-within {
   transform: translateY(-2px);
@@ -593,12 +555,14 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25);
 }
 
+/* 2 per row on medium screens */
 @media (max-width: 900px) {
   .skills-list li {
     flex: 1 1 calc(50% - 1rem);
   }
 }
 
+/* 1 per row on small screens */
 @media (max-width: 600px) {
   .skills-list li {
     flex: 1 1 100%;
@@ -627,6 +591,7 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   }
 }
 
+/* Fixed-ratio media box, uniform across cards */
 .project__media {
   position: relative;
   width: 100%;
@@ -636,6 +601,7 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   overflow: hidden;
 }
 
+/* Image is centered and fully contained in the box (no crop) */
 .project__media img {
   position: absolute;
   top: 50%;
@@ -659,6 +625,7 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   margin-top: .8rem;
 }
 
+/* Buttons */
 .btn {
   display: inline-block;
   background: var(--accent); color: color-mix(in oklab, var(--bg), black 10%);
@@ -701,9 +668,11 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
 .title { margin: 0 0 1rem; }
 hr { border: 0; border-top: 1px solid var(--surface-border); margin: 1.5rem 0; }
 
+/* Link styles for content areas */
 .prose a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
 .prose a:hover { opacity: .9; }
 
+/* Accent underline (use on headings/links) */
 .underline-accent {
   position: relative;
 }
