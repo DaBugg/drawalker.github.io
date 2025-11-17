@@ -192,3 +192,28 @@ function initSkillsLinksProjectsParticles() {
   // Rebuild particles on resize so they match new dimensions
   window.addEventListener('resize', spawnParticles);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const demo = document.querySelector('.demo-particles');
+  const modeButtons = document.querySelectorAll('.particles-mode-btn');
+
+  if (!demo || !modeButtons.length) return;
+
+  // default: mono mode
+  demo.classList.add('demo-particles--mono');
+
+  modeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mode = btn.dataset.mode;
+
+      // Update container class
+      demo.classList.toggle('demo-particles--confetti', mode === 'confetti');
+      demo.classList.toggle('demo-particles--mono', mode === 'mono');
+
+      // Update button active state
+      modeButtons.forEach(b => {
+        b.classList.toggle('is-active', b === btn);
+      });
+    });
+  });
+});
