@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
 
-  // =====================================
+// =====================================
 // 5) Particles for Skills + Links + Projects section
 // =====================================
 //
