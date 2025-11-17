@@ -199,21 +199,256 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!demo || !modeButtons.length) return;
 
-  // default: mono mode
+  // Find the CSS code panel for THIS demo
+  const cssCodeBlock = demo
+    .closest('.design-section')
+    ?.querySelector('.code-panel[data-panel="css"] code');
+
+  // Mono CSS snippet (what shows when "Mono" is active)
+  const cssMonoCode = `/* Mono particles field */
+
+.particles-section {
+  position: relative;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top, #020617 0, #000 65%);
+  overflow: hidden;
+}
+
+.particles-field {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  aspect-ratio: 16 / 9;
+  border-radius: 1.2rem;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: radial-gradient(circle at top, #020617 0, #000 70%);
+}
+
+/* Shared layer styles */
+.particles-layer {
+  position: absolute;
+  inset: -10%;
+  background-repeat: repeat;
+  mix-blend-mode: screen;
+  opacity: 0.7;
+}
+
+/* Fine grain */
+.particles-layer--1 {
+  background-image:
+    radial-gradient(circle, rgba(148, 163, 184, 0.6) 1px, transparent 55%);
+  background-size: 40px 40px;
+  animation: particles-drift-1 42s linear infinite;
+}
+
+/* Medium blobs */
+.particles-layer--2 {
+  background-image:
+    radial-gradient(circle, rgba(56, 189, 248, 0.55) 2px, transparent 60%);
+  background-size: 80px 80px;
+  animation: particles-drift-2 55s linear infinite;
+}
+
+/* Larger soft lights */
+.particles-layer--3 {
+  background-image:
+    radial-gradient(circle, rgba(34, 197, 94, 0.35) 8px, transparent 70%);
+  background-size: 180px 180px;
+  animation: particles-drift-3 75s linear infinite;
+}
+
+@keyframes particles-drift-1 {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(60px, -80px, 0); }
+}
+
+@keyframes particles-drift-2 {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-90px, 60px, 0); }
+}
+
+@keyframes particles-drift-3 {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(40px, 90px, 0); }
+}
+
+/* JS-driven dots (mono look) */
+.particles-dot {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(248, 250, 252, 0.9);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.85);
+  pointer-events: none;
+  opacity: 0;
+  animation: particles-float-dot 18s linear infinite;
+}
+
+@keyframes particles-float-dot {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--dot-dx, 0px), var(--dot-dy, -120px), 0);
+    opacity: 0;
+  }
+}`;
+
+  // Confetti CSS snippet (what shows when "Confetti" is active)
+  const cssConfettiCode = `/* Confetti particles field */
+
+.particles-section {
+  position: relative;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top, #020617 0, #000 65%);
+  overflow: hidden;
+}
+
+.particles-field {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  aspect-ratio: 16 / 9;
+  border-radius: 1.2rem;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: radial-gradient(circle at top, #020617 0, #000 70%);
+}
+
+/* Shared layer styles */
+.particles-layer {
+  position: absolute;
+  inset: -10%;
+  background-repeat: repeat;
+  mix-blend-mode: screen;
+  opacity: 0.7;
+}
+
+/* Fine grain */
+.particles-layer--1 {
+  background-image:
+    radial-gradient(circle, rgba(148, 163, 184, 0.6) 1px, transparent 55%);
+  background-size: 40px 40px;
+  animation: particles-drift-1 42s linear infinite;
+}
+
+/* Medium blobs */
+.particles-layer--2 {
+  background-image:
+    radial-gradient(circle, rgba(56, 189, 248, 0.55) 2px, transparent 60%);
+  background-size: 80px 80px;
+  animation: particles-drift-2 55s linear infinite;
+}
+
+/* Larger soft lights */
+.particles-layer--3 {
+  background-image:
+    radial-gradient(circle, rgba(34, 197, 94, 0.35) 8px, transparent 70%);
+  background-size: 180px 180px;
+  animation: particles-drift-3 75s linear infinite;
+}
+
+@keyframes particles-drift-1 {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(60px, -80px, 0); }
+}
+
+@keyframes particles-drift-2 {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-90px, 60px, 0); }
+}
+
+@keyframes particles-drift-3 {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(40px, 90px, 0); }
+}
+
+/* Confetti-style dots */
+.particles-dot {
+  position: absolute;
+  width: 7px;
+  height: 18px;
+  border-radius: 999px;
+  opacity: 0.95;
+  filter: none;
+  background-color: #0ea5e9;
+  box-shadow:
+    0 0 3px rgba(15, 23, 42, 0.28),
+    0 0 10px rgba(15, 23, 42, 0.16);
+  pointer-events: none;
+  animation: particles-float-dot 18s linear infinite;
+}
+
+/* Multicolor stripes */
+.particles-dot:nth-child(5n + 1) { background-color: #0ea5e9; } /* cyan/blue */
+.particles-dot:nth-child(5n + 2) { background-color: #22c55e; } /* green */
+.particles-dot:nth-child(5n + 3) { background-color: #f97316; } /* orange */
+.particles-dot:nth-child(5n + 4) { background-color: #a855f7; } /* purple */
+.particles-dot:nth-child(5n + 5) { background-color: #e11d48; } /* pink */
+
+/* Some dots instead of stripes */
+.particles-dot:nth-child(7n) {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+@keyframes particles-float-dot {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--dot-dx, 0px), var(--dot-dy, -120px), 0);
+    opacity: 0;
+  }
+}`;
+
+  // Set initial mode: mono
   demo.classList.add('demo-particles--mono');
+  if (cssCodeBlock) {
+    cssCodeBlock.textContent = cssMonoCode;
+  }
 
   modeButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const mode = btn.dataset.mode;
 
-      // Update container class
+      // Toggle visual mode
       demo.classList.toggle('demo-particles--confetti', mode === 'confetti');
       demo.classList.toggle('demo-particles--mono', mode === 'mono');
 
-      // Update button active state
+      // Update active button state
       modeButtons.forEach(b => {
         b.classList.toggle('is-active', b === btn);
       });
+
+      // Swap code snippet
+      if (cssCodeBlock) {
+        cssCodeBlock.textContent =
+          mode === 'confetti' ? cssConfettiCode : cssMonoCode;
+      }
     });
   });
 });
