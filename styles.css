@@ -447,12 +447,22 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   z-index: 1;
 }
 
+/* Individual particle dot – light mode colors */
 .cf-particle {
   position: absolute;
   border-radius: 50%;
   filter: blur(1px);
   z-index: 1;
+
+  /* soft, light-mode friendly glow */
+  background: radial-gradient(
+    circle at center,
+    rgba(56, 189, 248, 0.28),    /* light cyan/blue */
+    rgba(56, 189, 248, 0)
+  );
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.30);
 }
+
 
 @keyframes cf-float {
   0% {
