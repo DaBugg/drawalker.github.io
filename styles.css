@@ -447,54 +447,56 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   z-index: 1;
 }
 
-/* Base confetti particle – bright and solid */
+/* Base confetti particle – force our colors (override inline) */
 .cf-particle {
   position: absolute;
   z-index: 1;
 
-  /* default size, JS can override via CSS vars if needed */
   width: var(--cf-size, 7px);
   height: var(--cf-length, 18px);
 
-  border-radius: 999px;          /* pill shape */
+  border-radius: 999px;
   opacity: 0.95;
-  filter: none;                  /* no blur, we want crisp confetti */
+  filter: none;
 
-  background: #0ea5e9;           /* default blue */
+  /* Kill any inline gradients/backgrounds from JS */
+  background-image: none !important;
+  background-color: #0ea5e9 !important;  /* default cyan/blue */
+
   box-shadow:
     0 0 3px rgba(15, 23, 42, 0.28),
     0 0 10px rgba(15, 23, 42, 0.16);
 }
 
-/* Multicolor + slight variation in size/shape */
+/* Multicolor stripes */
 .cf-particle:nth-child(5n + 1) {
-  background: #0ea5e9;           /* cyan/blue */
+  background-color: #0ea5e9 !important;  /* cyan/blue */
 }
 
 .cf-particle:nth-child(5n + 2) {
-  background: #22c55e;           /* green */
+  background-color: #22c55e !important;  /* green */
 }
 
 .cf-particle:nth-child(5n + 3) {
-  background: #f97316;           /* orange */
+  background-color: #f97316 !important;  /* orange */
 }
 
 .cf-particle:nth-child(5n + 4) {
-  background: #a855f7;           /* purple */
+  background-color: #a855f7 !important;  /* purple */
 }
 
 .cf-particle:nth-child(5n + 5) {
-  background: #e11d48;           /* pink/red */
+  background-color: #e11d48 !important;  /* pink/red */
 }
 
-/* Some shorter "dot" confetti mixed in */
+/* Some shorter dots mixed in */
 .cf-particle:nth-child(7n) {
-  height: 9px;
   width: 9px;
-  border-radius: 50%;            /* small dot */
+  height: 9px;
+  border-radius: 50%;
 }
 
-/* Float animation (keep your existing movement logic) */
+/* Float animation */
 @keyframes cf-float {
   0% {
     transform: translate3d(0, 0, 0);
@@ -511,8 +513,6 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
     opacity: 0;
   }
 }
-
-
 
 /* ----------------------------- */
 /* 8) Link Cards (Socials)       */
