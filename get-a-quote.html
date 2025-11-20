@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Get a Website Quote</title>
+  <link rel="stylesheet" href="css/get-a-quote.css" />
+</head>
+<body>
+  <header class="page-header">
+    <div class="container header-inner">
+      <h1 class="site-title">Get a Website Quote</h1>
+      <p class="site-subtitle">
+        Tell me about your project and schedule a time to talk.
+      </p>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <section class="quote-section">
+      <div class="container quote-grid">
+        <div class="quote-intro">
+          <h2>Project details</h2>
+          <p>
+            Fill out the form and I’ll follow up with a custom quote and
+            recommended timeline.
+          </p>
+          <ul class="quote-list">
+            <li>Custom website design & development</li>
+            <li>Landing pages and portfolios</li>
+            <li>Redesigns and performance updates</li>
+            <li>SEO and Customer Conversion Improvements</li>
+          </ul>
+        </div>
+
+        <form class="quote-form" action="/submit-quote" method="post">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="name">Name<span>*</span></label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-field">
+              <label for="email">Email<span>*</span></label>
+              <input type="email" id="email" name="email" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" name="phone" />
+            </div>
+            <div class="form-field">
+              <label for="contact">Preferred contact</label>
+              <select id="contact" name="contact">
+                <option value="email">Email</option>
+                <option value="phone">Phone call</option>
+                <option value="video">Video call</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="project-type">Project type<span>*</span></label>
+              <select id="project-type" name="project_type" required>
+                <option value="">Select one</option>
+                <option value="new-site">New website</option>
+                <option value="redesign">Redesign</option>
+                <option value="landing-page">Landing page</option>
+                <option value="ecommerce">E-commerce</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="budget">Estimated budget</label>
+              <select id="budget" name="budget">
+                <option value="">Select range</option>
+                <option value="under-1k">Under $1,000</option>
+                <option value="1k-3k">$1,000 – $3,000</option>
+                <option value="3k-5k">$3,000 – $5,000</option>
+                <option value="5k-plus">$5,000+</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="date">Preferred date for call</label>
+              <input type="date" id="date" name="date" />
+            </div>
+            <div class="form-field">
+              <label for="time">Preferred time (your timezone)</label>
+              <input type="time" id="time" name="time" />
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="details">Project details<span>*</span></label>
+            <textarea
+              id="details"
+              name="details"
+              rows="5"
+              required
+              placeholder="Pages needed, goals, examples you like, timeline, etc."
+            ></textarea>
+          </div>
+
+          <div class="form-field form-field--checkbox">
+            <label>
+              <input type="checkbox" name="newsletter" />
+              Keep me updated about new services and resources.
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary">Request Quote</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <div class="container">
+      <p>&copy; 2025 networksandnodes. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
