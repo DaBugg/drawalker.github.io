@@ -1,25 +1,9 @@
 // local.server.js
+require('dotenv').config();             // loads .env from project root
+
+const path = require('path');
 const express = require('express');
+const emailRoutes = require('./email'); // <- import the email router
 
 const app = express();
-const PORT = 3000; // hard-code for now
-
-// Log every request so we know if anything is reaching the server
-app.use((req, res, next) => {
-  console.log('REQ:', req.method, req.url);
-  next();
-});
-
-// Test route
-app.get('/test', (req, res) => {
-  res.send('OK from /test');
-});
-
-// Root route (optional)
-app.get('/', (req, res) => {
-  res.send('Root is working');
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+const PORT = process.env.PORT || 3000;
