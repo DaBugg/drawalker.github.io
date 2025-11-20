@@ -61,9 +61,14 @@ module.exports = async (req, res) => {
       html: htmlBody,
     });
 
-    res.status(200).json({ ok: true });
+    // Redirect to thank-you page after successful send
+    res.writeHead(303, { Location: '/thank-you.html' });
+    res.end();
   } catch (err) {
     console.error('Error sending quote email:', err);
-    res.status(500).json({ ok: false, error: err.message });
+    // Simple error response for now
+    res
+      .status(500)
+      .send('There was a problem sending your request. Please try again later.');
   }
 };
