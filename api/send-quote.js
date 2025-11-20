@@ -62,7 +62,7 @@ module.exports = async (req, res) => {
     });
 
     // Redirect to thank-you page after successful send
-    res.writeHead(303, { Location: 'thank-you.html' });
+    res.writeHead(303, { Location: '/thank-you.html' });
     res.end();
   } catch (err) {
     console.error('Error sending quote email:', err);
