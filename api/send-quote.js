@@ -1,4 +1,3 @@
-// api/send-quote.js
 const nodemailer = require('nodemailer');
 
 module.exports = async (req, res) => {
@@ -37,10 +36,16 @@ module.exports = async (req, res) => {
     <p>${(details || '').replace(/\n/g, '<br>')}</p>
   `;
 
+  // FALLBACKS so it never uses localhost even if env vars are missing
+  const host = process.env.SMTP_HOST || 'smtp.porkbun.com';
+  const port = Number(process.env.SMTP_PORT) || 587;
+
+  console.log('Using SMTP:', { host, port });
+
   const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT) || 587,
-    secure: false,
+    host,
+    port,
+    secure: port === 465,
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
@@ -56,8 +61,6 @@ module.exports = async (req, res) => {
       html: htmlBody,
     });
 
-    // For serverless, you can't do a traditional redirect to static file easily,
-    // so just return JSON or a 200 and handle redirect in JS if you want.
     res.status(200).json({ ok: true });
   } catch (err) {
     console.error('Error sending quote email:', err);

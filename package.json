@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/DaBugg/drawalker.github.io#readme",
   "dependencies": {
+    "@vercel/analytics": "^1.5.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "nodemailer": "^7.0.10"
