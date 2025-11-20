@@ -1,22 +1,43 @@
 // email.js
+const path = require('path');
 const express = require('express');
 const nodemailer = require('nodemailer');
 
-const router = express.Router();
+// Load .env from project root
+require('dotenv').config();
 
-// Nodemailer transporter using env vars
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// ---- Middleware ----
+
+// Log incoming requests (debug)
+app.use((req, res, next) => {
+  console.log(req.method, req.url);
+  next();
+});
+
+// Serve static files (HTML, CSS, JS) from this folder
+app.use(express.static(path.join(__dirname)));
+
+// Parse form bodies
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// ---- Email / quote logic ----
+
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: false, // 587 = false, 465 = true
+  host: process.env.SMTP_HOST,                  // e.g. smtp.gmail.com
+  port: Number(process.env.SMTP_PORT) || 587,   // e.g. 587
+  secure: false,                                // false for 587
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
 });
 
-// POST /submit-quote
-router.post('/submit-quote', async (req, res) => {
+// Handle POST /submit-quote from the form
+app.post('/submit-quote', async (req, res) => {
   const {
     name,
     email,
@@ -63,4 +84,12 @@ router.post('/submit-quote', async (req, res) => {
   }
 });
 
-module.exports = router;
+// Optional quick test route
+app.get('/test', (req, res) => {
+  res.send('Server is working');
+});
+
+// ---- Start server ----
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
