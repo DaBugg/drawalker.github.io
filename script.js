@@ -14,7 +14,6 @@ if (document.readyState === 'loading') {
 }
 
 
-
 // =====================================
 // 1) Footer year + Dark-Light Toggle
 // =====================================
@@ -69,6 +68,13 @@ function setCurrentYear() {
 
 
 // =====================================
+// Spotify polling config
+// =====================================
+const SPOTIFY_POLL_INTERVAL_MS = 10000; // 10 seconds
+let spotifyPollTimer = null;
+let spotifyRequestInFlight = false;
+
+// =====================================
 // 2) Initialize Spotify card (backend API)
 // =====================================
 function initSpotifyCard() {
@@ -78,7 +84,27 @@ function initSpotifyCard() {
     return; // if the card isn't on the page, do nothing
   }
 
-  console.log('[Spotify] initSpotifyCard: fetching /api/spotify');
+  console.log('[Spotify] initSpotifyCard: starting polling for /api/spotify');
+
+  // Initial fetch
+  fetchAndUpdateSpotify(card);
+
+  // Poll every 10 seconds
+  spotifyPollTimer = setInterval(() => {
+    fetchAndUpdateSpotify(card);
+  }, SPOTIFY_POLL_INTERVAL_MS);
+}
+
+// Helper: do one fetch + DOM update
+function fetchAndUpdateSpotify(card) {
+  // Prevent overlapping requests if one is still in flight
+  if (spotifyRequestInFlight) {
+    console.log('[Spotify] Skipping poll; request already in flight');
+    return;
+  }
+
+  spotifyRequestInFlight = true;
+  console.log('[Spotify] fetch /api/spotify');
 
   // Ask our Vercel API for the current-song data
   fetch('/api/spotify', { cache: 'no-store' })
@@ -95,10 +121,13 @@ function initSpotifyCard() {
     })
     .catch((err) => {
       console.error('[Spotify] Error fetching /api/spotify:', err);
-      // Show a friendly error state
+      // Fallback to "not playing" view on error
       updateSpotifyCard(card, {
-        isPlaying: false, // tells the card to use the "not playing" view
+        isPlaying: false,
       });
+    })
+    .finally(() => {
+      spotifyRequestInFlight = false;
     });
 }
 
@@ -160,7 +189,6 @@ function updateSpotifyCard(card, data) {
   }
 }
 
-
 // =====================================
 // 4) Helper to turn milliseconds into M:SS
 // =====================================
@@ -170,6 +198,7 @@ function formatMs(ms) {
   const seconds = totalSeconds % 60;
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
+
 
 // =====================================
 // 5) Particles for Skills + Links + Projects section
