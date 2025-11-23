@@ -147,17 +147,35 @@ function updateSpotifyCard(card, data) {
 
   card.classList.remove('is-loading');
 
+  // --- NOT PLAYING / IDLE STATE ----------------------------------
   if (!data || !data.isPlaying) {
-    statusEl.textContent = 'Not playing anything right now';
+    // Add a class so CSS can style the "idle" look
+    card.classList.add('spotify-card--idle');
+
+    statusEl.textContent = 'Not currently listening to anything';
     trackEl.textContent = '—';
     artistEl.textContent = '';
     albumEl.textContent = '';
+
+    // Reset progress bar + times
     progressEl.style.width = '0%';
     currentTimeEl.textContent = '0:00';
     durationEl.textContent = '0:00';
+
+    // Optional: use generic Spotify link
     if (openLinkEl) openLinkEl.href = 'https://open.spotify.com';
+
+    // Optional: fade out cover image instead of showing a random last cover
+    if (coverEl) {
+      coverEl.alt = 'No track currently playing';
+      // You can leave src as-is or swap to a generic image if you want
+    }
+
     return;
   }
+
+  // --- PLAYING STATE ---------------------------------------------
+  card.classList.remove('spotify-card--idle');
 
   statusEl.textContent = 'Listening now';
   trackEl.textContent = data.title || 'Unknown track';
@@ -188,6 +206,7 @@ function updateSpotifyCard(card, data) {
     openLinkEl.href = data.trackUrl;
   }
 }
+
 
 // =====================================
 // 4) Helper to turn milliseconds into M:SS
