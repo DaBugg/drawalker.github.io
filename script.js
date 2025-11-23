@@ -69,12 +69,23 @@ function setCurrentYear() {
 
 
 // =====================================
-// Spotify polling config
+// Spotify polling + progress config
 // =====================================
-const SPOTIFY_IDLE_IMAGE = '/images/not_playing.png';
-const SPOTIFY_POLL_INTERVAL_MS = 10000; // 10 seconds
+const SPOTIFY_IDLE_IMAGE = '/images/not_playing.png'; // adjust path if needed
+const SPOTIFY_POLL_INTERVAL_MS = 10000;               // API call every 10s
+const SPOTIFY_PROGRESS_TICK_MS = 250;                 // smooth bar tick
+
 let spotifyPollTimer = null;
 let spotifyRequestInFlight = false;
+let spotifyProgressTimer = null;
+
+const spotifyPlaybackState = {
+  isPlaying: false,
+  durationMs: 0,
+  progressMs: 0,
+  lastUpdateTs: 0,
+  trackId: null
+};
 
 // =====================================
 // 2) Initialize Spotify card (backend API)
@@ -142,9 +153,6 @@ function updateSpotifyCard(card, data) {
   const artistEl = document.getElementById('spotify-artist');
   const albumEl = document.getElementById('spotify-album');
   const statusEl = document.getElementById('spotify-status');
-  const progressEl = document.getElementById('spotify-progress');
-  const currentTimeEl = document.getElementById('spotify-current-time');
-  const durationEl = document.getElementById('spotify-duration');
   const openLinkEl = document.getElementById('spotify-open-link');
 
   card.classList.remove('is-loading');
@@ -158,10 +166,6 @@ function updateSpotifyCard(card, data) {
     artistEl.textContent = '';
     albumEl.textContent = '';
 
-    progressEl.style.width = '0%';
-    currentTimeEl.textContent = '0:00';
-    durationEl.textContent = '0:00';
-
     if (openLinkEl) {
       openLinkEl.href = 'https://open.spotify.com';
     }
@@ -171,6 +175,15 @@ function updateSpotifyCard(card, data) {
       coverEl.src = SPOTIFY_IDLE_IMAGE;
       coverEl.alt = 'No track currently playing';
     }
+
+    // Stop animation + reset playback state
+    spotifyPlaybackState.isPlaying = false;
+    spotifyPlaybackState.durationMs = 0;
+    spotifyPlaybackState.progressMs = 0;
+    spotifyPlaybackState.trackId = null;
+    spotifyPlaybackState.lastUpdateTs = 0;
+    stopSpotifyProgressAnimation();
+    renderSpotifyProgressFromState(); // sets bar + times to 0
 
     return;
   }
@@ -188,24 +201,90 @@ function updateSpotifyCard(card, data) {
     coverEl.alt = `Album cover for ${data.album || data.title || 'track'}`;
   }
 
-  if (
-    typeof data.progressMs === 'number' &&
-    typeof data.durationMs === 'number' &&
-    data.durationMs > 0
-  ) {
-    const percentage = (data.progressMs / data.durationMs) * 100;
-    progressEl.style.width = `${Math.min(100, Math.max(0, percentage))}%`;
-    currentTimeEl.textContent = formatMs(data.progressMs);
-    durationEl.textContent = formatMs(data.durationMs);
-  } else {
-    progressEl.style.width = '0%';
-    currentTimeEl.textContent = '0:00';
-    durationEl.textContent = '0:00';
-  }
-
   if (data.trackUrl && openLinkEl) {
     openLinkEl.href = data.trackUrl;
   }
+
+  // Sync playback state with latest API payload
+  spotifyPlaybackState.isPlaying = true;
+  spotifyPlaybackState.durationMs =
+    typeof data.durationMs === 'number' ? data.durationMs : 0;
+  spotifyPlaybackState.progressMs =
+    typeof data.progressMs === 'number' ? data.progressMs : 0;
+  spotifyPlaybackState.trackId = data.trackId || data.id || null;
+  spotifyPlaybackState.lastUpdateTs = Date.now();
+
+  // Render once from the new ground truth, then start smooth animation
+  renderSpotifyProgressFromState();
+  startSpotifyProgressAnimation();
+}
+
+// =====================================
+// Smooth progress animation helpers
+// =====================================
+function startSpotifyProgressAnimation() {
+  // Clear any existing timer
+  stopSpotifyProgressAnimation();
+
+  if (!spotifyPlaybackState.isPlaying || !spotifyPlaybackState.durationMs) {
+    return;
+  }
+
+  spotifyPlaybackState.lastUpdateTs = Date.now();
+
+  spotifyProgressTimer = setInterval(() => {
+    tickSpotifyProgress();
+  }, SPOTIFY_PROGRESS_TICK_MS);
+}
+
+function stopSpotifyProgressAnimation() {
+  if (spotifyProgressTimer) {
+    clearInterval(spotifyProgressTimer);
+    spotifyProgressTimer = null;
+  }
+}
+
+function tickSpotifyProgress() {
+  if (!spotifyPlaybackState.isPlaying || !spotifyPlaybackState.durationMs) {
+    return;
+  }
+
+  const now = Date.now();
+  const last = spotifyPlaybackState.lastUpdateTs || now;
+  const elapsed = now - last;
+
+  spotifyPlaybackState.lastUpdateTs = now;
+  spotifyPlaybackState.progressMs += elapsed;
+
+  if (spotifyPlaybackState.progressMs > spotifyPlaybackState.durationMs) {
+    spotifyPlaybackState.progressMs = spotifyPlaybackState.durationMs;
+  }
+
+  renderSpotifyProgressFromState();
+}
+
+function renderSpotifyProgressFromState() {
+  const progressEl = document.getElementById('spotify-progress');
+  const currentTimeEl = document.getElementById('spotify-current-time');
+  const durationEl = document.getElementById('spotify-duration');
+
+  if (!progressEl || !currentTimeEl || !durationEl) return;
+
+  const { progressMs, durationMs } = spotifyPlaybackState;
+
+  if (!durationMs || durationMs <= 0) {
+    progressEl.style.width = '0%';
+    currentTimeEl.textContent = '0:00';
+    durationEl.textContent = '0:00';
+    return;
+  }
+
+  const percentage = (progressMs / durationMs) * 100;
+  const clamped = Math.min(100, Math.max(0, percentage));
+
+  progressEl.style.width = `${clamped}%`;
+  currentTimeEl.textContent = formatMs(progressMs);
+  durationEl.textContent = formatMs(durationMs);
 }
 
 // =====================================
@@ -217,6 +296,7 @@ function formatMs(ms) {
   const seconds = totalSeconds % 60;
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
+
 
 
 // =====================================
