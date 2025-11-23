@@ -5,7 +5,6 @@ function bootApp() {
   initSpotifyCard();
   initSkillsLinksProjectsParticles();
 }
-
 // Run immediately if DOM is already ready, otherwise wait for DOMContentLoaded
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', bootApp);
@@ -70,6 +69,7 @@ function setCurrentYear() {
 // =====================================
 // Spotify polling config
 // =====================================
+const SPOTIFY_IDLE_IMAGE = '/images/not_playing.png'; 
 const SPOTIFY_POLL_INTERVAL_MS = 10000; // 10 seconds
 let spotifyPollTimer = null;
 let spotifyRequestInFlight = false;
@@ -149,7 +149,6 @@ function updateSpotifyCard(card, data) {
 
   // --- NOT PLAYING / IDLE STATE ----------------------------------
   if (!data || !data.isPlaying) {
-    // Add a class so CSS can style the "idle" look
     card.classList.add('spotify-card--idle');
 
     statusEl.textContent = 'Not currently listening to anything';
@@ -157,18 +156,18 @@ function updateSpotifyCard(card, data) {
     artistEl.textContent = '';
     albumEl.textContent = '';
 
-    // Reset progress bar + times
     progressEl.style.width = '0%';
     currentTimeEl.textContent = '0:00';
     durationEl.textContent = '0:00';
 
-    // Optional: use generic Spotify link
-    if (openLinkEl) openLinkEl.href = 'https://open.spotify.com';
+    if (openLinkEl) {
+      openLinkEl.href = 'https://open.spotify.com';
+    }
 
-    // Optional: fade out cover image instead of showing a random last cover
+    // Swap album art to the "not playing" image
     if (coverEl) {
+      coverEl.src = SPOTIFY_IDLE_IMAGE;
       coverEl.alt = 'No track currently playing';
-      // You can leave src as-is or swap to a generic image if you want
     }
 
     return;
@@ -205,8 +204,6 @@ function updateSpotifyCard(card, data) {
   if (data.trackUrl && openLinkEl) {
     openLinkEl.href = data.trackUrl;
   }
-}
-
 
 // =====================================
 // 4) Helper to turn milliseconds into M:SS
