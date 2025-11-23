@@ -292,7 +292,7 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   padding-top: .6rem;
 }
 
-/* Album art */
+/* Album art box */
 .spotify__media {
   width: 100%;
   max-width: 320px;
@@ -302,10 +302,20 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   overflow: hidden;
   border: 1px solid var(--surface-border);
   background: var(--bg);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .spotify__media img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition:
+    filter 0.2s ease,
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 
 /* Meta & text */
@@ -361,6 +371,56 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   0% { background-position: 0% 0; }
   100% { background-position: 300% 0; }
 }
+
+/* -------------------------------------- */
+/* Not-playing / idle state (isPlaying=0) */
+/* -------------------------------------- */
+/* JS adds `spotify-card--idle` to #spotify-card when isPlaying = false */
+
+.spotify.spotify-card--idle {
+  border-style: dashed;
+  border-color: color-mix(in oklab, var(--surface-border), white 10%);
+  background: color-mix(in oklab, var(--bg), black 10%);
+  opacity: 0.95;
+}
+
+/* Badge + live dot look "idle" instead of live */
+.spotify.spotify-card--idle .spotify__badge {
+  color: rgba(148, 163, 184, 0.9); /* slate-300/400 */
+}
+
+.spotify.spotify-card--idle .spotify__live {
+  background: rgba(148, 163, 184, 0.8);
+  box-shadow: none;
+  animation: none;
+}
+
+/* Album box in idle: subtle gradient + dimmed art */
+.spotify.spotify-card--idle .spotify__media {
+  border-style: dashed;
+  background:
+    radial-gradient(circle at top, rgba(148,163,184,.25), transparent 55%),
+    var(--bg);
+}
+
+.spotify.spotify-card--idle .spotify__media img {
+  filter: grayscale(1);
+  opacity: 0.35;
+  transform: scale(1.02);
+}
+
+/* Optional: status text styling pairs with "Not currently listening to anything" */
+#spotify-status {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.95;
+}
+
+.spotify.spotify-card--idle #spotify-status {
+  color: rgba(148, 163, 184, 0.9);
+}
+
 
 /* ----------------------------- */
 /* Quote + Book combined section */
