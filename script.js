@@ -5,6 +5,7 @@ function bootApp() {
   initSpotifyCard();
   initSkillsLinksProjectsParticles();
 }
+
 // Run immediately if DOM is already ready, otherwise wait for DOMContentLoaded
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', bootApp);
@@ -23,53 +24,54 @@ function setCurrentYear() {
   }
 }
 
-  (function () {
-    const root = document.documentElement;
-    const STORAGE_KEY = "theme";
+(function () {
+  const root = document.documentElement;
+  const STORAGE_KEY = "theme";
 
-    // 1) Initial theme: load from storage or default to dark
-    const stored = localStorage.getItem(STORAGE_KEY);
-    const initial =
-      stored === "light" || stored === "dark"
-        ? stored
-        : "dark"; // your requested default
+  // 1) Initial theme: load from storage or default to dark
+  const stored = localStorage.getItem(STORAGE_KEY);
+  const initial =
+    stored === "light" || stored === "dark"
+      ? stored
+      : "dark"; // your requested default
 
-    root.setAttribute("data-theme", initial);
+  root.setAttribute("data-theme", initial);
 
-    // 2) Wire up the toggle button
-    const toggleBtn = document.querySelector("[data-theme-toggle]");
-    if (!toggleBtn) return;
+  // 2) Wire up the toggle button
+  const toggleBtn = document.querySelector("[data-theme-toggle]");
+  if (!toggleBtn) return;
 
-    const iconEl = toggleBtn.querySelector(".theme-toggle__icon");
-    const labelEl = toggleBtn.querySelector(".theme-toggle__label");
+  const iconEl = toggleBtn.querySelector(".theme-toggle__icon");
+  const labelEl = toggleBtn.querySelector(".theme-toggle__label");
 
-    function syncToggleUI(theme) {
-      if (!iconEl || !labelEl) return;
-      if (theme === "light") {
-        iconEl.textContent = "☀️";
-        labelEl.textContent = "Light mode";
-      } else {
-        iconEl.textContent = "🌙";
-        labelEl.textContent = "Dark mode";
-      }
+  function syncToggleUI(theme) {
+    if (!iconEl || !labelEl) return;
+    if (theme === "light") {
+      iconEl.textContent = "☀️";
+      labelEl.textContent = "Light mode";
+    } else {
+      iconEl.textContent = "🌙";
+      labelEl.textContent = "Dark mode";
     }
+  }
 
-    syncToggleUI(initial);
+  syncToggleUI(initial);
 
-    toggleBtn.addEventListener("click", () => {
-      const current = root.getAttribute("data-theme") === "light" ? "light" : "dark";
-      const next = current === "light" ? "dark" : "light";
-      root.setAttribute("data-theme", next);
-      localStorage.setItem(STORAGE_KEY, next);
-      syncToggleUI(next);
-    });
-  })();
+  toggleBtn.addEventListener("click", () => {
+    const current =
+      root.getAttribute("data-theme") === "light" ? "light" : "dark";
+    const next = current === "light" ? "dark" : "light";
+    root.setAttribute("data-theme", next);
+    localStorage.setItem(STORAGE_KEY, next);
+    syncToggleUI(next);
+  });
+})();
 
 
 // =====================================
 // Spotify polling config
 // =====================================
-const SPOTIFY_IDLE_IMAGE = '/images/not_playing.png'; 
+const SPOTIFY_IDLE_IMAGE = '/images/not_playing.png';
 const SPOTIFY_POLL_INTERVAL_MS = 10000; // 10 seconds
 let spotifyPollTimer = null;
 let spotifyRequestInFlight = false;
@@ -123,7 +125,7 @@ function fetchAndUpdateSpotify(card) {
       console.error('[Spotify] Error fetching /api/spotify:', err);
       // Fallback to "not playing" view on error
       updateSpotifyCard(card, {
-        isPlaying: false,
+        isPlaying: false
       });
     })
     .finally(() => {
@@ -204,6 +206,7 @@ function updateSpotifyCard(card, data) {
   if (data.trackUrl && openLinkEl) {
     openLinkEl.href = data.trackUrl;
   }
+}
 
 // =====================================
 // 4) Helper to turn milliseconds into M:SS
