@@ -381,16 +381,19 @@ body {
   border-radius: 999px;
 }
 
-/* Active tab / panel state (section 1) */
+/* Active tab / panel state */
 #tabs-1-html:checked ~ .code-tabs label[for="tabs-1-html"],
-#tabs-1-css:checked ~ .code-tabs label[for="tabs-1-css"],
-#tabs-1-js:checked ~ .code-tabs label[for="tabs-1-js"],
+#tabs-1-css:checked  ~ .code-tabs label[for="tabs-1-css"],
+#tabs-1-js:checked   ~ .code-tabs label[for="tabs-1-js"],
 #tabs-2-html:checked ~ .code-tabs label[for="tabs-2-html"],
-#tabs-2-css:checked ~ .code-tabs label[for="tabs-2-css"],
-#tabs-2-js:checked ~ .code-tabs label[for="tabs-2-js"],
+#tabs-2-css:checked  ~ .code-tabs label[for="tabs-2-css"],
+#tabs-2-js:checked   ~ .code-tabs label[for="tabs-2-js"],
 #tabs-3-html:checked ~ .code-tabs label[for="tabs-3-html"],
-#tabs-3-css:checked ~ .code-tabs label[for="tabs-3-css"],
-#tabs-3-js:checked ~ .code-tabs label[for="tabs-3-js"] {
+#tabs-3-css:checked  ~ .code-tabs label[for="tabs-3-css"],
+#tabs-3-js:checked   ~ .code-tabs label[for="tabs-3-js"],
+#tabs-4-html:checked ~ .code-tabs label[for="tabs-4-html"],
+#tabs-4-css:checked  ~ .code-tabs label[for="tabs-4-css"],
+#tabs-4-js:checked   ~ .code-tabs label[for="tabs-4-js"] {
   background: radial-gradient(circle at top, var(--accent-soft) 0, transparent 70%);
   color: var(--accent);
   transform: translateY(-1px);
@@ -400,14 +403,18 @@ body {
 #tabs-1-html:checked ~ .code-panels [data-panel="html"],
 #tabs-2-html:checked ~ .code-panels [data-panel="html"],
 #tabs-3-html:checked ~ .code-panels [data-panel="html"],
-#tabs-1-css:checked ~ .code-panels [data-panel="css"],
-#tabs-2-css:checked ~ .code-panels [data-panel="css"],
-#tabs-3-css:checked ~ .code-panels [data-panel="css"],
-#tabs-1-js:checked ~ .code-panels [data-panel="js"],
-#tabs-2-js:checked ~ .code-panels [data-panel="js"],
-#tabs-3-js:checked ~ .code-panels [data-panel="js"] {
+#tabs-4-html:checked ~ .code-panels [data-panel="html"],
+#tabs-1-css:checked  ~ .code-panels [data-panel="css"],
+#tabs-2-css:checked  ~ .code-panels [data-panel="css"],
+#tabs-3-css:checked  ~ .code-panels [data-panel="css"],
+#tabs-4-css:checked  ~ .code-panels [data-panel="css"],
+#tabs-1-js:checked   ~ .code-panels [data-panel="js"],
+#tabs-2-js:checked   ~ .code-panels [data-panel="js"],
+#tabs-3-js:checked   ~ .code-panels [data-panel="js"],
+#tabs-4-js:checked   ~ .code-panels [data-panel="js"] {
   display: block;
 }
+
 
 /* ----------------------------- */
 /* Demo 1: Drifting particles    */
