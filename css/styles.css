@@ -76,10 +76,9 @@ html[data-theme="light"] { color-scheme: light; }
 body {
   font-family: var(--font-sans);
   color: var(--text);
-  background:
-    radial-gradient(1200px 800px at 80% -10%, color-mix(in oklab, var(--surface), black 20%) 0%, transparent 60%),
-    var(--bg);
+  background-color: var(--bg); /* no gradient */
 }
+
 
 /* Headings & text rhythm */
 h1, h2, h3 { line-height: 1.15; }
@@ -547,11 +546,6 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   border-color: #38bdf8;
 }
 
-/* Button itself stays as your existing .btn styles */
-.spotify-suggest__toggle {
-  /* uses .btn .btn--ghost .small already; override only if needed */
-}
-
 /* Mobile is already handled by 1-column grid and 100% width,
    but you can tweak spacing on larger screens if you want */
 @media (min-width: 640px) {
@@ -559,8 +553,6 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
     max-width: 100%;
   }
 }
-
-
 
 /* ----------------------------- */
 /* Quote + Book combined section */
@@ -733,7 +725,6 @@ html[data-theme="light"] .cf-particle:nth-child(7n) {
   height: 9px;
   border-radius: 50%;
 }
-
 
 /* ----------------------------- */
 /* 8) Link Cards (Socials)       */
