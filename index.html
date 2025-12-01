@@ -115,15 +115,59 @@
               </div>
     
               <div class="spotify__actions">
-                <a
-                  href="https://open.spotify.com/user/c6azt9yno82jmjvzxxx0kpwlv"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="btn btn--ghost small"
+                <button
+                  type="button"
+                  class="btn btn--ghost small spotify-suggest__toggle"
+                  aria-expanded="false"
+                  aria-controls="spotify-suggest-form"
                 >
-                  View my profile
-                </a>
-                <a
+                  Suggest a Song
+                </button>
+              
+                <div class="spotify-suggest__form-wrapper">
+                  <form
+                    id="spotify-suggest-form"
+                    class="spotify-suggest__form"
+                    action="/api/suggest-song"
+                    method="POST"
+                  >
+                    <!-- Song name (required) -->
+                    <div class="spotify-suggest__field spotify-suggest__field--full">
+                      <label for="song-name" class="spotify-suggest__label">
+                        Song name <span class="spotify-suggest__required">*</span>
+                      </label>
+                      <input
+                        id="song-name"
+                        name="songName"
+                        type="text"
+                        class="spotify-suggest__input"
+                        required
+                        placeholder="e.g., Nights"
+                      />
+                    </div>
+                  
+                    <!-- Artist (optional) -->
+                    <div class="spotify-suggest__field spotify-suggest__field--full">
+                      <label for="song-artist" class="spotify-suggest__label">
+                        Artist <span class="spotify-suggest__optional">(optional)</span>
+                      </label>
+                      <input
+                        id="song-artist"
+                        name="artist"
+                        type="text"
+                        class="spotify-suggest__input"
+                        placeholder="e.g., Frank Ocean"
+                      />
+                    </div>
+                  
+                    <!-- Submit -->
+                    <div class="spotify-suggest__actions spotify-suggest__field--full">
+                      <button type="submit" class="btn btn--primary small">
+                        Submit
+                      </button>
+                    </div>
+                  </form>
+               <a
                   id="spotify-open-link"
                   href="https://open.spotify.com"
                   target="_blank"
