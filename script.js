@@ -294,19 +294,12 @@ function renderSpotifyProgressFromState() {
 
 document.addEventListener('DOMContentLoaded', () => {
   const wrapper = document.getElementById('spotify-suggest');
-  if (!wrapper) return;
+const toggle = wrapper.querySelector('.spotify-suggest__toggle');
 
-  const toggle = wrapper.querySelector('.spotify-suggest__toggle');
-  const formWrapper = wrapper.querySelector('.spotify-suggest__form-wrapper');
-  const form = wrapper.querySelector('#spotify-suggest-form');
-  const songInput = form.querySelector('input[name="songName"]');
-
-  // Dropdown toggle
-  toggle.addEventListener('click', () => {
-    const isOpen = wrapper.classList.toggle('spotify-suggest--open');
-    toggle.setAttribute('aria-expanded', String(isOpen));
-  });
-
+toggle.addEventListener('click', () => {
+  const isOpen = wrapper.classList.toggle('spotify-suggest--open');
+  toggle.setAttribute('aria-expanded', String(isOpen));
+});
   // Enforce required song name on submit (extra safety)
   form.addEventListener('submit', (e) => {
     if (!songInput.value.trim()) {

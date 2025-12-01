@@ -422,7 +422,7 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
 }
 
 /* -------------------------------------- */
-/* Spotify actions sections */
+/* Spotify actions sections               */
 /* -------------------------------------- */
 /* Container for the button + dropdown */
 .spotify__actions {
@@ -434,18 +434,25 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
 }
 
 /* Dropdown wrapper (collapsed by default) */
+/* collapsed by default */
 .spotify-suggest__form-wrapper {
-  width: 100%;
-  max-width: 420px;
-  overflow: hidden;
   max-height: 0;
   opacity: 0;
+  overflow: hidden;
   transform: translateY(-4px);
   transition:
     max-height 0.3s ease,
     opacity 0.25s ease,
     transform 0.25s ease;
 }
+
+/* open state */
+.spotify-suggest--open .spotify-suggest__form-wrapper {
+  max-height: 260px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
 
 /* When JS opens dropdown (toggle this class in JS) */
 .spotify__actions--open .spotify-suggest__form-wrapper {
