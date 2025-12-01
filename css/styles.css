@@ -421,6 +421,138 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   color: rgba(148, 163, 184, 0.9);
 }
 
+/* -------------------------------------- */
+/* Spotify actions sections */
+/* -------------------------------------- */
+/* Container for the button + dropdown */
+.spotify__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+/* Dropdown wrapper (collapsed by default) */
+.spotify-suggest__form-wrapper {
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    max-height 0.3s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+/* When JS opens dropdown (toggle this class in JS) */
+.spotify__actions--open .spotify-suggest__form-wrapper {
+  max-height: 260px; /* enough for fields + buttons */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Form styling */
+.spotify-suggest__form {
+  margin-top: 0.25rem;
+  padding: 0.75rem 0.9rem 0.9rem;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.95); /* dark / glassy */
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  backdrop-filter: blur(10px);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem;
+}
+
+/* Fields span full width */
+.spotify-suggest__field--full {
+  grid-column: 1 / -1;
+}
+
+/* Labels */
+.spotify-suggest__label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #e5e7eb;
+  margin-bottom: 0.15rem;
+}
+
+.spotify-suggest__required {
+  color: #f97373;
+  font-weight: 600;
+}
+
+.spotify-suggest__optional {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+/* Inputs */
+.spotify-suggest__input {
+  width: 100%;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: rgba(15, 23, 42, 0.9);
+  color: #f9fafb;
+  font-size: 0.8rem;
+  outline: none;
+}
+
+.spotify-suggest__input::placeholder {
+  color: #6b7280;
+}
+
+.spotify-suggest__input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
+}
+
+/* Actions row inside dropdown */
+.spotify-suggest__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+/* "Open in Spotify" link under the form */
+#spotify-open-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  border-radius: 999px;
+  padding-inline: 0.9rem;
+  padding-block: 0.4rem;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  color: #e5e7eb;
+  text-decoration: none;
+}
+
+#spotify-open-link:hover {
+  border-color: #38bdf8;
+}
+
+/* Button itself stays as your existing .btn styles */
+.spotify-suggest__toggle {
+  /* uses .btn .btn--ghost .small already; override only if needed */
+}
+
+/* Mobile is already handled by 1-column grid and 100% width,
+   but you can tweak spacing on larger screens if you want */
+@media (min-width: 640px) {
+  .spotify-suggest__form {
+    max-width: 100%;
+  }
+}
+
+
 
 /* ----------------------------- */
 /* Quote + Book combined section */
