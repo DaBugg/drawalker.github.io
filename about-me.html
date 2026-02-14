@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Me — David W.</title>
+  <meta name="description" content="Learn more about David W. — AI & Infrastructure Advisor. Personal interests, what I'm reading, and what I'm listening to." />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-image32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-image16x16.png">
+  <link rel="icon" type="image/png" sizes="" href="images/favicon-image.png">
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ===== Header / Nav ===== -->
+  <header class="site-header">
+    <div class="container header__inner">
+      <a class="brand" href="index.html" aria-label="Go to homepage">David W.<span> Advisory</span></a>
+      <nav aria-label="Primary">
+        <ul class="nav">
+          <li><a href="index.html#services">Services</a></li>
+          <li><a href="index.html#work">Work</a></li>
+          <li><a href="index.html#faq">FAQ</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+          <li><a href="about-me.html">About Me</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ===== About / Bio ===== -->
+    <section id="about" class="section">
+      <div class="container about-page">
+        <p class="small muted">About</p>
+        <h1 class="title">
+          Hey, I'm <span class="accent">David W.</span>
+        </h1>
+
+        <p class="lead">
+          I'm an <strong>AI & Infrastructure Advisor</strong> with 10+ years of experience across
+          network engineering, cloud architecture, and software development. I help businesses
+          bridge the gap between AI ambitions and the infrastructure needed to make them real.
+        </p>
+        <br>
+        <p>
+          My background spans the full stack — from designing physical networks and managing cloud
+          infrastructure to building production web applications with the MERN stack. I've worked with
+          Cisco, UniFi, and Juniper networking gear; deployed on GCP and AWS; automated workflows with
+          Python; and containerized services with Docker.
+        </p>
+        <br>
+        <p>
+          Outside of advisory work, I practice micro-soldering, design PCBs with KiCad, repair hardware,
+          and build front-ends and back-ends for startup apps I'm working on. I like staying close to the
+          metal while thinking about the big picture.
+        </p>
+        <br>
+        <p>
+          <a href="index.html#contact" class="accent">Get in touch</a> to discuss how I can help your team.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== Spotify Now Playing ===== -->
+    <section id="spotify" class="section section--soft">
+      <div class="container">
+        <article class="card spotify is-loading" id="spotify-card">
+          <!-- Badge -->
+          <div class="spotify__badge">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 168 168">
+              <circle fill="currentColor" cx="84" cy="84" r="84"></circle>
+              <path fill="#0b1220" d="M120.2 119.1c-1.6 2.7-5 3.6-7.7 2-21.1-12.6-47.6-15.5-78.8-8.5-3 0.7-6-1.2-6.7-4.2-.7-3 1.2-6 4.2-6.7 34.9-7.8 64.7-4.5 88 9.7 2.7 1.6 3.6 5 2 7.7zm10.9-24.2c-2 3.3-6.3 4.3-9.6 2.3-24.1-14.8-60.8-19.1-89.3-10.4-3.7 1.1-7.5-1-8.7-4.7-1.1-3.7 1-7.5 4.7-8.7 32.9-9.9 73.4-5.1 101.8 12.3 3.3 2 4.3 6.3 2.3 9.6zm1-25.7C103 50.9 61.1 49.3 36.2 56.9 31.8 58.3 27 55.9 25.6 51.6s1.4-8.9 5.7-10.3c29.7-9.3 76.1-7.4 106.9 11.1 3.9 2.3 5.2 7.3 2.9 11.2-2.4 3.9-7.4 5.2-11.2 2.9z"></path>
+            </svg>
+            <span>See What I'm Listening to Right Now</span>
+            <span class="spotify__live" aria-hidden="true"></span>
+          </div>
+
+          <!-- Content -->
+          <div class="spotify__content">
+            <div class="spotify__media">
+              <img
+                id="spotify-cover"
+                src="https://via.placeholder.com/300x300?text=Spotify"
+                alt="Album cover"
+              />
+            </div>
+
+            <div class="spotify__meta">
+              <p class="small muted" id="spotify-status">Loading…</p>
+              <h3 class="accent" id="spotify-track">Track title</h3>
+              <p id="spotify-artist" class="small">Artist name</p>
+              <p id="spotify-album" class="small muted">Album name</p>
+
+              <div class="spotify__progress">
+                <div class="spotify__bar">
+                  <span id="spotify-progress" style="width: 0%;"></span>
+                </div>
+                <div class="spotify__times small muted">
+                  <span id="spotify-current-time">0:00</span>
+                  <span id="spotify-duration">0:00</span>
+                </div>
+              </div>
+
+              <div class="spotify__actions">
+                <div class="spotify-suggest" id="spotify-suggest">
+                  <button
+                    type="button"
+                    class="btn btn--ghost small spotify-suggest__toggle"
+                    aria-expanded="false"
+                    aria-controls="spotify-suggest-form"
+                  >
+                    Suggest a Song
+                  </button>
+
+                  <div class="spotify-suggest__form-wrapper">
+                    <form
+                      id="spotify-suggest-form"
+                      class="spotify-suggest__form"
+                      action="/api/suggest-song"
+                      method="POST"
+                    >
+                      <div class="spotify-suggest__field spotify-suggest__field--full">
+                        <label for="song-name" class="spotify-suggest__label">
+                          Song name <span class="spotify-suggest__required">*</span>
+                        </label>
+                        <input
+                          id="song-name"
+                          name="songName"
+                          type="text"
+                          class="spotify-suggest__input"
+                          required
+                          placeholder="e.g., Nights"
+                        />
+                      </div>
+
+                      <div class="spotify-suggest__field spotify-suggest__field--full">
+                        <label for="song-artist" class="spotify-suggest__label">
+                          Artist <span class="spotify-suggest__optional">(optional)</span>
+                        </label>
+                        <input
+                          id="song-artist"
+                          name="artist"
+                          type="text"
+                          class="spotify-suggest__input"
+                          placeholder="e.g., Frank Ocean"
+                        />
+                      </div>
+
+                      <div class="spotify-suggest__actions spotify-suggest__field--full">
+                        <button type="submit" class="btn btn--primary small">
+                          Submit
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                <a
+                  id="spotify-open-link"
+                  href="https://open.spotify.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn small"
+                >
+                  Open in Spotify
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== Quote of the Day + Book of the Month ===== -->
+    <section id="quote" class="section">
+      <div class="container quote-book">
+        <div class="quote-book__quote">
+          <h2 class="accent">Quote of the Day</h2>
+          <blockquote class="quote">
+            <p>"Those who do not want to imitate anything, produce nothing."</p>
+            <footer>— Salvador Dali</footer>
+          </blockquote>
+        </div>
+
+        <article class="card quote-book__book book-min">
+          <div class="book-min__content">
+            <h2 class="accent">Book of the Month</h2>
+            <h3 class="book-min__title">Apple in China</h3>
+            <a
+              class="underlined small"
+              href="https://www.amazon.com/Apple-China-Capture-Greatest-Company/dp/1668053373"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View on Amazon
+            </a>
+          </div>
+        </article>
+
+        <div class="quote-book__cover">
+          <figure class="book-min__cover">
+            <img
+              src="images/book-of-the-month.png"
+              alt="Cover of Apple in China"
+            />
+          </figure>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="container footer__inner">
+      <p>&copy; <span id="year"></span> David W. Advisory. Built on Vercel.</p>
+      <a href="#top" class="back-to-top">Back to top</a>
+
+      <button
+        type="button"
+        class="theme-toggle"
+        data-theme-toggle
+        aria-label="Toggle light and dark theme"
+      >
+        <span class="theme-toggle__icon" aria-hidden="true">&#127769;</span>
+        <span class="theme-toggle__label">Dark mode</span>
+      </button>
+    </div>
+  </footer>
+
+  <script src="about-me.js"></script>
+</body>
+</html>

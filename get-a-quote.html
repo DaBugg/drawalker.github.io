@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>Get a Website Quote</title>
+  <title>Book a Consultation — David W. Advisory</title>
   <link rel="stylesheet" href="css/get-a-quote.css" />
 </head>
 <body>
   <header class="page-header">
     <div class="container header-inner">
-      <h1 class="site-title">Get a Website Quote</h1>
+      <h1 class="site-title">Book a Consultation</h1>
       <p class="site-subtitle">
-        Tell me about your project and schedule a time to talk.
+        Tell me about your infrastructure challenges and let's find a time to talk.
       </p>
     </div>
   </header>
@@ -20,16 +20,17 @@
     <section class="quote-section">
       <div class="container quote-grid">
         <div class="quote-intro">
-          <h2>Project details</h2>
+          <h2>How I can help</h2>
           <p>
-            Fill out the form and I’ll follow up with a custom quote and
-            recommended timeline.
+            Fill out the form and I'll follow up with a tailored scope
+            and recommended next steps.
           </p>
           <ul class="quote-list">
-            <li>Custom website design & development</li>
-            <li>Landing pages and portfolios</li>
-            <li>Redesigns and performance updates</li>
-            <li>SEO and Customer Conversion Improvements</li>
+            <li>AI readiness assessments</li>
+            <li>Cloud & infrastructure strategy</li>
+            <li>Automation & pipeline engineering</li>
+            <li>Security review & hardening</li>
+            <li>Implementation support</li>
           </ul>
         </div>
 
@@ -62,58 +63,42 @@
 
           <div class="form-row">
             <div class="form-field">
-              <label for="project-type">Project type<span>*</span></label>
+              <label for="project-type">Engagement type<span>*</span></label>
               <select id="project-type" name="project_type" required>
                 <option value="">Select one</option>
-                <option value="new-site">New website</option>
-                <option value="redesign">Redesign</option>
-                <option value="landing-page">Landing page</option>
-                <option value="ecommerce">E-commerce</option>
-                <option value="other">Other</option>
+                <option value="ai-assessment">AI Readiness Assessment</option>
+                <option value="cloud-strategy">Cloud / Infrastructure Strategy</option>
+                <option value="automation">Automation & Pipelines</option>
+                <option value="security">Security Review</option>
+                <option value="implementation">Implementation Support</option>
+                <option value="not-sure">Not sure yet — let's talk</option>
               </select>
             </div>
-            <div class="form-field">
-              <label for="budget">Estimated budget</label>
-              <select id="budget" name="budget">
-                <option value="">Select range</option>
-                <option value="under-1k">Under $1,000</option>
-                <option value="1k-3k">$1,000 – $3,000</option>
-                <option value="3k-5k">$3,000 – $5,000</option>
-                <option value="5k-plus">$5,000+</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
             <div class="form-field">
               <label for="date">Preferred date for call</label>
               <input type="date" id="date" name="date" />
             </div>
-            <div class="form-field">
-              <label for="time">Preferred time (your timezone)</label>
-              <input type="time" id="time" name="time" />
-            </div>
           </div>
 
           <div class="form-field">
-            <label for="details">Project details<span>*</span></label>
+            <label for="details">Tell me about your project<span>*</span></label>
             <textarea
               id="details"
               name="details"
               rows="5"
               required
-              placeholder="Pages needed, goals, examples you like, timeline, etc."
+              placeholder="Describe your current infrastructure, AI goals, and any specific challenges..."
             ></textarea>
           </div>
 
           <div class="form-field form-field--checkbox">
             <label>
               <input type="checkbox" name="newsletter" />
-              Keep me updated about new services and resources.
+              Keep me updated on AI & infrastructure insights.
             </label>
           </div>
 
-          <button type="submit" class="btn-primary">Request Quote</button>
+          <button type="submit" class="btn-primary">Book Consultation</button>
         </form>
       </div>
     </section>
@@ -121,7 +106,7 @@
 
   <footer class="page-footer">
     <div class="container">
-      <p>&copy; 2025 networksandnodes. All rights reserved.</p>
+      <p>&copy; 2026 David W. Advisory. All rights reserved.</p>
     </div>
   </footer>
 </body>
