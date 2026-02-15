@@ -147,6 +147,8 @@
   --radius-lg: 1.2rem;
   --radius-md: 0.9rem;
   --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.7);
+  --accent-cyan: #22d3ee;
+  --accent-blue: #60a5fa;
   --container-width: 1120px;
   --demo-card-min-height: 260px;
   --code-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
@@ -183,6 +185,10 @@ body {
   margin: 0 0 0.4rem;
   font-size: clamp(1.9rem, 3vw, 2.4rem);
   letter-spacing: 0.04em;
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .site-subtitle {
@@ -231,6 +237,10 @@ body {
 .design-title {
   margin: 0;
   font-size: 1.2rem;
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .design-tagline {

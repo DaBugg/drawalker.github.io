@@ -31,6 +31,10 @@
   .thankyou-title {
     margin: 0 0 0.75rem;
     font-size: 1.4rem;
+    background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   
   .thankyou-text {

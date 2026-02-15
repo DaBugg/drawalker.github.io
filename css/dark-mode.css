@@ -48,6 +48,10 @@ html:focus-within { scroll-behavior: smooth; }
   --accent-strong: #16a34a;
   --link: #93c5fd;
 
+  /* Hero accents */
+  --accent-cyan: #22d3ee;
+  --accent-blue: #60a5fa;
+
   /* Misc */
   --shadow: 0 8px 24px rgba(0,0,0,.35);
 }
@@ -202,6 +206,10 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   margin: 0 0 0.4rem;
   font-size: clamp(1.9rem, 3vw, 2.4rem);
   letter-spacing: 0.04em;
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .site-subtitle {
