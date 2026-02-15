@@ -66,21 +66,20 @@ function setCurrentYear() {
 
 
 // =====================================
-// 2) Particles for Services section
+// 2) Full-page particles
 // =====================================
 function initParticles() {
-  const sectionEl = document.getElementById('services-section');
-  const containerEl = document.getElementById('skillsParticlesContainer');
+  const containerEl = document.getElementById('pageParticles');
+  if (!containerEl) return;
 
-  if (!sectionEl || !containerEl) return;
-
-  const PARTICLE_COUNT = 200;
+  const PARTICLE_COUNT = 150;
+  let resizeTimer = null;
 
   function spawnParticles() {
     containerEl.innerHTML = '';
 
-    const W = sectionEl.offsetWidth || sectionEl.clientWidth || window.innerWidth;
-    const H = sectionEl.offsetHeight || sectionEl.clientHeight || window.innerHeight;
+    const W = window.innerWidth;
+    const H = window.innerHeight;
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       const p = document.createElement('div');
@@ -90,10 +89,11 @@ function initParticles() {
       const startLeft = Math.random() * W;
       const startTop = Math.random() * H;
 
-      const dx = (Math.random() - 0.5) * W;
-      const dy = -H - Math.random() * 200;
+      // Gentle drift in all directions
+      const dx = (Math.random() - 0.5) * W * 0.6;
+      const dy = -(H * 0.5) - Math.random() * H * 0.5;
 
-      const duration = 18 + Math.random() * 18;
+      const duration = 20 + Math.random() * 25;
       const delay = Math.random() * duration;
 
       Object.assign(p.style, {
@@ -101,7 +101,7 @@ function initParticles() {
         height: `${size}px`,
         left: `${startLeft}px`,
         top: `${startTop}px`,
-        backgroundColor: `rgba(255, 255, 255, ${0.2 + Math.random() * 0.5})`,
+        backgroundColor: `rgba(255, 255, 255, ${0.15 + Math.random() * 0.35})`,
         animation: `cf-float ${duration}s linear ${delay}s infinite`,
         willChange: 'transform, opacity'
       });
@@ -114,7 +114,12 @@ function initParticles() {
   }
 
   spawnParticles();
-  window.addEventListener('resize', spawnParticles);
+
+  // Debounced resize
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(spawnParticles, 300);
+  });
 }
 
 

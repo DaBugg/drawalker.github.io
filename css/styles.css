@@ -77,6 +77,12 @@ body {
   font-family: var(--font-sans);
   color: var(--text);
   background-color: var(--bg);
+  position: relative;
+}
+
+main {
+  position: relative;
+  z-index: 1;
 }
 
 /* Headings & text rhythm */
@@ -98,14 +104,25 @@ p + p { margin-top: .8rem; }
 
 /* Containers & sections */
 .container { width: min(1100px, 92%); margin-inline: auto; }
-.section { padding: 4rem 0; }
-.section--soft { background: var(--bg-soft); }
+.section {
+  padding: 4rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Default sections: transparent so particles show through */
+/* Soft sections: distinct color with slight transparency for particle bleed-through */
+.section--soft {
+  background: color-mix(in oklab, var(--bg-soft) 94%, transparent);
+  border-top: 1px solid var(--surface-border);
+  border-bottom: 1px solid var(--surface-border);
+}
 
 /* Make consecutive soft sections feel like one combined band */
 .section--soft + .section--soft {
   padding-top: 1.5rem;
   margin-top: -1rem;
-  border-top: 1px solid var(--surface-border);
+  border-top: none;
 }
 
 /* Grid helpers */
@@ -141,8 +158,8 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
 /* ----------------------------- */
 .site-header {
   position: sticky; top: 0; z-index: 50;
-  background: color-mix(in oklab, var(--bg), transparent 20%);
-  backdrop-filter: blur(8px);
+  background: color-mix(in oklab, var(--bg) 92%, transparent);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--surface-border);
 }
 .header__inner {
@@ -231,6 +248,9 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   max-width: 780px;
   text-align: center;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hero__sub {
@@ -260,7 +280,7 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
 .stats-bar {
   display: flex;
   justify-content: center;
-  gap: 3rem;
+  gap: 2rem 3rem;
   flex-wrap: wrap;
 }
 
@@ -270,6 +290,8 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   align-items: center;
   text-align: center;
   gap: 0.25rem;
+  flex: 0 1 auto;
+  min-width: 140px;
 }
 
 .stat__number {
@@ -280,6 +302,14 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
 
 .stat__label {
   font-size: 0.82rem;
+}
+
+@media (max-width: 600px) {
+  .stats-bar {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
 }
 
 /* ----------------------------- */
@@ -308,6 +338,7 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
+  flex: 1 1 0%;
 }
 
 .service__icon {
@@ -558,15 +589,28 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
 /* 11) Contact Form (Embedded)   */
 /* ----------------------------- */
 .contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
+  display: flex;
   gap: 2.5rem;
-  align-items: start;
+  align-items: flex-start;
+}
+
+.contact-grid > .contact-intro {
+  flex: 1 1 300px;
+}
+
+.contact-grid > .consultation-form {
+  flex: 1.4 1 400px;
 }
 
 @media (max-width: 900px) {
   .contact-grid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .contact-grid > .contact-intro,
+  .contact-grid > .consultation-form {
+    flex: 1 1 auto;
+    width: 100%;
   }
 }
 
@@ -734,24 +778,15 @@ a.underlined { text-decoration: underline; text-underline-offset: 3px; }
 }
 
 /* ───────────────────────────────────────────── */
-/* PARTICLE BACKDROP                             */
+/* FULL-PAGE PARTICLE BACKDROP                   */
 /* ───────────────────────────────────────────── */
 
-.section--with-particles {
-  position: relative;
-  overflow: hidden;
-}
-
-.section--with-particles .stacked-section__content {
-  position: relative;
-  z-index: 2;
-}
-
-.cf-particles-container {
-  position: absolute;
+.page-particles {
+  position: fixed;
   inset: 0;
+  z-index: 0;
   pointer-events: none;
-  z-index: 1;
+  overflow: hidden;
 }
 
 .cf-particle {
@@ -1261,11 +1296,22 @@ html[data-theme="light"] .cf-particle:nth-child(7n) {
 .site-footer {
   padding: 2.2rem 0;
   border-top: 1px solid var(--surface-border);
-  background: var(--bg);
+  background: color-mix(in oklab, var(--bg) 96%, transparent);
+  position: relative;
+  z-index: 1;
 }
 .footer__inner {
   display: flex; align-items: center; justify-content: space-between; gap: 1rem;
   flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .footer__inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.75rem;
+  }
 }
 .back-to-top {
   color: var(--text-muted);
