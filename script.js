@@ -4,6 +4,7 @@ function bootApp() {
   setCurrentYear();
   initParticles();
   initSubscribeModal();
+  initMobileNav();
 }
 
 if (document.readyState === 'loading') {
@@ -183,7 +184,31 @@ function initSubscribeModal() {
 
 
 // =====================================
-// 4) Smooth scroll for anchor links
+// 4) Mobile nav toggle
+// =====================================
+function initMobileNav() {
+  const btn = document.getElementById('nav-hamburger');
+  const links = document.getElementById('nav-links');
+  if (!btn || !links) return;
+
+  btn.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', !open);
+    links.classList.toggle('nav-links--open', !open);
+  });
+
+  // Close on link click
+  links.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      btn.setAttribute('aria-expanded', 'false');
+      links.classList.remove('nav-links--open');
+    });
+  });
+}
+
+
+// =====================================
+// 5) Smooth scroll for anchor links
 // =====================================
 document.addEventListener('click', (e) => {
   const link = e.target.closest('a[href^="#"]');

@@ -3,6 +3,26 @@
 function bootAboutMe() {
   setCurrentYear();
   initSpotifyCard();
+  initMobileNav();
+}
+
+function initMobileNav() {
+  const btn = document.getElementById('nav-hamburger');
+  const links = document.getElementById('nav-links');
+  if (!btn || !links) return;
+
+  btn.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', !open);
+    links.classList.toggle('nav-links--open', !open);
+  });
+
+  links.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      btn.setAttribute('aria-expanded', 'false');
+      links.classList.remove('nav-links--open');
+    });
+  });
 }
 
 if (document.readyState === 'loading') {

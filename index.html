@@ -28,13 +28,16 @@
   <!-- ===== Header / Nav ===== -->
   <nav class="site-nav" aria-label="Primary">
     <div class="nav-logo"><span>&gt;</span> david_w.solutions</div>
-    <ul class="nav-links">
+    <ul class="nav-links" id="nav-links">
       <li><a href="#services">Solutions</a></li>
       <li><a href="#work">Work</a></li>
       <li><a href="#faq">FAQ</a></li>
       <li><a href="about-me.html">About</a></li>
     </ul>
-    <a href="#contact" class="nav-cta">Book a Call</a>
+    <a href="#contact" class="nav-cta nav-cta--desktop">Book a Call</a>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 
   <main id="top">
@@ -68,7 +71,7 @@
         </div>
         <div class="hero-proof">
           <div class="proof-item">
-            <span class="proof-number">10+</span>
+            <span class="proof-number">5+</span>
             <span class="proof-label">Years in technology</span>
           </div>
           <div class="proof-item">
@@ -260,34 +263,75 @@
           </div>
         </section>
 
-    <!-- ===== 4. Technical Expertise Keywords ===== -->
+    <!-- ===== 4. Technical Expertise ===== -->
     <section id="expertise" class="section">
-          <div class="container">
-            <h2 class="accent">Technical Expertise</h2>
-            <p class="muted small">AI advisory backed by deep infrastructure engineering experience.</p>
+      <div class="container">
+        <h2 class="accent">Technical Expertise</h2>
+        <p class="muted small">Deep, cross-domain experience across AI, infrastructure, web, and data.</p>
 
-            <ul class="skills-list">
+        <div class="expertise-grid">
+          <details class="expertise-group" open>
+            <summary>
+              <span class="expertise-group__icon">&#129302;</span>
+              <span class="expertise-group__title">AI & Strategy</span>
+              <span class="expertise-group__chevron"></span>
+            </summary>
+            <ul>
               <li>AI Strategy & Implementation</li>
               <li>Solutions Architecture</li>
+              <li>AI Readiness Assessments</li>
+              <li>Business Operations & Process Overhaul</li>
+            </ul>
+          </details>
+
+          <details class="expertise-group">
+            <summary>
+              <span class="expertise-group__icon">&#9729;&#65039;</span>
+              <span class="expertise-group__title">Cloud & Infrastructure</span>
+              <span class="expertise-group__chevron"></span>
+            </summary>
+            <ul>
               <li>Cloud Architecture (GCP, AWS)</li>
               <li>Infrastructure Modernization</li>
               <li>Security-First Design</li>
-              <li>Business Operations & Process Overhaul</li>
-            </ul>
-
-            <ul class="skills-list skills-list--secondary">
-              <li>Web Development (HTML, CSS, JavaScript, Node.js, React)</li>
-              <li>SEO & Conversion Optimization</li>
-              <li>Advanced Analytics Platforms</li>
-              <li>CRM Setup & Training</li>
               <li>Network Engineering (Cisco, UniFi, Juniper)</li>
-              <li>Python Automation & Web Scraping</li>
               <li>Docker & Containerization</li>
               <li>Linux Systems & CLI</li>
-              <li>UX/UI Prototyping & App Design</li>
             </ul>
-          </div>
-        </section>
+          </details>
+
+          <details class="expertise-group">
+            <summary>
+              <span class="expertise-group__icon">&#128187;</span>
+              <span class="expertise-group__title">Web & Digital</span>
+              <span class="expertise-group__chevron"></span>
+            </summary>
+            <ul>
+              <li>HTML, CSS, JavaScript</li>
+              <li>Node.js & React</li>
+              <li>SEO & Conversion Optimization</li>
+              <li>UX/UI Prototyping & App Design</li>
+              <li>Responsive & Accessible Design</li>
+            </ul>
+          </details>
+
+          <details class="expertise-group">
+            <summary>
+              <span class="expertise-group__icon">&#128200;</span>
+              <span class="expertise-group__title">Data & Automation</span>
+              <span class="expertise-group__chevron"></span>
+            </summary>
+            <ul>
+              <li>Advanced Analytics Platforms</li>
+              <li>CRM Setup & Training</li>
+              <li>Python Automation & Web Scraping</li>
+              <li>CI/CD Pipelines</li>
+              <li>Workflow & Integration Automation</li>
+            </ul>
+          </details>
+        </div>
+      </div>
+    </section>
 
     <!-- ===== 5. Mid-page CTA ===== -->
     <section id="cta-mid" class="section cta-section">
