@@ -70,18 +70,18 @@
           </a>
         </div>
         <div class="hero-proof">
-          <div class="proof-item">
+          <a href="about-me.html" class="proof-item">
             <span class="proof-number">5+</span>
             <span class="proof-label">Years in technology</span>
-          </div>
-          <div class="proof-item">
+          </a>
+          <a href="#services" class="proof-item">
             <span class="proof-number">End-to-End</span>
             <span class="proof-label">Strategy &middot; Build &middot; Launch</span>
-          </div>
-          <div class="proof-item">
+          </a>
+          <a href="#work" class="proof-item">
             <span class="proof-number">Results-First</span>
             <span class="proof-label">Business outcomes, not busywork</span>
-          </div>
+          </a>
         </div>
       </div>
 
@@ -144,40 +144,40 @@
 
           <!-- Floating service cards -->
           <div class="service-cards">
-            <div class="service-card">
+            <a href="#services" class="service-card">
               <div class="card-icon card-icon--cyan">&#128187;</div>
               <div class="card-text">
                 <div class="card-title">Web Development</div>
                 <div class="card-sub">Sites &middot; Platforms &middot; Apps</div>
               </div>
-            </div>
-            <div class="service-card">
+            </a>
+            <a href="#services" class="service-card">
               <div class="card-icon card-icon--emerald">&#128200;</div>
               <div class="card-text">
                 <div class="card-title">Analytics & Dashboards</div>
                 <div class="card-sub">Data-driven decisions</div>
               </div>
-            </div>
-            <div class="service-card">
+            </a>
+            <a href="#services" class="service-card">
               <div class="card-icon card-icon--blue">&#9881;</div>
               <div class="card-text">
                 <div class="card-title">Automation</div>
                 <div class="card-sub">Workflows &middot; Operations</div>
               </div>
-            </div>
-            <div class="service-card">
+            </a>
+            <a href="#services" class="service-card">
               <div class="card-icon card-icon--cyan">&#128269;</div>
               <div class="card-text">
                 <div class="card-title">SEO & AI Strategy</div>
                 <div class="card-sub">Visibility &middot; Intelligence</div>
               </div>
-            </div>
+            </a>
           </div>
 
           <!-- Terminal widget -->
-          <div class="terminal-widget">
+          <a href="#expertise" class="terminal-widget">
             <span class="prompt">$</span> <span class="cmd">solutions --strategy --build --launch</span><span class="terminal-cursor"></span>
-          </div>
+          </a>
         </div>
       </div>
 
@@ -417,80 +417,99 @@
     <!-- ===== 7. FAQ ===== -->
     <section id="faq" class="section">
       <div class="container">
-        <h2 class="accent">Frequently Asked Questions</h2>
+        <div class="faq-header">
+          <h2 class="accent">Frequently Asked Questions</h2>
+          <div class="faq-nav">
+            <button class="faq-arrow faq-arrow--prev" id="faq-prev" aria-label="Previous question">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <button class="faq-arrow faq-arrow--next" id="faq-next" aria-label="Next question">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
 
-        <div class="faq-list">
-          <details class="faq-item">
-            <summary>What exactly does an AI/Infrastructure Advisor do?</summary>
-            <p>
-              I help businesses prepare their infrastructure for AI workloads, modernize their operations,
-              and get more out of their technology. That means assessing your current systems, designing architecture
-              that supports growth, and often building or implementing the solution alongside your team.
-              Think of it as a solutions architect who also sees the strategic picture.
-            </p>
-          </details>
+        <div class="faq-carousel" id="faq-carousel">
+          <div class="faq-track" id="faq-track">
+            <article class="faq-card">
+              <span class="faq-card__number">01</span>
+              <h3 class="faq-card__question">What exactly does a Technology Solutions Provider do?</h3>
+              <p class="faq-card__answer">
+                I help businesses prepare their infrastructure for AI workloads, modernize their operations,
+                and get more out of their technology. That means assessing your current systems, designing architecture
+                that supports growth, and often building or implementing the solution alongside your team.
+              </p>
+            </article>
 
-          <details class="faq-item">
-            <summary>We already have a DevOps/IT team. Why would we need you?</summary>
-            <p>
-              Your team runs your systems day-to-day. I come in for specific challenges — migrating to the cloud,
-              preparing for AI adoption, redesigning a network, or breaking through a technical bottleneck.
-              I work with your team, not instead of them.
-            </p>
-          </details>
+            <article class="faq-card">
+              <span class="faq-card__number">02</span>
+              <h3 class="faq-card__question">We already have a DevOps/IT team. Why would we need you?</h3>
+              <p class="faq-card__answer">
+                Your team runs your systems day-to-day. I come in for specific challenges — migrating to the cloud,
+                preparing for AI adoption, redesigning a network, or breaking through a technical bottleneck.
+                I work with your team, not instead of them.
+              </p>
+            </article>
 
-          <details class="faq-item">
-            <summary>How do engagements typically work?</summary>
-            <p>
-              Most start with a free discovery call to understand your situation. From there, it might be a focused
-              assessment (1–2 weeks), a strategy engagement (3–4 weeks), or ongoing implementation support.
-              Scope and timeline depend on your needs.
-            </p>
-          </details>
+            <article class="faq-card">
+              <span class="faq-card__number">03</span>
+              <h3 class="faq-card__question">How do engagements typically work?</h3>
+              <p class="faq-card__answer">
+                Most start with a free discovery call to understand your situation. From there, it might be a focused
+                assessment (1–2 weeks), a strategy engagement (3–4 weeks), or ongoing implementation support.
+                Scope and timeline depend on your needs.
+              </p>
+            </article>
 
-          <details class="faq-item">
-            <summary>Do you only work with large enterprises?</summary>
-            <p>
-              No. Most of my clients are small-to-medium businesses and startups. The common thread is that they're
-              building something technical and need infrastructure expertise they don't have in-house.
-              Enterprise teams are welcome too — the fundamentals are the same.
-            </p>
-          </details>
+            <article class="faq-card">
+              <span class="faq-card__number">04</span>
+              <h3 class="faq-card__question">Do you only work with large enterprises?</h3>
+              <p class="faq-card__answer">
+                No. Most of my clients are small-to-medium businesses and startups. The common thread is that they're
+                building something technical and need expertise they don't have in-house.
+                Enterprise teams are welcome too — the fundamentals are the same.
+              </p>
+            </article>
 
-          <details class="faq-item">
-            <summary>Do you also build websites and set up CRM/analytics tools?</summary>
-            <p>
-              Yes. I build custom websites with SEO optimization, set up and train teams on CRM platforms,
-              and configure advanced analytics dashboards. These services pair well with infrastructure
-              work — getting your digital presence and internal tooling right alongside your technical foundation.
-            </p>
-          </details>
+            <article class="faq-card">
+              <span class="faq-card__number">05</span>
+              <h3 class="faq-card__question">Do you also build websites and set up CRM/analytics tools?</h3>
+              <p class="faq-card__answer">
+                Yes. I build custom websites with SEO optimization, set up and train teams on CRM platforms,
+                and configure advanced analytics dashboards. These services pair well with infrastructure
+                work — getting your digital presence and internal tooling right alongside your technical foundation.
+              </p>
+            </article>
 
-          <details class="faq-item">
-            <summary>What industries do you work with?</summary>
-            <p>
-              Infrastructure challenges are cross-industry. I currently serve as Solutions Architect in the
-              security and solar industry, and I've worked across tech startups, e-commerce, and professional services.
-              If your business runs on technology, the fundamentals apply.
-            </p>
-          </details>
+            <article class="faq-card">
+              <span class="faq-card__number">06</span>
+              <h3 class="faq-card__question">What industries do you work with?</h3>
+              <p class="faq-card__answer">
+                Infrastructure challenges are cross-industry. I currently serve as Solutions Architect in the
+                security and solar industry, and I've worked across tech startups, e-commerce, and professional services.
+                If your business runs on technology, the fundamentals apply.
+              </p>
+            </article>
 
-          <details class="faq-item">
-            <summary>What does it cost?</summary>
-            <p>
-              Pricing depends on scope. Assessments and strategy engagements are project-based with clear deliverables.
-              Implementation support is billed on a weekly or monthly basis. The discovery call is free — we'll figure out
-              the right scope together.
-            </p>
-          </details>
+            <article class="faq-card">
+              <span class="faq-card__number">07</span>
+              <h3 class="faq-card__question">What does it cost?</h3>
+              <p class="faq-card__answer">
+                Pricing depends on scope. Assessments and strategy engagements are project-based with clear deliverables.
+                Implementation support is billed on a weekly or monthly basis. The discovery call is free — we'll figure out
+                the right scope together.
+              </p>
+            </article>
 
-          <details class="faq-item">
-            <summary>Can we start with a small engagement to test the fit?</summary>
-            <p>
-              Absolutely. Many clients start with an assessment or a focused sprint. If it works, we expand.
-              No long-term contracts required.
-            </p>
-          </details>
+            <article class="faq-card">
+              <span class="faq-card__number">08</span>
+              <h3 class="faq-card__question">Can we start with a small engagement to test the fit?</h3>
+              <p class="faq-card__answer">
+                Absolutely. Many clients start with an assessment or a focused sprint. If it works, we expand.
+                No long-term contracts required.
+              </p>
+            </article>
+          </div>
         </div>
       </div>
     </section>

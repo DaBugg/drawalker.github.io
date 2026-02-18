@@ -5,6 +5,7 @@ function bootApp() {
   initParticles();
   initSubscribeModal();
   initMobileNav();
+  initFaqCarousel();
 }
 
 if (document.readyState === 'loading') {
@@ -208,7 +209,94 @@ function initMobileNav() {
 
 
 // =====================================
-// 5) Smooth scroll for anchor links
+// 5) FAQ Carousel
+// =====================================
+function initFaqCarousel() {
+  const track = document.getElementById('faq-track');
+  const prevBtn = document.getElementById('faq-prev');
+  const nextBtn = document.getElementById('faq-next');
+  if (!track || !prevBtn || !nextBtn) return;
+
+  const cards = track.querySelectorAll('.faq-card');
+  if (!cards.length) return;
+
+  let currentIndex = 0;
+
+  function getVisibleCount() {
+    const w = window.innerWidth;
+    if (w <= 640) return 1;
+    if (w <= 1024) return 2;
+    return 3;
+  }
+
+  function getMaxIndex() {
+    return Math.max(0, cards.length - getVisibleCount());
+  }
+
+  function updateCarousel() {
+    const card = cards[0];
+    const gap = parseFloat(getComputedStyle(track).gap) || 20;
+    const cardWidth = card.offsetWidth + gap;
+    track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+
+    prevBtn.disabled = currentIndex <= 0;
+    nextBtn.disabled = currentIndex >= getMaxIndex();
+  }
+
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateCarousel();
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (currentIndex < getMaxIndex()) {
+      currentIndex++;
+      updateCarousel();
+    }
+  });
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  let touchDeltaX = 0;
+
+  track.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchDeltaX = 0;
+  }, { passive: true });
+
+  track.addEventListener('touchmove', (e) => {
+    touchDeltaX = e.touches[0].clientX - touchStartX;
+  }, { passive: true });
+
+  track.addEventListener('touchend', () => {
+    if (Math.abs(touchDeltaX) > 50) {
+      if (touchDeltaX < 0 && currentIndex < getMaxIndex()) {
+        currentIndex++;
+      } else if (touchDeltaX > 0 && currentIndex > 0) {
+        currentIndex--;
+      }
+      updateCarousel();
+    }
+  });
+
+  // Reset on resize
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (currentIndex > getMaxIndex()) currentIndex = getMaxIndex();
+      updateCarousel();
+    }, 150);
+  });
+
+  updateCarousel();
+}
+
+
+// =====================================
+// 6) Smooth scroll for anchor links
 // =====================================
 document.addEventListener('click', (e) => {
   const link = e.target.closest('a[href^="#"]');
