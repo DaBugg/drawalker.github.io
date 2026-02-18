@@ -211,10 +211,14 @@
 
         <div class="quote-book__cover">
           <figure class="book-min__cover">
-            <img
-              src="images/book-of-the-month.png"
-              alt="Cover of Apple in China"
-            />
+            <picture>
+              <source srcset="images/book-of-the-month.webp" type="image/webp" />
+              <img
+                src="images/book-of-the-month.png"
+                alt="Cover of Apple in China"
+                loading="lazy"
+              />
+            </picture>
           </figure>
         </div>
       </div>

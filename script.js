@@ -72,7 +72,11 @@ function initParticles() {
   const containerEl = document.getElementById('pageParticles');
   if (!containerEl) return;
 
-  const PARTICLE_COUNT = 150;
+  // Skip particles on mobile for performance
+  const mobileQuery = window.matchMedia('(max-width: 768px)');
+  if (mobileQuery.matches) return;
+
+  const PARTICLE_COUNT = window.innerWidth < 1024 ? 80 : 150;
   let resizeTimer = null;
 
   function spawnParticles() {
