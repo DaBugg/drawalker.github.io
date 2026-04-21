@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>ATLAS — carry the weight</title>
+  <meta name="description" content="Atlas. A study in weight, pressure, and the moment of breaking through." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=JetBrains+Mono:wght@300;400;500;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+
+  <!-- Top chrome -->
+  <header class="chrome chrome--top" aria-label="Primary">
+    <div class="chrome__mark">
+      <span class="mark__glyph" aria-hidden="true">✶</span>
+      <span class="mark__word">ATLAS</span>
+    </div>
+
+    <div class="chrome__meta" aria-hidden="true">
+      <span class="meta__kv"><em>Mythos</em> / №001</span>
+      <span class="meta__kv meta__kv--sep">MMXXVI</span>
+    </div>
+
+    <button class="chrome__skip" type="button" data-skip>
+      <span>skip to nav</span>
+      <span class="skip__arrow" aria-hidden="true">→</span>
+    </button>
+  </header>
+
+  <!-- Bottom chrome -->
+  <footer class="chrome chrome--bottom" aria-hidden="true">
+    <div class="chrome__scrollhint">
+      <span class="scrollhint__line"></span>
+      <span class="scrollhint__label">scroll to descend</span>
+    </div>
+
+    <div class="chrome__chapter">
+      <span data-chapter-num>I</span>
+      <span class="chapter__sep">·</span>
+      <span data-chapter-label>THE BURDEN</span>
+    </div>
+
+    <div class="chrome__progress">
+      <span class="progress__bar"><span class="progress__fill" data-progress></span></span>
+    </div>
+  </footer>
+
+  <!-- Pinned cinematic -->
+  <main>
+    <section class="epic" id="epic" data-epic>
+      <div class="epic__sticky">
+
+        <!-- Golden radial burst, revealed under act III via multiply blend -->
+        <div class="burst" data-burst aria-hidden="true"></div>
+
+        <!-- Soft vignette that intensifies with pressure -->
+        <div class="vignette" data-vignette aria-hidden="true"></div>
+
+        <!-- Three stages, stacked; cross-fade via GSAP timeline -->
+        <figure class="stage stage--1" data-stage="1">
+          <img src="./images/act-1.svg" alt="Atlas kneeling, holding a heavy sphere above his head." />
+        </figure>
+        <figure class="stage stage--2" data-stage="2">
+          <img src="./images/act-2.svg" alt="The sphere grows enormous, pressing down on Atlas." />
+        </figure>
+        <figure class="stage stage--3" data-stage="3">
+          <img src="./images/act-3.svg" alt="The sphere cracks open, light bursting through the fissures." />
+        </figure>
+
+        <!-- Editorial copy — three couplets, one per act -->
+        <div class="copy" data-copy>
+          <p class="copy__line" data-act="1">
+            <span class="copy__roman">I.</span>
+            <span class="copy__chapter">The Burden</span>
+            <span class="copy__display">We were <em>born</em></span>
+            <span class="copy__display">to carry.</span>
+          </p>
+          <p class="copy__line" data-act="2">
+            <span class="copy__roman">II.</span>
+            <span class="copy__chapter">Until</span>
+            <span class="copy__display">What bends</span>
+            <span class="copy__display"><em>must</em> break.</span>
+          </p>
+          <p class="copy__line" data-act="3">
+            <span class="copy__roman">III.</span>
+            <span class="copy__chapter">Beyond</span>
+            <span class="copy__display">And from breaking —</span>
+            <span class="copy__display"><em>begin.</em></span>
+          </p>
+        </div>
+
+        <!-- White flash for the cracking transition -->
+        <div class="flash" data-flash aria-hidden="true"></div>
+
+        <!-- Popup nav — appears when the sphere fractures -->
+        <div class="popup" data-popup role="dialog" aria-label="Site navigation" aria-modal="false">
+
+          <div class="popup__backdrop" aria-hidden="true"></div>
+
+          <div class="popup__frame">
+            <header class="popup__head">
+              <span class="popup__eyebrow">arrived</span>
+              <h2 class="popup__title">Enter the <em>fracture</em>.</h2>
+              <p class="popup__sub">Four points of light. Choose your descent.</p>
+            </header>
+
+            <nav class="popup__nav" aria-label="Fracture points">
+              <a class="node" href="#manifesto" data-node>
+                <span class="node__num">01</span>
+                <span class="node__name">Manifesto</span>
+                <span class="node__blurb">The reason we carry.</span>
+              </a>
+              <a class="node" href="#product" data-node>
+                <span class="node__num">02</span>
+                <span class="node__name">Product</span>
+                <span class="node__blurb">What we built from the break.</span>
+              </a>
+              <a class="node" href="#studio" data-node>
+                <span class="node__num">03</span>
+                <span class="node__name">Studio</span>
+                <span class="node__blurb">The hands behind the work.</span>
+              </a>
+              <a class="node" href="#signal" data-node>
+                <span class="node__num">04</span>
+                <span class="node__name">Signal</span>
+                <span class="node__blurb">Notes. Dispatches. Cracks.</span>
+              </a>
+            </nav>
+
+            <footer class="popup__foot">
+              <button type="button" class="popup__rewind" data-rewind>
+                <span aria-hidden="true">↺</span>
+                <span>rewind the weight</span>
+              </button>
+              <span class="popup__sig">Atlas Studio · est. MMXXVI</span>
+            </footer>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Spacer so scroll finishes cleanly after the pin releases -->
+    <section class="after" aria-hidden="true">
+      <div class="after__inner">
+        <span class="after__mark">✶</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- GSAP (bundled locally in /vendor — no CDN dependency) -->
+  <script src="./vendor/gsap.min.js"></script>
+  <script src="./vendor/ScrollTrigger.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
