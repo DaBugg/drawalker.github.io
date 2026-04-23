@@ -42,15 +42,25 @@ body { background: #0f172a !important; }
   isolation: isolate;
   background-color: #0b1220;
   background-image: none;
+  /* Fill flex scrollport when content is short; grow with content so ::before covers Spotify + quote */
+  flex: 1 1 auto;
+  min-height: 100%;
+  width: 100%;
 }
 .portfolio-panel-body--about::before {
   content: '';
   position: absolute;
-  inset: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  min-height: 100%;
+  background-color: transparent;
   background-image: url('about-background.svg');
+  /* Fill entire panel at any aspect ratio; anchor art to bottom */
   background-repeat: no-repeat;
   background-position: center bottom;
-  background-size: min(100%, 720px) auto;
+  background-size: cover;
   opacity: 0.22;
   pointer-events: none;
   z-index: 0;
@@ -58,6 +68,12 @@ body { background: #0f172a !important; }
 .portfolio-panel-body--about > * {
   position: relative;
   z-index: 1;
+}
+/* Let illustration show through (global .section--soft is opaque) */
+.portfolio-panel-body--about .section.section--soft {
+  background: transparent !important;
+  border-top: 1px solid rgba(148, 163, 184, 0.22);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.22);
 }
 .portfolio-panel-body--work,
 .portfolio-panel-body--services {
@@ -73,9 +89,6 @@ body { background: #0f172a !important; }
   background-size: min(100%, 1600px) auto;
 }
 @media (min-width: 900px) {
-  .portfolio-panel-body--about::before {
-    background-size: min(100%, 960px) auto;
-  }
   .portfolio-panel-body--contact {
     background-size: min(100%, 2000px) auto;
   }
@@ -288,7 +301,7 @@ body { background: #0f172a !important; }
   border-bottom-color: rgba(220, 201, 160, 0.85);
 }
 
-/* Work panel — draft case snapshots (filler until verified case studies ship) */
+/* Work panel — template / design-route cards (same card chrome per entry) */
 .pf-work {
   max-width: 42rem;
   margin: 0 auto;
@@ -384,25 +397,29 @@ body { background: #0f172a !important; }
 .pf-connect__a {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.5rem 1rem;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.35rem;
   border-radius: 999px;
   border: 1px solid rgba(201, 174, 122, 0.35);
   background: rgba(15, 23, 42, 0.72);
-  font-size: 0.875rem;
-  color: #e5e5e5;
-  font-weight: 500;
   text-decoration: none;
-  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
 }
 .pf-connect__a:hover {
   border-color: rgba(201, 174, 122, 0.75);
   background: rgba(30, 41, 59, 0.92);
-  color: #fafafa;
+  transform: translateY(-1px);
 }
 .pf-connect__a:focus-visible {
   outline: 2px solid #c9ae7a;
   outline-offset: 3px;
+}
+.pf-connect__icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  display: block;
 }
 .pf-reading {
   max-width: 68rem;
@@ -496,6 +513,137 @@ body { background: #0f172a !important; }
   border: 1px solid rgba(71, 85, 105, 0.65);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
 }
+/* Services panel — horizontal media cards (embed-only; replaces index grid here) */
+.pf-services-rail {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding: 0.35rem 0.15rem 1.1rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.45) transparent;
+}
+.pf-services-rail::-webkit-scrollbar {
+  display: block;
+  height: 6px;
+}
+.pf-services-rail::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 999px;
+}
+.pf-service-card {
+  --pf-svc-border: rgba(71, 85, 105, 0.55);
+  --pf-svc-border-hover: rgba(34, 211, 238, 0.55);
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  min-height: min(52vh, 380px);
+  flex: 0 0 clamp(220px, 78vw, 300px);
+  scroll-snap-align: start;
+  border-radius: 0.85rem;
+  border: 1px solid var(--pf-svc-border);
+  background: linear-gradient(165deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.88));
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease,
+    outline-color 0.22s ease;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+@media (min-width: 1100px) {
+  .pf-services-rail {
+    overflow-x: visible;
+    flex-wrap: nowrap;
+    gap: 1.1rem;
+  }
+  .pf-service-card {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: none;
+    min-height: 360px;
+  }
+}
+.pf-service-card:hover {
+  border-color: var(--pf-svc-border-hover);
+  box-shadow:
+    0 0 0 1px rgba(34, 211, 238, 0.22),
+    0 14px 36px rgba(0, 0, 0, 0.38);
+  transform: translateY(-3px);
+}
+.pf-service-card:focus-within {
+  border-color: var(--pf-svc-border-hover);
+  outline-color: rgba(34, 211, 238, 0.45);
+}
+.pf-service-card__media {
+  position: relative;
+  min-height: 0;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.65);
+  background: linear-gradient(135deg, rgba(51, 65, 85, 0.55), rgba(15, 23, 42, 0.9));
+}
+.pf-service-card__media img,
+.pf-service-card__media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.pf-service-card__media video {
+  background: #0f172a;
+}
+.pf-service-card__media-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.85);
+  border: 1px dashed rgba(100, 116, 139, 0.45);
+  margin: 0.65rem;
+  border-radius: 0.5rem;
+  pointer-events: none;
+}
+.pf-service-card__body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0.95rem 1rem 1rem;
+  gap: 0.5rem;
+}
+.pf-service-card__body h3 {
+  margin: 0;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  line-height: 1.3;
+}
+.pf-service-card__body p {
+  margin: 0;
+  flex: 1 1 auto;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: #cbd5e1;
+  font-weight: 400;
+}
+.pf-service-card__body .service__cta {
+  align-self: flex-start;
+  margin-top: 0.25rem;
+}
+
 /* Services panel: faux “Learn more” until wired to contact / in-panel nav */
 button.service__cta.portfolio-faux-cta {
   font: inherit;
@@ -525,10 +673,10 @@ const { useState, useEffect, useRef } = React;
 const GCY = 0.2095; // globe center Y fraction of container height
 const GR  = 0.2095; // globe radius fraction of container height
 
-// ── Four section tiles after crack (same site; Work fills in as case studies ship)
+// ── Four section tiles after crack (same site; Work = template / design routes for leads)
 const CARDS = [
   { id: 'about',    label: 'About',    sub: 'Partner for image-led sites' },
-  { id: 'work',     label: 'Work',     sub: 'Draft snapshots & quotes' },
+  { id: 'work',     label: 'Work',     sub: 'Templates & design routes' },
   { id: 'services', label: 'Services', sub: 'Solutions from the main site' },
   { id: 'contact',  label: 'Contact',  sub: 'Email to start' },
 ];
@@ -819,8 +967,8 @@ function AboutSection({ onNavigate }) {
             page.
           </p>
           <p className="pf-about__p">
-            <strong>Services</strong> is where I spell out what I build; <strong>Work</strong> holds draft engagement
-            snapshots until full case studies publish. When you are ready to send links or talk timelines, use{' '}
+            <strong>Services</strong> is where I spell out what I build; <strong>Work</strong> shows design templates
+            and starting points you can pick from. When you are ready to send links or talk timelines, use{' '}
             <strong>Contact</strong>.
           </p>
 
@@ -830,19 +978,12 @@ function AboutSection({ onNavigate }) {
               <li>
                 <a
                   className="pf-connect__a"
-                  href="mailto:david@networksandnodes.org?subject=Resume%20%28PDF%29%20request"
-                >
-                  Resume
-                </a>
-              </li>
-              <li>
-                <a
-                  className="pf-connect__a"
                   href="https://github.com/DaBugg"
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label="GitHub"
                 >
-                  GitHub
+                  <img className="pf-connect__icon" src="icons8-github.svg" alt="" aria-hidden="true" />
                 </a>
               </li>
               <li>
@@ -851,13 +992,42 @@ function AboutSection({ onNavigate }) {
                   href="https://www.linkedin.com/in/david-w-3621bb272"
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label="LinkedIn"
                 >
-                  LinkedIn
+                  <img className="pf-connect__icon" src="icons8-linkedin.svg" alt="" aria-hidden="true" />
                 </a>
               </li>
               <li>
-                <a className="pf-connect__a" href="mailto:david@networksandnodes.org">
-                  Email
+                <a
+                  className="pf-connect__a"
+                  href="https://www.linkedin.com/in/david-w-3621bb272"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="X"
+                >
+                  <img className="pf-connect__icon" src="icons8-x.svg" alt="" aria-hidden="true" />
+                </a>
+              </li>
+              <li>
+                <a
+                  className="pf-connect__a"
+                  href="https://www.linkedin.com/in/david-w-3621bb272"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Dribbble"
+                >
+                  <img className="pf-connect__icon" src="icons8-dribbble.svg" alt="" aria-hidden="true" />
+                </a>
+              </li>
+              <li>
+                <a
+                  className="pf-connect__a"
+                  href="https://www.linkedin.com/in/david-w-3621bb272"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Pinterest"
+                >
+                  <img className="pf-connect__icon" src="icons8-pinterest.svg" alt="" aria-hidden="true" />
                 </a>
               </li>
             </ul>
@@ -1022,42 +1192,42 @@ const portfolioPanelShell = {
   fontFamily: 'var(--font-sans)',
 };
 
-const WORK_DRAFT_CASES = [
+const WORK_TEMPLATE_OPTIONS = [
   {
-    meta: 'Arts & archive — U.S. West Coast, 2022–2024',
-    title: 'Collection-first public site with light curator tooling',
+    meta: 'Template · image-led portfolio',
+    title: 'Gallery rail with chaptered project pages',
     body:
-      'Replaced a PDF-heavy brochure rhythm with an image pipeline (WebP, lazy sections) and a CMS handoff volunteers could use without touching HTML. Opening-weekend traffic stayed inside a single managed origin budget.',
-    quote: 'Opening weekend we did not get a single “where is the catalog?” email—first time in years.',
-    cite: 'Paraphrased from board debrief notes; program lead, name withheld',
+      'Full-bleed sequences, optional thumbnail strip, and long captions that stay readable on small screens. Slots for press PDFs, exhibition or collection archives, and a short inquiry block so leads arrive with context—not a blank “contact us.”',
+    quote: 'Finally reads like our catalog: pacing, type, and rooms for the work—not a generic tile dump.',
+    cite: 'Choose this when the visuals are the product and copy supports the images.',
   },
   {
-    meta: 'Regional distributor — ~40 staff, internal',
-    title: 'Monday ops digest instead of three spreadsheet merges',
+    meta: 'Template · studio / independent practice',
+    title: 'Single-scroll credibility lane',
     body:
-      'Wired scheduled ERP CSV drops and carrier status into a small Postgres cache, one desktop panel for the floor, and alerts only when exceptions spiked. Deliberately not a mobile app—VPN-hardened desktop workflow.',
-    quote: 'We stopped babysitting three spreadsheets before coffee.',
-    cite: 'Composite phrasing from two logistics coordinators describing the same weekly ritual',
+      'Intro, proof row, three anchored offer areas, FAQs as lightweight accordions, and one primary handoff (calendar embed or mailto with subject hints). Built for practices that want clarity before a larger sitemap exists.',
+    quote: 'One pass answers who we are, what we actually sell time for, and how to reach us.',
+    cite: 'Choose this when you need a confident homepage while deeper case pages are still in flight.',
   },
   {
-    meta: 'B2B services — national footprint, IA + technical SEO',
-    title: 'Practice-area pages that could survive the next rebrand',
+    meta: 'Template · productized services',
+    title: 'Tier cards with honest comparison',
     body:
-      'Flattened nested service URLs, matched H1/H2 intent to how buyers actually search, and tightened structured data only where rich results still matter in that vertical—no vanity schema.',
-    quote: 'He asked better questions than our last two vendors combined.',
-    cite: 'Interim CTO, internal town-hall Q&A (firm anonymized)',
+      'Hero promise, packaged tiers with clear limits, “not included” footnotes, and a single primary CTA. Optional short intake so prospects self-filter before a call—fewer unqualified conversations.',
+    quote: 'People pick a lane before we ever open Zoom.',
+    cite: 'Choose this when you sell fixed-scope audits, retainers, or workshops and want scope clarity up front.',
   },
   {
-    meta: 'Manufacturing supplier — 2025 readiness pilot',
-    title: 'Document triage matrix before any model spend',
+    meta: 'Template · trust-first minimal',
+    title: 'Bio, proof strip, one decisive next step',
     body:
-      'OCR cleanliness audit, which PDFs still needed humans, and a staged pilot on rejected claims only. Killed a proposed company-wide LLM rollout that would have trained on filthy legacy scans.',
-    quote: 'The boring checklist saved us from the flashy demo.',
-    cite: 'Ops manager, single Midwest facility (client name under NDA)',
+      'Tight typographic stack: name and role, three credibility markers (logos, certifications, or metrics you are comfortable publishing), a short philosophy paragraph, and one highlighted action. Light or dark skin.',
+    quote: 'Looks intentional even while the rest of the rebrand is still moving.',
+    cite: 'Choose this when you need a calm, authoritative placeholder without building a full marketing site yet.',
   },
 ];
 
-/** Work — draft snapshots and quote-style blurbs until verified case studies ship. */
+/** Work — design templates / routes leads can start from (shared card pattern per entry). */
 function WorkSection({ onNavigate }) {
   return (
     <div data-theme="dark" className="portfolio-embed-root" style={portfolioPanelShell}>
@@ -1066,22 +1236,22 @@ function WorkSection({ onNavigate }) {
           <div className="container about-page">
             <p className="small muted">Work</p>
             <h1 id="work-panel-title" className="title">
-              Representative <span className="accent">engagements</span>
+              Designs <span className="accent">you can start from</span>
             </h1>
             <p className="lead">
-              Placeholder layout copy: sector, scale, and outcomes are written to sound like something you could
-              almost verify—swap in real names, links, screenshots, and signed attributions when each case file is
-              ready to publish.
+              These are not one-off client stories—they are repeatable layout and content patterns. Pick a direction
+              that matches how you sell and how much proof you already have; we then swap in your typography, imagery,
+              and copy without reinventing the structure from zero.
             </p>
             <p className="pf-work__disclaimer" role="note">
-              <strong style={{ color: '#d4d4d4' }}>Draft only.</strong> Organizations are anonymized or composite;
-              metrics are illustrative; quotes are paraphrased or blended from feedback unless you replace them with
-              approved pull-quotes.
+              <strong style={{ color: '#d4d4d4' }}>How to read each card.</strong> The line in italics is the voice of
+              the lead you are designing for; the line below is when to pick that template. Mix modules across rows if
+              you need a hybrid—we treat these as starting points, not rigid SKUs.
             </p>
 
             <div className="pf-work">
               <ul className="pf-work__cases">
-                {WORK_DRAFT_CASES.map((c) => (
+                {WORK_TEMPLATE_OPTIONS.map((c) => (
                   <li key={c.title}>
                     <article className="pf-work-case">
                       <p className="pf-work-case__meta">{c.meta}</p>
@@ -1098,11 +1268,11 @@ function WorkSection({ onNavigate }) {
             </div>
 
             <p className="small muted" style={{ marginTop: '2rem', maxWidth: '42rem', lineHeight: 1.65 }}>
-              For the same offerings in marketing language as the main site, see{' '}
+              Capabilities and deliverables in plain language live under{' '}
               <button type="button" className="pf-about__inline-link" onClick={() => onNavigate('services')}>
                 Services
               </button>
-              . To talk timelines or a similar engagement, use{' '}
+              . To shortlist a template or sketch a hybrid, use{' '}
               <button type="button" className="pf-about__inline-link" onClick={() => onNavigate('contact')}>
                 Contact
               </button>
@@ -1115,40 +1285,49 @@ function WorkSection({ onNavigate }) {
   );
 }
 
-/** Solutions cards; CTAs are bordered controls for future wiring. */
+/**
+ * Solutions — horizontal cards; top row is image or video (set `mediaSrc` + `mediaType`).
+ * Leave `mediaSrc` null to show the dashed placeholder until you drop assets next to this file.
+ */
 function ServicesSection() {
   const solutions = [
     {
-      icon: '\uD83D\uDCBB',
       title: 'Custom Web Development',
       body:
-        'Sites, platforms, and apps built to convert and scale. Modern frameworks, responsive design, and performance first architecture.',
+        'Sites and apps built to convert: modern stacks, responsive layout, and architecture that keeps performance first.',
+      mediaSrc: null,
+      mediaType: 'image',
     },
     {
-      icon: '\uD83D\uDCC8',
       title: 'Analytics & Custom Dashboards',
       body:
-        'Visibility into what matters. Platforms configured for data based decisions, from setup to team training.',
+        'Dashboards wired for decisions you actually make—from first setup through how your team reads the numbers.',
+      mediaSrc: null,
+      mediaType: 'image',
     },
     {
-      icon: '\u2699',
       title: 'Automation & Workflow Platforms',
       body:
-        'Streamline operations with custom tools that eliminate manual work. Pipelines, integrations, and systems that run without constant attention.',
+        'Custom tools and integrations that cut manual work so operations keep moving without babysitting every step.',
+      mediaSrc: null,
+      mediaType: 'image',
     },
     {
-      icon: '\uD83D\uDD0D',
       title: 'SEO Strategy & Implementation',
       body:
-        'Get found. Rank higher. Drive qualified traffic to your business with technical SEO, content strategy, and conversion optimization.',
+        'Technical SEO, structure, and conversion paths so the right people find you—without promising magic rankings.',
+      mediaSrc: null,
+      mediaType: 'image',
     },
     {
-      icon: '\uD83E\uDD16',
       title: 'AI Consulting & Integration',
       body:
-        'Strategic AI adoption from readiness assessment to production ready implementation. Make AI work for your business, not the other way around.',
+        'From readiness to production: integrations that fit how you already work, not the other way around.',
+      mediaSrc: null,
+      mediaType: 'image',
     },
   ];
+
   return (
     <div data-theme="dark" className="portfolio-embed-root" style={portfolioPanelShell}>
       <main style={{ paddingTop: '1rem' }}>
@@ -1156,16 +1335,23 @@ function ServicesSection() {
           <div className="container">
             <h2 className="accent">Solutions</h2>
             <p className="muted small">
-              Technology solutions built to drive efficiency, visibility, and growth.
+              Technology solutions built to drive efficiency, visibility, and growth. Scroll sideways on smaller
+              screens to see every offering.
             </p>
 
-            <div className="services-grid">
+            <div className="pf-services-rail">
               {solutions.map((s) => (
-                <article key={s.title} className="card service">
-                  <div className="service__icon-area">
-                    <span className="service__icon">{s.icon}</span>
+                <article key={s.title} className="pf-service-card">
+                  <div className="pf-service-card__media">
+                    {s.mediaSrc && s.mediaType === 'video' ? (
+                      <video src={s.mediaSrc} controls playsInline preload="metadata" />
+                    ) : s.mediaSrc ? (
+                      <img src={s.mediaSrc} alt="" loading="lazy" />
+                    ) : (
+                      <div className="pf-service-card__media-placeholder">Image or video</div>
+                    )}
                   </div>
-                  <div className="service__body">
+                  <div className="pf-service-card__body">
                     <h3>{s.title}</h3>
                     <p>{s.body}</p>
                     <button type="button" className="service__cta portfolio-faux-cta">
@@ -1372,8 +1558,9 @@ function ContactSection() {
             </div>
 
             <p className="small muted" style={{ marginTop: '1.5rem', maxWidth: '42rem' }}>
-              Staying in this embed? <strong>About</strong> has Connect under the quote; <strong>Services</strong> shows
-              the same Solutions list as the main site. Use <strong>← Sections</strong> or the opening grid when you want to jump elsewhere.
+              Staying in this embed? <strong>About</strong> has Connect under the quote; <strong>Work</strong> lists
+              design templates you can start from; <strong>Services</strong> mirrors the main site Solutions list. Use{' '}
+              <strong>← Sections</strong> or the opening grid when you want to jump elsewhere.
             </p>
           </div>
         </section>
