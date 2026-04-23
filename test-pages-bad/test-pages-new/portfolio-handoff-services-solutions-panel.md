@@ -34,12 +34,22 @@
 
 ---
 
+## Faux CTA + motion (embed `Portfolio.html` `<style>`)
+
+| Class / name | Purpose |
+| -------------- | ------- |
+| `button.service__cta.portfolio-faux-cta` | Same visual base as `.service__cta` from `styles.css`; `type="button"`, no `href` until wired to contact or in-panel nav. |
+| `@keyframes portfolio-faux-cta-ring` | Gentle box-shadow pulse on faux CTAs inside `.portfolio-embed-root`. |
+
+---
+
 ## Revision log
 
 | Date | Author | What changed |
 | ---- | ------ | ------------ |
-| 2026-04-22 | Agent | Replaced tier `ServicesSection` with index-aligned **Solutions** grid; `button.service__cta.portfolio-faux-cta` + `portfolio-faux-cta-ring` animation in `Portfolio.html` `<style>`. Nav is three tiles; `services` `CARDS.sub`: “Solutions from the main site”. |
+| 2026-04-22 | Agent | Replaced tier `ServicesSection` with index-aligned **Solutions** grid; `button.service__cta.portfolio-faux-cta` + `portfolio-faux-cta-ring` animation in `Portfolio.html` `<style>`. Post-crack nav is **four** tiles; `services` `CARDS.sub`: “Solutions from the main site”. |
 | 2026-04-22 | Agent | Confirmed Solutions grid in `Portfolio.html`: `container` + `h2.accent` + `p.muted.small` + `services-grid` / `article.card.service`, icons as UTF-16 pairs matching `index.html` numeric entities, faux CTAs + `focus-visible`. Contact blurb points to Services as same Solutions list as main site. |
+| 2026-04-22 | Agent | Re-verified `index.html` `#services` copy vs `solutions` array; corrected handoff revision log (four nav tiles); documented faux CTA hooks above. |
 
 ---
 

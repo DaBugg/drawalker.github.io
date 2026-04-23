@@ -18,7 +18,15 @@
 
 ## Out of scope
 
-- **Services** long-card panel, **About**, **Contact**.
+- **Services** Solutions grid (`#services` mirror), **About**, **Contact**.
+
+---
+
+## Deliverables checklist
+
+- [x] Placeholder copy is short, honest, and clearly “reserved / coming soon” (no fake case cards).
+- [x] `WorkSection` uses `data-theme="dark"` and the same `portfolioPanelShell` pattern as other embed panels.
+- [x] `CARDS` row for `id: 'work'` uses a clearer subline than a bare “Coming soon” where helpful.
 
 ---
 
@@ -27,6 +35,7 @@
 | Date | Author | What changed |
 | ---- | ------ | ------------ |
 | 2026-04-22 | Agent | Work tile restored; `WorkSection` ships as placeholder only. |
+| 2026-04-22 | Agent | Audited against handoff: placeholder tightened (why the grid stays), `aria-labelledby` on section, muted cross-link to Services/Contact; `CARDS.sub` → “Case studies when ready”; out-of-scope line updated for Services Solutions grid. |
 
 ---
 

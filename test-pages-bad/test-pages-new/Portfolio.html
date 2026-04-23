@@ -20,30 +20,291 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0f172a; }
 /* Keep zoom shell behind NavCards; site stylesheet sets body for marketing pages */
 body { background: #0f172a !important; }
 
-/* Quote-area connect rail — same markup/classes as index; hook for motion */
-.portfolio-quote-connect-wrap {
-  margin-top: 2.5rem;
-  padding-bottom: 2.5rem;
+/* Scroll region below NavCards header — header row is separate; art lives here only */
+.portfolio-panel-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  background-color: #0b1220;
+  background-image: none;
+  background-repeat: no-repeat;
 }
-@keyframes portfolio-link-rail-breathe {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0); }
-  50% { box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.22); }
+/* Four-tile home grid: same cream overlay as NavCards chrome */
+.portfolio-panel-body--grid {
+  background-color: rgba(252, 252, 254, 0.97);
+  background-image: none;
 }
-.portfolio-link-rail--pulse .card a {
-  border-radius: 0.85rem;
-  animation: portfolio-link-rail-breathe 3.4s ease-in-out infinite;
+.portfolio-panel-body--about {
+  position: relative;
+  isolation: isolate;
+  background-color: #0b1220;
+  background-image: none;
 }
-.portfolio-link-rail--pulse.footer__links a {
-  border-radius: 0.6rem;
-  padding: 0.35rem 0.55rem;
-  border: 1px solid rgba(34, 211, 238, 0.15);
-  animation: portfolio-link-rail-breathe 3.4s ease-in-out infinite;
+.portfolio-panel-body--about::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('about-background.svg');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: min(100%, 720px) auto;
+  opacity: 0.22;
+  pointer-events: none;
+  z-index: 0;
 }
-.portfolio-quote-connect-wrap .footer__links {
-  margin-top: 1.5rem;
-  flex-wrap: wrap;
+.portfolio-panel-body--about > * {
+  position: relative;
+  z-index: 1;
+}
+.portfolio-panel-body--work,
+.portfolio-panel-body--services {
+  background-image: url('work-background.svg');
+  background-position: center center;
+  background-size: cover;
+}
+.portfolio-panel-body--contact {
+  background-color: #ffffff;
+  background-image: url('Contact-background.svg');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: min(100%, 1600px) auto;
+}
+@media (min-width: 900px) {
+  .portfolio-panel-body--about::before {
+    background-size: min(100%, 960px) auto;
+  }
+  .portfolio-panel-body--contact {
+    background-size: min(100%, 2000px) auto;
+  }
 }
 
+/* Light island inside portfolio (contact): consultation form uses marketing tokens */
+.portfolio-embed-root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f8fafc;
+  --bg-soft: #f1f5f9;
+  --surface: #ffffff;
+  --surface-border: #e5e7eb;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --accent: #16a34a;
+  --accent-strong: #15803d;
+  --link: #1d4ed8;
+  --accent-cyan: #0891b2;
+  --accent-emerald: #059669;
+  --accent-blue: #2563eb;
+  --shadow: 0 6px 20px rgba(15, 23, 42, 0.1);
+  color: var(--text);
+}
+.pf-contact-embed .section {
+  padding-top: 1.75rem;
+  padding-bottom: 2.5rem;
+}
+.pf-contact-embed .title {
+  color: var(--text);
+}
+
+/* About + reading — dark surface, subdued art, gold accents (wordmark #c9ae7a) */
+.pf-about-main {
+  font-family: "DM Sans", system-ui, sans-serif;
+  color: #d4d4d4;
+  padding: 0  clamp(1.1rem, 4vw, 2.25rem) 3rem;
+}
+.pf-about {
+  max-width: 38rem;
+  margin: 0 auto;
+}
+.pf-about__eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+  margin-bottom: 0.65rem;
+}
+.pf-about__title {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(2rem, 4vw, 2.85rem);
+  font-weight: 400;
+  line-height: 1.12;
+  margin: 0 0 1.25rem;
+  color: #fafafa;
+}
+.pf-about__title-accent {
+  font-style: italic;
+  color: #c9ae7a;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 20px rgba(201, 174, 122, 0.2);
+}
+.pf-about__lead {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: #e5e5e5;
+  font-weight: 500;
+  margin: 0 0 1rem;
+}
+.pf-about__p {
+  font-size: 0.98rem;
+  line-height: 1.72;
+  color: #c4c4c4;
+  font-weight: 500;
+  margin: 0 0 1rem;
+}
+.pf-about__p strong { color: #fafafa; font-weight: 600; }
+.pf-about__inline-link {
+  display: inline;
+  color: #c9ae7a;
+  text-decoration: none;
+  border: none;
+  border-bottom: 1px solid rgba(201, 174, 122, 0.55);
+  border-radius: 0;
+  padding: 0 0 1px;
+  cursor: pointer;
+  background: none;
+  font: inherit;
+  vertical-align: baseline;
+  font-weight: 500;
+}
+.pf-about__inline-link:hover {
+  color: #dcc9a0;
+  border-bottom-color: rgba(220, 201, 160, 0.85);
+}
+.pf-connect {
+  margin-top: 2rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid rgba(115, 115, 115, 0.35);
+}
+.pf-connect__label {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+  margin: 0 0 0.9rem;
+}
+.pf-connect__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+.pf-connect__a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(201, 174, 122, 0.35);
+  background: rgba(15, 23, 42, 0.72);
+  font-size: 0.875rem;
+  color: #e5e5e5;
+  font-weight: 500;
+  text-decoration: none;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.pf-connect__a:hover {
+  border-color: rgba(201, 174, 122, 0.75);
+  background: rgba(30, 41, 59, 0.92);
+  color: #fafafa;
+}
+.pf-connect__a:focus-visible {
+  outline: 2px solid #c9ae7a;
+  outline-offset: 3px;
+}
+.pf-reading {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 2.5rem clamp(1.1rem, 4vw, 2.25rem) 2rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) auto;
+  grid-template-rows: auto auto;
+  gap: 1.25rem 2rem;
+  align-items: start;
+  border-top: 1px solid rgba(51, 65, 85, 0.65);
+}
+.pf-reading__quote-block { grid-column: 1; grid-row: 1 / span 2; }
+.pf-reading__book { grid-column: 2; grid-row: 1; align-self: start; }
+.pf-reading__cover { grid-column: 2; grid-row: 2; align-self: start; }
+@media (max-width: 800px) {
+  .pf-reading {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+  .pf-reading__quote-block,
+  .pf-reading__book,
+  .pf-reading__cover {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+.pf-reading__quote-block h2 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(1.35rem, 2.5vw, 1.65rem);
+  font-weight: 400;
+  font-style: italic;
+  color: #c9ae7a;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 18px rgba(201, 174, 122, 0.18);
+  margin: 0 0 0.85rem;
+}
+.pf-reading__quote-block blockquote {
+  margin: 0;
+  padding: 0 0 0 1rem;
+  border-left: 3px solid rgba(201, 174, 122, 0.55);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
+  line-height: 1.45;
+  color: #e5e5e5;
+}
+.pf-reading__quote-block blockquote p { margin: 0; }
+.pf-reading__quote-block blockquote footer {
+  margin-top: 0.75rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-style: normal;
+  color: #a3a3a3;
+}
+.pf-reading__book {
+  border-radius: 1rem;
+  border: 1px solid rgba(71, 85, 105, 0.55);
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.65));
+  padding: 1.15rem 1.25rem;
+}
+.pf-reading__book h2 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(1.2rem, 2vw, 1.45rem);
+  font-weight: 400;
+  font-style: italic;
+  color: #c9ae7a;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 16px rgba(201, 174, 122, 0.16);
+  margin: 0 0 0.5rem;
+}
+.pf-reading__book h3 {
+  margin: 0 0 0.65rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f5f5f5;
+  font-family: "DM Sans", system-ui, sans-serif;
+}
+.pf-reading__book a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #c9ae7a;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.pf-reading__book a:hover { color: #dcc9a0; }
+.pf-reading__cover { justify-self: start; }
+.pf-reading__cover figure { margin: 0; }
+.pf-reading__cover img {
+  width: 108px;
+  height: 156px;
+  object-fit: cover;
+  border-radius: 0.45rem;
+  border: 1px solid rgba(71, 85, 105, 0.65);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
 /* Services panel: faux “Learn more” until wired to contact / in-panel nav */
 button.service__cta.portfolio-faux-cta {
   font: inherit;
@@ -73,12 +334,12 @@ const { useState, useEffect, useRef } = React;
 const GCY = 0.2095; // globe center Y fraction of container height
 const GR  = 0.2095; // globe radius fraction of container height
 
-// ── Four nav cards after crack (Work panel reserved—no case content yet)
+// ── Four section tiles after crack (same site; Work fills in as case studies ship)
 const CARDS = [
   { id: 'about',    label: 'About',    sub: 'Partner for image-led sites' },
-  { id: 'work',     label: 'Work',     sub: 'Coming soon' },
-  { id: 'services', label: 'Services', sub: 'Solutions from the main site' },
-  { id: 'contact',  label: 'Contact',  sub: 'Full form on the marketing site' },
+  { id: 'work',     label: 'Work',     sub: 'Case studies in progress' },
+  { id: 'services', label: 'Services', sub: 'What I build' },
+  { id: 'contact',  label: 'Contact',  sub: 'Email to start' },
 ];
 
 // fluid-particle.tsx — Canvas + JS only (no Tailwind for the effect). Ported from TS; fixed DPR transform + listener cleanup.
@@ -321,63 +582,95 @@ function AboutSection({ onNavigate }) {
       className="about-embed-root"
       style={{
         minHeight: '100%',
-        background: 'var(--bg)',
-        color: 'var(--text)',
-        fontFamily: 'var(--font-sans)',
+        background: 'transparent',
+        color: '#d4d4d4',
       }}
     >
-      <main style={{ paddingTop: '1rem' }}>
-        <section id="about" className="section">
-          <div className="container about-page">
-            <p className="small muted">About</p>
-            <h1 className="title">
-              Hey, I&apos;m <span className="accent">David W.</span>
-            </h1>
+      <main className="pf-about-main" style={{ paddingTop: '1rem' }}>
+        <div id="about" className="pf-about">
+          <p className="pf-about__eyebrow">About</p>
+          <h1 className="pf-about__title">
+            Hey, I&apos;m <span className="pf-about__title-accent">David W.</span>
+          </h1>
 
-            <p className="lead">
-              I make fast, understated websites for <strong>artists, photographers, and small studios</strong>—the
-              kind where your images lead and the interface gets out of the way. I spend my days in architecture
-              and infrastructure; I bring that same care to the work I do for people who think in pictures, not
-              in roadmaps.
-            </p>
-            <p>
-              Over the last decade I&apos;ve designed networks, cloud systems, and internal tools, then carried that
-              habit of clarity to the public side: responsive layouts, type that reads well on a phone, and inquiry
-              flows that feel respectful instead of pushy. I&apos;m not here to dazzle you with jargon—only to help
-              you ship a site you&apos;re happy to send to a gallery, a rep, or a client at midnight.
-            </p>
-            <p>
-              The same instincts that keep backends boringly reliable—fewer moving parts, honest tradeoffs, attention
-              to performance—are the ones I use when we tune how your portfolio loads and how captions breathe next to
-              full-bleed work. Heavy technical background, human-facing outcome: a calm site that still feels like
-              yours.
-            </p>
-            <p>
-              Off the clock I still like working with my hands—board-level repair, KiCad, the occasional hardware
-              rabbit hole. It keeps me patient with detail, whether that&apos;s a trace on a board or spacing in a
-              layout grid.
-            </p>
-            <p>
-              <a
-                href="../../index.html#contact"
-                className="accent"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onNavigate('contact');
-                }}
-              >
-                Get in touch
-              </a>
-              {' '}if you&apos;d like to talk about your next site, timelines, or how you want your work to move on the
-              page.
-            </p>
-            <p style={{ marginTop: '1.25rem', lineHeight: 1.7 }}>
-              For how engagements tend to look, open <strong>Services</strong> in the bar above—{' '}
-              <strong>Work</strong> will hold case studies when they are ready, and <strong>Contact</strong> is there when
-              you want to send links or ask about timelines.
-            </p>
-          </div>
-        </section>
+          <p className="pf-about__lead">
+            I make fast, understated websites for <strong>artists, photographers, and small studios</strong>—the
+            kind where your images lead and the interface gets out of the way. I spend my days in architecture
+            and infrastructure; I bring that same care to the work I do for people who think in pictures, not
+            in roadmaps.
+          </p>
+          <p className="pf-about__p">
+            Over the last decade I&apos;ve designed networks, cloud systems, and internal tools, then carried that
+            habit of clarity to the public side: responsive layouts, type that reads well on a phone, and inquiry
+            flows that feel respectful instead of pushy. I&apos;m not here to dazzle you with jargon—only to help
+            you ship a site you&apos;re happy to send to a gallery, a rep, or a client at midnight.
+          </p>
+          <p className="pf-about__p">
+            The same instincts that keep backends boringly reliable—fewer moving parts, honest tradeoffs, attention
+            to performance—are the ones I use when I tune how your portfolio loads and how captions breathe next to
+            full-bleed work. Heavy technical background, human-facing outcome: a calm site that still feels like
+            yours.
+          </p>
+          <p className="pf-about__p">
+            Off the clock I still like working with my hands—board-level repair, KiCad, the occasional hardware
+            rabbit hole. It keeps me patient with detail, whether that&apos;s a trace on a board or spacing in a
+            layout grid.
+          </p>
+          <p className="pf-about__p">
+            <button
+              type="button"
+              className="pf-about__inline-link"
+              onClick={() => onNavigate('contact')}
+            >
+              Get in touch
+            </button>
+            {' '}if you&apos;d like to talk about your next site, timelines, or how you want your work to move on the
+            page.
+          </p>
+          <p className="pf-about__p">
+            <strong>Services</strong> is where I spell out what I build; <strong>Work</strong> will collect case studies
+            as I publish them. When you are ready to send links or talk timelines, use <strong>Contact</strong>.
+          </p>
+
+          <nav className="pf-connect" aria-label="Resume and social links">
+            <p className="pf-connect__label">Resume &amp; social</p>
+            <ul className="pf-connect__list">
+              <li>
+                <a
+                  className="pf-connect__a"
+                  href="mailto:david@networksandnodes.org?subject=Resume%20%28PDF%29%20request"
+                >
+                  Resume
+                </a>
+              </li>
+              <li>
+                <a
+                  className="pf-connect__a"
+                  href="https://github.com/DaBugg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  GitHub
+                </a>
+              </li>
+              <li>
+                <a
+                  className="pf-connect__a"
+                  href="https://www.linkedin.com/in/david-w-3621bb272"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a className="pf-connect__a" href="mailto:david@networksandnodes.org">
+                  Email
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
 
         <section id="spotify" className="section section--soft">
           <div className="container">
@@ -489,33 +782,30 @@ function AboutSection({ onNavigate }) {
           </div>
         </section>
 
-        <section id="quote" className="section">
-          <div className="container quote-book">
-            <div className="quote-book__quote">
-              <h2 className="accent">A line I keep nearby</h2>
-              <blockquote className="quote">
+        <div id="quote">
+          <div className="pf-reading">
+            <div className="pf-reading__quote-block">
+              <h2>A line I keep nearby</h2>
+              <blockquote>
                 <p>&quot;Those who do not want to imitate anything, produce nothing.&quot;</p>
                 <footer>— Salvador Dalí</footer>
               </blockquote>
             </div>
 
-            <article className="card quote-book__book book-min">
-              <div className="book-min__content">
-                <h2 className="accent">On the desk</h2>
-                <h3 className="book-min__title">Apple in China</h3>
-                <a
-                  className="underlined small"
-                  href="https://www.amazon.com/Apple-China-Capture-Greatest-Company/dp/1668053373"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Find it on Amazon
-                </a>
-              </div>
-            </article>
+            <div className="pf-reading__book">
+              <h2>On the desk</h2>
+              <h3>Apple in China</h3>
+              <a
+                href="https://www.amazon.com/Apple-China-Capture-Greatest-Company/dp/1668053373"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Find it on Amazon
+              </a>
+            </div>
 
-            <div className="quote-book__cover">
-              <figure className="book-min__cover">
+            <div className="pf-reading__cover">
+              <figure>
                 <picture>
                   <source srcSet="../../images/book-of-the-month.webp" type="image/webp" />
                   <img
@@ -527,48 +817,7 @@ function AboutSection({ onNavigate }) {
               </figure>
             </div>
           </div>
-
-          <div className="container portfolio-quote-connect-wrap">
-            <h2 className="accent">Connect</h2>
-            <ul className="link-cards portfolio-quote-connect portfolio-link-rail--pulse">
-              <li className="card">
-                <a href="https://github.com/DaBugg" target="_blank" rel="noopener noreferrer">
-                  <span className="emoji" aria-hidden="true">&#128187;</span>
-                  <div>
-                    <strong>GitHub</strong>
-                    <p>Projects, experiments, and open source contributions</p>
-                  </div>
-                </a>
-              </li>
-              <li className="card">
-                <a href="https://www.linkedin.com/in/david-w-3621bb272" target="_blank" rel="noopener noreferrer">
-                  <span className="emoji" aria-hidden="true">&#128279;</span>
-                  <div>
-                    <strong>LinkedIn</strong>
-                    <p>Resume, roles, and professional updates</p>
-                  </div>
-                </a>
-              </li>
-              <li className="card">
-                <a href="mailto:david@networksandnodes.org">
-                  <span className="emoji" aria-hidden="true">&#9993;</span>
-                  <div>
-                    <strong>Email</strong>
-                    <p>david@networksandnodes.org</p>
-                  </div>
-                </a>
-              </li>
-            </ul>
-            <div className="footer__links portfolio-quote-footer-links portfolio-link-rail--pulse">
-              <a href="../../my-designs.html" className="small muted">
-                CSS Showcase
-              </a>
-              <a href="../../about-me.html" className="small muted">
-                About Me
-              </a>
-            </div>
-          </div>
-        </section>
+        </div>
       </main>
     </div>
   );
@@ -576,25 +825,29 @@ function AboutSection({ onNavigate }) {
 
 const portfolioPanelShell = {
   minHeight: '100%',
-  background: 'var(--bg)',
+  background: 'transparent',
   color: 'var(--text)',
   fontFamily: 'var(--font-sans)',
 };
 
-/** Placeholder: case studies / project grid will ship here later. */
+/** Work / case studies — content grows here over time. */
 function WorkSection() {
   return (
     <div data-theme="dark" className="portfolio-embed-root" style={portfolioPanelShell}>
       <main style={{ paddingTop: '1rem' }}>
-        <section id="work" className="section">
+        <section id="work" className="section" aria-labelledby="work-panel-title">
           <div className="container about-page">
             <p className="small muted">Work</p>
-            <h1 className="title">
-              Case studies <span className="accent">soon</span>
+            <h1 id="work-panel-title" className="title">
+              Case studies <span className="accent">in progress</span>
             </h1>
             <p className="lead">
-              This panel is reserved for project write-ups and visuals. Nothing to show yet—when you know what belongs
-              here, we can drop it in without changing the nav.
+              I am filling this page with project write-ups, screenshots, and links as I finish them. It stays short on
+              purpose until each story is something I am proud to stand behind.
+            </p>
+            <p className="small muted" style={{ marginTop: '1.25rem', maxWidth: '40rem', lineHeight: 1.65 }}>
+              For what I do day to day, see <strong>Services</strong>. To talk about your site or timeline, reach me
+              through <strong>Contact</strong>.
             </p>
           </div>
         </section>
@@ -603,38 +856,38 @@ function WorkSection() {
   );
 }
 
-/** Mirrors `index.html` #services “Solutions” cards; CTAs are bordered controls for future wiring. */
+/** Solutions cards; CTAs are bordered controls for future wiring. */
 function ServicesSection() {
   const solutions = [
     {
       icon: '\uD83D\uDCBB',
       title: 'Custom Web Development',
       body:
-        'Sites, platforms, and apps built to convert and scale. Modern frameworks, responsive design, and performance first architecture.',
+        'I build sites, platforms, and apps to convert and scale: modern frameworks, responsive layout, and architecture that puts performance first.',
     },
     {
       icon: '\uD83D\uDCC8',
       title: 'Analytics & Custom Dashboards',
       body:
-        'Visibility into what matters. Platforms configured for data based decisions, from setup to team training.',
+        'I help you see what actually matters—dashboards and tooling set up for real decisions, from first wiring through team training.',
     },
     {
       icon: '\u2699',
       title: 'Automation & Workflow Platforms',
       body:
-        'Streamline operations with custom tools that eliminate manual work. Pipelines, integrations, and systems that run without constant attention.',
+        'I design custom tools and pipelines that cut manual work so operations keep moving without someone babysitting every step.',
     },
     {
       icon: '\uD83D\uDD0D',
       title: 'SEO Strategy & Implementation',
       body:
-        'Get found. Rank higher. Drive qualified traffic to your business with technical SEO, content strategy, and conversion optimization.',
+        'I handle technical SEO, content structure, and conversion paths so the right people find you—without promising magic rankings.',
     },
     {
       icon: '\uD83E\uDD16',
       title: 'AI Consulting & Integration',
       body:
-        'Strategic AI adoption from readiness assessment to production ready implementation. Make AI work for your business, not the other way around.',
+        'I take you from readiness checks to production-ready AI integrations so the tooling fits how you already work—not the other way around.',
     },
   ];
   return (
@@ -642,8 +895,11 @@ function ServicesSection() {
       <main style={{ paddingTop: '1rem' }}>
         <section id="services" className="section">
           <div className="container">
+            <p className="small muted">Services</p>
             <h2 className="accent">Solutions</h2>
-            <p className="muted small">Technology solutions built to drive efficiency, visibility, and growth.</p>
+            <p className="muted small">
+              A straight list of what I build and consult on—efficiency, visibility, and growth, in plain language.
+            </p>
 
             <div className="services-grid">
               {solutions.map((s) => (
@@ -669,42 +925,135 @@ function ServicesSection() {
 }
 
 function ContactSection() {
+  const shellLight = {
+    minHeight: '100%',
+    background: 'transparent',
+    color: 'var(--text)',
+    fontFamily: 'var(--font-sans)',
+  };
   return (
-    <div data-theme="dark" className="portfolio-embed-root" style={portfolioPanelShell}>
-      <main style={{ paddingTop: '1rem' }}>
-        <section id="contact" className="section">
-          <div className="container about-page">
-            <p className="small muted">Contact</p>
-            <h1 className="title">
-              Tell me about your <span className="accent">next site</span>
-            </h1>
-            <p className="lead">
-              Project inquiries for image-led artist, photographer, and studio sites go through the same contact flow
-              as the marketing site. The checklist below is what I look for before our first real conversation.
-            </p>
-            <p className="lead" style={{ marginTop: '0.75rem' }}>
-              Especially helpful:
-            </p>
-            <ul style={{ margin: '0.5rem 0 1.5rem 1.1rem', lineHeight: 1.7 }}>
-              <li>Links to your work (site, Instagram, Drive folder—whatever is current).</li>
-              <li>Rough timeline (exhibition, launch, seasonal drop, or &ldquo;when it is ready&rdquo;).</li>
-              <li>Budget range if you are comfortable sharing one.</li>
-            </ul>
-            <p style={{ marginBottom: '1rem' }}>
-              <a
-                className="btn btn--large"
-                href="../../index.html#contact"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Open full contact form
-                <span className="visually-hidden"> (opens the marketing site in a new tab)</span>
-              </a>
-            </p>
-            <p className="small muted">
+    <div data-theme="light" className="portfolio-embed-root pf-contact-embed" style={shellLight}>
+      <main>
+        <section id="portfolio-contact" className="section section--soft">
+          <div className="container">
+            <div className="contact-grid">
+              <div className="contact-intro">
+                <p className="small muted" style={{ marginBottom: '0.5rem' }}>
+                  Contact
+                </p>
+                <h1 className="title underline-accent" style={{ fontSize: 'clamp(1.35rem, 2.5vw, 1.85rem)' }}>
+                  Tell me about your <span className="accent">next site</span>
+                </h1>
+                <p className="lead">
+                  Project inquiries for image-led artist, photographer, and studio sites use the same form as the
+                  marketing site. Especially helpful before we talk:
+                </p>
+                <ul className="contact-services">
+                  <li>Links to your work (site, Instagram, Drive folder—whatever is current).</li>
+                  <li>Rough timeline (exhibition, launch, seasonal drop, or &ldquo;when it is ready&rdquo;).</li>
+                  <li>Budget range if you are comfortable sharing one.</li>
+                </ul>
+                <p className="small muted">
+                  Or email me directly at{' '}
+                  <a href="mailto:david@networksandnodes.org" className="accent">
+                    david@networksandnodes.org
+                  </a>
+                </p>
+                <p style={{ marginTop: '1rem' }}>
+                  <a
+                    className="btn btn--large"
+                    href="../../index.html#contact"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Open full contact form
+                    <span className="visually-hidden"> (opens the marketing site in a new tab)</span>
+                  </a>
+                </p>
+              </div>
+
+              <form className="consultation-form" action="/api/send-quote" method="post">
+                <div className="form-row">
+                  <div className="form-field">
+                    <label htmlFor="pf-q-name">
+                      Name<span className="required">*</span>
+                    </label>
+                    <input type="text" id="pf-q-name" name="name" required />
+                  </div>
+                  <div className="form-field">
+                    <label htmlFor="pf-q-email">
+                      Email<span className="required">*</span>
+                    </label>
+                    <input type="email" id="pf-q-email" name="email" required />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-field">
+                    <label htmlFor="pf-q-phone">Phone</label>
+                    <input type="tel" id="pf-q-phone" name="phone" />
+                  </div>
+                  <div className="form-field">
+                    <label htmlFor="pf-q-type">Engagement type</label>
+                    <select id="pf-q-type" name="project_type">
+                      <option value="">Select one</option>
+                      <option value="ai-assessment">AI Readiness Assessment</option>
+                      <option value="cloud-strategy">Cloud / Infrastructure Strategy</option>
+                      <option value="web-dev">Web Development & SEO</option>
+                      <option value="analytics-crm">Analytics & CRM Setup</option>
+                      <option value="automation">Automation & Pipelines</option>
+                      <option value="security">Security Review</option>
+                      <option value="operations">Operations Overhaul</option>
+                      <option value="implementation">Implementation Support</option>
+                      <option value="not-sure">Not sure yet? Let&apos;s talk.</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-field">
+                    <label htmlFor="pf-q-date">Preferred date for call</label>
+                    <input type="date" id="pf-q-date" name="date" />
+                  </div>
+                  <div className="form-field">
+                    <label htmlFor="pf-q-method">Preferred contact method</label>
+                    <select id="pf-q-method" name="contact">
+                      <option value="email">Email</option>
+                      <option value="phone">Phone call</option>
+                      <option value="video">Video call</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-field">
+                  <label htmlFor="pf-q-details">
+                    Tell me about your project<span className="required">*</span>
+                  </label>
+                  <textarea
+                    id="pf-q-details"
+                    name="details"
+                    rows="4"
+                    required
+                    placeholder="Describe your current infrastructure, AI goals, and any specific challenges..."
+                  />
+                </div>
+
+                <div className="form-field form-field--checkbox">
+                  <label>
+                    <input type="checkbox" name="newsletter" />
+                    Keep me updated on AI & infrastructure insights.
+                  </label>
+                </div>
+
+                <button type="submit" className="btn btn--large">
+                  Book Consultation
+                </button>
+              </form>
+            </div>
+
+            <p className="small muted" style={{ marginTop: '1.5rem', maxWidth: '42rem' }}>
               Staying in this embed? <strong>About</strong> has Connect under the quote; <strong>Services</strong> shows
-              the Solutions cards (aligned with the marketing site). Use <strong>← Sections</strong> or the opening grid
-              when you want to jump elsewhere.
+              the Solutions cards. Use <strong>← Sections</strong> or the opening grid when you want to jump elsewhere.
             </p>
           </div>
         </section>
@@ -802,13 +1151,16 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
         </div>
       </header>
 
-      <div style={{
-        flex: 1, minHeight: 0, overflowY: 'auto', WebkitOverflowScrolling: 'touch',
-        display: 'flex', flexDirection: 'column',
-        background: (active === 'about' || active === 'work' || active === 'services' || active === 'contact')
-          ? 'var(--bg)'
-          : (active === null ? 'transparent' : 'rgba(252, 252, 254, 1)'),
-      }}>
+      <div
+        className={[
+          'portfolio-panel-body',
+          active === null && 'portfolio-panel-body--grid',
+          active === 'about' && 'portfolio-panel-body--about',
+          active === 'work' && 'portfolio-panel-body--work',
+          active === 'services' && 'portfolio-panel-body--services',
+          active === 'contact' && 'portfolio-panel-body--contact',
+        ].filter(Boolean).join(' ')}
+      >
         {active === null ? (
           <div style={{
             flex: 1, display: 'grid',
@@ -1021,7 +1373,7 @@ function App() {
         textShadow: '0 1px 2px rgba(0,0,0,0.5)',
         fontSize: 10,
         letterSpacing: '0.24em', textTransform: 'uppercase', fontFamily: F,
-      }}>Scroll to enter</div>
+      }}>Scroll to continue</div>
 
       {/* ── Crack % ── */}
       {crackScroll > 0.02 && phase === 'zoom' && (
