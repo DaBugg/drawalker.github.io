@@ -2,10 +2,11 @@
 """
 Atlas — tiny static dev server.
 
-Zero external dependencies. Serves ./public on http://localhost:<port>.
-Everything useful is plain HTML/CSS/JS under public/, so when you're
-ready to move this into Next.js / Astro / Remix / Vite / etc., just
-copy the public/ folder and re-wire the script tags.
+Zero external dependencies. Serves this folder (the webpage: index.html,
+styles.css, app.js, vendor/, images/) on http://localhost:<port>.
+
+When you port to Next.js / Astro / Remix / Vite / etc., copy those same
+files into the framework's static or public area and re-wire the script tags.
 
 Usage:
     python3 server.py          # default port 8000
@@ -20,7 +21,7 @@ import http.server
 import socketserver
 from functools import partial
 
-ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public")
+ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
 class NoCacheHandler(http.server.SimpleHTTPRequestHandler):
@@ -57,8 +58,8 @@ def main():
             print(f"Invalid port: {sys.argv[1]}", file=sys.stderr)
             sys.exit(1)
 
-    if not os.path.isdir(ROOT):
-        print(f"Missing public/ directory at {ROOT}", file=sys.stderr)
+    if not os.path.isfile(os.path.join(ROOT, "index.html")):
+        print(f"Missing index.html next to server.py in {ROOT}", file=sys.stderr)
         sys.exit(1)
 
     handler = partial(NoCacheHandler, directory=ROOT)
@@ -69,7 +70,7 @@ def main():
     with socketserver.TCPServer(("0.0.0.0", port), handler) as httpd:
         print(f"\n  ATLAS dev server")
         print(f"  ────────────────")
-        print(f"  serving  ./public")
+        print(f"  serving  {ROOT}")
         print(f"  on       http://localhost:{port}")
         print(f"  ctrl-c   to stop\n")
         try:

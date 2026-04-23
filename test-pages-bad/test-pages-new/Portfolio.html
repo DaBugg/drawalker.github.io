@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Networks & Nodes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="spotify-embed.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #0f172a; }
+#root { width: 100%; height: 100%; }
+::-webkit-scrollbar { display: none; }
+/* Keep zoom shell behind NavCards; site stylesheet sets body for marketing pages */
+body { background: #0f172a !important; }
+
+/* Quote-area connect rail — same markup/classes as index; hook for motion */
+.portfolio-quote-connect-wrap {
+  margin-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+@keyframes portfolio-link-rail-breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0); }
+  50% { box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.22); }
+}
+.portfolio-link-rail--pulse .card a {
+  border-radius: 0.85rem;
+  animation: portfolio-link-rail-breathe 3.4s ease-in-out infinite;
+}
+.portfolio-link-rail--pulse.footer__links a {
+  border-radius: 0.6rem;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid rgba(34, 211, 238, 0.15);
+  animation: portfolio-link-rail-breathe 3.4s ease-in-out infinite;
+}
+.portfolio-quote-connect-wrap .footer__links {
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Services panel: faux “Learn more” until wired to contact / in-panel nav */
+button.service__cta.portfolio-faux-cta {
+  font: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+button.service__cta.portfolio-faux-cta:focus-visible {
+  outline: 2px solid rgba(34, 211, 238, 0.55);
+  outline-offset: 3px;
+}
+@keyframes portfolio-faux-cta-ring {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0); }
+  50% { box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.14); }
+}
+.portfolio-embed-root button.service__cta.portfolio-faux-cta {
+  animation: portfolio-faux-cta-ring 4.2s ease-in-out infinite;
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+// Globe position in hero art (848×1264 viewBox — act-1.svg)
+const GCY = 0.2095; // globe center Y fraction of container height
+const GR  = 0.2095; // globe radius fraction of container height
+
+// ── Four nav cards after crack (Work panel reserved—no case content yet)
+const CARDS = [
+  { id: 'about',    label: 'About',    sub: 'Partner for image-led sites' },
+  { id: 'work',     label: 'Work',     sub: 'Coming soon' },
+  { id: 'services', label: 'Services', sub: 'Solutions from the main site' },
+  { id: 'contact',  label: 'Contact',  sub: 'Full form on the marketing site' },
+];
+
+// fluid-particle.tsx — Canvas + JS only (no Tailwind for the effect). Ported from TS; fixed DPR transform + listener cleanup.
+function FluidParticles({
+  particleDensity = 100,
+  particleSize = 1,
+  particleColor = '#555555',
+  activeColor = '#ffffff',
+  maxBlastRadius = 300,
+  hoverDelay = 100,
+  interactionDistance = 10,
+}) {
+  const canvasRef = useRef(null);
+  const ctxRef = useRef(null);
+  const particlesRef = useRef([]);
+  const mouseRef = useRef({ x: 0, y: 0, prevX: 0, prevY: 0 });
+  const blastRef = useRef({ active: false, x: 0, y: 0, radius: 0, maxRadius: maxBlastRadius });
+  const animationRef = useRef(0);
+  const hoverTimerRef = useRef(null);
+  const lastMoveRef = useRef(0);
+  const optsRef = useRef({ particleDensity, particleSize, particleColor, activeColor, maxBlastRadius, hoverDelay, interactionDistance });
+  optsRef.current = { particleDensity, particleSize, particleColor, activeColor, maxBlastRadius, hoverDelay, interactionDistance };
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return undefined;
+
+    const o = () => optsRef.current;
+    let ctx = canvas.getContext('2d', { alpha: true });
+    ctxRef.current = ctx;
+    if (ctx) ctx.globalCompositeOperation = 'lighter';
+
+    function easeOutQuad(t) { return t * (2 - t); }
+
+    class Particle {
+      constructor(x, y) {
+        const { particleSize: ps, particleColor: pc } = o();
+        this.x = x; this.y = y; this.baseX = x; this.baseY = y;
+        this.size = Math.random() * ps + 0.5;
+        this.density = Math.random() * 3 + 1;
+        this.color = pc;
+        this.vx = 0; this.vy = 0;
+        this.friction = 0.9 - 0.01 * this.density;
+      }
+      draw() {
+        if (!ctx) return;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      update() {
+        if (!ctx) return;
+        const { activeColor: ac, particleColor: pc, interactionDistance: idist } = o();
+        this.x += this.vx; this.y += this.vy;
+        this.vx *= this.friction; this.vy *= this.friction;
+
+        const m = mouseRef.current;
+        const dx = m.x - this.x, dy = m.y - this.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < idist && dist > 0) {
+          const fx = dx / dist, fy = dy / dist;
+          const force = (idist - dist) / idist;
+          this.x -= fx * force * this.density * 0.6;
+          this.y -= fy * force * this.density * 0.6;
+          this.color = ac;
+        } else {
+          if (this.x !== this.baseX) this.x -= (this.x - this.baseX) / 20;
+          if (this.y !== this.baseY) this.y -= (this.y - this.baseY) / 20;
+          this.color = pc;
+        }
+
+        const b = blastRef.current;
+        if (b.active) {
+          const bx = this.x - b.x, by = this.y - b.y;
+          const bd = Math.sqrt(bx * bx + by * by);
+          if (bd < b.radius && bd > 0) {
+            const nx = bx / bd, ny = by / bd;
+            const bf = (b.radius - bd) / b.radius;
+            this.vx += nx * bf * 15;
+            this.vy += ny * bf * 15;
+            const intensity = Math.min(255, Math.floor(255 - bd));
+            this.color = `rgba(${intensity}, 100, 255, 0.8)`;
+          }
+        }
+        this.draw();
+      }
+    }
+
+    function initParticles() {
+      const { particleDensity: pd } = o();
+      const w = window.innerWidth, h = window.innerHeight;
+      const n = Math.floor((w * h) / pd);
+      particlesRef.current = [];
+      for (let i = 0; i < n; i++) {
+        particlesRef.current.push(new Particle(Math.random() * w, Math.random() * h));
+      }
+    }
+
+    function triggerBlast(x, y) {
+      const { maxBlastRadius: mr } = o();
+      blastRef.current = { active: true, x, y, radius: 0, maxRadius: mr };
+      const start = performance.now();
+      const duration = 300;
+      function expandBlast(ts) {
+        const elapsed = ts - start;
+        const progress = Math.min(elapsed / duration, 1);
+        blastRef.current.radius = easeOutQuad(progress) * blastRef.current.maxRadius;
+        if (progress < 1) requestAnimationFrame(expandBlast);
+        else setTimeout(() => { blastRef.current.active = false; }, 100);
+      }
+      requestAnimationFrame(expandBlast);
+      if (hoverTimerRef.current) {
+        clearTimeout(hoverTimerRef.current);
+        hoverTimerRef.current = null;
+      }
+    }
+
+    function handleResize() {
+      const dpr = window.devicePixelRatio || 1;
+      const w = window.innerWidth, h = window.innerHeight;
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
+      ctx = canvas.getContext('2d', { alpha: true });
+      ctxRef.current = ctx;
+      if (ctx) {
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      initParticles();
+    }
+
+    function animate() {
+      const c = ctxRef.current;
+      if (!c) return;
+      const w = window.innerWidth, h = window.innerHeight;
+      c.clearRect(0, 0, w, h);
+      particlesRef.current.forEach((p) => p.update());
+      animationRef.current = requestAnimationFrame(animate);
+    }
+
+    const moveThrottle = 10;
+    function onMouseMove(e) {
+      const now = performance.now();
+      if (now - lastMoveRef.current < moveThrottle) return;
+      lastMoveRef.current = now;
+      const m = mouseRef.current;
+      const prevX = m.x, prevY = m.y;
+      mouseRef.current = { x: e.clientX, y: e.clientY, prevX, prevY };
+      const dx = mouseRef.current.x - mouseRef.current.prevX;
+      const dy = mouseRef.current.y - mouseRef.current.prevY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const { hoverDelay: hd } = o();
+      if (dist < 5) {
+        if (hoverTimerRef.current === null) {
+          hoverTimerRef.current = setTimeout(() => {
+            triggerBlast(e.clientX, e.clientY);
+          }, hd);
+        }
+      } else if (hoverTimerRef.current) {
+        clearTimeout(hoverTimerRef.current);
+        hoverTimerRef.current = null;
+      }
+    }
+
+    function onTouchMove(e) {
+      if (e.touches[0]) {
+        const m = mouseRef.current;
+        const prevX = m.x, prevY = m.y;
+        mouseRef.current = {
+          x: e.touches[0].clientX,
+          y: e.touches[0].clientY,
+          prevX, prevY,
+        };
+      }
+    }
+
+    function onTouchStart(e) {
+      const { hoverDelay: hd } = o();
+      if (e.touches[0]) {
+        const x = e.touches[0].clientX, y = e.touches[0].clientY;
+        hoverTimerRef.current = setTimeout(() => triggerBlast(x, y), hd);
+      }
+    }
+
+    function onTouchEnd() {
+      if (hoverTimerRef.current) {
+        clearTimeout(hoverTimerRef.current);
+        hoverTimerRef.current = null;
+      }
+    }
+
+    function onClick(e) {
+      triggerBlast(e.clientX, e.clientY);
+    }
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchend', onTouchEnd);
+    window.addEventListener('click', onClick);
+    animationRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchend', onTouchEnd);
+      window.removeEventListener('click', onClick);
+      if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+      cancelAnimationFrame(animationRef.current);
+    };
+  }, []);
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
+      <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, display: 'block' }} />
+    </div>
+  );
+}
+
+function AboutSection({ onNavigate }) {
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.portfolioEmbedSpotify) {
+      window.portfolioEmbedSpotify.init();
+      return () => window.portfolioEmbedSpotify.teardown();
+    }
+    return undefined;
+  }, []);
+
+  return (
+    <div
+      data-theme="dark"
+      className="about-embed-root"
+      style={{
+        minHeight: '100%',
+        background: 'var(--bg)',
+        color: 'var(--text)',
+        fontFamily: 'var(--font-sans)',
+      }}
+    >
+      <main style={{ paddingTop: '1rem' }}>
+        <section id="about" className="section">
+          <div className="container about-page">
+            <p className="small muted">About</p>
+            <h1 className="title">
+              Hey, I&apos;m <span className="accent">David W.</span>
+            </h1>
+
+            <p className="lead">
+              I make fast, understated websites for <strong>artists, photographers, and small studios</strong>—the
+              kind where your images lead and the interface gets out of the way. I spend my days in architecture
+              and infrastructure; I bring that same care to the work I do for people who think in pictures, not
+              in roadmaps.
+            </p>
+            <p>
+              Over the last decade I&apos;ve designed networks, cloud systems, and internal tools, then carried that
+              habit of clarity to the public side: responsive layouts, type that reads well on a phone, and inquiry
+              flows that feel respectful instead of pushy. I&apos;m not here to dazzle you with jargon—only to help
+              you ship a site you&apos;re happy to send to a gallery, a rep, or a client at midnight.
+            </p>
+            <p>
+              The same instincts that keep backends boringly reliable—fewer moving parts, honest tradeoffs, attention
+              to performance—are the ones I use when we tune how your portfolio loads and how captions breathe next to
+              full-bleed work. Heavy technical background, human-facing outcome: a calm site that still feels like
+              yours.
+            </p>
+            <p>
+              Off the clock I still like working with my hands—board-level repair, KiCad, the occasional hardware
+              rabbit hole. It keeps me patient with detail, whether that&apos;s a trace on a board or spacing in a
+              layout grid.
+            </p>
+            <p>
+              <a
+                href="../../index.html#contact"
+                className="accent"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavigate('contact');
+                }}
+              >
+                Get in touch
+              </a>
+              {' '}if you&apos;d like to talk about your next site, timelines, or how you want your work to move on the
+              page.
+            </p>
+            <p style={{ marginTop: '1.25rem', lineHeight: 1.7 }}>
+              For how engagements tend to look, open <strong>Services</strong> in the bar above—{' '}
+              <strong>Work</strong> will hold case studies when they are ready, and <strong>Contact</strong> is there when
+              you want to send links or ask about timelines.
+            </p>
+          </div>
+        </section>
+
+        <section id="spotify" className="section section--soft">
+          <div className="container">
+            <article className="card spotify is-loading" id="spotify-card">
+              <div className="spotify__badge">
+                <svg aria-hidden="true" width="18" height="18" viewBox="0 0 168 168">
+                  <circle fill="currentColor" cx="84" cy="84" r="84" />
+                  <path
+                    fill="#0b1220"
+                    d="M120.2 119.1c-1.6 2.7-5 3.6-7.7 2-21.1-12.6-47.6-15.5-78.8-8.5-3 0.7-6-1.2-6.7-4.2-.7-3 1.2-6 4.2-6.7 34.9-7.8 64.7-4.5 88 9.7 2.7 1.6 3.6 5 2 7.7zm10.9-24.2c-2 3.3-6.3 4.3-9.6 2.3-24.1-14.8-60.8-19.1-89.3-10.4-3.7 1.1-7.5-1-8.7-4.7-1.1-3.7 1-7.5 4.7-8.7 32.9-9.9 73.4-5.1 101.8 12.3 3.3 2 4.3 6.3 2.3 9.6zm1-25.7C103 50.9 61.1 49.3 36.2 56.9 31.8 58.3 27 55.9 25.6 51.6s1.4-8.9 5.7-10.3c29.7-9.3 76.1-7.4 106.9 11.1 3.9 2.3 5.2 7.3 2.9 11.2-2.4 3.9-7.4 5.2-11.2 2.9z"
+                  />
+                </svg>
+                <span>What&apos;s playing right now</span>
+                <span className="spotify__live" aria-hidden="true" />
+              </div>
+
+              <div className="spotify__content">
+                <div className="spotify__media">
+                  <img
+                    id="spotify-cover"
+                    src="https://via.placeholder.com/300x300?text=Spotify"
+                    alt="Album cover"
+                  />
+                </div>
+
+                <div className="spotify__meta">
+                  <p className="small muted" id="spotify-status">Loading…</p>
+                  <h3 className="accent" id="spotify-track">Track title</h3>
+                  <p id="spotify-artist" className="small">Artist name</p>
+                  <p id="spotify-album" className="small muted">Album name</p>
+
+                  <div className="spotify__progress">
+                    <div className="spotify__bar">
+                      <span id="spotify-progress" style={{ width: '0%' }} />
+                    </div>
+                    <div className="spotify__times small muted">
+                      <span id="spotify-current-time">0:00</span>
+                      <span id="spotify-duration">0:00</span>
+                    </div>
+                  </div>
+
+                  <div className="spotify__actions">
+                    <div className="spotify-suggest" id="spotify-suggest">
+                      <button
+                        type="button"
+                        className="btn btn--ghost small spotify-suggest__toggle"
+                        aria-expanded="false"
+                        aria-controls="spotify-suggest-form"
+                      >
+                        Suggest a Song
+                      </button>
+
+                      <div className="spotify-suggest__form-wrapper">
+                        <form
+                          id="spotify-suggest-form"
+                          className="spotify-suggest__form"
+                          action="/api/suggest-song"
+                          method="POST"
+                        >
+                          <div className="spotify-suggest__field spotify-suggest__field--full">
+                            <label htmlFor="song-name" className="spotify-suggest__label">
+                              Song name <span className="spotify-suggest__required">*</span>
+                            </label>
+                            <input
+                              id="song-name"
+                              name="songName"
+                              type="text"
+                              className="spotify-suggest__input"
+                              required
+                              placeholder="e.g., Nights"
+                            />
+                          </div>
+
+                          <div className="spotify-suggest__field spotify-suggest__field--full">
+                            <label htmlFor="song-artist" className="spotify-suggest__label">
+                              Artist <span className="spotify-suggest__optional">(optional)</span>
+                            </label>
+                            <input
+                              id="song-artist"
+                              name="artist"
+                              type="text"
+                              className="spotify-suggest__input"
+                              placeholder="e.g., Frank Ocean"
+                            />
+                          </div>
+
+                          <div className="spotify-suggest__actions spotify-suggest__field--full">
+                            <button type="submit" className="btn btn--primary small">
+                              Submit
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+
+                    <a
+                      id="spotify-open-link"
+                      href="https://open.spotify.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn small"
+                    >
+                      Open in Spotify
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="quote" className="section">
+          <div className="container quote-book">
+            <div className="quote-book__quote">
+              <h2 className="accent">A line I keep nearby</h2>
+              <blockquote className="quote">
+                <p>&quot;Those who do not want to imitate anything, produce nothing.&quot;</p>
+                <footer>— Salvador Dalí</footer>
+              </blockquote>
+            </div>
+
+            <article className="card quote-book__book book-min">
+              <div className="book-min__content">
+                <h2 className="accent">On the desk</h2>
+                <h3 className="book-min__title">Apple in China</h3>
+                <a
+                  className="underlined small"
+                  href="https://www.amazon.com/Apple-China-Capture-Greatest-Company/dp/1668053373"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Find it on Amazon
+                </a>
+              </div>
+            </article>
+
+            <div className="quote-book__cover">
+              <figure className="book-min__cover">
+                <picture>
+                  <source srcSet="../../images/book-of-the-month.webp" type="image/webp" />
+                  <img
+                    src="../../images/book-of-the-month.png"
+                    alt="Cover of Apple in China"
+                    loading="lazy"
+                  />
+                </picture>
+              </figure>
+            </div>
+          </div>
+
+          <div className="container portfolio-quote-connect-wrap">
+            <h2 className="accent">Connect</h2>
+            <ul className="link-cards portfolio-quote-connect portfolio-link-rail--pulse">
+              <li className="card">
+                <a href="https://github.com/DaBugg" target="_blank" rel="noopener noreferrer">
+                  <span className="emoji" aria-hidden="true">&#128187;</span>
+                  <div>
+                    <strong>GitHub</strong>
+                    <p>Projects, experiments, and open source contributions</p>
+                  </div>
+                </a>
+              </li>
+              <li className="card">
+                <a href="https://www.linkedin.com/in/david-w-3621bb272" target="_blank" rel="noopener noreferrer">
+                  <span className="emoji" aria-hidden="true">&#128279;</span>
+                  <div>
+                    <strong>LinkedIn</strong>
+                    <p>Resume, roles, and professional updates</p>
+                  </div>
+                </a>
+              </li>
+              <li className="card">
+                <a href="mailto:david@networksandnodes.org">
+                  <span className="emoji" aria-hidden="true">&#9993;</span>
+                  <div>
+                    <strong>Email</strong>
+                    <p>david@networksandnodes.org</p>
+                  </div>
+                </a>
+              </li>
+            </ul>
+            <div className="footer__links portfolio-quote-footer-links portfolio-link-rail--pulse">
+              <a href="../../my-designs.html" className="small muted">
+                CSS Showcase
+              </a>
+              <a href="../../about-me.html" className="small muted">
+                About Me
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+const portfolioPanelShell = {
+  minHeight: '100%',
+  background: 'var(--bg)',
+  color: 'var(--text)',
+  fontFamily: 'var(--font-sans)',
+};
+
+/** Placeholder: case studies / project grid will ship here later. */
+function WorkSection() {
+  return (
+    <div data-theme="dark" className="portfolio-embed-root" style={portfolioPanelShell}>
+      <main style={{ paddingTop: '1rem' }}>
+        <section id="work" className="section">
+          <div className="container about-page">
+            <p className="small muted">Work</p>
+            <h1 className="title">
+              Case studies <span className="accent">soon</span>
+            </h1>
+            <p className="lead">
+              This panel is reserved for project write-ups and visuals. Nothing to show yet—when you know what belongs
+              here, we can drop it in without changing the nav.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+/** Mirrors `index.html` #services “Solutions” cards; CTAs are bordered controls for future wiring. */
+function ServicesSection() {
+  const solutions = [
+    {
+      icon: '\uD83D\uDCBB',
+      title: 'Custom Web Development',
+      body:
+        'Sites, platforms, and apps built to convert and scale. Modern frameworks, responsive design, and performance first architecture.',
+    },
+    {
+      icon: '\uD83D\uDCC8',
+      title: 'Analytics & Custom Dashboards',
+      body:
+        'Visibility into what matters. Platforms configured for data based decisions, from setup to team training.',
+    },
+    {
+      icon: '\u2699',
+      title: 'Automation & Workflow Platforms',
+      body:
+        'Streamline operations with custom tools that eliminate manual work. Pipelines, integrations, and systems that run without constant attention.',
+    },
+    {
+      icon: '\uD83D\uDD0D',
+      title: 'SEO Strategy & Implementation',
+      body:
+        'Get found. Rank higher. Drive qualified traffic to your business with technical SEO, content strategy, and conversion optimization.',
+    },
+    {
+      icon: '\uD83E\uDD16',
+      title: 'AI Consulting & Integration',
+      body:
+        'Strategic AI adoption from readiness assessment to production ready implementation. Make AI work for your business, not the other way around.',
+    },
+  ];
+  return (
+    <div data-theme="dark" className="portfolio-embed-root" style={portfolioPanelShell}>
+      <main style={{ paddingTop: '1rem' }}>
+        <section id="services" className="section">
+          <div className="container">
+            <h2 className="accent">Solutions</h2>
+            <p className="muted small">Technology solutions built to drive efficiency, visibility, and growth.</p>
+
+            <div className="services-grid">
+              {solutions.map((s) => (
+                <article key={s.title} className="card service">
+                  <div className="service__icon-area">
+                    <span className="service__icon">{s.icon}</span>
+                  </div>
+                  <div className="service__body">
+                    <h3>{s.title}</h3>
+                    <p>{s.body}</p>
+                    <button type="button" className="service__cta portfolio-faux-cta">
+                      Learn more →
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+function ContactSection() {
+  return (
+    <div data-theme="dark" className="portfolio-embed-root" style={portfolioPanelShell}>
+      <main style={{ paddingTop: '1rem' }}>
+        <section id="contact" className="section">
+          <div className="container about-page">
+            <p className="small muted">Contact</p>
+            <h1 className="title">
+              Tell me about your <span className="accent">next site</span>
+            </h1>
+            <p className="lead">
+              Project inquiries for image-led artist, photographer, and studio sites go through the same contact flow
+              as the marketing site. The checklist below is what I look for before our first real conversation.
+            </p>
+            <p className="lead" style={{ marginTop: '0.75rem' }}>
+              Especially helpful:
+            </p>
+            <ul style={{ margin: '0.5rem 0 1.5rem 1.1rem', lineHeight: 1.7 }}>
+              <li>Links to your work (site, Instagram, Drive folder—whatever is current).</li>
+              <li>Rough timeline (exhibition, launch, seasonal drop, or &ldquo;when it is ready&rdquo;).</li>
+              <li>Budget range if you are comfortable sharing one.</li>
+            </ul>
+            <p style={{ marginBottom: '1rem' }}>
+              <a
+                className="btn btn--large"
+                href="../../index.html#contact"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open full contact form
+                <span className="visually-hidden"> (opens the marketing site in a new tab)</span>
+              </a>
+            </p>
+            <p className="small muted">
+              Staying in this embed? <strong>About</strong> has Connect under the quote; <strong>Services</strong> shows
+              the Solutions cards (aligned with the marketing site). Use <strong>← Sections</strong> or the opening grid
+              when you want to jump elsewhere.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+function NavCards({ visible, onSelect, active, onBackToGrid }) {
+  const F = 'Inter, Helvetica Neue, sans-serif';
+  const backBtn = {
+    background: 'none', border: '1px solid rgba(0,0,0,0.14)',
+    color: 'rgba(0,0,0,0.45)', padding: '7px 16px', borderRadius: 2,
+    fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase',
+    fontFamily: F, cursor: 'pointer',
+  };
+  const tabBase = {
+    background: 'none', border: 'none', borderBottom: '2px solid transparent',
+    color: 'rgba(15,23,42,0.45)', padding: '8px 12px', cursor: 'pointer',
+    fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', fontFamily: F,
+    transition: 'color 0.15s ease, border-color 0.15s ease',
+  };
+  return (
+    <div style={{
+      position: 'absolute', inset: 0, zIndex: 20,
+      display: 'flex', flexDirection: 'column',
+      opacity: visible ? 1 : 0,
+      pointerEvents: visible ? 'auto' : 'none',
+      transition: 'opacity 1s ease',
+      background: 'rgba(252, 252, 254, 0.97)',
+      minHeight: 0,
+    }}>
+      <header style={{
+        padding: '18px 28px',
+        display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '16px 24px',
+        borderBottom: '1px solid rgba(0,0,0,0.08)', rowGap: 14,
+      }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4 }}>
+          <button
+            type="button"
+            onClick={() => onSelect(null)}
+            style={{
+              background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+              color: 'rgba(0,0,0,0.55)', fontSize: 11, letterSpacing: '0.28em', textTransform: 'uppercase',
+              fontFamily: F, textAlign: 'left',
+            }}
+          >Networks &amp; Nodes</button>
+          <span style={{
+            color: 'rgba(71,85,105,0.55)', fontSize: 11, letterSpacing: '0.04em', fontFamily: F, fontStyle: 'italic',
+          }}>Everybody here?</span>
+        </div>
+
+        <nav
+          style={{
+            flex: '1 1 200px', display: 'flex', flexWrap: 'wrap', justifyContent: 'center',
+            alignItems: 'center', gap: 4, minWidth: 0,
+          }}
+          aria-label="Sections"
+        >
+          {CARDS.map(card => (
+            <button
+              key={card.id}
+              type="button"
+              onClick={() => onSelect(card.id)}
+              title={card.sub}
+              style={{
+                ...tabBase,
+                color: active === card.id ? 'rgba(15,23,42,0.92)' : tabBase.color,
+                borderBottomColor: active === card.id ? '#15803d' : 'transparent',
+                fontWeight: active === card.id ? 500 : 400,
+              }}
+            >{card.label}</button>
+          ))}
+        </nav>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 'auto' }}>
+          {active !== null && (
+            <button
+              type="button"
+              onClick={onBackToGrid}
+              style={{
+                background: 'none', border: 'none', color: 'rgba(71,85,105,0.85)',
+                padding: '6px 4px', cursor: 'pointer', fontFamily: F, fontSize: 11,
+                letterSpacing: '0.12em', textTransform: 'uppercase',
+              }}
+            >← Sections</button>
+          )}
+          <button
+            type="button"
+            onClick={() => onSelect(null)}
+            style={backBtn}
+            onMouseOver={e => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.28)'; }}
+            onMouseOut={e => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.14)'; }}
+          >↑ Back</button>
+        </div>
+      </header>
+
+      <div style={{
+        flex: 1, minHeight: 0, overflowY: 'auto', WebkitOverflowScrolling: 'touch',
+        display: 'flex', flexDirection: 'column',
+        background: (active === 'about' || active === 'work' || active === 'services' || active === 'contact')
+          ? 'var(--bg)'
+          : (active === null ? 'transparent' : 'rgba(252, 252, 254, 1)'),
+      }}>
+        {active === null ? (
+          <div style={{
+            flex: 1, display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gridTemplateRows: '1fr 1fr',
+            minHeight: 0,
+          }}>
+            {CARDS.map((card, i) => (
+              <button
+                key={card.id}
+                type="button"
+                onClick={() => onSelect(card.id)}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  borderRight: i % 2 === 0 ? '1px solid rgba(0,0,0,0.07)' : 'none',
+                  borderBottom: i < 2 ? '1px solid rgba(0,0,0,0.07)' : 'none',
+                  cursor: 'pointer', padding: 0,
+                  display: 'flex', flexDirection: 'column',
+                  alignItems: 'center', justifyContent: 'center', gap: 12,
+                  transition: 'background 0.2s ease',
+                  position: 'relative', overflow: 'hidden',
+                }}
+                onMouseOver={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.03)'; }}
+                onMouseOut={e => { e.currentTarget.style.background = 'transparent'; }}
+              >
+                <span style={{
+                  color: 'rgba(0,0,0,0.06)', fontSize: 'clamp(60px,8vw,120px)',
+                  fontFamily: F, fontWeight: 200, letterSpacing: '-0.04em',
+                  position: 'absolute', top: '50%', left: '50%',
+                  transform: 'translate(-50%,-50%)',
+                  userSelect: 'none', pointerEvents: 'none',
+                  lineHeight: 1,
+                }}>{String(i + 1).padStart(2, '0')}</span>
+                <h2 style={{
+                  color: 'rgba(0,0,0,0.88)', fontSize: 'clamp(18px,2.5vw,36px)',
+                  fontFamily: F, fontWeight: 300, letterSpacing: '0.08em',
+                  textTransform: 'uppercase', position: 'relative',
+                }}>{card.label}</h2>
+                <p style={{
+                  color: 'rgba(0,0,0,0.38)', fontSize: 'clamp(10px,1vw,13px)',
+                  fontFamily: F, fontWeight: 400, letterSpacing: '0.20em',
+                  textTransform: 'uppercase', position: 'relative',
+                }}>{card.sub}</p>
+              </button>
+            ))}
+          </div>
+        ) : active === 'about' ? (
+          <AboutSection onNavigate={(id) => onSelect(id)} />
+        ) : active === 'work' ? (
+          <WorkSection />
+        ) : active === 'services' ? (
+          <ServicesSection />
+        ) : active === 'contact' ? (
+          <ContactSection />
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+// ── App
+function App() {
+  const [progress, setProgress] = useState(0);
+  const [phase, setPhase]       = useState('zoom'); // 'zoom' | 'content'
+  const [active, setActive]     = useState(null);
+  const [sz, setSz]             = useState({ w: 0, h: 0 });
+
+  const pRef   = useRef(0);
+  const tRef   = useRef(0);
+  const phRef  = useRef('zoom');
+  const rafRef = useRef(null);
+
+  useEffect(() => { phRef.current = phase; }, [phase]);
+
+  // Container size
+  useEffect(() => {
+    const upd = () => setSz({ w: window.innerHeight * (848/1264), h: window.innerHeight });
+    upd();
+    window.addEventListener('resize', upd);
+    return () => window.removeEventListener('resize', upd);
+  }, []);
+
+  // Lerp loop
+  useEffect(() => {
+    const tick = () => {
+      const cur  = pRef.current;
+      const next = cur + (tRef.current - cur) * 0.050;
+      if (Math.abs(next - cur) > 0.00004) {
+        pRef.current = next;
+        setProgress(next);
+        if (next > 0.960 && phRef.current === 'zoom') setPhase('content');
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, []);
+
+  // Scroll / keys
+  useEffect(() => {
+    const onWheel = e => {
+      if (phRef.current === 'content') return;
+      e.preventDefault();
+      tRef.current = Math.max(0, Math.min(1, tRef.current + e.deltaY / 1800));
+    };
+    const onKey = e => {
+      if (phRef.current === 'content') return;
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') tRef.current = Math.min(1, tRef.current + 0.06);
+      if (e.key === 'ArrowUp'   || e.key === 'PageUp')   tRef.current = Math.max(0, tRef.current - 0.06);
+    };
+    window.addEventListener('wheel', onWheel, { passive: false });
+    window.addEventListener('keydown', onKey);
+    return () => { window.removeEventListener('wheel', onWheel); window.removeEventListener('keydown', onKey); };
+  }, []);
+
+  function handleBack() {
+    setPhase('zoom');
+    setActive(null);
+    tRef.current = 0;
+  }
+
+  const { w: cW, h: cH } = sz;
+  // Crack reveal: starts after a short scroll, ramps so cracks read on the globe through mid-zoom
+  const crackScroll = progress < 0.045 ? 0 : Math.min(1, (progress - 0.045) / 0.58);
+
+  // Max scale to fill viewport from globe center
+  const vW = window.innerWidth, vH = window.innerHeight;
+  const globeR = cH * GR;
+  const globeVX = vW / 2, globeVY = cH * GCY;
+  const corners = [[0,0],[vW,0],[0,vH],[vW,vH]];
+  const maxDist = Math.max(...corners.map(([x,y]) => Math.sqrt((x-globeVX)**2+(y-globeVY)**2)));
+  const maxScale = globeR > 0 ? (maxDist / globeR) * 1.18 : 6;
+  const scale = 1 + Math.pow(progress, 0.58) * (maxScale - 1);
+  const tx = window.innerWidth / 2 - (cW / 2) * scale;
+  const ty = cH * GCY * (1 - scale);
+
+  // Crack overlay: circle expands from globe center as crackScroll increases (globe-only reveal)
+  const clipR = crackScroll * globeR * 1.08;
+  const clipCX = cW / 2;
+  const clipCY = cH * GCY;
+  const crackOpacity = Math.min(1, Math.pow(crackScroll, 0.85) * 1.15);
+
+  const F = 'Inter, Helvetica Neue, sans-serif';
+
+  return (
+    <>
+      <FluidParticles
+        particleDensity={100}
+        particleSize={1}
+        particleColor="#555555"
+        activeColor="#f1f5f9"
+        maxBlastRadius={300}
+        hoverDelay={100}
+        interactionDistance={100}
+      />
+      <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'relative', zIndex: 1, background: 'transparent' }}>
+
+      {/* ── Zoom container ── */}
+      {cW > 0 && (
+        <div style={{
+          position: 'absolute',
+          width: cW, height: cH,
+          top: 0, left: 0,
+          transform: `translate(${tx}px, ${ty}px) scale(${scale})`,
+          transformOrigin: '0 0',
+          willChange: 'transform',
+          isolation: 'isolate',
+          opacity: phase === 'content' ? 0 : 1,
+          transition: phase === 'content' ? 'opacity 0.6s ease' : 'none',
+        }}>
+          {/* act-1.svg: vector B&W art, transparent outside paths */}
+          <img src="../images/act-1.svg" alt="" draggable={false} style={{
+            width: '100%', height: '100%', display: 'block',
+            objectFit: 'fill', userSelect: 'none',
+          }} />
+
+          {/* cracked-globe: lighten so dark lines read on black act-1 globe; clip + opacity follow scroll */}
+          {crackScroll > 0.001 && (
+            <img src="cracked-globe.svg" alt="" draggable={false} style={{
+              position: 'absolute', top: 0, left: 0,
+              width: '100%', height: '100%',
+              objectFit: 'fill',
+              mixBlendMode: 'lighten',
+              opacity: crackOpacity,
+              clipPath: `circle(${Math.max(0.5, clipR)}px at ${clipCX}px ${clipCY}px)`,
+              pointerEvents: 'none',
+            }} />
+          )}
+        </div>
+      )}
+
+      {/* ── Brand wordmark ── */}
+      <div style={{
+        position: 'absolute', top: 40, left: 0, right: 0, textAlign: 'center',
+        pointerEvents: 'none', userSelect: 'none',
+        opacity: Math.max(0, 1 - progress * 5),
+        color: '#c9ae7a',
+        textShadow: '0 1px 2px rgba(0,0,0,0.55), 0 0 24px rgba(74, 58, 32, 0.35)',
+        fontSize: 11,
+        letterSpacing: '0.32em', textTransform: 'uppercase', fontFamily: F,
+      }}>Networks &amp; Nodes</div>
+
+      {/* ── Scroll hint ── */}
+      <div style={{
+        position: 'absolute', bottom: 36, left: 0, right: 0, textAlign: 'center',
+        pointerEvents: 'none', userSelect: 'none',
+        opacity: Math.max(0, 1 - progress * 8),
+        color: '#9d8658',
+        textShadow: '0 1px 2px rgba(0,0,0,0.5)',
+        fontSize: 10,
+        letterSpacing: '0.24em', textTransform: 'uppercase', fontFamily: F,
+      }}>Scroll to enter</div>
+
+      {/* ── Crack % ── */}
+      {crackScroll > 0.02 && phase === 'zoom' && (
+        <div style={{
+          position: 'absolute', bottom: 36, right: 46,
+          pointerEvents: 'none', userSelect: 'none',
+          opacity: Math.min(1, crackScroll * 5) * Math.max(0, 1 - (progress - 0.88) * 8),
+          color: 'rgba(255,255,255,0.32)', fontSize: 9,
+          letterSpacing: '0.20em', textTransform: 'uppercase', fontFamily: 'Inter, monospace',
+        }}>{Math.round(crackScroll * 100)}%</div>
+      )}
+
+      {/* ── Nav cards ── */}
+      <NavCards
+        visible={phase === 'content'}
+        onSelect={id => (id ? setActive(id) : handleBack())}
+        onBackToGrid={() => setActive(null)}
+        active={active}
+      />
+    </div>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
