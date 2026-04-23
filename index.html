@@ -1929,6 +1929,20 @@ function ContactSection({ onNavigate }) {
 
 function NavCards({ visible, onSelect, active, onBackToGrid }) {
   const F = 'Inter, Helvetica Neue, sans-serif';
+  const panelBodyRef = useRef(null);
+  const scrollPanelTop = () => {
+    const el = panelBodyRef.current;
+    if (!el) return;
+    el.scrollTop = 0;
+  };
+  const chooseSection = (id) => {
+    scrollPanelTop();
+    onSelect(id);
+  };
+  const goBackToGrid = () => {
+    scrollPanelTop();
+    onBackToGrid();
+  };
   const [isMobile, setIsMobile] = useState(() => {
     if (typeof window === 'undefined') return false;
     return window.innerWidth < 760;
@@ -1939,6 +1953,11 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
+  useEffect(() => {
+    if (!visible) return;
+    const el = panelBodyRef.current;
+    if (el) el.scrollTop = 0;
+  }, [visible]);
   const backBtn = {
     background: 'none', border: '1px solid rgba(0,0,0,0.14)',
     color: 'rgba(0,0,0,0.45)', padding: isMobile ? '7px 12px' : '7px 16px', borderRadius: 2,
@@ -1970,7 +1989,7 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4, width: isMobile ? '100%' : 'auto' }}>
           <button
             type="button"
-            onClick={() => onSelect(null)}
+            onClick={() => chooseSection(null)}
             style={{
               background: 'none', border: 'none', padding: 0, cursor: 'pointer',
               color: 'rgba(0,0,0,0.55)', fontSize: isMobile ? 10 : 11, letterSpacing: isMobile ? '0.16em' : '0.28em', textTransform: 'uppercase',
@@ -1994,7 +2013,7 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
             <button
               key={card.id}
               type="button"
-              onClick={() => onSelect(card.id)}
+              onClick={() => chooseSection(card.id)}
               title={card.sub}
               style={{
                 ...tabBase,
@@ -2010,7 +2029,7 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
           {active !== null && (
             <button
               type="button"
-              onClick={onBackToGrid}
+              onClick={goBackToGrid}
               style={{
                 background: 'none', border: 'none', color: 'rgba(71,85,105,0.85)',
                 padding: '6px 4px', cursor: 'pointer', fontFamily: F, fontSize: isMobile ? 10 : 11,
@@ -2020,7 +2039,7 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
           )}
           <button
             type="button"
-            onClick={() => onSelect(null)}
+            onClick={() => chooseSection(null)}
             style={backBtn}
             onMouseOver={e => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.28)'; }}
             onMouseOut={e => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.14)'; }}
@@ -2029,6 +2048,7 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
       </header>
 
       <div
+        ref={panelBodyRef}
         className={[
           'portfolio-panel-body',
           active === null && 'portfolio-panel-body--grid',
@@ -2049,7 +2069,7 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
               <button
                 key={card.id}
                 type="button"
-                onClick={() => onSelect(card.id)}
+                onClick={() => chooseSection(card.id)}
                 style={{
                   background: 'transparent',
                   border: 'none',
@@ -2086,13 +2106,13 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
             ))}
           </div>
         ) : active === 'about' ? (
-          <AboutSection onNavigate={(id) => onSelect(id)} />
+          <AboutSection onNavigate={(id) => { scrollPanelTop(); onSelect(id); }} />
         ) : active === 'work' ? (
-          <WorkSection onNavigate={(id) => onSelect(id)} />
+          <WorkSection onNavigate={(id) => { scrollPanelTop(); onSelect(id); }} />
         ) : active === 'services' ? (
-          <ServicesSection onNavigate={(id) => onSelect(id)} />
+          <ServicesSection onNavigate={(id) => { scrollPanelTop(); onSelect(id); }} />
         ) : active === 'contact' ? (
-          <ContactSection onNavigate={(id) => onSelect(id)} />
+          <ContactSection onNavigate={(id) => { scrollPanelTop(); onSelect(id); }} />
         ) : null}
       </div>
     </div>
@@ -2278,7 +2298,7 @@ function App() {
       <div className="hero-scroll-hint" style={{
         opacity: Math.max(0, 1 - progress * 8),
         fontFamily: F,
-      }}>Wipe up to scroll or continue</div>
+      }}>Swipe up to continue.</div>
 
       {/* ── Crack % ── */}
       {crackScroll > 0.02 && phase === 'zoom' && (

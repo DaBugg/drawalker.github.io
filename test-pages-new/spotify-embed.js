@@ -8,6 +8,7 @@
   let spotifyRequestInFlight = false;
   let spotifyProgressTimer = null;
   let suggestToggleHandler = null;
+  let suggestSubmitHandler = null;
 
   const spotifyPlaybackState = {
     isPlaying: false,
@@ -169,6 +170,26 @@
       toggle.removeEventListener('click', suggestToggleHandler);
       suggestToggleHandler = null;
     }
+    const form = document.getElementById('spotify-suggest-form');
+    if (form && suggestSubmitHandler) {
+      form.removeEventListener('submit', suggestSubmitHandler);
+      suggestSubmitHandler = null;
+    }
+  }
+
+  function ensureSuggestNotification(form) {
+    let note = document.getElementById('spotify-suggest-feedback');
+    if (!note) {
+      note = document.createElement('p');
+      note.id = 'spotify-suggest-feedback';
+      note.style.margin = '0.3rem 0 0';
+      note.style.fontSize = '0.78rem';
+      note.style.letterSpacing = '0.02em';
+      note.style.color = '#86efac';
+      note.style.display = 'none';
+      form.appendChild(note);
+    }
+    return note;
   }
 
   function init() {
@@ -186,12 +207,45 @@
     const wrapper = document.getElementById('spotify-suggest');
     if (wrapper) {
       const toggle = wrapper.querySelector('.spotify-suggest__toggle');
+      const form = document.getElementById('spotify-suggest-form');
       if (toggle) {
         suggestToggleHandler = () => {
           const isOpen = wrapper.classList.toggle('spotify-suggest--open');
           toggle.setAttribute('aria-expanded', String(isOpen));
         };
         toggle.addEventListener('click', suggestToggleHandler);
+      }
+      if (form) {
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const feedback = ensureSuggestNotification(form);
+        suggestSubmitHandler = async (e) => {
+          e.preventDefault();
+          const formData = new FormData(form);
+          const songName = String(formData.get('songName') || '').trim();
+          const artist = String(formData.get('artist') || '').trim();
+          if (!songName) return;
+          if (submitBtn) submitBtn.disabled = true;
+          feedback.style.display = 'none';
+          try {
+            const response = await fetch(form.action || '/api/suggest-song', {
+              method: form.method || 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ songName, artist }),
+            });
+            if (!response.ok) throw new Error('Submission failed');
+            form.reset();
+            feedback.textContent = 'Your song has been submitted.';
+            feedback.style.color = '#86efac';
+            feedback.style.display = 'block';
+          } catch (_) {
+            feedback.textContent = 'Could not submit right now. Please try again.';
+            feedback.style.color = '#fca5a5';
+            feedback.style.display = 'block';
+          } finally {
+            if (submitBtn) submitBtn.disabled = false;
+          }
+        };
+        form.addEventListener('submit', suggestSubmitHandler);
       }
     }
   }

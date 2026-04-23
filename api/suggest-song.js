@@ -27,28 +27,18 @@ function parseBody(req) {
   return req.body;
 }
 
-function wantsJsonResponse(req) {
-  const ct = (req.headers['content-type'] || '').toLowerCase();
-  return ct.includes('application/json');
-}
-
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     res.status(405).json({ ok: false, error: 'Method Not Allowed' });
     return;
   }
 
-  const jsonResponse = wantsJsonResponse(req);
   const body = parseBody(req);
   const songName = (body.songName || body.song_name || '').trim();
   const artist = (body.artist || '').trim();
 
   if (!songName) {
-    if (jsonResponse) {
-      res.status(400).json({ ok: false, error: 'Song name is required.' });
-    } else {
-      res.status(400).send('Song name is required');
-    }
+    res.status(400).json({ ok: false, error: 'Song name is required.' });
     return;
   }
 
@@ -90,21 +80,12 @@ module.exports = async (req, res) => {
       html: htmlBody,
     });
 
-    if (jsonResponse) {
-      res.status(200).json({ ok: true });
-    } else {
-      res.writeHead(303, { Location: '/thank-you.html' });
-      res.end();
-    }
+    res.status(200).json({ ok: true });
   } catch (err) {
     console.error('Error sending song suggestion:', err);
-    if (jsonResponse) {
-      res.status(500).json({
-        ok: false,
-        error: 'There was a problem sending your suggestion. Please try again later.',
-      });
-    } else {
-      res.status(500).send('There was a problem sending your suggestion. Please try again later.');
-    }
+    res.status(500).json({
+      ok: false,
+      error: 'There was a problem sending your suggestion. Please try again later.',
+    });
   }
 };
