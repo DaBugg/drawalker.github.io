@@ -1,698 +1,2248 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
-
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>David W. — Technology Solutions Provider</title>
-  <meta name="description" content="Strategic technology solutions for businesses ready to grow. Custom web development, analytics platforms, automation, SEO, and AI consulting — built to drive efficiency and results." />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Networks & Nodes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="test-pages-new/spotify-embed.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #0f172a; }
+#root { width: 100%; height: 100%; }
+::-webkit-scrollbar { display: none; }
+/* Keep zoom shell behind NavCards; site stylesheet sets body for marketing pages */
+body { background: #0f172a !important; }
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="David W. — Technology Solutions Provider" />
-  <meta property="og:description" content="Custom technology solutions that drive real business results. Web development, analytics, automation, SEO, and AI consulting for growing businesses." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://drawalker.github.io" />
+/* Scroll region below NavCards header — header row is separate; art lives here only */
+.portfolio-panel-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  background-color: #0b1220;
+  background-image: none;
+  background-repeat: no-repeat;
+}
+/* Four-tile home grid: same cream overlay as NavCards chrome */
+.portfolio-panel-body--grid {
+  background-color: rgba(252, 252, 254, 0.97);
+  background-image: none;
+}
+.portfolio-panel-body--about {
+  background-color: #0b1220;
+  /*
+    Paint on the scroll container itself so it spans the entire About content
+    (bio + Spotify + quote/book), not just the visible viewport.
+  */
+  background-image:
+    linear-gradient(rgba(11, 18, 32, 0.78), rgba(11, 18, 32, 0.78)),
+    url('about-background.svg');
+  background-repeat: repeat-y;
+  background-position: center top;
+  background-size: 100% auto;
+  background-attachment: local;
+  flex: 1 1 auto;
+  min-height: 100%;
+  width: 100%;
+}
+/* Let illustration show through (global .section--soft is opaque) */
+.portfolio-panel-body--about .section.section--soft {
+  background: transparent !important;
+  border-top: 1px solid rgba(148, 163, 184, 0.22);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+}
+.portfolio-panel-body--work {
+  background-image: url('work-background.svg');
+  background-position: center center;
+  background-size: cover;
+}
+.portfolio-panel-body--services {
+  background-image: url('services.svg');
+  background-position: center center;
+  background-size: cover;
+}
+.portfolio-panel-body--contact {
+  background-color: #e9eef6;
+  background-image: url('Contact-background.svg');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: min(100%, 1600px) auto;
+}
+@media (min-width: 900px) {
+  .portfolio-panel-body--about {
+    background-size: cover;
+  }
+  .portfolio-panel-body--contact {
+    background-size: min(100%, 2000px) auto;
+  }
+}
 
-  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-image32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-image16x16.png">
-  <link rel="icon" type="image/png" sizes="" href="images/favicon-image.png">
+/* Light island inside portfolio (contact): consultation form uses marketing tokens */
+.portfolio-embed-root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f8fafc;
+  --bg-soft: #f1f5f9;
+  --surface: #ffffff;
+  --surface-border: #e5e7eb;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --accent: #16a34a;
+  --accent-strong: #15803d;
+  --link: #1d4ed8;
+  --accent-cyan: #0891b2;
+  --accent-emerald: #059669;
+  --accent-blue: #2563eb;
+  --shadow: 0 6px 20px rgba(15, 23, 42, 0.1);
+  color: var(--text);
+}
+.pf-contact-embed .section {
+  padding-top: 1.75rem;
+  padding-bottom: 2.5rem;
+}
+.pf-contact-embed .title {
+  color: var(--text);
+}
 
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css" />
+/* Portfolio contact — three-step journey */
+.pf-contact-journey {
+  max-width: 54rem;
+}
+.pf-contact-step {
+  border-radius: 1.15rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    color-mix(in oklab, var(--bg-soft) 88%, white) 55%,
+    rgba(255, 255, 255, 0.94) 100%
+  );
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 18px 40px -16px rgba(15, 23, 42, 0.14);
+  padding: clamp(1.2rem, 3vw, 1.85rem);
+}
+.pf-contact-step__progress {
+  display: block;
+  margin: 0 0 0.95rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: #64748b;
+}
+.pf-contact-step__header {
+  margin-bottom: 1.35rem;
+}
+.pf-contact-step__eyebrow {
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin: 0 0 0.45rem;
+}
+.pf-contact-step__title {
+  margin: 0;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  line-height: 1.12;
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  color: #0f172a;
+}
+.pf-contact-title-accent {
+  color: #c9ae7a;
+  font-style: italic;
+}
+.pf-contact-step__back {
+  appearance: none;
+  border: 1px solid rgba(15, 23, 42, 0.18);
+  background: #fff;
+  color: #1e293b;
+  border-radius: 0.65rem;
+  padding: 0.45rem 0.75rem;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.82rem;
+  margin-bottom: 0.9rem;
+  cursor: pointer;
+}
+.pf-contact-step__back:focus-visible {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-blue) 24%, transparent);
+}
+.pf-contact-step__heading {
+  margin: 0 0 0.45rem;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+.pf-contact-step__helper {
+  margin: 0 0 1rem;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.94rem;
+  color: #334155;
+  line-height: 1.65;
+}
+.pf-contact-tiles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.7rem;
+}
+@media (min-width: 768px) {
+  .pf-contact-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.pf-contact-tile {
+  text-align: left;
+  border: 1px solid rgba(15, 23, 42, 0.11);
+  background: #fff;
+  border-radius: 0.8rem;
+  padding: 0.8rem 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.12s ease;
+}
+.pf-contact-tile:hover {
+  border-color: color-mix(in oklab, var(--accent-cyan) 55%, var(--surface-border));
+  box-shadow: 0 4px 16px -12px rgba(2, 132, 199, 0.45);
+}
+.pf-contact-tile:focus-visible {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-cyan) 28%, transparent);
+}
+.pf-contact-tile--selected {
+  border-color: var(--accent-cyan);
+  background: color-mix(in oklab, var(--accent-cyan) 10%, white);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--accent-cyan) 26%, transparent);
+}
+.pf-contact-tile__label {
+  display: block;
+  margin-bottom: 0.15rem;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+.pf-contact-tile__desc {
+  margin: 0;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: #475569;
+}
+.pf-contact-summary-chip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.8rem;
+  align-items: center;
+  margin: 0 0 1rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: color-mix(in oklab, var(--bg-soft) 75%, white);
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.84rem;
+  color: #334155;
+}
+.pf-contact-summary-chip__edit {
+  appearance: none;
+  border: none;
+  background: none;
+  color: #1d4ed8;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0;
+  cursor: pointer;
+}
+.pf-contact-summary-chip__edit:focus-visible {
+  outline: 2px solid rgba(29, 78, 216, 0.45);
+  outline-offset: 2px;
+  border-radius: 0.2rem;
+}
+.pf-contact-form {
+  display: grid;
+  gap: 0.9rem;
+}
+.pf-contact-form__field {
+  display: grid;
+  gap: 0.35rem;
+}
+.pf-contact-form__field label {
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #334155;
+}
+.pf-contact-form__field small {
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.76rem;
+  color: #64748b;
+}
+.pf-contact-form__field input,
+.pf-contact-form__field select,
+.pf-contact-form__field textarea {
+  border-radius: 0.65rem;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: #fff;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.03);
+  padding: 0.6rem 0.72rem;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.92rem;
+  color: #0f172a;
+}
+.pf-contact-form__field input:focus,
+.pf-contact-form__field select:focus,
+.pf-contact-form__field textarea:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow:
+    inset 0 1px 2px rgba(15, 23, 42, 0.03),
+    0 0 0 3px color-mix(in oklab, var(--accent-cyan) 22%, transparent);
+}
+.pf-contact-form__submit {
+  width: 100%;
+}
+.pf-contact-form__status {
+  margin: 0;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.82rem;
+  color: #b91c1c;
+}
+.pf-contact-form__fallback {
+  margin: 0.2rem 0 0;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.84rem;
+  color: #475569;
+}
+.pf-contact-success {
+  border-radius: 0.9rem;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: #fff;
+  padding: 1rem;
+}
+.pf-contact-success h3 {
+  margin: 0 0 0.45rem;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 1.06rem;
+  color: #0f172a;
+}
+.pf-contact-success p {
+  margin: 0;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  color: #475569;
+  line-height: 1.6;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pf-contact-step__body {
+    animation: pf-contact-step-in 180ms ease;
+  }
+  @keyframes pf-contact-step-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* About + reading — dark surface, subdued art, gold accents (wordmark #c9ae7a) */
+.pf-about-main {
+  font-family: "DM Sans", system-ui, sans-serif;
+  color: #d4d4d4;
+  padding: 0  clamp(1.1rem, 4vw, 2.25rem) 3rem;
+}
+.pf-about {
+  max-width: 38rem;
+  margin: 0 auto;
+}
+.pf-about__eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+  margin-bottom: 0.65rem;
+}
+.pf-about__title {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(2rem, 4vw, 2.85rem);
+  font-weight: 400;
+  line-height: 1.12;
+  margin: 0 0 1.25rem;
+  color: #fafafa;
+}
+.pf-about__title-accent {
+  font-style: italic;
+  color: #c9ae7a;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 20px rgba(201, 174, 122, 0.2);
+}
+.pf-about__lead {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: #e5e5e5;
+  font-weight: 500;
+  margin: 0 0 1rem;
+}
+.pf-about__p {
+  font-size: 0.98rem;
+  line-height: 1.72;
+  color: #c4c4c4;
+  font-weight: 500;
+  margin: 0 0 1rem;
+}
+.pf-about__p strong { color: #fafafa; font-weight: 600; }
+.pf-about__inline-link {
+  display: inline;
+  color: #c9ae7a;
+  text-decoration: none;
+  border: none;
+  border-bottom: 1px solid rgba(201, 174, 122, 0.55);
+  border-radius: 0;
+  padding: 0 0 1px;
+  cursor: pointer;
+  background: none;
+  font: inherit;
+  vertical-align: baseline;
+  font-weight: 500;
+}
+.pf-about__inline-link:hover {
+  color: #dcc9a0;
+  border-bottom-color: rgba(220, 201, 160, 0.85);
+}
+
+.pf-work {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+.pf-work__disclaimer {
+  font-size: 0.82rem;
+  line-height: 1.65;
+  color: #a1a1aa;
+  margin: 0 0 1.75rem;
+  padding: 0.85rem 1rem;
+  border-left: 3px solid rgba(34, 211, 238, 0.35);
+  background: rgba(15, 23, 42, 0.45);
+  border-radius: 0 0.45rem 0.45rem 0;
+}
+.pf-work__cases {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pf-work-case {
+  border: 1px solid rgba(115, 115, 115, 0.38);
+  border-radius: 0.65rem;
+  padding: 1.2rem 1.3rem 1.35rem;
+  background: rgba(15, 23, 42, 0.55);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+}
+.pf-work-case__meta {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+  margin: 0 0 0.5rem;
+}
+.pf-work-case__title {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #fafafa;
+  margin: 0 0 0.65rem;
+}
+.pf-work-case__body {
+  font-size: 0.92rem;
+  line-height: 1.72;
+  color: #c4c4c4;
+  margin: 0 0 1rem;
+  font-weight: 500;
+}
+.pf-work-case__quote {
+  margin: 0;
+  padding: 0.75rem 0 0.35rem 1rem;
+  border-left: 2px solid rgba(201, 174, 122, 0.55);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.55;
+  color: #e8e8e8;
+}
+.pf-work-case__cite {
+  display: block;
+  margin-top: 0.65rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-style: normal;
+  letter-spacing: 0.02em;
+  color: #a3a3a3;
+  line-height: 1.5;
+}
+
+.pf-connect {
+  margin-top: 2rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid rgba(115, 115, 115, 0.35);
+}
+.pf-connect__label {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+  margin: 0 0 0.9rem;
+}
+.pf-connect__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+.pf-connect__a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.35rem;
+  border-radius: 999px;
+  border: 1px solid rgba(201, 174, 122, 0.35);
+  background: rgba(15, 23, 42, 0.72);
+  text-decoration: none;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+}
+.pf-connect__a:hover {
+  border-color: rgba(201, 174, 122, 0.75);
+  background: rgba(30, 41, 59, 0.92);
+  transform: translateY(-1px);
+}
+.pf-connect__a:focus-visible {
+  outline: 2px solid #c9ae7a;
+  outline-offset: 3px;
+}
+.pf-connect__icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  display: block;
+}
+.pf-section-footer-nav {
+  margin: 2.25rem auto 0;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(115, 115, 115, 0.35);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+.pf-section-footer-nav--contained {
+  width: min(1100px, 92%);
+}
+.pf-section-footer-btn {
+  border: 1px solid rgba(201, 174, 122, 0.35);
+  background: rgba(15, 23, 42, 0.72);
+  color: #e5e5e5;
+  border-radius: 999px;
+  padding: 0.5rem 0.95rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.pf-section-footer-btn:hover {
+  border-color: rgba(201, 174, 122, 0.75);
+  background: rgba(30, 41, 59, 0.92);
+  color: #fafafa;
+}
+.pf-section-footer-btn:focus-visible {
+  outline: 2px solid #c9ae7a;
+  outline-offset: 3px;
+}
+.pf-reading {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 2.5rem clamp(1.1rem, 4vw, 2.25rem) 2rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) auto;
+  grid-template-rows: auto auto;
+  gap: 1.25rem 2rem;
+  align-items: start;
+  border-top: 1px solid rgba(51, 65, 85, 0.65);
+}
+.pf-reading__quote-block { grid-column: 1; grid-row: 1 / span 2; }
+.pf-reading__book { grid-column: 2; grid-row: 1; align-self: start; }
+.pf-reading__cover { grid-column: 2; grid-row: 2; align-self: start; }
+@media (max-width: 800px) {
+  .pf-reading {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+  .pf-reading__quote-block,
+  .pf-reading__book,
+  .pf-reading__cover {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+.pf-reading__quote-block h2 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(1.35rem, 2.5vw, 1.65rem);
+  font-weight: 400;
+  font-style: italic;
+  color: #c9ae7a;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 18px rgba(201, 174, 122, 0.18);
+  margin: 0 0 0.85rem;
+}
+.pf-reading__quote-block blockquote {
+  margin: 0;
+  padding: 0 0 0 1rem;
+  border-left: 3px solid rgba(201, 174, 122, 0.55);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
+  line-height: 1.45;
+  color: #e5e5e5;
+}
+.pf-reading__quote-block blockquote p { margin: 0; }
+.pf-reading__quote-block blockquote footer {
+  margin-top: 0.75rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-style: normal;
+  color: #a3a3a3;
+}
+.pf-reading__book {
+  border-radius: 1rem;
+  border: 1px solid rgba(71, 85, 105, 0.55);
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.65));
+  padding: 1.15rem 1.25rem;
+}
+.pf-reading__book h2 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(1.2rem, 2vw, 1.45rem);
+  font-weight: 400;
+  font-style: italic;
+  color: #c9ae7a;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 16px rgba(201, 174, 122, 0.16);
+  margin: 0 0 0.5rem;
+}
+.pf-reading__book h3 {
+  margin: 0 0 0.65rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f5f5f5;
+  font-family: "DM Sans", system-ui, sans-serif;
+}
+.pf-reading__book a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #c9ae7a;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.pf-reading__book a:hover { color: #dcc9a0; }
+.pf-reading__cover { justify-self: start; }
+.pf-reading__cover figure { margin: 0; }
+.pf-reading__cover img {
+  width: 108px;
+  height: 156px;
+  object-fit: cover;
+  border-radius: 0.45rem;
+  border: 1px solid rgba(71, 85, 105, 0.65);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+.pf-services-rail {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding: 0.35rem 0.15rem 1.1rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.45) transparent;
+}
+.pf-services-rail::-webkit-scrollbar {
+  display: block;
+  height: 6px;
+}
+.pf-services-rail::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 999px;
+}
+.pf-service-card {
+  --pf-svc-border: rgba(71, 85, 105, 0.55);
+  --pf-svc-border-hover: rgba(34, 211, 238, 0.55);
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  min-height: min(52vh, 380px);
+  flex: 0 0 clamp(220px, 78vw, 300px);
+  scroll-snap-align: start;
+  border-radius: 0.85rem;
+  border: 1px solid var(--pf-svc-border);
+  background: linear-gradient(165deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.88));
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease,
+    outline-color 0.22s ease;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+@media (min-width: 1100px) {
+  .pf-services-rail {
+    overflow-x: visible;
+    flex-wrap: nowrap;
+    gap: 1.1rem;
+  }
+  .pf-service-card {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: none;
+    min-height: 360px;
+  }
+}
+.pf-service-card:hover {
+  border-color: var(--pf-svc-border-hover);
+  box-shadow:
+    0 0 0 1px rgba(34, 211, 238, 0.22),
+    0 14px 36px rgba(0, 0, 0, 0.38);
+  transform: translateY(-3px);
+}
+.pf-service-card:focus-within {
+  border-color: var(--pf-svc-border-hover);
+  outline-color: rgba(34, 211, 238, 0.45);
+}
+.pf-service-card__media {
+  position: relative;
+  min-height: 0;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.65);
+  background: linear-gradient(135deg, rgba(51, 65, 85, 0.55), rgba(15, 23, 42, 0.9));
+}
+.pf-service-card__media img,
+.pf-service-card__media video,
+.pf-service-card__media iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.pf-service-card__media video,
+.pf-service-card__media iframe {
+  background: #0f172a;
+  border: 0;
+}
+.pf-service-card__media-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.85);
+  border: 1px dashed rgba(100, 116, 139, 0.45);
+  margin: 0.65rem;
+  border-radius: 0.5rem;
+  pointer-events: none;
+}
+.pf-service-card__body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0.95rem 1rem 1rem;
+  gap: 0.5rem;
+}
+.pf-service-card__body h3 {
+  margin: 0;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  line-height: 1.3;
+}
+.pf-service-card__body p {
+  margin: 0;
+  flex: 1 1 auto;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: #cbd5e1;
+  font-weight: 400;
+}
+.pf-service-card__body .service__cta {
+  align-self: flex-start;
+  margin-top: 0.25rem;
+}
+
+.pf-work-products {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.pf-work-product-card {
+  --pf-work-border: rgba(71, 85, 105, 0.55);
+  --pf-work-border-hover: rgba(34, 211, 238, 0.55);
+  display: grid;
+  grid-template-columns: minmax(260px, 44%) 1fr;
+  border-radius: 0.85rem;
+  border: 1px solid var(--pf-work-border);
+  background: linear-gradient(165deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.88));
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease;
+}
+.pf-work-product-card:hover {
+  border-color: var(--pf-work-border-hover);
+  box-shadow:
+    0 0 0 1px rgba(34, 211, 238, 0.22),
+    0 14px 36px rgba(0, 0, 0, 0.38);
+  transform: translateY(-2px);
+}
+.pf-work-product-card .pf-service-card__media {
+  border-bottom: 0;
+  border-right: 1px solid rgba(51, 65, 85, 0.65);
+  aspect-ratio: 16 / 9;
+  min-height: 220px;
+}
+.pf-work-product-card .pf-service-card__media iframe {
+  width: 100%;
+  height: 100%;
+}
+.pf-work-product-card .pf-service-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1rem 1.1rem 1.05rem;
+}
+.pf-work-product-card .pf-service-card__body h3 {
+  margin: 0;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  line-height: 1.3;
+}
+.pf-work-product-card .pf-service-card__body p {
+  margin: 0;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: #cbd5e1;
+  font-weight: 400;
+}
+.pf-work-product-card .pf-service-card__quote {
+  margin: 0.15rem 0 0;
+  padding-left: 0.8rem;
+  border-left: 2px solid rgba(201, 174, 122, 0.5);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 0.98rem;
+  font-style: italic;
+  color: #e2e8f0;
+  line-height: 1.45;
+}
+.pf-work-product-card .pf-service-card__cite {
+  margin-top: 0.45rem;
+  display: block;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.76rem;
+  color: #94a3b8;
+  line-height: 1.45;
+}
+@media (max-width: 900px) {
+  .pf-work-product-card {
+    grid-template-columns: 1fr;
+  }
+  .pf-work-product-card .pf-service-card__media {
+    border-right: 0;
+    border-bottom: 1px solid rgba(51, 65, 85, 0.65);
+  }
+}
+
+button.service__cta.portfolio-faux-cta {
+  font: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+button.service__cta.portfolio-faux-cta:focus-visible {
+  outline: 2px solid rgba(34, 211, 238, 0.55);
+  outline-offset: 3px;
+}
+@keyframes portfolio-faux-cta-ring {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0); }
+  50% { box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.14); }
+}
+.portfolio-embed-root button.service__cta.portfolio-faux-cta {
+  animation: portfolio-faux-cta-ring 4.2s ease-in-out infinite;
+}
+</style>
 </head>
 <body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
 
-  <!-- ===== Full-page particle backdrop ===== -->
-  <div id="pageParticles" class="page-particles" aria-hidden="true"></div>
+// Globe position in hero art (848×1264 viewBox — act-1.svg)
+const GCY = 0.2095; // globe center Y fraction of container height
+const GR  = 0.2095; // globe radius fraction of container height
 
-  <!-- ===== Header / Nav ===== -->
-  <nav class="site-nav" aria-label="Primary">
-    <div class="nav-logo"><span>&gt;</span> david_w.solutions</div>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="#services">Solutions</a></li>
-      <li><a href="#work">Work</a></li>
-      <li><a href="#faq">FAQ</a></li>
-      <li><a href="about-me.html">About</a></li>
-    </ul>
-    <a href="#contact" class="nav-cta nav-cta--desktop">Book a Call</a>
-    <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
+// ── Four section tiles after crack (same site; Work = template / design routes for leads)
+const CARDS = [
+  { id: 'about',    label: 'About',    sub: 'Partner for image-led sites' },
+  { id: 'work',     label: 'Work',     sub: 'Templates & design routes' },
+  { id: 'services', label: 'Services', sub: 'Solutions from the main site' },
+  { id: 'contact',  label: 'Contact',  sub: 'Three-step project inquiry' },
+];
 
-  <main id="top">
+// fluid-particle.tsx — Canvas + JS only (no Tailwind for the effect). Ported from TS; fixed DPR transform + listener cleanup.
+function FluidParticles({
+  particleDensity = 100,
+  particleSize = 1,
+  particleColor = '#555555',
+  activeColor = '#ffffff',
+  maxBlastRadius = 300,
+  hoverDelay = 100,
+  interactionDistance = 10,
+}) {
+  const canvasRef = useRef(null);
+  const ctxRef = useRef(null);
+  const particlesRef = useRef([]);
+  const mouseRef = useRef({ x: 0, y: 0, prevX: 0, prevY: 0 });
+  const blastRef = useRef({ active: false, x: 0, y: 0, radius: 0, maxRadius: maxBlastRadius });
+  const animationRef = useRef(0);
+  const hoverTimerRef = useRef(null);
+  const lastMoveRef = useRef(0);
+  const optsRef = useRef({ particleDensity, particleSize, particleColor, activeColor, maxBlastRadius, hoverDelay, interactionDistance });
+  optsRef.current = { particleDensity, particleSize, particleColor, activeColor, maxBlastRadius, hoverDelay, interactionDistance };
 
-    <!-- ===== 1. Hero ===== -->
-    <section id="hero" class="hero">
-      <!-- Ambient glows -->
-      <div class="glow-orb glow-orb--cyan"></div>
-      <div class="glow-orb glow-orb--emerald"></div>
-      <div class="glow-orb glow-orb--blue"></div>
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return undefined;
 
-      <!-- Left: Content -->
-      <div class="hero-content">
-        <div class="hero-label">Technology Solutions</div>
-        <h1 class="hero-headline">
-          Your business needs<br>
-          <em>strategic technology</em><br>
-          not more tools
-        </h1>
-        <p class="hero-description">
-          I build custom platforms, tools, and systems that solve real business problems. Connecting technology decisions to operational results so your investment actually pays off.
-        </p>
-        <div class="hero-actions">
-          <a href="#contact" class="btn-hero-primary">
-            Book Discovery Call
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-          </a>
-          <a href="#services" class="btn-hero-secondary">
-            Explore solutions <span>&rarr;</span>
-          </a>
+    const o = () => optsRef.current;
+    let ctx = canvas.getContext('2d', { alpha: true });
+    ctxRef.current = ctx;
+    if (ctx) ctx.globalCompositeOperation = 'lighter';
+
+    function easeOutQuad(t) { return t * (2 - t); }
+
+    class Particle {
+      constructor(x, y) {
+        const { particleSize: ps, particleColor: pc } = o();
+        this.x = x; this.y = y; this.baseX = x; this.baseY = y;
+        this.size = Math.random() * ps + 0.5;
+        this.density = Math.random() * 3 + 1;
+        this.color = pc;
+        this.vx = 0; this.vy = 0;
+        this.friction = 0.9 - 0.01 * this.density;
+      }
+      draw() {
+        if (!ctx) return;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      update() {
+        if (!ctx) return;
+        const { activeColor: ac, particleColor: pc, interactionDistance: idist } = o();
+        this.x += this.vx; this.y += this.vy;
+        this.vx *= this.friction; this.vy *= this.friction;
+
+        const m = mouseRef.current;
+        const dx = m.x - this.x, dy = m.y - this.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < idist && dist > 0) {
+          const fx = dx / dist, fy = dy / dist;
+          const force = (idist - dist) / idist;
+          this.x -= fx * force * this.density * 0.6;
+          this.y -= fy * force * this.density * 0.6;
+          this.color = ac;
+        } else {
+          if (this.x !== this.baseX) this.x -= (this.x - this.baseX) / 20;
+          if (this.y !== this.baseY) this.y -= (this.y - this.baseY) / 20;
+          this.color = pc;
+        }
+
+        const b = blastRef.current;
+        if (b.active) {
+          const bx = this.x - b.x, by = this.y - b.y;
+          const bd = Math.sqrt(bx * bx + by * by);
+          if (bd < b.radius && bd > 0) {
+            const nx = bx / bd, ny = by / bd;
+            const bf = (b.radius - bd) / b.radius;
+            this.vx += nx * bf * 15;
+            this.vy += ny * bf * 15;
+            const intensity = Math.min(255, Math.floor(255 - bd));
+            this.color = `rgba(${intensity}, 100, 255, 0.8)`;
+          }
+        }
+        this.draw();
+      }
+    }
+
+    function initParticles() {
+      const { particleDensity: pd } = o();
+      const w = window.innerWidth, h = window.innerHeight;
+      const n = Math.floor((w * h) / pd);
+      particlesRef.current = [];
+      for (let i = 0; i < n; i++) {
+        particlesRef.current.push(new Particle(Math.random() * w, Math.random() * h));
+      }
+    }
+
+    function triggerBlast(x, y) {
+      const { maxBlastRadius: mr } = o();
+      blastRef.current = { active: true, x, y, radius: 0, maxRadius: mr };
+      const start = performance.now();
+      const duration = 300;
+      function expandBlast(ts) {
+        const elapsed = ts - start;
+        const progress = Math.min(elapsed / duration, 1);
+        blastRef.current.radius = easeOutQuad(progress) * blastRef.current.maxRadius;
+        if (progress < 1) requestAnimationFrame(expandBlast);
+        else setTimeout(() => { blastRef.current.active = false; }, 100);
+      }
+      requestAnimationFrame(expandBlast);
+      if (hoverTimerRef.current) {
+        clearTimeout(hoverTimerRef.current);
+        hoverTimerRef.current = null;
+      }
+    }
+
+    function handleResize() {
+      const dpr = window.devicePixelRatio || 1;
+      const w = window.innerWidth, h = window.innerHeight;
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
+      ctx = canvas.getContext('2d', { alpha: true });
+      ctxRef.current = ctx;
+      if (ctx) {
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      initParticles();
+    }
+
+    function animate() {
+      const c = ctxRef.current;
+      if (!c) return;
+      const w = window.innerWidth, h = window.innerHeight;
+      c.clearRect(0, 0, w, h);
+      particlesRef.current.forEach((p) => p.update());
+      animationRef.current = requestAnimationFrame(animate);
+    }
+
+    const moveThrottle = 10;
+    function onMouseMove(e) {
+      const now = performance.now();
+      if (now - lastMoveRef.current < moveThrottle) return;
+      lastMoveRef.current = now;
+      const m = mouseRef.current;
+      const prevX = m.x, prevY = m.y;
+      mouseRef.current = { x: e.clientX, y: e.clientY, prevX, prevY };
+      const dx = mouseRef.current.x - mouseRef.current.prevX;
+      const dy = mouseRef.current.y - mouseRef.current.prevY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const { hoverDelay: hd } = o();
+      if (dist < 5) {
+        if (hoverTimerRef.current === null) {
+          hoverTimerRef.current = setTimeout(() => {
+            triggerBlast(e.clientX, e.clientY);
+          }, hd);
+        }
+      } else if (hoverTimerRef.current) {
+        clearTimeout(hoverTimerRef.current);
+        hoverTimerRef.current = null;
+      }
+    }
+
+    function onTouchMove(e) {
+      if (e.touches[0]) {
+        const m = mouseRef.current;
+        const prevX = m.x, prevY = m.y;
+        mouseRef.current = {
+          x: e.touches[0].clientX,
+          y: e.touches[0].clientY,
+          prevX, prevY,
+        };
+      }
+    }
+
+    function onTouchStart(e) {
+      const { hoverDelay: hd } = o();
+      if (e.touches[0]) {
+        const x = e.touches[0].clientX, y = e.touches[0].clientY;
+        hoverTimerRef.current = setTimeout(() => triggerBlast(x, y), hd);
+      }
+    }
+
+    function onTouchEnd() {
+      if (hoverTimerRef.current) {
+        clearTimeout(hoverTimerRef.current);
+        hoverTimerRef.current = null;
+      }
+    }
+
+    function onClick(e) {
+      triggerBlast(e.clientX, e.clientY);
+    }
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchend', onTouchEnd);
+    window.addEventListener('click', onClick);
+    animationRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchend', onTouchEnd);
+      window.removeEventListener('click', onClick);
+      if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+      cancelAnimationFrame(animationRef.current);
+    };
+  }, []);
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
+      <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, display: 'block' }} />
+    </div>
+  );
+}
+
+function SectionFooterNav({ onNavigate, prev, next, contained = false }) {
+  if (!prev && !next) return null;
+  return (
+    <nav
+      className={`pf-section-footer-nav${contained ? ' pf-section-footer-nav--contained' : ''}`}
+      aria-label="Section navigation"
+    >
+      {prev ? (
+        <button type="button" className="pf-section-footer-btn" onClick={() => onNavigate(prev)}>
+          ← Go Back to Previous Section
+        </button>
+      ) : null}
+      {next ? (
+        <button type="button" className="pf-section-footer-btn" onClick={() => onNavigate(next)}>
+          Next Section →
+        </button>
+      ) : null}
+    </nav>
+  );
+}
+
+function AboutSection({ onNavigate }) {
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.portfolioEmbedSpotify) {
+      window.portfolioEmbedSpotify.init();
+      return () => window.portfolioEmbedSpotify.teardown();
+    }
+    return undefined;
+  }, []);
+
+  return (
+    <div
+      data-theme="dark"
+      className="about-embed-root"
+      style={{
+        minHeight: '100%',
+        background: 'transparent',
+        color: '#d4d4d4',
+      }}
+    >
+      <main className="pf-about-main" style={{ paddingTop: '1rem' }}>
+        <div id="about" className="pf-about">
+          <p className="pf-about__eyebrow">About</p>
+          <h1 className="pf-about__title">
+            Hey, I&apos;m <span className="pf-about__title-accent">David W.</span>
+          </h1>
+
+          <p className="pf-about__lead">
+            I make fast, understated websites for <strong>artists, photographers, and small studios</strong>—the
+            kind where your images lead and the interface gets out of the way. I spend my days in architecture
+            and infrastructure; I bring that same care to the work I do for people who think in pictures, not
+            in roadmaps.
+          </p>
+          <p className="pf-about__p">
+            Over the last decade I&apos;ve designed networks, cloud systems, and internal tools, then carried that
+            habit of clarity to the public side: responsive layouts, type that reads well on a phone, and inquiry
+            flows that feel respectful instead of pushy. I&apos;m not here to dazzle you with jargon—only to help
+            you ship a site you&apos;re happy to send to a gallery, a rep, or a client at midnight.
+          </p>
+          <p className="pf-about__p">
+            The same instincts that keep backends boringly reliable—fewer moving parts, honest tradeoffs, attention
+            to performance—are the ones I use when I tune how your portfolio loads and how captions breathe next to
+            full-bleed work. Heavy technical background, human-facing outcome: a calm site that still feels like
+            yours.
+          </p>
+          <p className="pf-about__p">
+            Off the clock I still like working with my hands—board-level repair, KiCad, the occasional hardware
+            rabbit hole. It keeps me patient with detail, whether that&apos;s a trace on a board or spacing in a
+            layout grid.
+          </p>
+          <p className="pf-about__p">
+            <button
+              type="button"
+              className="pf-about__inline-link"
+              onClick={() => onNavigate('contact')}
+            >
+              Get in touch
+            </button>
+            {' '}if you&apos;d like to talk about your next site, timelines, or how you want your work to move on the
+            page.
+          </p>
+          <p className="pf-about__p">
+            <strong>Services</strong> is where I spell out what I build; <strong>Work</strong> shows design templates
+            and starting points you can pick from. When you are ready to send links or talk timelines, use{' '}
+            <strong>Contact</strong>.
+          </p>
+
+          <nav className="pf-connect" aria-label="Resume and social links">
+            <p className="pf-connect__label">Resume &amp; social</p>
+            <ul className="pf-connect__list">
+              <li>
+                <a
+                  className="pf-connect__a"
+                  href="https://github.com/DaBugg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub"
+                >
+                  <img className="pf-connect__icon" src="test-pages-new/icons8-github.svg" alt="" aria-hidden="true" />
+                </a>
+              </li>
+              <li>
+                <a
+                  className="pf-connect__a"
+                  href="https://www.linkedin.com/in/david-w-3621bb272"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                >
+                  <img className="pf-connect__icon" src="test-pages-new/icons8-linkedin.svg" alt="" aria-hidden="true" />
+                </a>
+              </li>
+              <li>
+                <a
+                  className="pf-connect__a"
+                  href="https://www.linkedin.com/in/david-w-3621bb272"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="X"
+                >
+                  <img className="pf-connect__icon" src="test-pages-new/icons8-x.svg" alt="" aria-hidden="true" />
+                </a>
+              </li>
+              <li>
+                <a
+                  className="pf-connect__a"
+                  href="https://www.linkedin.com/in/david-w-3621bb272"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Dribbble"
+                >
+                  <img className="pf-connect__icon" src="test-pages-new/icons8-dribbble.svg" alt="" aria-hidden="true" />
+                </a>
+              </li>
+              <li>
+                <a
+                  className="pf-connect__a"
+                  href="https://www.linkedin.com/in/david-w-3621bb272"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Pinterest"
+                >
+                  <img className="pf-connect__icon" src="test-pages-new/icons8-pinterest.svg" alt="" aria-hidden="true" />
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <SectionFooterNav onNavigate={onNavigate} next="work" />
         </div>
-        <div class="hero-proof">
-          <a href="about-me.html" class="proof-item">
-            <span class="proof-number">5+</span>
-            <span class="proof-label">Years in technology</span>
-          </a>
-          <a href="#services" class="proof-item">
-            <span class="proof-number">End-to-End</span>
-            <span class="proof-label">Strategy &middot; Build &middot; Launch</span>
-          </a>
-          <a href="#work" class="proof-item">
-            <span class="proof-number">Results-First</span>
-            <span class="proof-label">Business outcomes, not busywork</span>
-          </a>
-        </div>
-      </div>
 
-      <!-- Right: Visual -->
-      <div class="hero-visual">
-        <div class="node-graphic">
-          <!-- SVG network node illustration -->
-          <svg viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Outer rings -->
-            <circle cx="240" cy="240" r="200" stroke="rgba(34,211,238,0.08)" stroke-width="1"/>
-            <circle cx="240" cy="240" r="150" stroke="rgba(52,211,153,0.06)" stroke-width="1"/>
-            <circle cx="240" cy="240" r="100" stroke="rgba(96,165,250,0.06)" stroke-width="1"/>
-
-            <!-- Connection lines -->
-            <line x1="240" y1="240" x2="240" y2="40" stroke="rgba(34,211,238,0.15)" stroke-width="1" class="dash-animate"/>
-            <line x1="240" y1="240" x2="430" y2="160" stroke="rgba(52,211,153,0.15)" stroke-width="1" class="dash-animate"/>
-            <line x1="240" y1="240" x2="400" y2="380" stroke="rgba(96,165,250,0.15)" stroke-width="1" class="dash-animate"/>
-            <line x1="240" y1="240" x2="80" y2="380" stroke="rgba(34,211,238,0.12)" stroke-width="1" class="dash-animate"/>
-            <line x1="240" y1="240" x2="50" y2="160" stroke="rgba(52,211,153,0.12)" stroke-width="1" class="dash-animate"/>
-            <line x1="240" y1="240" x2="340" y2="60" stroke="rgba(96,165,250,0.1)" stroke-width="1" class="dash-animate"/>
-            <line x1="240" y1="240" x2="140" y2="60" stroke="rgba(34,211,238,0.1)" stroke-width="1" class="dash-animate"/>
-
-            <!-- Outer nodes -->
-            <circle cx="240" cy="40" r="6" fill="rgba(34,211,238,0.3)" class="node-pulse"/>
-            <circle cx="240" cy="40" r="3" fill="#22d3ee"/>
-            <circle cx="430" cy="160" r="6" fill="rgba(52,211,153,0.3)" class="node-pulse" style="animation-delay:-1s"/>
-            <circle cx="430" cy="160" r="3" fill="#34d399"/>
-            <circle cx="400" cy="380" r="6" fill="rgba(96,165,250,0.3)" class="node-pulse" style="animation-delay:-2s"/>
-            <circle cx="400" cy="380" r="3" fill="#60a5fa"/>
-            <circle cx="80" cy="380" r="5" fill="rgba(34,211,238,0.25)" class="node-pulse" style="animation-delay:-0.5s"/>
-            <circle cx="80" cy="380" r="2.5" fill="#22d3ee"/>
-            <circle cx="50" cy="160" r="5" fill="rgba(52,211,153,0.25)" class="node-pulse" style="animation-delay:-1.5s"/>
-            <circle cx="50" cy="160" r="2.5" fill="#34d399"/>
-            <circle cx="340" cy="60" r="4" fill="rgba(96,165,250,0.2)" class="node-pulse" style="animation-delay:-2.5s"/>
-            <circle cx="340" cy="60" r="2" fill="#60a5fa"/>
-            <circle cx="140" cy="60" r="4" fill="rgba(34,211,238,0.2)" class="node-pulse" style="animation-delay:-0.8s"/>
-            <circle cx="140" cy="60" r="2" fill="#22d3ee"/>
-
-            <!-- Mid-ring nodes -->
-            <circle cx="320" cy="130" r="4" fill="rgba(52,211,153,0.2)" class="node-pulse" style="animation-delay:-1.2s"/>
-            <circle cx="320" cy="130" r="2" fill="#34d399"/>
-            <circle cx="350" cy="280" r="4" fill="rgba(34,211,238,0.2)" class="node-pulse" style="animation-delay:-1.8s"/>
-            <circle cx="350" cy="280" r="2" fill="#22d3ee"/>
-            <circle cx="160" cy="340" r="4" fill="rgba(96,165,250,0.2)" class="node-pulse" style="animation-delay:-0.3s"/>
-            <circle cx="160" cy="340" r="2" fill="#60a5fa"/>
-            <circle cx="130" cy="180" r="4" fill="rgba(52,211,153,0.2)" class="node-pulse" style="animation-delay:-2.2s"/>
-            <circle cx="130" cy="180" r="2" fill="#34d399"/>
-
-            <!-- Center hub -->
-            <circle cx="240" cy="240" r="24" fill="rgba(34,211,238,0.06)" class="node-pulse"/>
-            <circle cx="240" cy="240" r="16" fill="rgba(34,211,238,0.1)"/>
-            <circle cx="240" cy="240" r="8" fill="#22d3ee"/>
-
-            <!-- Decorative connections between outer nodes -->
-            <line x1="240" y1="40" x2="340" y2="60" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
-            <line x1="240" y1="40" x2="140" y2="60" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
-            <line x1="430" y1="160" x2="400" y2="380" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/>
-            <line x1="80" y1="380" x2="50" y2="160" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/>
-          </svg>
-
-          <!-- Floating service cards -->
-          <div class="service-cards">
-            <a href="#services" class="service-card">
-              <div class="card-icon card-icon--cyan">&#128187;</div>
-              <div class="card-text">
-                <div class="card-title">Web Development</div>
-                <div class="card-sub">Sites &middot; Platforms &middot; Apps</div>
+        <section id="spotify" className="section section--soft">
+          <div className="container">
+            <article className="card spotify is-loading" id="spotify-card">
+              <div className="spotify__badge">
+                <svg aria-hidden="true" width="18" height="18" viewBox="0 0 168 168">
+                  <circle fill="currentColor" cx="84" cy="84" r="84" />
+                  <path
+                    fill="#0b1220"
+                    d="M120.2 119.1c-1.6 2.7-5 3.6-7.7 2-21.1-12.6-47.6-15.5-78.8-8.5-3 0.7-6-1.2-6.7-4.2-.7-3 1.2-6 4.2-6.7 34.9-7.8 64.7-4.5 88 9.7 2.7 1.6 3.6 5 2 7.7zm10.9-24.2c-2 3.3-6.3 4.3-9.6 2.3-24.1-14.8-60.8-19.1-89.3-10.4-3.7 1.1-7.5-1-8.7-4.7-1.1-3.7 1-7.5 4.7-8.7 32.9-9.9 73.4-5.1 101.8 12.3 3.3 2 4.3 6.3 2.3 9.6zm1-25.7C103 50.9 61.1 49.3 36.2 56.9 31.8 58.3 27 55.9 25.6 51.6s1.4-8.9 5.7-10.3c29.7-9.3 76.1-7.4 106.9 11.1 3.9 2.3 5.2 7.3 2.9 11.2-2.4 3.9-7.4 5.2-11.2 2.9z"
+                  />
+                </svg>
+                <span>What&apos;s playing right now</span>
+                <span className="spotify__live" aria-hidden="true" />
               </div>
-            </a>
-            <a href="#services" class="service-card">
-              <div class="card-icon card-icon--emerald">&#128200;</div>
-              <div class="card-text">
-                <div class="card-title">Analytics & Dashboards</div>
-                <div class="card-sub">Data Based Decisions</div>
+
+              <div className="spotify__content">
+                <div className="spotify__media">
+                  <img
+                    id="spotify-cover"
+                    src="https://via.placeholder.com/300x300?text=Spotify"
+                    alt="Album cover"
+                  />
+                </div>
+
+                <div className="spotify__meta">
+                  <p className="small muted" id="spotify-status">Loading…</p>
+                  <h3 className="accent" id="spotify-track">Track title</h3>
+                  <p id="spotify-artist" className="small">Artist name</p>
+                  <p id="spotify-album" className="small muted">Album name</p>
+
+                  <div className="spotify__progress">
+                    <div className="spotify__bar">
+                      <span id="spotify-progress" style={{ width: '0%' }} />
+                    </div>
+                    <div className="spotify__times small muted">
+                      <span id="spotify-current-time">0:00</span>
+                      <span id="spotify-duration">0:00</span>
+                    </div>
+                  </div>
+
+                  <div className="spotify__actions">
+                    <div className="spotify-suggest" id="spotify-suggest">
+                      <button
+                        type="button"
+                        className="btn btn--ghost small spotify-suggest__toggle"
+                        aria-expanded="false"
+                        aria-controls="spotify-suggest-form"
+                      >
+                        Suggest a Song
+                      </button>
+
+                      <div className="spotify-suggest__form-wrapper">
+                        <form
+                          id="spotify-suggest-form"
+                          className="spotify-suggest__form"
+                          action="/api/suggest-song"
+                          method="POST"
+                        >
+                          <div className="spotify-suggest__field spotify-suggest__field--full">
+                            <label htmlFor="song-name" className="spotify-suggest__label">
+                              Song name <span className="spotify-suggest__required">*</span>
+                            </label>
+                            <input
+                              id="song-name"
+                              name="songName"
+                              type="text"
+                              className="spotify-suggest__input"
+                              required
+                              placeholder="e.g., Nights"
+                            />
+                          </div>
+
+                          <div className="spotify-suggest__field spotify-suggest__field--full">
+                            <label htmlFor="song-artist" className="spotify-suggest__label">
+                              Artist <span className="spotify-suggest__optional">(optional)</span>
+                            </label>
+                            <input
+                              id="song-artist"
+                              name="artist"
+                              type="text"
+                              className="spotify-suggest__input"
+                              placeholder="e.g., Frank Ocean"
+                            />
+                          </div>
+
+                          <div className="spotify-suggest__actions spotify-suggest__field--full">
+                            <button type="submit" className="btn btn--primary small">
+                              Submit
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+
+                    <a
+                      id="spotify-open-link"
+                      href="https://open.spotify.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn small"
+                    >
+                      Open in Spotify
+                    </a>
+                  </div>
+                </div>
               </div>
-            </a>
-            <a href="#services" class="service-card">
-              <div class="card-icon card-icon--blue">&#9881;</div>
-              <div class="card-text">
-                <div class="card-title">Automation</div>
-                <div class="card-sub">Workflows &middot; Operations</div>
-              </div>
-            </a>
-            <a href="#services" class="service-card">
-              <div class="card-icon card-icon--cyan">&#128269;</div>
-              <div class="card-text">
-                <div class="card-title">SEO & AI Strategy</div>
-                <div class="card-sub">Visibility &middot; Intelligence</div>
-              </div>
-            </a>
-          </div>
-
-          <!-- Terminal widget -->
-          <a href="#expertise" class="terminal-widget">
-            <span class="prompt">$</span> <span class="cmd">solutions --strategy --build --launch</span><span class="terminal-cursor"></span>
-          </a>
-        </div>
-      </div>
-
-      <!-- Scroll indicator -->
-      <div class="scroll-indicator">
-        <span>Scroll</span>
-        <div class="scroll-line"></div>
-      </div>
-    </section>
-
-    <!-- ===== 3. Services ===== -->
-    <section id="services" class="section">
-          <div class="container">
-            <h2 class="accent">Solutions</h2>
-            <p class="muted small">Technology solutions built to drive efficiency, visibility, and growth.</p>
-
-            <div class="services-grid">
-              <article class="card service">
-                <div class="service__icon-area">
-                  <span class="service__icon">&#128187;</span>
-                </div>
-                <div class="service__body">
-                  <h3>Custom Web Development</h3>
-                  <p>
-                    Sites, platforms, and apps built to convert and scale. Modern frameworks, responsive design, and performance first architecture.
-                  </p>
-                  <a href="#contact" class="service__cta">Learn more &rarr;</a>
-                </div>
-              </article>
-
-              <article class="card service">
-                <div class="service__icon-area">
-                  <span class="service__icon">&#128200;</span>
-                </div>
-                <div class="service__body">
-                  <h3>Analytics & Custom Dashboards</h3>
-                  <p>
-                    Visibility into what matters. Platforms configured for data based decisions, from setup to team training.
-                  </p>
-                  <a href="#contact" class="service__cta">Learn more &rarr;</a>
-                </div>
-              </article>
-
-              <article class="card service">
-                <div class="service__icon-area">
-                  <span class="service__icon">&#9881;</span>
-                </div>
-                <div class="service__body">
-                  <h3>Automation & Workflow Platforms</h3>
-                  <p>
-                    Streamline operations with custom tools that eliminate manual work. Pipelines, integrations, and systems that run without constant attention.
-                  </p>
-                  <a href="#contact" class="service__cta">Learn more &rarr;</a>
-                </div>
-              </article>
-
-              <article class="card service">
-                <div class="service__icon-area">
-                  <span class="service__icon">&#128269;</span>
-                </div>
-                <div class="service__body">
-                  <h3>SEO Strategy & Implementation</h3>
-                  <p>
-                    Get found. Rank higher. Drive qualified traffic to your business with technical SEO, content strategy, and conversion optimization.
-                  </p>
-                  <a href="#contact" class="service__cta">Learn more &rarr;</a>
-                </div>
-              </article>
-
-              <article class="card service">
-                <div class="service__icon-area">
-                  <span class="service__icon">&#129302;</span>
-                </div>
-                <div class="service__body">
-                  <h3>AI Consulting & Integration</h3>
-                  <p>
-                    Strategic AI adoption from readiness assessment to production ready implementation. Make AI work for your business, not the other way around.
-                  </p>
-                  <a href="#contact" class="service__cta">Learn more &rarr;</a>
-                </div>
-              </article>
-            </div>
+            </article>
           </div>
         </section>
 
-    <!-- ===== 4. Technical Expertise ===== -->
-    <section id="expertise" class="section">
-      <div class="container">
-        <h2 class="accent">Technical Expertise</h2>
-        <p class="muted small">Deep, cross domain experience across AI, infrastructure, web, and data.</p>
-
-        <div class="expertise-grid">
-          <details class="expertise-group" open>
-            <summary>
-              <span class="expertise-group__icon">&#129302;</span>
-              <span class="expertise-group__title">AI & Strategy</span>
-              <span class="expertise-group__chevron"></span>
-            </summary>
-            <ul>
-              <li>AI Strategy & Implementation</li>
-              <li>Solutions Architecture</li>
-              <li>AI Readiness Assessments</li>
-              <li>Business Operations & Process Overhaul</li>
-            </ul>
-          </details>
-
-          <details class="expertise-group">
-            <summary>
-              <span class="expertise-group__icon">&#9729;&#65039;</span>
-              <span class="expertise-group__title">Cloud & Infrastructure</span>
-              <span class="expertise-group__chevron"></span>
-            </summary>
-            <ul>
-              <li>Cloud Architecture (GCP, AWS)</li>
-              <li>Infrastructure Modernization</li>
-              <li>DevSecOps Design</li>
-              <li>Network Engineering (Cisco, UniFi, Juniper)</li>
-              <li>Docker & Containerization</li>
-              <li>Linux Systems & CLI</li>
-            </ul>
-          </details>
-
-          <details class="expertise-group">
-            <summary>
-              <span class="expertise-group__icon">&#128187;</span>
-              <span class="expertise-group__title">Web & Digital</span>
-              <span class="expertise-group__chevron"></span>
-            </summary>
-            <ul>
-              <li>HTML, CSS, JavaScript</li>
-              <li>Node.js & React</li>
-              <li>SEO & Conversion Optimization</li>
-              <li>UX/UI Prototyping & App Design</li>
-              <li>Responsive & Accessible Design</li>
-            </ul>
-          </details>
-
-          <details class="expertise-group">
-            <summary>
-              <span class="expertise-group__icon">&#128200;</span>
-              <span class="expertise-group__title">Data & Automation</span>
-              <span class="expertise-group__chevron"></span>
-            </summary>
-            <ul>
-              <li>Advanced Analytics Platforms</li>
-              <li>CRM Setup & Training</li>
-              <li>Python Automation & Web Scraping</li>
-              <li>CI/CD Pipelines</li>
-              <li>Workflow & Integration Automation</li>
-            </ul>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 5. Mid-page CTA ===== -->
-    <section id="cta-mid" class="section cta-section">
-          <div class="container">
-            <h2>Ready to Make Your Infrastructure AI Ready?</h2>
-            <p class="lead">Let's talk about your goals and what it takes to get there.</p>
-            <a href="#contact" class="btn btn--large">Request a Proposal</a>
-            <p class="cta-microcopy small muted">
-              I'll review your situation and send a tailored scope and estimate.
-            </p>
-      </div>
-    </section>
-
-    <!-- ===== 6. Selected Work / Case Studies ===== -->
-    <section id="work" class="section section--soft">
-      <div class="container">
-        <h2 class="accent">Selected Work</h2>
-        <p class="muted small">Projects that demonstrate infrastructure engineering and AI-readiness outcomes.</p>
-
-        <div class="projects">
-          <article class="card project">
-            <div class="project__media">
-              <picture>
-                <source srcset="images/project-card-1.webp" type="image/webp" />
-                <img src="images/project-card-1.png" alt="Web scraping automation tool" loading="lazy" width="600" height="600" />
-              </picture>
+        <div id="quote">
+          <div className="pf-reading">
+            <div className="pf-reading__quote-block">
+              <h2>A line I keep nearby</h2>
+              <blockquote>
+                <p>&quot;Those who do not want to imitate anything, produce nothing.&quot;</p>
+                <footer>— Salvador Dalí</footer>
+              </blockquote>
             </div>
-            <div class="project__body">
-              <h3>Web Scraping & Automation Infrastructure</h3>
-              <p>
-                Built a scalable form fill and web scraping platform with GUI configuration,
-                custom script support, analytics tracking, and proxy/CAPTCHA integration
-                demonstrating Python automation at production scale.
-              </p>
-              <div class="project__links">
-                <a class="btn btn--ghost" href="#contact">Discuss a Similar Project</a>
-              </div>
-            </div>
-          </article>
 
-          <article class="card project">
-            <div class="project__media">
-              <picture>
-                <source srcset="images/project-card-2.webp" type="image/webp" />
-                <img src="images/project-card-2.png" alt="Portfolio and web development projects" loading="lazy" width="600" height="600" />
-              </picture>
+            <div className="pf-reading__book">
+              <h2>On the desk</h2>
+              <h3>Apple in China</h3>
+              <a
+                href="https://www.amazon.com/Apple-China-Capture-Greatest-Company/dp/1668053373"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Find it on Amazon
+              </a>
             </div>
-            <div class="project__body">
-              <h3>Web Development & Deployment</h3>
-              <p>
-                15+ responsive web services designed and deployed with Node.js, Express, and Vercel.
-                SEO optimization, conversion-focused layouts, and modern CI/CD pipelines
-                helping small businesses establish their online presence.
-              </p>
-              <div class="project__links">
-                <a class="btn btn--ghost" href="my-designs.html">View Design Showcase</a>
-              </div>
-            </div>
-          </article>
 
-          <article class="card project">
-            <div class="project__media">
-              <picture>
-                <source srcset="images/project-codelink.webp" type="image/webp" />
-                <img src="images/project-codelink.png" alt="CodeLink collaboration platform" loading="lazy" width="600" height="600" />
-              </picture>
+            <div className="pf-reading__cover">
+              <figure>
+                <picture>
+                  <source srcSet="images/book-of-the-month.webp" type="image/webp" />
+                  <img
+                    src="images/book-of-the-month.png"
+                    alt="Cover of Apple in China"
+                    loading="lazy"
+                  />
+                </picture>
+              </figure>
             </div>
-            <div class="project__body">
-              <h3>CodeLink — Developer Platform</h3>
-              <p>
-                A collaboration platform where developers find real projects, form teams, and ship ideas together.
-                Full-stack architecture with real-time features, built for scale.
-              </p>
-              <div class="project__links">
-                <a class="btn btn--ghost" href="#contact">Learn More</a>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 7. FAQ ===== -->
-    <section id="faq" class="section">
-      <div class="container">
-        <div class="faq-header">
-          <h2 class="accent">Frequently Asked Questions</h2>
-          <div class="faq-nav">
-            <button class="faq-arrow faq-arrow--prev" id="faq-prev" aria-label="Previous question">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-            </button>
-            <button class="faq-arrow faq-arrow--next" id="faq-next" aria-label="Next question">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
           </div>
         </div>
+      </main>
+    </div>
+  );
+}
 
-        <div class="faq-carousel" id="faq-carousel">
-          <div class="faq-track" id="faq-track">
-            <article class="faq-card">
-              <span class="faq-card__number">01</span>
-              <h3 class="faq-card__question">What exactly does a Technology Solutions Provider do?</h3>
-              <p class="faq-card__answer">
-                I help businesses prepare their infrastructure for AI workloads, modernize their operations,
-                and get more out of their technology. That means assessing your current systems, designing architecture
-                that supports growth, and often building or implementing the solution alongside your team.
-              </p>
-            </article>
+const portfolioPanelShell = {
+  minHeight: '100%',
+  background: 'transparent',
+  color: 'var(--text)',
+  fontFamily: 'var(--font-sans)',
+};
 
-            <article class="faq-card">
-              <span class="faq-card__number">02</span>
-              <h3 class="faq-card__question">We already have a DevOps/IT team. Why would we need you?</h3>
-              <p class="faq-card__answer">
-                Your team runs your systems day-to-day. I come in for specific challenges; migrating to the cloud,
-                preparing for AI adoption, redesigning a network, or breaking through a technical bottleneck.
-                I work with your team, not instead of them.
-              </p>
-            </article>
+const WORK_PRODUCT_CARDS = [
+  {
+    section: 'Section zero',
+    meta: 'Template · business and product teams',
+    title: 'Business Owner & Product Team Starter',
+    body:
+      'Built for business owners, managers, product developers, and startups that need clear positioning fast. This layout prioritizes offer clarity, timeline expectations, and one direct path to start.',
+    quote: 'This gives us a practical structure to launch with confidence, then iterate as we learn.',
+    cite: 'Best fit: teams validating offers, launching new services, or rebuilding an unclear web presence.',
+    mediaSrc: 'https://player.mux.com/r7u3dBYrfwLMb00YwhKgil6t6ao3Vn00fJq2N12H58FM8',
+  },
+  {
+    section: 'Section one',
+    meta: 'Template · image-led portfolio',
+    title: 'Artist Portfolio Starter',
+    body:
+      'Image-forward portfolio template with statement, featured projects, and inquiry CTA. Replace with your final messaging and offer details later.',
+    quote: 'Finally reads like our catalog: pacing, type, and room for the work.',
+    cite: 'Best fit: visual-first portfolios that need a polished but editable structure.',
+    mediaSrc: 'https://player.mux.com/bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM',
+  },
+  {
+    section: 'Section two',
+    meta: 'Template · studio / independent practice',
+    title: 'Service Overview Template',
+    body:
+      'Horizontal service card pattern for showing outcomes, process, and package tiers at a glance. Swap in approved copy and pricing language later.',
+    quote: 'One pass tells visitors what we do, who it is for, and what to click next.',
+    cite: 'Best fit: solo studios and teams that need quick clarity before long case studies.',
+    mediaSrc: 'https://player.mux.com/FghhBbV00fPiIiubZGEC00vCec02LmQdg00fZy9NVX00MnA8',
+  },
+  {
+    section: 'Section three',
+    meta: 'Template · case snapshot',
+    title: 'Case Snapshot Layout',
+    body:
+      'Compact before-and-after style case card with visual proof, short context, and clear next step. Intended for quick decision-making by potential leads.',
+    quote: 'Gives me just enough proof to trust the process without reading a full report.',
+    cite: 'Best fit: conversion pages where outcomes need to be scannable at a glance.',
+    mediaSrc: 'https://player.mux.com/8jivLSnoyaDu01mP02iAX1elHaO026zrQ0200pvjGoIeN4mU',
+  },
+  {
+    section: 'Section four',
+    meta: 'Template · narrative + gallery',
+    title: 'Brand Story + Gallery Mix',
+    body:
+      'Blend narrative copy with modular media placements so visitors can choose between reading and browsing. Replace placeholders with project assets.',
+    quote: 'Balanced story and visuals: not too sparse, not too text heavy.',
+    cite: 'Best fit: brands that want authority copy and visual proof in the same lane.',
+    mediaSrc: 'https://player.mux.com/EbDl00U8531qaMnSoynVZI01V02ydAyIqeHzGKVlqn1s4U',
+  },
+  {
+    section: 'Section five',
+    meta: 'Template · launch conversion',
+    title: 'Launch Page Conversion Track',
+    body:
+      'Launch-focused template with social proof row, FAQ accordion, and single CTA to book or inquire. Update copy to match your exact audience.',
+    quote: 'People know the offer, trust the proof, and take one clear next step.',
+    cite: 'Best fit: campaign launches and service pages with one primary conversion goal.',
+    mediaSrc: 'https://player.mux.com/00w302YUzDdVCVmb3RYncHB201Esego5J4Om1YlANIcseo',
+  },
+];
 
-            <article class="faq-card">
-              <span class="faq-card__number">03</span>
-              <h3 class="faq-card__question">How do engagements typically work?</h3>
-              <p class="faq-card__answer">
-                Most start with a free discovery call to understand your situation. From there, it might be a focused
-                assessment (1–2 weeks), a strategy engagement (3–4 weeks), or ongoing implementation support.
-                Scope and timeline depend on your needs.
-              </p>
-            </article>
-
-            <article class="faq-card">
-              <span class="faq-card__number">04</span>
-              <h3 class="faq-card__question">Do you only work with large enterprises?</h3>
-              <p class="faq-card__answer">
-                No. Most of my clients are small-medium businesses and startups. The common thread is that they're
-                building something technical and need expertise they don't have.
-                Enterprise teams are welcome too — the fundamentals are the same.
-              </p>
-            </article>
-
-            <article class="faq-card">
-              <span class="faq-card__number">05</span>
-              <h3 class="faq-card__question">Do you also build websites and set up CRM/analytics tools?</h3>
-              <p class="faq-card__answer">
-                Yes. I build custom websites with SEO optimization, set up and train teams on CRM platforms,
-                and configure advanced analytics dashboards. These services pair well with infrastructure
-                work. Getting your digital presence and internal tooling right alongside your technical foundation. Is the Ulimate Goal!
-              </p>
-            </article>
-
-            <article class="faq-card">
-              <span class="faq-card__number">06</span>
-              <h3 class="faq-card__question">What industries do you work with?</h3>
-              <p class="faq-card__answer">
-                Infrastructure challenges are in every industry. I currently serve as Solutions Architect in the
-                security and solar industry, and I've worked across tech startups, e-commerce, and professional services.
-                If your business runs on technology, the fundamentals apply.
-              </p>
-            </article>
-
-            <article class="faq-card">
-              <span class="faq-card__number">07</span>
-              <h3 class="faq-card__question">What does it cost?</h3>
-              <p class="faq-card__answer">
-                Pricing depends on scope. Assessments and strategy engagements are project based with clear deliverables.
-                Implementation support is billed on a weekly or monthly basis. The discovery call is free we'll figure out
-                the right scope together.
-              </p>
-            </article>
-
-            <article class="faq-card">
-              <span class="faq-card__number">08</span>
-              <h3 class="faq-card__question">Can we start with a small engagement to test the fit?</h3>
-              <p class="faq-card__answer">
-                Absolutely. Many clients start with an assessment or a focused sprint. If it works, we expand.
-                No long-term contracts required.
-              </p>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 8. Contact / Consultation Form (Embedded) ===== -->
-    <section id="contact" class="section section--soft">
-      <div class="container">
-        <div class="contact-grid">
-          <div class="contact-intro">
-            <h2 class="accent">Let's Talk About Your Infrastructure</h2>
-            <p class="lead">
-              Whether you're starting an AI initiative, migrating to the cloud,
-              or modernizing legacy systems, the first step is a conversation.
+function WorkSection({ onNavigate }) {
+  return (
+    <div data-theme="dark" className="portfolio-embed-root" style={portfolioPanelShell}>
+      <main style={{ paddingTop: '1rem' }}>
+        <section id="work" className="section" aria-labelledby="work-panel-title">
+          <div className="container">
+            <p className="small muted">Work</p>
+            <h1 id="work-panel-title" className="title">
+              Product card <span className="accent">template gallery</span>
+            </h1>
+            <p className="lead">
+              This section previews reusable page directions you can fold into a portfolio site: hero treatments,
+              trust-building sections, process blocks, social proof, pricing layouts, and focused CTAs. Artists and
+              photographers looking for a clean showcase should compare visual storytelling and gallery flow first,
+              while studios and service-led teams should focus on conversion structure, offer clarity, and inquiry path.
             </p>
-            <ul class="contact-services">
-              <li>AI readiness assessments</li>
-              <li>Cloud & infrastructure strategy</li>
-              <li>Web development & SEO</li>
-              <li>Analytics & CRM setup</li>
-              <li>Automation & pipeline engineering</li>
-              <li>Security review & hardening</li>
-              <li>Operations overhaul & implementation</li>
-            </ul>
-            <p class="small muted">
-              Or email me directly at
-              <a href="mailto:david@networksandnodes.org" class="accent">david@networksandnodes.org</a>
+            <div className="pf-work-products" aria-label="Work product card videos">
+              {WORK_PRODUCT_CARDS.map((card) => (
+                <article key={card.section} className="pf-work-product-card">
+                  <div className="pf-service-card__media">
+                    <iframe
+                      src={card.mediaSrc}
+                      title={`${card.section} video preview`}
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
+                  <div className="pf-service-card__body">
+                    <p className="small muted" style={{ margin: 0 }}>{card.section}</p>
+                    <p className="small muted" style={{ margin: 0 }}>{card.meta}</p>
+                    <h3>{card.title}</h3>
+                    <p>{card.body}</p>
+                    <figure style={{ margin: 0 }}>
+                      <blockquote className="pf-service-card__quote">{card.quote}</blockquote>
+                      <figcaption className="pf-service-card__cite">{card.cite}</figcaption>
+                    </figure>
+                    <button
+                      type="button"
+                      className="service__cta portfolio-faux-cta"
+                      onClick={() => onNavigate('services')}
+                    >
+                      Use This As Template →
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <p className="small muted" style={{ marginTop: '2rem', maxWidth: '42rem', lineHeight: 1.65 }}>
+              Need capability details instead of template examples? See{' '}
+              <button type="button" className="pf-about__inline-link" onClick={() => onNavigate('services')}>
+                Services
+              </button>
+              . Ready to choose a layout direction? Use{' '}
+              <button type="button" className="pf-about__inline-link" onClick={() => onNavigate('contact')}>
+                Contact
+              </button>
+              .
             </p>
+            <SectionFooterNav onNavigate={onNavigate} prev="about" next="services" />
           </div>
+        </section>
+      </main>
+    </div>
+  );
+}
 
-          <form class="consultation-form" action="/api/send-quote" method="post">
-            <div class="form-row">
-              <div class="form-field">
-                <label for="name">Name<span class="required">*</span></label>
-                <input type="text" id="name" name="name" required />
-              </div>
-              <div class="form-field">
-                <label for="email">Email<span class="required">*</span></label>
-                <input type="email" id="email" name="email" required />
+function ServicesSection({ onNavigate }) {
+  const solutions = [
+    {
+      title: 'Custom Web Development',
+      body:
+        'Sites and apps built to convert: modern stacks, responsive layout, and architecture that keeps performance first.',
+      mediaSrc: null,
+      mediaType: 'image',
+    },
+    {
+      title: 'Analytics & Custom Dashboards',
+      body:
+        'Dashboards wired for decisions you actually make—from first setup through how your team reads the numbers.',
+      mediaSrc: null,
+      mediaType: 'image',
+    },
+    {
+      title: 'Automation & Workflow Platforms',
+      body:
+        'Custom tools and integrations that cut manual work so operations keep moving without babysitting every step.',
+      mediaSrc: null,
+      mediaType: 'image',
+    },
+    {
+      title: 'SEO Strategy & Implementation',
+      body:
+        'Technical SEO, structure, and conversion paths so the right people find you—without promising magic rankings.',
+      mediaSrc: null,
+      mediaType: 'image',
+    },
+    {
+      title: 'AI Consulting & Integration',
+      body:
+        'From readiness to production: integrations that fit how you already work, not the other way around.',
+      mediaSrc: null,
+      mediaType: 'image',
+    },
+  ];
+
+  return (
+    <div data-theme="dark" className="portfolio-embed-root" style={portfolioPanelShell}>
+      <main style={{ paddingTop: '1rem' }}>
+        <section id="services" className="section">
+          <div className="container">
+            <h2 className="accent">Solutions</h2>
+            <p className="muted small">
+              Technology solutions built to drive efficiency, visibility, and growth. Scroll sideways on smaller
+              screens to see every offering.
+            </p>
+
+            <div className="pf-services-rail">
+              {solutions.map((s) => (
+                <article key={s.title} className="pf-service-card">
+                  <div className="pf-service-card__media">
+                    {s.mediaSrc && s.mediaType === 'video' ? (
+                      <video src={s.mediaSrc} controls playsInline preload="metadata" />
+                    ) : s.mediaSrc ? (
+                      <img src={s.mediaSrc} alt="" loading="lazy" />
+                    ) : (
+                      <div className="pf-service-card__media-placeholder">Image or video</div>
+                    )}
+                  </div>
+                  <div className="pf-service-card__body">
+                    <h3>{s.title}</h3>
+                    <p>{s.body}</p>
+                    <button type="button" className="service__cta portfolio-faux-cta">
+                      Learn more →
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <SectionFooterNav onNavigate={onNavigate} prev="work" next="contact" />
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+const PF_CONTACT_ROLE_OPTIONS = [
+  { value: 'photographer', label: 'Photographer', desc: 'editorial, commercial, or fine-art.' },
+  { value: 'videographer', label: 'Videographer', desc: 'shooter, editor, or reel-driven director.' },
+  { value: 'business-owner', label: 'Business owner', desc: 'founder, operator, or owner-led brand.' },
+  { value: 'artist', label: 'Multi-disciplinary artist', desc: 'painter, sculptor, installation, mixed-media.' },
+  { value: 'small-business', label: 'Small business', desc: 'team-led business looking for a clearer web presence.' },
+  { value: 'startup', label: 'Startup', desc: 'early-stage team shipping fast and validating positioning.' },
+  { value: 'product-developer', label: 'Product developer', desc: 'building digital products and customer-facing experiences.' },
+  { value: 'other', label: 'Other', desc: 'writer, musician, performer, or anyone else with work to show.' },
+];
+
+const PF_CONTACT_SERVICE_OPTIONS = [
+  { value: 'website-turnkey', label: 'Website - turnkey', desc: 'one engagement, designed, built, launched, handed off.' },
+  { value: 'website-ongoing', label: 'Website - ongoing partnership', desc: 'updates, hosting, deployment, seasonal refreshes.' },
+  { value: 'web-dev-hosting-rework', label: 'Web development, hosting, or site rework', desc: 'small-business focused builds, infrastructure cleanup, and site refreshes.' },
+  { value: 'analytics', label: 'Analytics & dashboards', desc: 'measure what actually matters; no surveillance clutter.' },
+  { value: 'automation', label: 'Automation & workflow', desc: 'the quiet scripts that save hours a week.' },
+  { value: 'seo', label: 'SEO strategy', desc: 'findable without gimmicks.' },
+  { value: 'ai-consulting', label: 'AI / infrastructure consulting', desc: 'for systems and operations work beyond the website.' },
+  { value: 'other', label: "Something else - let's talk", desc: "catch-all for cases that don't fit above." },
+];
+
+function ContactSection({ onNavigate }) {
+  const [step, setStep] = useState(1);
+  const [role, setRole] = useState('');
+  const [service, setService] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const shellLight = {
+    minHeight: '100%',
+    background: 'transparent',
+    color: 'var(--text)',
+    fontFamily: 'var(--font-sans)',
+  };
+
+  const roleLabel = PF_CONTACT_ROLE_OPTIONS.find((item) => item.value === role)?.label || '';
+  const serviceLabel = PF_CONTACT_SERVICE_OPTIONS.find((item) => item.value === service)?.label || '';
+
+  const onFormSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitError('');
+    setIsSubmitting(true);
+    try {
+      const form = e.currentTarget;
+      const response = await fetch(form.action, {
+        method: form.method || 'post',
+        body: new FormData(form),
+      });
+      if (!response.ok) {
+        throw new Error('Submission failed');
+      }
+      setIsSubmitted(true);
+    } catch (error) {
+      setSubmitError('Something went wrong sending your note. Please try again or email directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div data-theme="light" className="portfolio-embed-root pf-contact-embed" style={shellLight}>
+      <main>
+        <section id="portfolio-contact" className="section section--soft">
+          <div className="container">
+            <div className="pf-contact-journey">
+              <div className="pf-contact-step">
+                <span className="pf-contact-step__progress">Step {step} of 3</span>
+                <header className="pf-contact-step__header">
+                  <p className="pf-contact-step__eyebrow">Contact</p>
+                  <h1 className="pf-contact-step__title">
+                    Tell me about your <span className="pf-contact-title-accent">next site</span>
+                  </h1>
+                </header>
+
+                <div className="pf-contact-step__body" key={`contact-step-${step}-${isSubmitted ? 'done' : 'active'}`}>
+                  {step === 1 ? (
+                    <section className="pf-contact-step__panel">
+                      <h2 className="pf-contact-step__heading">Who are you?</h2>
+                      <p className="pf-contact-step__helper">
+                        Pick the one that fits best - it just helps me scope the right kind of reply.
+                      </p>
+                      <div className="pf-contact-tiles">
+                        {PF_CONTACT_ROLE_OPTIONS.map((item) => (
+                          <button
+                            key={item.value}
+                            type="button"
+                            className={`pf-contact-tile${role === item.value ? ' pf-contact-tile--selected' : ''}`}
+                            onClick={() => {
+                              setRole(item.value);
+                              setStep(2);
+                            }}
+                          >
+                            <span className="pf-contact-tile__label">{item.label}</span>
+                            <p className="pf-contact-tile__desc">{item.desc}</p>
+                          </button>
+                        ))}
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {step === 2 ? (
+                    <section className="pf-contact-step__panel">
+                      <button type="button" className="pf-contact-step__back" onClick={() => setStep(1)}>
+                        Back
+                      </button>
+                      <h2 className="pf-contact-step__heading">What service do you need?</h2>
+                      <p className="pf-contact-step__helper">
+                        Website work is the main thing - but I also do the rest of the stack when it&apos;s useful.
+                      </p>
+                      <div className="pf-contact-tiles">
+                        {PF_CONTACT_SERVICE_OPTIONS.map((item) => (
+                          <button
+                            key={item.value}
+                            type="button"
+                            className={`pf-contact-tile${service === item.value ? ' pf-contact-tile--selected' : ''}`}
+                            onClick={() => {
+                              setService(item.value);
+                              setStep(3);
+                            }}
+                          >
+                            <span className="pf-contact-tile__label">{item.label}</span>
+                            <p className="pf-contact-tile__desc">{item.desc}</p>
+                          </button>
+                        ))}
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {step === 3 ? (
+                    <section className="pf-contact-step__panel">
+                      <button type="button" className="pf-contact-step__back" onClick={() => setStep(2)}>
+                        Back
+                      </button>
+                      <h2 className="pf-contact-step__heading">A few last details</h2>
+                      <p className="pf-contact-step__helper">
+                        Last step - enough to write you back with something useful, not a pitch.
+                      </p>
+
+                      {!isSubmitted ? (
+                        <form className="pf-contact-form" action="/api/send-quote" method="post" onSubmit={onFormSubmit}>
+                          <div className="pf-contact-summary-chip">
+                            <span>{roleLabel || 'Role'} · {serviceLabel || 'Service'}</span>
+                            <button type="button" className="pf-contact-summary-chip__edit" onClick={() => setStep(1)}>
+                              Edit role
+                            </button>
+                            <button type="button" className="pf-contact-summary-chip__edit" onClick={() => setStep(2)}>
+                              Edit service
+                            </button>
+                          </div>
+
+                          <input type="hidden" name="role" value={role} />
+                          <input type="hidden" name="service" value={service} />
+
+                          <div className="pf-contact-form__field">
+                            <label htmlFor="pf-q-name">Your name</label>
+                            <input type="text" id="pf-q-name" name="name" required />
+                          </div>
+
+                          <div className="pf-contact-form__field">
+                            <label htmlFor="pf-q-email">Email</label>
+                            <input type="email" id="pf-q-email" name="email" required />
+                          </div>
+
+                          <div className="pf-contact-form__field">
+                            <label htmlFor="pf-q-work-links">Links to your profile</label>
+                            <input
+                              type="text"
+                              id="pf-q-work-links"
+                              name="work_links"
+                              required
+                              placeholder="Website, LinkedIn, GitHub, Dribbble, Instagram, or any profile that best represents you."
+                            />
+                          </div>
+
+                          <div className="pf-contact-form__field">
+                            <label htmlFor="pf-q-timeline">Timeline</label>
+                            <select id="pf-q-timeline" name="timeline">
+                              <option value="">Select one</option>
+                              <option value="within-a-month">Within a month</option>
+                              <option value="1-3-months">1-3 months</option>
+                              <option value="3-6-months">3-6 months</option>
+                              <option value="no-fixed-date">No fixed date</option>
+                            </select>
+                          </div>
+
+                          <div className="pf-contact-form__field">
+                            <label htmlFor="pf-q-project">About the project</label>
+                            <textarea
+                              id="pf-q-project"
+                              name="project"
+                              rows="4"
+                              required
+                              placeholder="Your body of work, who the site is for, what it needs to do."
+                            />
+                          </div>
+
+                          <div className="pf-contact-form__field">
+                            <label htmlFor="pf-q-budget">Budget range (optional)</label>
+                            <input type="text" id="pf-q-budget" name="budget" />
+                            <small>If you&apos;re comfortable sharing - helps me scope honestly.</small>
+                          </div>
+
+                          {submitError ? (
+                            <p className="pf-contact-form__status" role="alert">
+                              {submitError}
+                            </p>
+                          ) : null}
+
+                          <button type="submit" className="btn btn--large pf-contact-form__submit" disabled={isSubmitting}>
+                            {isSubmitting ? 'Sending...' : 'Send'}
+                          </button>
+                          <p className="pf-contact-form__fallback">
+                            Or email me directly at <a href="mailto:david@networksandnodes.org">david@networksandnodes.org</a>
+                          </p>
+                        </form>
+                      ) : (
+                        <div className="pf-contact-success">
+                          <h3>Got it - I&apos;ll reply within a couple of business days.</h3>
+                          <p>Thanks for the context. I&apos;ll write back with a clear next step that fits your project.</p>
+                        </div>
+                      )}
+                    </section>
+                  ) : null}
+                </div>
               </div>
             </div>
+          </div>
+        </section>
+        <SectionFooterNav onNavigate={onNavigate} prev="services" contained />
+      </main>
+    </div>
+  );
+}
 
-            <div class="form-row">
-              <div class="form-field">
-                <label for="phone">Phone</label>
-                <input type="tel" id="phone" name="phone" />
-              </div>
-              <div class="form-field">
-                <label for="engagement-type">Engagement type</label>
-                <select id="engagement-type" name="project_type">
-                  <option value="">Select one</option>
-                  <option value="ai-assessment">AI Readiness Assessment</option>
-                  <option value="cloud-strategy">Cloud / Infrastructure Strategy</option>
-                  <option value="web-dev">Web Development & SEO</option>
-                  <option value="analytics-crm">Analytics & CRM Setup</option>
-                  <option value="automation">Automation & Pipelines</option>
-                  <option value="security">Security Review</option>
-                  <option value="operations">Operations Overhaul</option>
-                  <option value="implementation">Implementation Support</option>
-                  <option value="not-sure">Not sure yet? Let's talk.</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-field">
-                <label for="date">Preferred date for call</label>
-                <input type="date" id="date" name="date" />
-              </div>
-              <div class="form-field">
-                <label for="contact">Preferred contact method</label>
-                <select id="contact" name="contact">
-                  <option value="email">Email</option>
-                  <option value="phone">Phone call</option>
-                  <option value="video">Video call</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-field">
-              <label for="details">Tell me about your project<span class="required">*</span></label>
-              <textarea
-                id="details"
-                name="details"
-                rows="4"
-                required
-                placeholder="Describe your current infrastructure, AI goals, and any specific challenges..."
-              ></textarea>
-            </div>
-
-            <div class="form-field form-field--checkbox">
-              <label>
-                <input type="checkbox" name="newsletter" />
-                Keep me updated on AI & infrastructure insights.
-              </label>
-            </div>
-
-            <button type="submit" class="btn btn--large">Book Consultation</button>
-          </form>
+function NavCards({ visible, onSelect, active, onBackToGrid }) {
+  const F = 'Inter, Helvetica Neue, sans-serif';
+  const backBtn = {
+    background: 'none', border: '1px solid rgba(0,0,0,0.14)',
+    color: 'rgba(0,0,0,0.45)', padding: '7px 16px', borderRadius: 2,
+    fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase',
+    fontFamily: F, cursor: 'pointer',
+  };
+  const tabBase = {
+    background: 'none', border: 'none', borderBottom: '2px solid transparent',
+    color: 'rgba(15,23,42,0.45)', padding: '8px 12px', cursor: 'pointer',
+    fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', fontFamily: F,
+    transition: 'color 0.15s ease, border-color 0.15s ease',
+  };
+  return (
+    <div style={{
+      position: 'absolute', inset: 0, zIndex: 20,
+      display: 'flex', flexDirection: 'column',
+      opacity: visible ? 1 : 0,
+      pointerEvents: visible ? 'auto' : 'none',
+      transition: 'opacity 1s ease',
+      background: 'rgba(252, 252, 254, 0.97)',
+      minHeight: 0,
+    }}>
+      <header style={{
+        padding: '18px 28px',
+        display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '16px 24px',
+        borderBottom: '1px solid rgba(0,0,0,0.08)', rowGap: 14,
+      }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4 }}>
+          <button
+            type="button"
+            onClick={() => onSelect(null)}
+            style={{
+              background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+              color: 'rgba(0,0,0,0.55)', fontSize: 11, letterSpacing: '0.28em', textTransform: 'uppercase',
+              fontFamily: F, textAlign: 'left',
+            }}
+          >Networks &amp; Nodes</button>
+          <span style={{
+            color: 'rgba(71,85,105,0.55)', fontSize: 11, letterSpacing: '0.04em', fontFamily: F, fontStyle: 'italic',
+          }}>Everybody here?</span>
         </div>
-      </div>
-    </section>
 
-    <!-- ===== 9. Links / Socials ===== -->
-    <section id="links" class="section">
-      <div class="container">
-        <h2 class="accent">Connect</h2>
-        <ul class="link-cards">
-          <li class="card">
-            <a href="https://github.com/DaBugg" target="_blank" rel="noopener noreferrer">
-              <span class="emoji" aria-hidden="true">&#128187;</span>
-              <div>
-                <strong>GitHub</strong>
-                <p>Projects, experiments, and open source contributions</p>
-              </div>
-            </a>
-          </li>
-          <li class="card">
-            <a href="https://www.linkedin.com/in/david-w-3621bb272" target="_blank" rel="noopener noreferrer">
-              <span class="emoji" aria-hidden="true">&#128279;</span>
-              <div>
-                <strong>LinkedIn</strong>
-                <p>Resume, roles, and professional updates</p>
-              </div>
-            </a>
-          </li>
-          <li class="card">
-            <a href="mailto:david@networksandnodes.org">
-              <span class="emoji" aria-hidden="true">&#9993;</span>
-              <div>
-                <strong>Email</strong>
-                <p>david@networksandnodes.org</p>
-              </div>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </section>
+        <nav
+          style={{
+            flex: '1 1 200px', display: 'flex', flexWrap: 'wrap', justifyContent: 'center',
+            alignItems: 'center', gap: 4, minWidth: 0,
+          }}
+          aria-label="Sections"
+        >
+          {CARDS.map(card => (
+            <button
+              key={card.id}
+              type="button"
+              onClick={() => onSelect(card.id)}
+              title={card.sub}
+              style={{
+                ...tabBase,
+                color: active === card.id ? 'rgba(15,23,42,0.92)' : tabBase.color,
+                borderBottomColor: active === card.id ? '#15803d' : 'transparent',
+                fontWeight: active === card.id ? 500 : 400,
+              }}
+            >{card.label}</button>
+          ))}
+        </nav>
 
-  </main>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 'auto' }}>
+          {active !== null && (
+            <button
+              type="button"
+              onClick={onBackToGrid}
+              style={{
+                background: 'none', border: 'none', color: 'rgba(71,85,105,0.85)',
+                padding: '6px 4px', cursor: 'pointer', fontFamily: F, fontSize: 11,
+                letterSpacing: '0.12em', textTransform: 'uppercase',
+              }}
+            >← Sections</button>
+          )}
+          <button
+            type="button"
+            onClick={() => onSelect(null)}
+            style={backBtn}
+            onMouseOver={e => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.28)'; }}
+            onMouseOut={e => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.14)'; }}
+          >↑ Back</button>
+        </div>
+      </header>
 
-  <!-- ===== Footer ===== -->
-  <footer class="site-footer">
-    <div class="container footer__inner">
-      <p>&copy; <span id="year"></span> David W. Solutions. Built on Vercel.</p>
-      <a href="#top" class="back-to-top">Back to top</a>
-
-      <div class="footer__links">
-        <a href="my-designs.html" class="small muted">CSS Showcase</a>
-        <a href="about-me.html" class="small muted">About Me</a>
-      </div>
-
-      <button
-        type="button"
-        class="theme-toggle"
-        data-theme-toggle
-        aria-label="Toggle light and dark theme"
+      <div
+        className={[
+          'portfolio-panel-body',
+          active === null && 'portfolio-panel-body--grid',
+          active === 'about' && 'portfolio-panel-body--about',
+          active === 'work' && 'portfolio-panel-body--work',
+          active === 'services' && 'portfolio-panel-body--services',
+          active === 'contact' && 'portfolio-panel-body--contact',
+        ].filter(Boolean).join(' ')}
       >
-        <span class="theme-toggle__icon" aria-hidden="true">&#127769;</span>
-        <span class="theme-toggle__label">Dark mode</span>
-      </button>
+        {active === null ? (
+          <div style={{
+            flex: 1, display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gridTemplateRows: '1fr 1fr',
+            minHeight: 0,
+          }}>
+            {CARDS.map((card, i) => (
+              <button
+                key={card.id}
+                type="button"
+                onClick={() => onSelect(card.id)}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  borderRight: i % 2 === 0 ? '1px solid rgba(0,0,0,0.07)' : 'none',
+                  borderBottom: i < 2 ? '1px solid rgba(0,0,0,0.07)' : 'none',
+                  cursor: 'pointer', padding: 0,
+                  display: 'flex', flexDirection: 'column',
+                  alignItems: 'center', justifyContent: 'center', gap: 12,
+                  transition: 'background 0.2s ease',
+                  position: 'relative', overflow: 'hidden',
+                }}
+                onMouseOver={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.03)'; }}
+                onMouseOut={e => { e.currentTarget.style.background = 'transparent'; }}
+              >
+                <span style={{
+                  color: 'rgba(0,0,0,0.06)', fontSize: 'clamp(60px,8vw,120px)',
+                  fontFamily: F, fontWeight: 200, letterSpacing: '-0.04em',
+                  position: 'absolute', top: '50%', left: '50%',
+                  transform: 'translate(-50%,-50%)',
+                  userSelect: 'none', pointerEvents: 'none',
+                  lineHeight: 1,
+                }}>{String(i + 1).padStart(2, '0')}</span>
+                <h2 style={{
+                  color: 'rgba(0,0,0,0.88)', fontSize: 'clamp(18px,2.5vw,36px)',
+                  fontFamily: F, fontWeight: 300, letterSpacing: '0.08em',
+                  textTransform: 'uppercase', position: 'relative',
+                }}>{card.label}</h2>
+                <p style={{
+                  color: 'rgba(0,0,0,0.38)', fontSize: 'clamp(10px,1vw,13px)',
+                  fontFamily: F, fontWeight: 400, letterSpacing: '0.20em',
+                  textTransform: 'uppercase', position: 'relative',
+                }}>{card.sub}</p>
+              </button>
+            ))}
+          </div>
+        ) : active === 'about' ? (
+          <AboutSection onNavigate={(id) => onSelect(id)} />
+        ) : active === 'work' ? (
+          <WorkSection onNavigate={(id) => onSelect(id)} />
+        ) : active === 'services' ? (
+          <ServicesSection onNavigate={(id) => onSelect(id)} />
+        ) : active === 'contact' ? (
+          <ContactSection onNavigate={(id) => onSelect(id)} />
+        ) : null}
+      </div>
     </div>
-  </footer>
+  );
+}
 
-  <!-- Subscription Modal -->
-  <div class="subscribe-modal" id="subscribe-modal" aria-hidden="true">
-    <div class="subscribe-modal__backdrop" data-modal-close></div>
-    <div class="subscribe-modal__content">
-      <button class="subscribe-modal__close" data-modal-close aria-label="Close">&times;</button>
-      <h3 class="accent">Stay Updated on AI & Infrastructure</h3>
-      <p class="small muted">Get insights on AI adoption, cloud strategy, and infrastructure best practices.</p>
-      <form class="subscribe-modal__form" id="subscribe-form">
-        <input
-          type="email"
-          name="subscribe_email"
-          placeholder="your@email.com"
-          required
-          class="subscribe-modal__input"
-        />
-        <button type="submit" class="btn">Subscribe</button>
-      </form>
+// ── App
+function App() {
+  const [progress, setProgress] = useState(0);
+  const [phase, setPhase]       = useState('zoom'); // 'zoom' | 'content'
+  const [active, setActive]     = useState(null);
+  const [sz, setSz]             = useState({ w: 0, h: 0 });
+
+  const pRef   = useRef(0);
+  const tRef   = useRef(0);
+  const phRef  = useRef('zoom');
+  const rafRef = useRef(null);
+
+  useEffect(() => { phRef.current = phase; }, [phase]);
+
+  // Container size
+  useEffect(() => {
+    const upd = () => setSz({ w: window.innerHeight * (848/1264), h: window.innerHeight });
+    upd();
+    window.addEventListener('resize', upd);
+    return () => window.removeEventListener('resize', upd);
+  }, []);
+
+  // Lerp loop
+  useEffect(() => {
+    const tick = () => {
+      const cur  = pRef.current;
+      const next = cur + (tRef.current - cur) * 0.050;
+      if (Math.abs(next - cur) > 0.00004) {
+        pRef.current = next;
+        setProgress(next);
+        if (next > 0.960 && phRef.current === 'zoom') setPhase('content');
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, []);
+
+  // Scroll / keys
+  useEffect(() => {
+    const onWheel = e => {
+      if (phRef.current === 'content') return;
+      e.preventDefault();
+      tRef.current = Math.max(0, Math.min(1, tRef.current + e.deltaY / 1800));
+    };
+    const onKey = e => {
+      if (phRef.current === 'content') return;
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') tRef.current = Math.min(1, tRef.current + 0.06);
+      if (e.key === 'ArrowUp'   || e.key === 'PageUp')   tRef.current = Math.max(0, tRef.current - 0.06);
+    };
+    window.addEventListener('wheel', onWheel, { passive: false });
+    window.addEventListener('keydown', onKey);
+    return () => { window.removeEventListener('wheel', onWheel); window.removeEventListener('keydown', onKey); };
+  }, []);
+
+  function handleBack() {
+    setPhase('zoom');
+    setActive(null);
+    tRef.current = 0;
+  }
+
+  const { w: cW, h: cH } = sz;
+  // Crack reveal: starts after a short scroll, ramps so cracks read on the globe through mid-zoom
+  const crackScroll = progress < 0.045 ? 0 : Math.min(1, (progress - 0.045) / 0.58);
+
+  // Max scale to fill viewport from globe center
+  const vW = window.innerWidth, vH = window.innerHeight;
+  const globeR = cH * GR;
+  const globeVX = vW / 2, globeVY = cH * GCY;
+  const corners = [[0,0],[vW,0],[0,vH],[vW,vH]];
+  const maxDist = Math.max(...corners.map(([x,y]) => Math.sqrt((x-globeVX)**2+(y-globeVY)**2)));
+  const maxScale = globeR > 0 ? (maxDist / globeR) * 1.18 : 6;
+  const scale = 1 + Math.pow(progress, 0.58) * (maxScale - 1);
+  const tx = window.innerWidth / 2 - (cW / 2) * scale;
+  const ty = cH * GCY * (1 - scale);
+
+  // Crack overlay: circle expands from globe center as crackScroll increases (globe-only reveal)
+  const clipR = crackScroll * globeR * 1.08;
+  const clipCX = cW / 2;
+  const clipCY = cH * GCY;
+  const crackOpacity = Math.min(1, Math.pow(crackScroll, 0.85) * 1.15);
+
+  const F = 'Inter, Helvetica Neue, sans-serif';
+
+  return (
+    <>
+      <FluidParticles
+        particleDensity={100}
+        particleSize={1}
+        particleColor="#555555"
+        activeColor="#f1f5f9"
+        maxBlastRadius={300}
+        hoverDelay={100}
+        interactionDistance={100}
+      />
+      <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'relative', zIndex: 1, background: 'transparent' }}>
+
+      {/* ── Zoom container ── */}
+      {cW > 0 && (
+        <div style={{
+          position: 'absolute',
+          width: cW, height: cH,
+          top: 0, left: 0,
+          transform: `translate(${tx}px, ${ty}px) scale(${scale})`,
+          transformOrigin: '0 0',
+          willChange: 'transform',
+          isolation: 'isolate',
+          opacity: phase === 'content' ? 0 : 1,
+          transition: phase === 'content' ? 'opacity 0.6s ease' : 'none',
+        }}>
+          {/* act-1.svg: vector B&W art, transparent outside paths */}
+          <img src="test-pages-new/act-1.svg" alt="" draggable={false} style={{
+            width: '100%', height: '100%', display: 'block',
+            objectFit: 'fill', userSelect: 'none',
+          }} />
+
+          {/* cracked-globe: lighten so dark lines read on black act-1 globe; clip + opacity follow scroll */}
+          {crackScroll > 0.001 && (
+            <img src="test-pages-new/cracked-globe.svg" alt="" draggable={false} style={{
+              position: 'absolute', top: 0, left: 0,
+              width: '100%', height: '100%',
+              objectFit: 'fill',
+              mixBlendMode: 'lighten',
+              opacity: crackOpacity,
+              clipPath: `circle(${Math.max(0.5, clipR)}px at ${clipCX}px ${clipCY}px)`,
+              pointerEvents: 'none',
+            }} />
+          )}
+        </div>
+      )}
+
+      {/* ── Brand wordmark ── */}
+      <div style={{
+        position: 'absolute', top: 40, left: 0, right: 0, textAlign: 'center',
+        pointerEvents: 'none', userSelect: 'none',
+        opacity: Math.max(0, 1 - progress * 5),
+        color: '#c9ae7a',
+        textShadow: '0 1px 2px rgba(0,0,0,0.55), 0 0 24px rgba(74, 58, 32, 0.35)',
+        fontSize: 11,
+        letterSpacing: '0.32em', textTransform: 'uppercase', fontFamily: F,
+      }}>Networks &amp; Nodes</div>
+
+      {/* ── Scroll hint ── */}
+      <div style={{
+        position: 'absolute', bottom: 36, left: 0, right: 0, textAlign: 'center',
+        pointerEvents: 'none', userSelect: 'none',
+        opacity: Math.max(0, 1 - progress * 8),
+        color: '#9d8658',
+        textShadow: '0 1px 2px rgba(0,0,0,0.5)',
+        fontSize: 10,
+        letterSpacing: '0.24em', textTransform: 'uppercase', fontFamily: F,
+      }}>Scroll to continue</div>
+
+      {/* ── Crack % ── */}
+      {crackScroll > 0.02 && phase === 'zoom' && (
+        <div style={{
+          position: 'absolute', bottom: 36, right: 46,
+          pointerEvents: 'none', userSelect: 'none',
+          opacity: Math.min(1, crackScroll * 5) * Math.max(0, 1 - (progress - 0.88) * 8),
+          color: 'rgba(255,255,255,0.32)', fontSize: 9,
+          letterSpacing: '0.20em', textTransform: 'uppercase', fontFamily: 'Inter, monospace',
+        }}>{Math.round(crackScroll * 100)}%</div>
+      )}
+
+      {/* ── Nav cards ── */}
+      <NavCards
+        visible={phase === 'content'}
+        onSelect={id => (id ? setActive(id) : handleBack())}
+        onBackToGrid={() => setActive(null)}
+        active={active}
+      />
     </div>
-  </div>
+    </>
+  );
+}
 
-  <script src="script.js"></script>
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
 </body>
 </html>
