@@ -2068,6 +2068,10 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
 
 // ── App
 function App() {
+  const shouldDisableIntro = () => (
+    window.matchMedia('(max-width: 900px), (prefers-reduced-motion: reduce)').matches
+  );
+  const [disableIntro, setDisableIntro] = useState(() => shouldDisableIntro());
   const [progress, setProgress] = useState(0);
   const [phase, setPhase]       = useState('zoom'); // 'zoom' | 'content'
   const [active, setActive]     = useState(null);
@@ -2076,9 +2080,32 @@ function App() {
   const pRef   = useRef(0);
   const tRef   = useRef(0);
   const phRef  = useRef('zoom');
+  const disableIntroRef = useRef(disableIntro);
   const rafRef = useRef(null);
 
   useEffect(() => { phRef.current = phase; }, [phase]);
+  useEffect(() => { disableIntroRef.current = disableIntro; }, [disableIntro]);
+
+  // Disable scroll-driven intro on mobile / reduced motion.
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 900px), (prefers-reduced-motion: reduce)');
+    const update = () => setDisableIntro(media.matches);
+    update();
+    if (typeof media.addEventListener === 'function') {
+      media.addEventListener('change', update);
+      return () => media.removeEventListener('change', update);
+    }
+    media.addListener(update);
+    return () => media.removeListener(update);
+  }, []);
+
+  useEffect(() => {
+    if (!disableIntro) return;
+    setPhase('content');
+    setProgress(1);
+    pRef.current = 1;
+    tRef.current = 1;
+  }, [disableIntro]);
 
   // Container size
   useEffect(() => {
@@ -2090,6 +2117,7 @@ function App() {
 
   // Lerp loop
   useEffect(() => {
+    if (disableIntro) return;
     const tick = () => {
       const cur  = pRef.current;
       const next = cur + (tRef.current - cur) * 0.050;
@@ -2102,17 +2130,17 @@ function App() {
     };
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
-  }, []);
+  }, [disableIntro]);
 
   // Scroll / keys
   useEffect(() => {
     const onWheel = e => {
-      if (phRef.current === 'content') return;
+      if (disableIntroRef.current || phRef.current === 'content') return;
       e.preventDefault();
       tRef.current = Math.max(0, Math.min(1, tRef.current + e.deltaY / 1800));
     };
     const onKey = e => {
-      if (phRef.current === 'content') return;
+      if (disableIntroRef.current || phRef.current === 'content') return;
       if (e.key === 'ArrowDown' || e.key === 'PageDown') tRef.current = Math.min(1, tRef.current + 0.06);
       if (e.key === 'ArrowUp'   || e.key === 'PageUp')   tRef.current = Math.max(0, tRef.current - 0.06);
     };
@@ -2122,6 +2150,14 @@ function App() {
   }, []);
 
   function handleBack() {
+    if (disableIntroRef.current) {
+      setPhase('content');
+      setProgress(1);
+      pRef.current = 1;
+      tRef.current = 1;
+      setActive(null);
+      return;
+    }
     setPhase('zoom');
     setActive(null);
     tRef.current = 0;
@@ -2152,6 +2188,7 @@ function App() {
 
   return (
     <>
+      {!disableIntro && (
       <FluidParticles
         particleDensity={100}
         particleSize={1}
@@ -2161,10 +2198,11 @@ function App() {
         hoverDelay={100}
         interactionDistance={100}
       />
+      )}
       <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'relative', zIndex: 1, background: 'transparent' }}>
 
       {/* ── Zoom container ── */}
-      {cW > 0 && (
+      {cW > 0 && !disableIntro && (
         <div style={{
           position: 'absolute',
           width: cW, height: cH,
@@ -2198,6 +2236,7 @@ function App() {
       )}
 
       {/* ── Brand wordmark ── */}
+      {!disableIntro && (
       <div style={{
         position: 'absolute', top: 40, left: 0, right: 0, textAlign: 'center',
         pointerEvents: 'none', userSelect: 'none',
@@ -2207,8 +2246,10 @@ function App() {
         fontSize: 11,
         letterSpacing: '0.32em', textTransform: 'uppercase', fontFamily: F,
       }}>Networks &amp; Nodes</div>
+      )}
 
       {/* ── Scroll hint ── */}
+      {!disableIntro && (
       <div style={{
         position: 'absolute', bottom: 36, left: 0, right: 0, textAlign: 'center',
         pointerEvents: 'none', userSelect: 'none',
@@ -2218,9 +2259,10 @@ function App() {
         fontSize: 10,
         letterSpacing: '0.24em', textTransform: 'uppercase', fontFamily: F,
       }}>Scroll to continue</div>
+      )}
 
       {/* ── Crack % ── */}
-      {crackScroll > 0.02 && phase === 'zoom' && (
+      {!disableIntro && crackScroll > 0.02 && phase === 'zoom' && (
         <div style={{
           position: 'absolute', bottom: 36, right: 46,
           pointerEvents: 'none', userSelect: 'none',
