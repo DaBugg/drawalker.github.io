@@ -2024,7 +2024,7 @@ html[data-theme="light"] .cf-particle:nth-child(7n) {
 }
 
 .spotify-suggest--open .spotify-suggest__form-wrapper {
-  max-height: 260px;
+  max-height: 340px;
   opacity: 1;
   transform: translateY(0);
 }
@@ -2087,6 +2087,53 @@ html[data-theme="light"] .cf-particle:nth-child(7n) {
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
+}
+
+.spotify-suggest__feedback {
+  margin-top: 0.35rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.65rem;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: rgba(15, 23, 42, 0.92);
+  color: #e5e7eb;
+}
+
+.spotify-suggest__feedback--success {
+  border-color: rgba(52, 211, 153, 0.55);
+  box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.12);
+}
+
+.spotify-suggest__feedback--error {
+  border-color: rgba(248, 113, 113, 0.55);
+  color: #fecaca;
+}
+
+.spotify-suggest__feedback-title {
+  display: block;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: #f9fafb;
+}
+
+.spotify-suggest__feedback--error .spotify-suggest__feedback-title {
+  color: #fecaca;
+}
+
+.spotify-suggest__feedback-sub {
+  display: block;
+  color: rgba(226, 232, 240, 0.92);
+  font-size: 0.78rem;
+}
+
+.spotify-suggest__feedback--error .spotify-suggest__feedback-sub {
+  color: rgba(254, 202, 202, 0.95);
 }
 
 #spotify-open-link {
