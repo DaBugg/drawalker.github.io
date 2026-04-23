@@ -682,6 +682,24 @@ body { background: #0f172a !important; }
   scrollbar-width: thin;
   scrollbar-color: rgba(148, 163, 184, 0.45) transparent;
 }
+@media (max-width: 760px) {
+  .pf-services-rail {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-x: visible;
+    overflow-y: visible;
+    scroll-snap-type: none;
+    gap: 0.85rem;
+    margin-top: 1rem;
+    padding: 0.2rem 0 0.35rem;
+  }
+  .pf-service-card {
+    flex: 1 1 auto;
+    min-height: 280px;
+    width: 100%;
+    max-width: none;
+  }
+}
 .pf-services-rail::-webkit-scrollbar {
   display: block;
   height: 6px;
@@ -1093,7 +1111,7 @@ function FluidParticles({
     }
 
     function onTouchMove(e) {
-      if (e.touches[0]) {
+      if (e.touches.length > 1 && e.touches[0]) {
         const m = mouseRef.current;
         const prevX = m.x, prevY = m.y;
         mouseRef.current = {
@@ -1106,7 +1124,7 @@ function FluidParticles({
 
     function onTouchStart(e) {
       const { hoverDelay: hd } = o();
-      if (e.touches[0]) {
+      if (e.touches.length > 1 && e.touches[0]) {
         const x = e.touches[0].clientX, y = e.touches[0].clientY;
         hoverTimerRef.current = setTimeout(() => triggerBlast(x, y), hd);
       }
@@ -1636,8 +1654,7 @@ function ServicesSection({ onNavigate }) {
           <div className="container">
             <h2 className="accent">Solutions</h2>
             <p className="muted small">
-              Technology solutions built to drive efficiency, visibility, and growth. Scroll sideways on smaller
-              screens to see every offering.
+              Technology solutions built to drive efficiency, visibility, and growth.
             </p>
 
             <div className="pf-services-rail">
@@ -1716,9 +1733,11 @@ function ContactSection({ onNavigate }) {
     setIsSubmitting(true);
     try {
       const form = e.currentTarget;
+      const payload = Object.fromEntries(new FormData(form).entries());
       const response = await fetch(form.action, {
         method: form.method || 'post',
-        body: new FormData(form),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
       if (!response.ok) {
         throw new Error('Submission failed');
@@ -2068,10 +2087,6 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
 
 // ── App
 function App() {
-  const shouldDisableIntro = () => (
-    window.matchMedia('(max-width: 900px), (prefers-reduced-motion: reduce)').matches
-  );
-  const [disableIntro, setDisableIntro] = useState(() => shouldDisableIntro());
   const [progress, setProgress] = useState(0);
   const [phase, setPhase]       = useState('zoom'); // 'zoom' | 'content'
   const [active, setActive]     = useState(null);
@@ -2080,32 +2095,9 @@ function App() {
   const pRef   = useRef(0);
   const tRef   = useRef(0);
   const phRef  = useRef('zoom');
-  const disableIntroRef = useRef(disableIntro);
   const rafRef = useRef(null);
 
   useEffect(() => { phRef.current = phase; }, [phase]);
-  useEffect(() => { disableIntroRef.current = disableIntro; }, [disableIntro]);
-
-  // Disable scroll-driven intro on mobile / reduced motion.
-  useEffect(() => {
-    const media = window.matchMedia('(max-width: 900px), (prefers-reduced-motion: reduce)');
-    const update = () => setDisableIntro(media.matches);
-    update();
-    if (typeof media.addEventListener === 'function') {
-      media.addEventListener('change', update);
-      return () => media.removeEventListener('change', update);
-    }
-    media.addListener(update);
-    return () => media.removeListener(update);
-  }, []);
-
-  useEffect(() => {
-    if (!disableIntro) return;
-    setPhase('content');
-    setProgress(1);
-    pRef.current = 1;
-    tRef.current = 1;
-  }, [disableIntro]);
 
   // Container size
   useEffect(() => {
@@ -2117,7 +2109,6 @@ function App() {
 
   // Lerp loop
   useEffect(() => {
-    if (disableIntro) return;
     const tick = () => {
       const cur  = pRef.current;
       const next = cur + (tRef.current - cur) * 0.050;
@@ -2130,17 +2121,17 @@ function App() {
     };
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [disableIntro]);
+  }, []);
 
   // Scroll / keys
   useEffect(() => {
     const onWheel = e => {
-      if (disableIntroRef.current || phRef.current === 'content') return;
+      if (phRef.current === 'content') return;
       e.preventDefault();
       tRef.current = Math.max(0, Math.min(1, tRef.current + e.deltaY / 1800));
     };
     const onKey = e => {
-      if (disableIntroRef.current || phRef.current === 'content') return;
+      if (phRef.current === 'content') return;
       if (e.key === 'ArrowDown' || e.key === 'PageDown') tRef.current = Math.min(1, tRef.current + 0.06);
       if (e.key === 'ArrowUp'   || e.key === 'PageUp')   tRef.current = Math.max(0, tRef.current - 0.06);
     };
@@ -2150,14 +2141,6 @@ function App() {
   }, []);
 
   function handleBack() {
-    if (disableIntroRef.current) {
-      setPhase('content');
-      setProgress(1);
-      pRef.current = 1;
-      tRef.current = 1;
-      setActive(null);
-      return;
-    }
     setPhase('zoom');
     setActive(null);
     tRef.current = 0;
@@ -2188,7 +2171,6 @@ function App() {
 
   return (
     <>
-      {!disableIntro && (
       <FluidParticles
         particleDensity={100}
         particleSize={1}
@@ -2198,11 +2180,10 @@ function App() {
         hoverDelay={100}
         interactionDistance={100}
       />
-      )}
       <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'relative', zIndex: 1, background: 'transparent' }}>
 
       {/* ── Zoom container ── */}
-      {cW > 0 && !disableIntro && (
+      {cW > 0 && (
         <div style={{
           position: 'absolute',
           width: cW, height: cH,
@@ -2236,7 +2217,6 @@ function App() {
       )}
 
       {/* ── Brand wordmark ── */}
-      {!disableIntro && (
       <div style={{
         position: 'absolute', top: 40, left: 0, right: 0, textAlign: 'center',
         pointerEvents: 'none', userSelect: 'none',
@@ -2246,10 +2226,8 @@ function App() {
         fontSize: 11,
         letterSpacing: '0.32em', textTransform: 'uppercase', fontFamily: F,
       }}>Networks &amp; Nodes</div>
-      )}
 
       {/* ── Scroll hint ── */}
-      {!disableIntro && (
       <div style={{
         position: 'absolute', bottom: 36, left: 0, right: 0, textAlign: 'center',
         pointerEvents: 'none', userSelect: 'none',
@@ -2259,10 +2237,9 @@ function App() {
         fontSize: 10,
         letterSpacing: '0.24em', textTransform: 'uppercase', fontFamily: F,
       }}>Scroll to continue</div>
-      )}
 
       {/* ── Crack % ── */}
-      {!disableIntro && crackScroll > 0.02 && phase === 'zoom' && (
+      {crackScroll > 0.02 && phase === 'zoom' && (
         <div style={{
           position: 'absolute', bottom: 36, right: 46,
           pointerEvents: 'none', userSelect: 'none',
