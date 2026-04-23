@@ -38,36 +38,21 @@ body { background: #0f172a !important; }
   background-image: none;
 }
 .portfolio-panel-body--about {
-  position: relative;
-  isolation: isolate;
   background-color: #0b1220;
-  background-image: none;
-  /* Fill flex scrollport when content is short; grow with content so ::before covers Spotify + quote */
+  /*
+    Paint on the scroll container itself so it spans the entire About content
+    (bio + Spotify + quote/book), not just the visible viewport.
+  */
+  background-image:
+    linear-gradient(rgba(11, 18, 32, 0.78), rgba(11, 18, 32, 0.78)),
+    url('about-background.svg');
+  background-repeat: repeat-y;
+  background-position: center top;
+  background-size: 100% auto;
+  background-attachment: local;
   flex: 1 1 auto;
   min-height: 100%;
   width: 100%;
-}
-.portfolio-panel-body--about::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  min-height: 100%;
-  background-color: transparent;
-  background-image: url('about-background.svg');
-  /* Fill entire panel at any aspect ratio; anchor art to bottom */
-  background-repeat: no-repeat;
-  background-position: center bottom;
-  background-size: cover;
-  opacity: 0.22;
-  pointer-events: none;
-  z-index: 0;
-}
-.portfolio-panel-body--about > * {
-  position: relative;
-  z-index: 1;
 }
 /* Let illustration show through (global .section--soft is opaque) */
 .portfolio-panel-body--about .section.section--soft {
@@ -89,6 +74,9 @@ body { background: #0f172a !important; }
   background-size: min(100%, 1600px) auto;
 }
 @media (min-width: 900px) {
+  .portfolio-panel-body--about {
+    background-size: cover;
+  }
   .portfolio-panel-body--contact {
     background-size: min(100%, 2000px) auto;
   }
@@ -120,9 +108,11 @@ body { background: #0f172a !important; }
   color: var(--text);
 }
 
-/* Portfolio contact — modern card + “Who are you?” step */
-.pf-contact-form-modern.consultation-form {
-  padding: clamp(1.25rem, 3vw, 2rem) clamp(1.15rem, 2.8vw, 1.75rem);
+/* Portfolio contact — three-step journey */
+.pf-contact-journey {
+  max-width: 54rem;
+}
+.pf-contact-step {
   border-radius: 1.15rem;
   border: 1px solid rgba(15, 23, 42, 0.08);
   background: linear-gradient(
@@ -134,107 +124,237 @@ body { background: #0f172a !important; }
   box-shadow:
     0 1px 2px rgba(15, 23, 42, 0.04),
     0 18px 40px -16px rgba(15, 23, 42, 0.14);
+  padding: clamp(1.2rem, 3vw, 1.85rem);
 }
-.pf-contact-form-modern .pf-who-step {
-  margin: 0 0 1.65rem;
-  padding-bottom: 1.45rem;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.07);
+.pf-contact-step__progress {
+  display: block;
+  margin: 0 0 0.95rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: #64748b;
 }
-.pf-contact-form-modern .pf-who-step__label {
+.pf-contact-step__header {
+  margin-bottom: 1.35rem;
+}
+.pf-contact-step__eyebrow {
   font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--text-muted);
-  margin: 0 0 0.9rem;
+  color: #64748b;
+  margin: 0 0 0.45rem;
 }
-.pf-contact-form-modern .pf-who-step__grid {
+.pf-contact-step__title {
+  margin: 0;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  line-height: 1.12;
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  color: #0f172a;
+}
+.pf-contact-title-accent {
+  color: #c9ae7a;
+  font-style: italic;
+}
+.pf-contact-step__back {
+  appearance: none;
+  border: 1px solid rgba(15, 23, 42, 0.18);
+  background: #fff;
+  color: #1e293b;
+  border-radius: 0.65rem;
+  padding: 0.45rem 0.75rem;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.82rem;
+  margin-bottom: 0.9rem;
+  cursor: pointer;
+}
+.pf-contact-step__back:focus-visible {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-blue) 24%, transparent);
+}
+.pf-contact-step__heading {
+  margin: 0 0 0.45rem;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+.pf-contact-step__helper {
+  margin: 0 0 1rem;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.94rem;
+  color: #334155;
+  line-height: 1.65;
+}
+.pf-contact-tiles {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.6rem;
+  grid-template-columns: 1fr;
+  gap: 0.7rem;
 }
-@media (min-width: 560px) {
-  .pf-contact-form-modern .pf-who-step__grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+@media (min-width: 768px) {
+  .pf-contact-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-.pf-contact-form-modern .pf-who-option {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.85rem;
-  appearance: none;
-  border: 1px solid rgba(15, 23, 42, 0.1);
+.pf-contact-tile {
+  text-align: left;
+  border: 1px solid rgba(15, 23, 42, 0.11);
   background: #fff;
-  color: var(--text);
-  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 0.55rem 0.5rem;
-  border-radius: 0.75rem;
+  border-radius: 0.8rem;
+  padding: 0.8rem 0.9rem;
   cursor: pointer;
-  text-align: center;
-  line-height: 1.2;
-  transition:
-    border-color 0.16s ease,
-    box-shadow 0.16s ease,
-    background 0.16s ease,
-    color 0.16s ease,
-    transform 0.1s ease;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.12s ease;
 }
-.pf-contact-form-modern .pf-who-option:hover {
+.pf-contact-tile:hover {
   border-color: color-mix(in oklab, var(--accent-cyan) 55%, var(--surface-border));
-  box-shadow: 0 0 0 1px color-mix(in oklab, var(--accent-cyan) 18%, transparent);
+  box-shadow: 0 4px 16px -12px rgba(2, 132, 199, 0.45);
 }
-.pf-contact-form-modern .pf-who-option:focus-visible {
+.pf-contact-tile:focus-visible {
   outline: none;
   border-color: var(--accent-cyan);
   box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-cyan) 28%, transparent);
 }
-.pf-contact-form-modern .pf-who-option--active {
+.pf-contact-tile--selected {
   border-color: var(--accent-cyan);
-  background: color-mix(in oklab, var(--accent-cyan) 14%, white);
-  box-shadow: 0 0 0 1px color-mix(in oklab, var(--accent-cyan) 32%, transparent);
+  background: color-mix(in oklab, var(--accent-cyan) 10%, white);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--accent-cyan) 26%, transparent);
 }
-.pf-contact-form-modern .pf-who-step__error {
+.pf-contact-tile__label {
+  display: block;
+  margin-bottom: 0.15rem;
   font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: #b91c1c;
-  margin: 0.75rem 0 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #0f172a;
 }
-.pf-contact-form-modern.consultation-form label {
+.pf-contact-tile__desc {
+  margin: 0;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: #475569;
+}
+.pf-contact-summary-chip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.8rem;
+  align-items: center;
+  margin: 0 0 1rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: color-mix(in oklab, var(--bg-soft) 75%, white);
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.84rem;
+  color: #334155;
+}
+.pf-contact-summary-chip__edit {
+  appearance: none;
+  border: none;
+  background: none;
+  color: #1d4ed8;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0;
+  cursor: pointer;
+}
+.pf-contact-summary-chip__edit:focus-visible {
+  outline: 2px solid rgba(29, 78, 216, 0.45);
+  outline-offset: 2px;
+  border-radius: 0.2rem;
+}
+.pf-contact-form {
+  display: grid;
+  gap: 0.9rem;
+}
+.pf-contact-form__field {
+  display: grid;
+  gap: 0.35rem;
+}
+.pf-contact-form__field label {
   font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: var(--text-muted);
+  color: #334155;
 }
-.pf-contact-form-modern.consultation-form input,
-.pf-contact-form-modern.consultation-form select,
-.pf-contact-form-modern.consultation-form textarea {
+.pf-contact-form__field small {
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.76rem;
+  color: #64748b;
+}
+.pf-contact-form__field input,
+.pf-contact-form__field select,
+.pf-contact-form__field textarea {
   border-radius: 0.65rem;
   border: 1px solid rgba(15, 23, 42, 0.1);
   background: #fff;
   box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.03);
+  padding: 0.6rem 0.72rem;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.92rem;
+  color: #0f172a;
 }
-.pf-contact-form-modern.consultation-form input:focus,
-.pf-contact-form-modern.consultation-form select:focus,
-.pf-contact-form-modern.consultation-form textarea:focus {
+.pf-contact-form__field input:focus,
+.pf-contact-form__field select:focus,
+.pf-contact-form__field textarea:focus {
+  outline: none;
   border-color: var(--accent-cyan);
   box-shadow:
     inset 0 1px 2px rgba(15, 23, 42, 0.03),
     0 0 0 3px color-mix(in oklab, var(--accent-cyan) 22%, transparent);
 }
-.pf-contact-form-modern.consultation-form .btn.btn--large {
+.pf-contact-form__submit {
   width: 100%;
-  margin-top: 0.35rem;
-  border-radius: 0.85rem;
+}
+.pf-contact-form__status {
+  margin: 0;
   font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  box-shadow: 0 2px 8px color-mix(in oklab, var(--accent) 22%, transparent);
+  font-size: 0.82rem;
+  color: #b91c1c;
+}
+.pf-contact-form__fallback {
+  margin: 0.2rem 0 0;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.84rem;
+  color: #475569;
+}
+.pf-contact-success {
+  border-radius: 0.9rem;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: #fff;
+  padding: 1rem;
+}
+.pf-contact-success h3 {
+  margin: 0 0 0.45rem;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 1.06rem;
+  color: #0f172a;
+}
+.pf-contact-success p {
+  margin: 0;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  color: #475569;
+  line-height: 1.6;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pf-contact-step__body {
+    animation: pf-contact-step-in 180ms ease;
+  }
+  @keyframes pf-contact-step-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
 /* About + reading — dark surface, subdued art, gold accents (wordmark #c9ae7a) */
@@ -301,7 +421,6 @@ body { background: #0f172a !important; }
   border-bottom-color: rgba(220, 201, 160, 0.85);
 }
 
-/* Work panel — template / design-route cards (same card chrome per entry) */
 .pf-work {
   max-width: 42rem;
   margin: 0 auto;
@@ -421,6 +540,39 @@ body { background: #0f172a !important; }
   height: 1.2rem;
   display: block;
 }
+.pf-section-footer-nav {
+  margin: 2.25rem auto 0;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(115, 115, 115, 0.35);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+.pf-section-footer-nav--contained {
+  width: min(1100px, 92%);
+}
+.pf-section-footer-btn {
+  border: 1px solid rgba(201, 174, 122, 0.35);
+  background: rgba(15, 23, 42, 0.72);
+  color: #e5e5e5;
+  border-radius: 999px;
+  padding: 0.5rem 0.95rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.pf-section-footer-btn:hover {
+  border-color: rgba(201, 174, 122, 0.75);
+  background: rgba(30, 41, 59, 0.92);
+  color: #fafafa;
+}
+.pf-section-footer-btn:focus-visible {
+  outline: 2px solid #c9ae7a;
+  outline-offset: 3px;
+}
 .pf-reading {
   max-width: 68rem;
   margin: 0 auto;
@@ -513,7 +665,6 @@ body { background: #0f172a !important; }
   border: 1px solid rgba(71, 85, 105, 0.65);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
 }
-/* Services panel — horizontal media cards (embed-only; replaces index grid here) */
 .pf-services-rail {
   display: flex;
   flex-direction: row;
@@ -587,14 +738,17 @@ body { background: #0f172a !important; }
   background: linear-gradient(135deg, rgba(51, 65, 85, 0.55), rgba(15, 23, 42, 0.9));
 }
 .pf-service-card__media img,
-.pf-service-card__media video {
+.pf-service-card__media video,
+.pf-service-card__media iframe {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-.pf-service-card__media video {
+.pf-service-card__media video,
+.pf-service-card__media iframe {
   background: #0f172a;
+  border: 0;
 }
 .pf-service-card__media-placeholder {
   position: absolute;
@@ -644,7 +798,94 @@ body { background: #0f172a !important; }
   margin-top: 0.25rem;
 }
 
-/* Services panel: faux “Learn more” until wired to contact / in-panel nav */
+.pf-work-products {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.pf-work-product-card {
+  --pf-work-border: rgba(71, 85, 105, 0.55);
+  --pf-work-border-hover: rgba(34, 211, 238, 0.55);
+  display: grid;
+  grid-template-columns: minmax(260px, 44%) 1fr;
+  border-radius: 0.85rem;
+  border: 1px solid var(--pf-work-border);
+  background: linear-gradient(165deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.88));
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease;
+}
+.pf-work-product-card:hover {
+  border-color: var(--pf-work-border-hover);
+  box-shadow:
+    0 0 0 1px rgba(34, 211, 238, 0.22),
+    0 14px 36px rgba(0, 0, 0, 0.38);
+  transform: translateY(-2px);
+}
+.pf-work-product-card .pf-service-card__media {
+  border-bottom: 0;
+  border-right: 1px solid rgba(51, 65, 85, 0.65);
+  aspect-ratio: 16 / 9;
+  min-height: 220px;
+}
+.pf-work-product-card .pf-service-card__media iframe {
+  width: 100%;
+  height: 100%;
+}
+.pf-work-product-card .pf-service-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1rem 1.1rem 1.05rem;
+}
+.pf-work-product-card .pf-service-card__body h3 {
+  margin: 0;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  line-height: 1.3;
+}
+.pf-work-product-card .pf-service-card__body p {
+  margin: 0;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: #cbd5e1;
+  font-weight: 400;
+}
+.pf-work-product-card .pf-service-card__quote {
+  margin: 0.15rem 0 0;
+  padding-left: 0.8rem;
+  border-left: 2px solid rgba(201, 174, 122, 0.5);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 0.98rem;
+  font-style: italic;
+  color: #e2e8f0;
+  line-height: 1.45;
+}
+.pf-work-product-card .pf-service-card__cite {
+  margin-top: 0.45rem;
+  display: block;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.76rem;
+  color: #94a3b8;
+  line-height: 1.45;
+}
+@media (max-width: 900px) {
+  .pf-work-product-card {
+    grid-template-columns: 1fr;
+  }
+  .pf-work-product-card .pf-service-card__media {
+    border-right: 0;
+    border-bottom: 1px solid rgba(51, 65, 85, 0.65);
+  }
+}
+
 button.service__cta.portfolio-faux-cta {
   font: inherit;
   cursor: pointer;
@@ -678,7 +919,7 @@ const CARDS = [
   { id: 'about',    label: 'About',    sub: 'Partner for image-led sites' },
   { id: 'work',     label: 'Work',     sub: 'Templates & design routes' },
   { id: 'services', label: 'Services', sub: 'Solutions from the main site' },
-  { id: 'contact',  label: 'Contact',  sub: 'Email to start' },
+  { id: 'contact',  label: 'Contact',  sub: 'Three-step project inquiry' },
 ];
 
 // fluid-particle.tsx — Canvas + JS only (no Tailwind for the effect). Ported from TS; fixed DPR transform + listener cleanup.
@@ -906,6 +1147,27 @@ function FluidParticles({
   );
 }
 
+function SectionFooterNav({ onNavigate, prev, next, contained = false }) {
+  if (!prev && !next) return null;
+  return (
+    <nav
+      className={`pf-section-footer-nav${contained ? ' pf-section-footer-nav--contained' : ''}`}
+      aria-label="Section navigation"
+    >
+      {prev ? (
+        <button type="button" className="pf-section-footer-btn" onClick={() => onNavigate(prev)}>
+          ← Go Back to Previous Section
+        </button>
+      ) : null}
+      {next ? (
+        <button type="button" className="pf-section-footer-btn" onClick={() => onNavigate(next)}>
+          Next Section →
+        </button>
+      ) : null}
+    </nav>
+  );
+}
+
 function AboutSection({ onNavigate }) {
   useEffect(() => {
     if (typeof window !== 'undefined' && window.portfolioEmbedSpotify) {
@@ -1032,6 +1294,7 @@ function AboutSection({ onNavigate }) {
               </li>
             </ul>
           </nav>
+          <SectionFooterNav onNavigate={onNavigate} next="work" />
         </div>
 
         <section id="spotify" className="section section--soft">
@@ -1192,92 +1455,130 @@ const portfolioPanelShell = {
   fontFamily: 'var(--font-sans)',
 };
 
-const WORK_TEMPLATE_OPTIONS = [
+const WORK_PRODUCT_CARDS = [
   {
+    section: 'Section zero',
+    meta: 'Template · business and product teams',
+    title: 'Business Owner & Product Team Starter',
+    body:
+      'Built for business owners, managers, product developers, and startups that need clear positioning fast. This layout prioritizes offer clarity, timeline expectations, and one direct path to start.',
+    quote: 'This gives us a practical structure to launch with confidence, then iterate as we learn.',
+    cite: 'Best fit: teams validating offers, launching new services, or rebuilding an unclear web presence.',
+    mediaSrc: 'https://player.mux.com/r7u3dBYrfwLMb00YwhKgil6t6ao3Vn00fJq2N12H58FM8',
+  },
+  {
+    section: 'Section one',
     meta: 'Template · image-led portfolio',
-    title: 'Gallery rail with chaptered project pages',
+    title: 'Artist Portfolio Starter',
     body:
-      'Full-bleed sequences, optional thumbnail strip, and long captions that stay readable on small screens. Slots for press PDFs, exhibition or collection archives, and a short inquiry block so leads arrive with context—not a blank “contact us.”',
-    quote: 'Finally reads like our catalog: pacing, type, and rooms for the work—not a generic tile dump.',
-    cite: 'Choose this when the visuals are the product and copy supports the images.',
+      'Image-forward portfolio template with statement, featured projects, and inquiry CTA. Replace with your final messaging and offer details later.',
+    quote: 'Finally reads like our catalog: pacing, type, and room for the work.',
+    cite: 'Best fit: visual-first portfolios that need a polished but editable structure.',
+    mediaSrc: 'https://player.mux.com/bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM',
   },
   {
+    section: 'Section two',
     meta: 'Template · studio / independent practice',
-    title: 'Single-scroll credibility lane',
+    title: 'Service Overview Template',
     body:
-      'Intro, proof row, three anchored offer areas, FAQs as lightweight accordions, and one primary handoff (calendar embed or mailto with subject hints). Built for practices that want clarity before a larger sitemap exists.',
-    quote: 'One pass answers who we are, what we actually sell time for, and how to reach us.',
-    cite: 'Choose this when you need a confident homepage while deeper case pages are still in flight.',
+      'Horizontal service card pattern for showing outcomes, process, and package tiers at a glance. Swap in approved copy and pricing language later.',
+    quote: 'One pass tells visitors what we do, who it is for, and what to click next.',
+    cite: 'Best fit: solo studios and teams that need quick clarity before long case studies.',
+    mediaSrc: 'https://player.mux.com/FghhBbV00fPiIiubZGEC00vCec02LmQdg00fZy9NVX00MnA8',
   },
   {
-    meta: 'Template · productized services',
-    title: 'Tier cards with honest comparison',
+    section: 'Section three',
+    meta: 'Template · case snapshot',
+    title: 'Case Snapshot Layout',
     body:
-      'Hero promise, packaged tiers with clear limits, “not included” footnotes, and a single primary CTA. Optional short intake so prospects self-filter before a call—fewer unqualified conversations.',
-    quote: 'People pick a lane before we ever open Zoom.',
-    cite: 'Choose this when you sell fixed-scope audits, retainers, or workshops and want scope clarity up front.',
+      'Compact before-and-after style case card with visual proof, short context, and clear next step. Intended for quick decision-making by potential leads.',
+    quote: 'Gives me just enough proof to trust the process without reading a full report.',
+    cite: 'Best fit: conversion pages where outcomes need to be scannable at a glance.',
+    mediaSrc: 'https://player.mux.com/8jivLSnoyaDu01mP02iAX1elHaO026zrQ0200pvjGoIeN4mU',
   },
   {
-    meta: 'Template · trust-first minimal',
-    title: 'Bio, proof strip, one decisive next step',
+    section: 'Section four',
+    meta: 'Template · narrative + gallery',
+    title: 'Brand Story + Gallery Mix',
     body:
-      'Tight typographic stack: name and role, three credibility markers (logos, certifications, or metrics you are comfortable publishing), a short philosophy paragraph, and one highlighted action. Light or dark skin.',
-    quote: 'Looks intentional even while the rest of the rebrand is still moving.',
-    cite: 'Choose this when you need a calm, authoritative placeholder without building a full marketing site yet.',
+      'Blend narrative copy with modular media placements so visitors can choose between reading and browsing. Replace placeholders with project assets.',
+    quote: 'Balanced story and visuals: not too sparse, not too text heavy.',
+    cite: 'Best fit: brands that want authority copy and visual proof in the same lane.',
+    mediaSrc: 'https://player.mux.com/EbDl00U8531qaMnSoynVZI01V02ydAyIqeHzGKVlqn1s4U',
+  },
+  {
+    section: 'Section five',
+    meta: 'Template · launch conversion',
+    title: 'Launch Page Conversion Track',
+    body:
+      'Launch-focused template with social proof row, FAQ accordion, and single CTA to book or inquire. Update copy to match your exact audience.',
+    quote: 'People know the offer, trust the proof, and take one clear next step.',
+    cite: 'Best fit: campaign launches and service pages with one primary conversion goal.',
+    mediaSrc: 'https://player.mux.com/00w302YUzDdVCVmb3RYncHB201Esego5J4Om1YlANIcseo',
   },
 ];
 
-/** Work — design templates / routes leads can start from (shared card pattern per entry). */
 function WorkSection({ onNavigate }) {
   return (
     <div data-theme="dark" className="portfolio-embed-root" style={portfolioPanelShell}>
-      <main className="pf-about-main" style={{ paddingTop: '1rem', paddingBottom: '3rem' }}>
+      <main style={{ paddingTop: '1rem' }}>
         <section id="work" className="section" aria-labelledby="work-panel-title">
-          <div className="container about-page">
+          <div className="container">
             <p className="small muted">Work</p>
             <h1 id="work-panel-title" className="title">
-              Designs <span className="accent">you can start from</span>
+              Product card <span className="accent">template gallery</span>
             </h1>
             <p className="lead">
-              These are not one-off client stories—they are repeatable layout and content patterns. Pick a direction
-              that matches how you sell and how much proof you already have; we then swap in your typography, imagery,
-              and copy without reinventing the structure from zero.
+              This section previews reusable page directions you can fold into a portfolio site: hero treatments,
+              trust-building sections, process blocks, social proof, pricing layouts, and focused CTAs. Artists and
+              photographers looking for a clean showcase should compare visual storytelling and gallery flow first,
+              while studios and service-led teams should focus on conversion structure, offer clarity, and inquiry path.
             </p>
-            <p className="pf-work__disclaimer" role="note">
-              <strong style={{ color: '#d4d4d4' }}>How to read each card.</strong> The line in italics is the voice of
-              the lead you are designing for; the line below is when to pick that template. Mix modules across rows if
-              you need a hybrid—we treat these as starting points, not rigid SKUs.
-            </p>
-
-            <div className="pf-work">
-              <ul className="pf-work__cases">
-                {WORK_TEMPLATE_OPTIONS.map((c) => (
-                  <li key={c.title}>
-                    <article className="pf-work-case">
-                      <p className="pf-work-case__meta">{c.meta}</p>
-                      <h2 className="pf-work-case__title">{c.title}</h2>
-                      <p className="pf-work-case__body">{c.body}</p>
-                      <figure style={{ margin: 0 }}>
-                        <blockquote className="pf-work-case__quote">{c.quote}</blockquote>
-                        <figcaption className="pf-work-case__cite">{c.cite}</figcaption>
-                      </figure>
-                    </article>
-                  </li>
-                ))}
-              </ul>
+            <div className="pf-work-products" aria-label="Work product card videos">
+              {WORK_PRODUCT_CARDS.map((card) => (
+                <article key={card.section} className="pf-work-product-card">
+                  <div className="pf-service-card__media">
+                    <iframe
+                      src={card.mediaSrc}
+                      title={`${card.section} video preview`}
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
+                  <div className="pf-service-card__body">
+                    <p className="small muted" style={{ margin: 0 }}>{card.section}</p>
+                    <p className="small muted" style={{ margin: 0 }}>{card.meta}</p>
+                    <h3>{card.title}</h3>
+                    <p>{card.body}</p>
+                    <figure style={{ margin: 0 }}>
+                      <blockquote className="pf-service-card__quote">{card.quote}</blockquote>
+                      <figcaption className="pf-service-card__cite">{card.cite}</figcaption>
+                    </figure>
+                    <button
+                      type="button"
+                      className="service__cta portfolio-faux-cta"
+                      onClick={() => onNavigate('services')}
+                    >
+                      Use This As Template →
+                    </button>
+                  </div>
+                </article>
+              ))}
             </div>
 
             <p className="small muted" style={{ marginTop: '2rem', maxWidth: '42rem', lineHeight: 1.65 }}>
-              Capabilities and deliverables in plain language live under{' '}
+              Need capability details instead of template examples? See{' '}
               <button type="button" className="pf-about__inline-link" onClick={() => onNavigate('services')}>
                 Services
               </button>
-              . To shortlist a template or sketch a hybrid, use{' '}
+              . Ready to choose a layout direction? Use{' '}
               <button type="button" className="pf-about__inline-link" onClick={() => onNavigate('contact')}>
                 Contact
               </button>
               .
             </p>
+            <SectionFooterNav onNavigate={onNavigate} prev="about" next="services" />
           </div>
         </section>
       </main>
@@ -1285,11 +1586,7 @@ function WorkSection({ onNavigate }) {
   );
 }
 
-/**
- * Solutions — horizontal cards; top row is image or video (set `mediaSrc` + `mediaType`).
- * Leave `mediaSrc` null to show the dashed placeholder until you drop assets next to this file.
- */
-function ServicesSection() {
+function ServicesSection({ onNavigate }) {
   const solutions = [
     {
       title: 'Custom Web Development',
@@ -1361,6 +1658,7 @@ function ServicesSection() {
                 </article>
               ))}
             </div>
+            <SectionFooterNav onNavigate={onNavigate} prev="work" next="contact" />
           </div>
         </section>
       </main>
@@ -1368,16 +1666,35 @@ function ServicesSection() {
   );
 }
 
-const PF_WHO_OPTIONS = [
-  { value: 'creative', label: 'Creative' },
-  { value: 'business_owner', label: 'Business owner' },
-  { value: 'ai_infrastructure', label: 'AI infrastructure' },
-  { value: 'marketing', label: 'Marketing' },
+const PF_CONTACT_ROLE_OPTIONS = [
+  { value: 'photographer', label: 'Photographer', desc: 'editorial, commercial, or fine-art.' },
+  { value: 'videographer', label: 'Videographer', desc: 'shooter, editor, or reel-driven director.' },
+  { value: 'business-owner', label: 'Business owner', desc: 'founder, operator, or owner-led brand.' },
+  { value: 'artist', label: 'Multi-disciplinary artist', desc: 'painter, sculptor, installation, mixed-media.' },
+  { value: 'small-business', label: 'Small business', desc: 'team-led business looking for a clearer web presence.' },
+  { value: 'startup', label: 'Startup', desc: 'early-stage team shipping fast and validating positioning.' },
+  { value: 'product-developer', label: 'Product developer', desc: 'building digital products and customer-facing experiences.' },
+  { value: 'other', label: 'Other', desc: 'writer, musician, performer, or anyone else with work to show.' },
 ];
 
-function ContactSection() {
-  const [whoAreYou, setWhoAreYou] = useState('');
-  const [whoSubmitAttempted, setWhoSubmitAttempted] = useState(false);
+const PF_CONTACT_SERVICE_OPTIONS = [
+  { value: 'website-turnkey', label: 'Website - turnkey', desc: 'one engagement, designed, built, launched, handed off.' },
+  { value: 'website-ongoing', label: 'Website - ongoing partnership', desc: 'updates, hosting, deployment, seasonal refreshes.' },
+  { value: 'web-dev-hosting-rework', label: 'Web development, hosting, or site rework', desc: 'small-business focused builds, infrastructure cleanup, and site refreshes.' },
+  { value: 'analytics', label: 'Analytics & dashboards', desc: 'measure what actually matters; no surveillance clutter.' },
+  { value: 'automation', label: 'Automation & workflow', desc: 'the quiet scripts that save hours a week.' },
+  { value: 'seo', label: 'SEO strategy', desc: 'findable without gimmicks.' },
+  { value: 'ai-consulting', label: 'AI / infrastructure consulting', desc: 'for systems and operations work beyond the website.' },
+  { value: 'other', label: "Something else - let's talk", desc: "catch-all for cases that don't fit above." },
+];
+
+function ContactSection({ onNavigate }) {
+  const [step, setStep] = useState(1);
+  const [role, setRole] = useState('');
+  const [service, setService] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const shellLight = {
     minHeight: '100%',
@@ -1386,184 +1703,200 @@ function ContactSection() {
     fontFamily: 'var(--font-sans)',
   };
 
-  const onFormSubmit = (e) => {
-    if (!whoAreYou) {
-      e.preventDefault();
-      setWhoSubmitAttempted(true);
-      return;
-    }
-    setWhoSubmitAttempted(false);
-  };
+  const roleLabel = PF_CONTACT_ROLE_OPTIONS.find((item) => item.value === role)?.label || '';
+  const serviceLabel = PF_CONTACT_SERVICE_OPTIONS.find((item) => item.value === service)?.label || '';
 
-  const whoError = whoSubmitAttempted && !whoAreYou;
+  const onFormSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitError('');
+    setIsSubmitting(true);
+    try {
+      const form = e.currentTarget;
+      const response = await fetch(form.action, {
+        method: form.method || 'post',
+        body: new FormData(form),
+      });
+      if (!response.ok) {
+        throw new Error('Submission failed');
+      }
+      setIsSubmitted(true);
+    } catch (error) {
+      setSubmitError('Something went wrong sending your note. Please try again or email directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div data-theme="light" className="portfolio-embed-root pf-contact-embed" style={shellLight}>
       <main>
         <section id="portfolio-contact" className="section section--soft">
           <div className="container">
-            <div className="contact-grid">
-              <div className="contact-intro">
-                <p className="small muted" style={{ marginBottom: '0.5rem' }}>
-                  Contact
-                </p>
-                <h1 className="title underline-accent" style={{ fontSize: 'clamp(1.35rem, 2.5vw, 1.85rem)' }}>
-                  Tell me about your <span className="accent">next site</span>
-                </h1>
-                <p className="lead">
-                  Project inquiries for image-led artist, photographer, and studio sites use the same form as the
-                  marketing site. Especially helpful before we talk:
-                </p>
-                <ul className="contact-services">
-                  <li>Links to your work (site, Instagram, Drive folder—whatever is current).</li>
-                  <li>Rough timeline (exhibition, launch, seasonal drop, or &ldquo;when it is ready&rdquo;).</li>
-                  <li>Budget range if you are comfortable sharing one.</li>
-                </ul>
-                <p className="small muted">
-                  Or email me directly at{' '}
-                  <a href="mailto:david@networksandnodes.org" className="accent">
-                    david@networksandnodes.org
-                  </a>
-                </p>
-                <p style={{ marginTop: '1rem' }}>
-                  <a
-                    className="btn btn--large"
-                    href="../index.html#contact"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Open full contact form
-                    <span className="visually-hidden"> (opens the marketing site in a new tab)</span>
-                  </a>
-                </p>
-              </div>
+            <div className="pf-contact-journey">
+              <div className="pf-contact-step">
+                <span className="pf-contact-step__progress">Step {step} of 3</span>
+                <header className="pf-contact-step__header">
+                  <p className="pf-contact-step__eyebrow">Contact</p>
+                  <h1 className="pf-contact-step__title">
+                    Tell me about your <span className="pf-contact-title-accent">next site</span>
+                  </h1>
+                </header>
 
-              <form
-                className="consultation-form pf-contact-form-modern"
-                action="/api/send-quote"
-                method="post"
-                onSubmit={onFormSubmit}
-              >
-                <input type="hidden" name="who_are_you" value={whoAreYou} />
+                <div className="pf-contact-step__body" key={`contact-step-${step}-${isSubmitted ? 'done' : 'active'}`}>
+                  {step === 1 ? (
+                    <section className="pf-contact-step__panel">
+                      <h2 className="pf-contact-step__heading">Who are you?</h2>
+                      <p className="pf-contact-step__helper">
+                        Pick the one that fits best - it just helps me scope the right kind of reply.
+                      </p>
+                      <div className="pf-contact-tiles">
+                        {PF_CONTACT_ROLE_OPTIONS.map((item) => (
+                          <button
+                            key={item.value}
+                            type="button"
+                            className={`pf-contact-tile${role === item.value ? ' pf-contact-tile--selected' : ''}`}
+                            onClick={() => {
+                              setRole(item.value);
+                              setStep(2);
+                            }}
+                          >
+                            <span className="pf-contact-tile__label">{item.label}</span>
+                            <p className="pf-contact-tile__desc">{item.desc}</p>
+                          </button>
+                        ))}
+                      </div>
+                    </section>
+                  ) : null}
 
-                <div className="pf-who-step">
-                  <p className="pf-who-step__label" id="pf-who-are-you-label">
-                    Who are you?
-                  </p>
-                  <div
-                    className="pf-who-step__grid"
-                    role="radiogroup"
-                    aria-labelledby="pf-who-are-you-label"
-                    aria-required="true"
-                  >
-                    {PF_WHO_OPTIONS.map((opt) => (
-                      <button
-                        key={opt.value}
-                        type="button"
-                        className={`pf-who-option${whoAreYou === opt.value ? ' pf-who-option--active' : ''}`}
-                        aria-checked={whoAreYou === opt.value}
-                        role="radio"
-                        onClick={() => {
-                          setWhoAreYou(opt.value);
-                          setWhoSubmitAttempted(false);
-                        }}
-                      >
-                        {opt.label}
+                  {step === 2 ? (
+                    <section className="pf-contact-step__panel">
+                      <button type="button" className="pf-contact-step__back" onClick={() => setStep(1)}>
+                        Back
                       </button>
-                    ))}
-                  </div>
-                  {whoError ? (
-                    <p className="pf-who-step__error" role="alert">
-                      Pick who you are so we can route your note correctly.
-                    </p>
+                      <h2 className="pf-contact-step__heading">What service do you need?</h2>
+                      <p className="pf-contact-step__helper">
+                        Website work is the main thing - but I also do the rest of the stack when it&apos;s useful.
+                      </p>
+                      <div className="pf-contact-tiles">
+                        {PF_CONTACT_SERVICE_OPTIONS.map((item) => (
+                          <button
+                            key={item.value}
+                            type="button"
+                            className={`pf-contact-tile${service === item.value ? ' pf-contact-tile--selected' : ''}`}
+                            onClick={() => {
+                              setService(item.value);
+                              setStep(3);
+                            }}
+                          >
+                            <span className="pf-contact-tile__label">{item.label}</span>
+                            <p className="pf-contact-tile__desc">{item.desc}</p>
+                          </button>
+                        ))}
+                      </div>
+                    </section>
+                  ) : null}
+
+                  {step === 3 ? (
+                    <section className="pf-contact-step__panel">
+                      <button type="button" className="pf-contact-step__back" onClick={() => setStep(2)}>
+                        Back
+                      </button>
+                      <h2 className="pf-contact-step__heading">A few last details</h2>
+                      <p className="pf-contact-step__helper">
+                        Last step - enough to write you back with something useful, not a pitch.
+                      </p>
+
+                      {!isSubmitted ? (
+                        <form className="pf-contact-form" action="/api/send-quote" method="post" onSubmit={onFormSubmit}>
+                          <div className="pf-contact-summary-chip">
+                            <span>{roleLabel || 'Role'} · {serviceLabel || 'Service'}</span>
+                            <button type="button" className="pf-contact-summary-chip__edit" onClick={() => setStep(1)}>
+                              Edit role
+                            </button>
+                            <button type="button" className="pf-contact-summary-chip__edit" onClick={() => setStep(2)}>
+                              Edit service
+                            </button>
+                          </div>
+
+                          <input type="hidden" name="role" value={role} />
+                          <input type="hidden" name="service" value={service} />
+
+                          <div className="pf-contact-form__field">
+                            <label htmlFor="pf-q-name">Your name</label>
+                            <input type="text" id="pf-q-name" name="name" required />
+                          </div>
+
+                          <div className="pf-contact-form__field">
+                            <label htmlFor="pf-q-email">Email</label>
+                            <input type="email" id="pf-q-email" name="email" required />
+                          </div>
+
+                          <div className="pf-contact-form__field">
+                            <label htmlFor="pf-q-work-links">Links to your profile</label>
+                            <input
+                              type="text"
+                              id="pf-q-work-links"
+                              name="work_links"
+                              required
+                              placeholder="Website, LinkedIn, GitHub, Dribbble, Instagram, or any profile that best represents you."
+                            />
+                          </div>
+
+                          <div className="pf-contact-form__field">
+                            <label htmlFor="pf-q-timeline">Timeline</label>
+                            <select id="pf-q-timeline" name="timeline">
+                              <option value="">Select one</option>
+                              <option value="within-a-month">Within a month</option>
+                              <option value="1-3-months">1-3 months</option>
+                              <option value="3-6-months">3-6 months</option>
+                              <option value="no-fixed-date">No fixed date</option>
+                            </select>
+                          </div>
+
+                          <div className="pf-contact-form__field">
+                            <label htmlFor="pf-q-project">About the project</label>
+                            <textarea
+                              id="pf-q-project"
+                              name="project"
+                              rows="4"
+                              required
+                              placeholder="Your body of work, who the site is for, what it needs to do."
+                            />
+                          </div>
+
+                          <div className="pf-contact-form__field">
+                            <label htmlFor="pf-q-budget">Budget range (optional)</label>
+                            <input type="text" id="pf-q-budget" name="budget" />
+                            <small>If you&apos;re comfortable sharing - helps me scope honestly.</small>
+                          </div>
+
+                          {submitError ? (
+                            <p className="pf-contact-form__status" role="alert">
+                              {submitError}
+                            </p>
+                          ) : null}
+
+                          <button type="submit" className="btn btn--large pf-contact-form__submit" disabled={isSubmitting}>
+                            {isSubmitting ? 'Sending...' : 'Send'}
+                          </button>
+                          <p className="pf-contact-form__fallback">
+                            Or email me directly at <a href="mailto:david@networksandnodes.org">david@networksandnodes.org</a>
+                          </p>
+                        </form>
+                      ) : (
+                        <div className="pf-contact-success">
+                          <h3>Got it - I&apos;ll reply within a couple of business days.</h3>
+                          <p>Thanks for the context. I&apos;ll write back with a clear next step that fits your project.</p>
+                        </div>
+                      )}
+                    </section>
                   ) : null}
                 </div>
-
-                <div className="form-row">
-                  <div className="form-field">
-                    <label htmlFor="pf-q-name">
-                      Name<span className="required">*</span>
-                    </label>
-                    <input type="text" id="pf-q-name" name="name" required />
-                  </div>
-                  <div className="form-field">
-                    <label htmlFor="pf-q-email">
-                      Email<span className="required">*</span>
-                    </label>
-                    <input type="email" id="pf-q-email" name="email" required />
-                  </div>
-                </div>
-
-                <div className="form-row">
-                  <div className="form-field">
-                    <label htmlFor="pf-q-phone">Phone</label>
-                    <input type="tel" id="pf-q-phone" name="phone" />
-                  </div>
-                  <div className="form-field">
-                    <label htmlFor="pf-q-type">Engagement type</label>
-                    <select id="pf-q-type" name="project_type">
-                      <option value="">Select one</option>
-                      <option value="ai-assessment">AI Readiness Assessment</option>
-                      <option value="cloud-strategy">Cloud / Infrastructure Strategy</option>
-                      <option value="web-dev">Web Development & SEO</option>
-                      <option value="analytics-crm">Analytics & CRM Setup</option>
-                      <option value="automation">Automation & Pipelines</option>
-                      <option value="security">Security Review</option>
-                      <option value="operations">Operations Overhaul</option>
-                      <option value="implementation">Implementation Support</option>
-                      <option value="not-sure">Not sure yet? Let&apos;s talk.</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="form-row">
-                  <div className="form-field">
-                    <label htmlFor="pf-q-date">Preferred date for call</label>
-                    <input type="date" id="pf-q-date" name="date" />
-                  </div>
-                  <div className="form-field">
-                    <label htmlFor="pf-q-method">Preferred contact method</label>
-                    <select id="pf-q-method" name="contact">
-                      <option value="email">Email</option>
-                      <option value="phone">Phone call</option>
-                      <option value="video">Video call</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="form-field">
-                  <label htmlFor="pf-q-details">
-                    Tell me about your project<span className="required">*</span>
-                  </label>
-                  <textarea
-                    id="pf-q-details"
-                    name="details"
-                    rows="4"
-                    required
-                    placeholder="Describe your current infrastructure, AI goals, and any specific challenges..."
-                  />
-                </div>
-
-                <div className="form-field form-field--checkbox">
-                  <label>
-                    <input type="checkbox" name="newsletter" />
-                    Keep me updated on AI & infrastructure insights.
-                  </label>
-                </div>
-
-                <button type="submit" className="btn btn--large">
-                  Book Consultation
-                </button>
-              </form>
+              </div>
             </div>
-
-            <p className="small muted" style={{ marginTop: '1.5rem', maxWidth: '42rem' }}>
-              Staying in this embed? <strong>About</strong> has Connect under the quote; <strong>Work</strong> lists
-              design templates you can start from; <strong>Services</strong> mirrors the main site Solutions list. Use{' '}
-              <strong>← Sections</strong> or the opening grid when you want to jump elsewhere.
-            </p>
           </div>
         </section>
+        <SectionFooterNav onNavigate={onNavigate} prev="services" contained />
       </main>
     </div>
   );
@@ -1720,9 +2053,9 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
         ) : active === 'work' ? (
           <WorkSection onNavigate={(id) => onSelect(id)} />
         ) : active === 'services' ? (
-          <ServicesSection />
+          <ServicesSection onNavigate={(id) => onSelect(id)} />
         ) : active === 'contact' ? (
-          <ContactSection />
+          <ContactSection onNavigate={(id) => onSelect(id)} />
         ) : null}
       </div>
     </div>
