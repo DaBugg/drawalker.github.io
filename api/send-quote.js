@@ -6,13 +6,28 @@ module.exports = async (req, res) => {
     return;
   }
 
+  const parseUrlEncoded = (raw) => {
+    const params = new URLSearchParams(raw);
+    const out = {};
+    for (const [key, value] of params.entries()) out[key] = value;
+    return out;
+  };
+
   const parseBody = () => {
     if (!req.body) return {};
+    if (Buffer.isBuffer(req.body)) {
+      const raw = req.body.toString('utf8');
+      try {
+        return JSON.parse(raw);
+      } catch (_) {
+        return parseUrlEncoded(raw);
+      }
+    }
     if (typeof req.body === 'string') {
       try {
         return JSON.parse(req.body);
       } catch (_) {
-        return {};
+        return parseUrlEncoded(req.body);
       }
     }
     return req.body;
@@ -25,8 +40,10 @@ module.exports = async (req, res) => {
     name,
     email,
     work_links,
+    workLinks,
     timeline,
     project,
+    projectDetails,
     budget,
     // Backward-compat legacy fields:
     phone,
@@ -39,11 +56,11 @@ module.exports = async (req, res) => {
 
   const normalizedName = (name || '').trim();
   const normalizedEmail = (email || '').trim();
-  const normalizedProject = (project || details || '').trim();
+  const normalizedProject = (project || projectDetails || details || '').trim();
   const normalizedRole = (role || contact || '').trim();
   const normalizedService = (service || project_type || '').trim();
   const normalizedTimeline = (timeline || date || '').trim();
-  const normalizedLinks = (work_links || '').trim();
+  const normalizedLinks = (work_links || workLinks || '').trim();
   const normalizedBudget = (budget || '').trim();
   const wantsNewsletter = newsletter ? 'Yes' : 'No';
 
@@ -70,6 +87,21 @@ module.exports = async (req, res) => {
     <p><strong>Project details:</strong></p>
     <p>${normalizedProject.replace(/\n/g, '<br>')}</p>
   `;
+  const textBody = [
+    'New Portfolio Contact Submission',
+    `Name: ${normalizedName}`,
+    `Email: ${normalizedEmail}`,
+    `Role: ${normalizedRole || 'N/A'}`,
+    `Service: ${normalizedService || 'N/A'}`,
+    `Profile links: ${normalizedLinks || 'N/A'}`,
+    `Timeline: ${normalizedTimeline || 'N/A'}`,
+    `Budget: ${normalizedBudget || 'N/A'}`,
+    `Phone (legacy): ${phone || 'N/A'}`,
+    `Newsletter opt-in (legacy): ${wantsNewsletter}`,
+    '',
+    'Project details:',
+    normalizedProject,
+  ].join('\n');
 
   const host = process.env.SMTP_HOST || 'smtp.porkbun.com';
   const port = Number(process.env.SMTP_PORT) || 587;
@@ -90,6 +122,7 @@ module.exports = async (req, res) => {
       to: process.env.CONTACT_EMAIL,
       replyTo: normalizedEmail,
       subject: `New portfolio inquiry from ${normalizedName}`,
+      text: textBody,
       html: htmlBody,
     });
 

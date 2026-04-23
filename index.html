@@ -2098,6 +2098,7 @@ function App() {
   const rafRef = useRef(null);
   const heroRef = useRef(null);
   const touchYRef = useRef(null);
+  const touchStartYRef = useRef(null);
 
   useEffect(() => { phRef.current = phase; }, [phase]);
 
@@ -2140,7 +2141,11 @@ function App() {
     };
     const onTouchStart = e => {
       if (phRef.current === 'content') return;
-      if (e.touches.length === 1 && e.touches[0]) touchYRef.current = e.touches[0].clientY;
+      if (e.touches.length === 1 && e.touches[0]) {
+        const y = e.touches[0].clientY;
+        touchYRef.current = y;
+        touchStartYRef.current = y;
+      }
     };
     const onTouchMove = e => {
       if (phRef.current === 'content') return;
@@ -2148,11 +2153,16 @@ function App() {
       const nextY = e.touches[0].clientY;
       const deltaY = touchYRef.current - nextY;
       touchYRef.current = nextY;
-      if (Math.abs(deltaY) < 0.8) return;
-      tRef.current = clampProgress(tRef.current + deltaY / 1400);
+      if (Math.abs(deltaY) < 0.5) return;
+      tRef.current = clampProgress(tRef.current + deltaY / 900);
     };
     const onTouchEnd = () => {
+      if (phRef.current !== 'content' && touchStartYRef.current !== null && touchYRef.current !== null) {
+        const swipeDistance = touchStartYRef.current - touchYRef.current;
+        if (swipeDistance > 40) tRef.current = clampProgress(tRef.current + Math.min(0.35, swipeDistance / 360));
+      }
       touchYRef.current = null;
+      touchStartYRef.current = null;
     };
 
     window.addEventListener('wheel', onWheel, { passive: false });
@@ -2254,7 +2264,7 @@ function App() {
       <div className="hero-scroll-hint" style={{
         opacity: Math.max(0, 1 - progress * 8),
         fontFamily: F,
-      }}>Swipe up or scroll to continue</div>
+      }}>Wipe up to scroll or continue</div>
 
       {/* ── Crack % ── */}
       {crackScroll > 0.02 && phase === 'zoom' && (
