@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../css/styles.css" />
+<link rel="stylesheet" href="../css/styles.css" />
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
@@ -107,6 +107,123 @@ body { background: #0f172a !important; }
   color: var(--text);
 }
 
+/* Portfolio contact — modern card + “Who are you?” step */
+.pf-contact-form-modern.consultation-form {
+  padding: clamp(1.25rem, 3vw, 2rem) clamp(1.15rem, 2.8vw, 1.75rem);
+  border-radius: 1.15rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    color-mix(in oklab, var(--bg-soft) 88%, white) 55%,
+    rgba(255, 255, 255, 0.94) 100%
+  );
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 18px 40px -16px rgba(15, 23, 42, 0.14);
+}
+.pf-contact-form-modern .pf-who-step {
+  margin: 0 0 1.65rem;
+  padding-bottom: 1.45rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.07);
+}
+.pf-contact-form-modern .pf-who-step__label {
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 0.9rem;
+}
+.pf-contact-form-modern .pf-who-step__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+@media (min-width: 560px) {
+  .pf-contact-form-modern .pf-who-step__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.pf-contact-form-modern .pf-who-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.85rem;
+  appearance: none;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: #fff;
+  color: var(--text);
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.55rem 0.5rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  text-align: center;
+  line-height: 1.2;
+  transition:
+    border-color 0.16s ease,
+    box-shadow 0.16s ease,
+    background 0.16s ease,
+    color 0.16s ease,
+    transform 0.1s ease;
+}
+.pf-contact-form-modern .pf-who-option:hover {
+  border-color: color-mix(in oklab, var(--accent-cyan) 55%, var(--surface-border));
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--accent-cyan) 18%, transparent);
+}
+.pf-contact-form-modern .pf-who-option:focus-visible {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-cyan) 28%, transparent);
+}
+.pf-contact-form-modern .pf-who-option--active {
+  border-color: var(--accent-cyan);
+  background: color-mix(in oklab, var(--accent-cyan) 14%, white);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--accent-cyan) 32%, transparent);
+}
+.pf-contact-form-modern .pf-who-step__error {
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #b91c1c;
+  margin: 0.75rem 0 0;
+}
+.pf-contact-form-modern.consultation-form label {
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+.pf-contact-form-modern.consultation-form input,
+.pf-contact-form-modern.consultation-form select,
+.pf-contact-form-modern.consultation-form textarea {
+  border-radius: 0.65rem;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: #fff;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.03);
+}
+.pf-contact-form-modern.consultation-form input:focus,
+.pf-contact-form-modern.consultation-form select:focus,
+.pf-contact-form-modern.consultation-form textarea:focus {
+  border-color: var(--accent-cyan);
+  box-shadow:
+    inset 0 1px 2px rgba(15, 23, 42, 0.03),
+    0 0 0 3px color-mix(in oklab, var(--accent-cyan) 22%, transparent);
+}
+.pf-contact-form-modern.consultation-form .btn.btn--large {
+  width: 100%;
+  margin-top: 0.35rem;
+  border-radius: 0.85rem;
+  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  box-shadow: 0 2px 8px color-mix(in oklab, var(--accent) 22%, transparent);
+}
+
 /* About + reading — dark surface, subdued art, gold accents (wordmark #c9ae7a) */
 .pf-about-main {
   font-family: "DM Sans", system-ui, sans-serif;
@@ -170,6 +287,80 @@ body { background: #0f172a !important; }
   color: #dcc9a0;
   border-bottom-color: rgba(220, 201, 160, 0.85);
 }
+
+/* Work panel — draft case snapshots (filler until verified case studies ship) */
+.pf-work {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+.pf-work__disclaimer {
+  font-size: 0.82rem;
+  line-height: 1.65;
+  color: #a1a1aa;
+  margin: 0 0 1.75rem;
+  padding: 0.85rem 1rem;
+  border-left: 3px solid rgba(34, 211, 238, 0.35);
+  background: rgba(15, 23, 42, 0.45);
+  border-radius: 0 0.45rem 0.45rem 0;
+}
+.pf-work__cases {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pf-work-case {
+  border: 1px solid rgba(115, 115, 115, 0.38);
+  border-radius: 0.65rem;
+  padding: 1.2rem 1.3rem 1.35rem;
+  background: rgba(15, 23, 42, 0.55);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+}
+.pf-work-case__meta {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+  margin: 0 0 0.5rem;
+}
+.pf-work-case__title {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #fafafa;
+  margin: 0 0 0.65rem;
+}
+.pf-work-case__body {
+  font-size: 0.92rem;
+  line-height: 1.72;
+  color: #c4c4c4;
+  margin: 0 0 1rem;
+  font-weight: 500;
+}
+.pf-work-case__quote {
+  margin: 0;
+  padding: 0.75rem 0 0.35rem 1rem;
+  border-left: 2px solid rgba(201, 174, 122, 0.55);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.55;
+  color: #e8e8e8;
+}
+.pf-work-case__cite {
+  display: block;
+  margin-top: 0.65rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-style: normal;
+  letter-spacing: 0.02em;
+  color: #a3a3a3;
+  line-height: 1.5;
+}
+
 .pf-connect {
   margin-top: 2rem;
   padding-top: 1.75rem;
@@ -337,8 +528,8 @@ const GR  = 0.2095; // globe radius fraction of container height
 // ── Four section tiles after crack (same site; Work fills in as case studies ship)
 const CARDS = [
   { id: 'about',    label: 'About',    sub: 'Partner for image-led sites' },
-  { id: 'work',     label: 'Work',     sub: 'Case studies in progress' },
-  { id: 'services', label: 'Services', sub: 'What I build' },
+  { id: 'work',     label: 'Work',     sub: 'Draft snapshots & quotes' },
+  { id: 'services', label: 'Services', sub: 'Solutions from the main site' },
   { id: 'contact',  label: 'Contact',  sub: 'Email to start' },
 ];
 
@@ -628,8 +819,9 @@ function AboutSection({ onNavigate }) {
             page.
           </p>
           <p className="pf-about__p">
-            <strong>Services</strong> is where I spell out what I build; <strong>Work</strong> will collect case studies
-            as I publish them. When you are ready to send links or talk timelines, use <strong>Contact</strong>.
+            <strong>Services</strong> is where I spell out what I build; <strong>Work</strong> holds draft engagement
+            snapshots until full case studies publish. When you are ready to send links or talk timelines, use{' '}
+            <strong>Contact</strong>.
           </p>
 
           <nav className="pf-connect" aria-label="Resume and social links">
@@ -807,9 +999,9 @@ function AboutSection({ onNavigate }) {
             <div className="pf-reading__cover">
               <figure>
                 <picture>
-                  <source srcSet="../../images/book-of-the-month.webp" type="image/webp" />
+                  <source srcSet="../images/book-of-the-month.webp" type="image/webp" />
                   <img
-                    src="../../images/book-of-the-month.png"
+                    src="../images/book-of-the-month.png"
                     alt="Cover of Apple in China"
                     loading="lazy"
                   />
@@ -830,24 +1022,91 @@ const portfolioPanelShell = {
   fontFamily: 'var(--font-sans)',
 };
 
-/** Work / case studies — content grows here over time. */
-function WorkSection() {
+const WORK_DRAFT_CASES = [
+  {
+    meta: 'Arts & archive — U.S. West Coast, 2022–2024',
+    title: 'Collection-first public site with light curator tooling',
+    body:
+      'Replaced a PDF-heavy brochure rhythm with an image pipeline (WebP, lazy sections) and a CMS handoff volunteers could use without touching HTML. Opening-weekend traffic stayed inside a single managed origin budget.',
+    quote: 'Opening weekend we did not get a single “where is the catalog?” email—first time in years.',
+    cite: 'Paraphrased from board debrief notes; program lead, name withheld',
+  },
+  {
+    meta: 'Regional distributor — ~40 staff, internal',
+    title: 'Monday ops digest instead of three spreadsheet merges',
+    body:
+      'Wired scheduled ERP CSV drops and carrier status into a small Postgres cache, one desktop panel for the floor, and alerts only when exceptions spiked. Deliberately not a mobile app—VPN-hardened desktop workflow.',
+    quote: 'We stopped babysitting three spreadsheets before coffee.',
+    cite: 'Composite phrasing from two logistics coordinators describing the same weekly ritual',
+  },
+  {
+    meta: 'B2B services — national footprint, IA + technical SEO',
+    title: 'Practice-area pages that could survive the next rebrand',
+    body:
+      'Flattened nested service URLs, matched H1/H2 intent to how buyers actually search, and tightened structured data only where rich results still matter in that vertical—no vanity schema.',
+    quote: 'He asked better questions than our last two vendors combined.',
+    cite: 'Interim CTO, internal town-hall Q&A (firm anonymized)',
+  },
+  {
+    meta: 'Manufacturing supplier — 2025 readiness pilot',
+    title: 'Document triage matrix before any model spend',
+    body:
+      'OCR cleanliness audit, which PDFs still needed humans, and a staged pilot on rejected claims only. Killed a proposed company-wide LLM rollout that would have trained on filthy legacy scans.',
+    quote: 'The boring checklist saved us from the flashy demo.',
+    cite: 'Ops manager, single Midwest facility (client name under NDA)',
+  },
+];
+
+/** Work — draft snapshots and quote-style blurbs until verified case studies ship. */
+function WorkSection({ onNavigate }) {
   return (
     <div data-theme="dark" className="portfolio-embed-root" style={portfolioPanelShell}>
-      <main style={{ paddingTop: '1rem' }}>
+      <main className="pf-about-main" style={{ paddingTop: '1rem', paddingBottom: '3rem' }}>
         <section id="work" className="section" aria-labelledby="work-panel-title">
           <div className="container about-page">
             <p className="small muted">Work</p>
             <h1 id="work-panel-title" className="title">
-              Case studies <span className="accent">in progress</span>
+              Representative <span className="accent">engagements</span>
             </h1>
             <p className="lead">
-              I am filling this page with project write-ups, screenshots, and links as I finish them. It stays short on
-              purpose until each story is something I am proud to stand behind.
+              Placeholder layout copy: sector, scale, and outcomes are written to sound like something you could
+              almost verify—swap in real names, links, screenshots, and signed attributions when each case file is
+              ready to publish.
             </p>
-            <p className="small muted" style={{ marginTop: '1.25rem', maxWidth: '40rem', lineHeight: 1.65 }}>
-              For what I do day to day, see <strong>Services</strong>. To talk about your site or timeline, reach me
-              through <strong>Contact</strong>.
+            <p className="pf-work__disclaimer" role="note">
+              <strong style={{ color: '#d4d4d4' }}>Draft only.</strong> Organizations are anonymized or composite;
+              metrics are illustrative; quotes are paraphrased or blended from feedback unless you replace them with
+              approved pull-quotes.
+            </p>
+
+            <div className="pf-work">
+              <ul className="pf-work__cases">
+                {WORK_DRAFT_CASES.map((c) => (
+                  <li key={c.title}>
+                    <article className="pf-work-case">
+                      <p className="pf-work-case__meta">{c.meta}</p>
+                      <h2 className="pf-work-case__title">{c.title}</h2>
+                      <p className="pf-work-case__body">{c.body}</p>
+                      <figure style={{ margin: 0 }}>
+                        <blockquote className="pf-work-case__quote">{c.quote}</blockquote>
+                        <figcaption className="pf-work-case__cite">{c.cite}</figcaption>
+                      </figure>
+                    </article>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <p className="small muted" style={{ marginTop: '2rem', maxWidth: '42rem', lineHeight: 1.65 }}>
+              For the same offerings in marketing language as the main site, see{' '}
+              <button type="button" className="pf-about__inline-link" onClick={() => onNavigate('services')}>
+                Services
+              </button>
+              . To talk timelines or a similar engagement, use{' '}
+              <button type="button" className="pf-about__inline-link" onClick={() => onNavigate('contact')}>
+                Contact
+              </button>
+              .
             </p>
           </div>
         </section>
@@ -863,31 +1122,31 @@ function ServicesSection() {
       icon: '\uD83D\uDCBB',
       title: 'Custom Web Development',
       body:
-        'I build sites, platforms, and apps to convert and scale: modern frameworks, responsive layout, and architecture that puts performance first.',
+        'Sites, platforms, and apps built to convert and scale. Modern frameworks, responsive design, and performance first architecture.',
     },
     {
       icon: '\uD83D\uDCC8',
       title: 'Analytics & Custom Dashboards',
       body:
-        'I help you see what actually matters—dashboards and tooling set up for real decisions, from first wiring through team training.',
+        'Visibility into what matters. Platforms configured for data based decisions, from setup to team training.',
     },
     {
       icon: '\u2699',
       title: 'Automation & Workflow Platforms',
       body:
-        'I design custom tools and pipelines that cut manual work so operations keep moving without someone babysitting every step.',
+        'Streamline operations with custom tools that eliminate manual work. Pipelines, integrations, and systems that run without constant attention.',
     },
     {
       icon: '\uD83D\uDD0D',
       title: 'SEO Strategy & Implementation',
       body:
-        'I handle technical SEO, content structure, and conversion paths so the right people find you—without promising magic rankings.',
+        'Get found. Rank higher. Drive qualified traffic to your business with technical SEO, content strategy, and conversion optimization.',
     },
     {
       icon: '\uD83E\uDD16',
       title: 'AI Consulting & Integration',
       body:
-        'I take you from readiness checks to production-ready AI integrations so the tooling fits how you already work—not the other way around.',
+        'Strategic AI adoption from readiness assessment to production ready implementation. Make AI work for your business, not the other way around.',
     },
   ];
   return (
@@ -895,10 +1154,9 @@ function ServicesSection() {
       <main style={{ paddingTop: '1rem' }}>
         <section id="services" className="section">
           <div className="container">
-            <p className="small muted">Services</p>
             <h2 className="accent">Solutions</h2>
             <p className="muted small">
-              A straight list of what I build and consult on—efficiency, visibility, and growth, in plain language.
+              Technology solutions built to drive efficiency, visibility, and growth.
             </p>
 
             <div className="services-grid">
@@ -924,13 +1182,35 @@ function ServicesSection() {
   );
 }
 
+const PF_WHO_OPTIONS = [
+  { value: 'creative', label: 'Creative' },
+  { value: 'business_owner', label: 'Business owner' },
+  { value: 'ai_infrastructure', label: 'AI infrastructure' },
+  { value: 'marketing', label: 'Marketing' },
+];
+
 function ContactSection() {
+  const [whoAreYou, setWhoAreYou] = useState('');
+  const [whoSubmitAttempted, setWhoSubmitAttempted] = useState(false);
+
   const shellLight = {
     minHeight: '100%',
     background: 'transparent',
     color: 'var(--text)',
     fontFamily: 'var(--font-sans)',
   };
+
+  const onFormSubmit = (e) => {
+    if (!whoAreYou) {
+      e.preventDefault();
+      setWhoSubmitAttempted(true);
+      return;
+    }
+    setWhoSubmitAttempted(false);
+  };
+
+  const whoError = whoSubmitAttempted && !whoAreYou;
+
   return (
     <div data-theme="light" className="portfolio-embed-root pf-contact-embed" style={shellLight}>
       <main>
@@ -962,7 +1242,7 @@ function ContactSection() {
                 <p style={{ marginTop: '1rem' }}>
                   <a
                     className="btn btn--large"
-                    href="../../index.html#contact"
+                    href="../index.html#contact"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -972,7 +1252,47 @@ function ContactSection() {
                 </p>
               </div>
 
-              <form className="consultation-form" action="/api/send-quote" method="post">
+              <form
+                className="consultation-form pf-contact-form-modern"
+                action="/api/send-quote"
+                method="post"
+                onSubmit={onFormSubmit}
+              >
+                <input type="hidden" name="who_are_you" value={whoAreYou} />
+
+                <div className="pf-who-step">
+                  <p className="pf-who-step__label" id="pf-who-are-you-label">
+                    Who are you?
+                  </p>
+                  <div
+                    className="pf-who-step__grid"
+                    role="radiogroup"
+                    aria-labelledby="pf-who-are-you-label"
+                    aria-required="true"
+                  >
+                    {PF_WHO_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        className={`pf-who-option${whoAreYou === opt.value ? ' pf-who-option--active' : ''}`}
+                        aria-checked={whoAreYou === opt.value}
+                        role="radio"
+                        onClick={() => {
+                          setWhoAreYou(opt.value);
+                          setWhoSubmitAttempted(false);
+                        }}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                  {whoError ? (
+                    <p className="pf-who-step__error" role="alert">
+                      Pick who you are so we can route your note correctly.
+                    </p>
+                  ) : null}
+                </div>
+
                 <div className="form-row">
                   <div className="form-field">
                     <label htmlFor="pf-q-name">
@@ -1053,7 +1373,7 @@ function ContactSection() {
 
             <p className="small muted" style={{ marginTop: '1.5rem', maxWidth: '42rem' }}>
               Staying in this embed? <strong>About</strong> has Connect under the quote; <strong>Services</strong> shows
-              the Solutions cards. Use <strong>← Sections</strong> or the opening grid when you want to jump elsewhere.
+              the same Solutions list as the main site. Use <strong>← Sections</strong> or the opening grid when you want to jump elsewhere.
             </p>
           </div>
         </section>
@@ -1211,7 +1531,7 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
         ) : active === 'about' ? (
           <AboutSection onNavigate={(id) => onSelect(id)} />
         ) : active === 'work' ? (
-          <WorkSection />
+          <WorkSection onNavigate={(id) => onSelect(id)} />
         ) : active === 'services' ? (
           <ServicesSection />
         ) : active === 'contact' ? (
@@ -1333,7 +1653,7 @@ function App() {
           transition: phase === 'content' ? 'opacity 0.6s ease' : 'none',
         }}>
           {/* act-1.svg: vector B&W art, transparent outside paths */}
-          <img src="../images/act-1.svg" alt="" draggable={false} style={{
+          <img src="act-1.svg" alt="" draggable={false} style={{
             width: '100%', height: '100%', display: 'block',
             objectFit: 'fill', userSelect: 'none',
           }} />
