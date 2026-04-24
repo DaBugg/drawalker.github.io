@@ -938,10 +938,10 @@ const GR  = 0.2095; // globe radius fraction of container height
 
 // ── Four section tiles after crack (same site; Work = template / design routes for leads)
 const CARDS = [
-  { id: 'about',    label: 'About',    sub: 'Partner for image-led sites' },
-  { id: 'work',     label: 'Work',     sub: 'Templates & design routes' },
-  { id: 'services', label: 'Services', sub: 'Solutions from the main site' },
-  { id: 'contact',  label: 'Contact',  sub: 'Three-step project inquiry' },
+  { id: 'about',    label: 'About',    sub: 'Click to learn more' },
+  { id: 'work',     label: 'Work',     sub: 'Click to learn more' },
+  { id: 'services', label: 'Services', sub: 'Click to learn more' },
+  { id: 'contact',  label: 'Contact',  sub: 'Click to learn more' },
 ];
 
 // fluid-particle.tsx — Canvas + JS only (no Tailwind for the effect). Ported from TS; fixed DPR transform + listener cleanup.
@@ -2098,9 +2098,12 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
                   textTransform: 'uppercase', position: 'relative',
                 }}>{card.label}</h2>
                 <p style={{
-                  color: 'rgba(0,0,0,0.38)', fontSize: 'clamp(10px,1vw,13px)',
-                  fontFamily: F, fontWeight: 400, letterSpacing: '0.20em',
-                  textTransform: 'uppercase', position: 'relative',
+                  color: '#dc2626',
+                  fontSize: 'clamp(10px,1vw,13px)',
+                  fontFamily: F, fontWeight: 500,
+                  letterSpacing: '0.06em',
+                  textTransform: 'none',
+                  position: 'relative',
                 }}>{card.sub}</p>
               </button>
             ))}
@@ -2133,6 +2136,8 @@ function App() {
   const heroRef = useRef(null);
   const touchYRef = useRef(null);
   const touchStartYRef = useRef(null);
+  const lastSplashInteractRef = useRef(Date.now());
+  const idleAutoRef = useRef(false);
 
   useEffect(() => { phRef.current = phase; }, [phase]);
 
@@ -2148,11 +2153,16 @@ function App() {
   useEffect(() => {
     const tick = () => {
       const cur  = pRef.current;
-      const next = cur + (tRef.current - cur) * 0.050;
+      const alpha = idleAutoRef.current ? 0.014 : 0.050;
+      const next = cur + (tRef.current - cur) * alpha;
       if (Math.abs(next - cur) > 0.00004) {
         pRef.current = next;
         setProgress(next);
-        if (next > 0.960 && phRef.current === 'zoom') setPhase('content');
+        if (next > 0.960 && phRef.current === 'zoom') {
+          idleAutoRef.current = false;
+          setPhase('content');
+          setActive(null);
+        }
       }
       rafRef.current = requestAnimationFrame(tick);
     };
@@ -2160,21 +2170,42 @@ function App() {
     return () => cancelAnimationFrame(rafRef.current);
   }, []);
 
+  // After 4s idle on splash, slowly auto-advance zoom then open the four-tile grid
+  useEffect(() => {
+    if (phase !== 'zoom') return undefined;
+    const tick = () => {
+      if (phRef.current !== 'zoom') return;
+      if (idleAutoRef.current) return;
+      if (Date.now() - lastSplashInteractRef.current < 4000) return;
+      idleAutoRef.current = true;
+      tRef.current = 1;
+    };
+    const id = setInterval(tick, 400);
+    return () => clearInterval(id);
+  }, [phase]);
+
   // Scroll / keys
   useEffect(() => {
     const clampProgress = value => Math.max(0, Math.min(1, value));
+    const bumpSplash = () => {
+      lastSplashInteractRef.current = Date.now();
+      idleAutoRef.current = false;
+    };
     const onWheel = e => {
       if (phRef.current === 'content') return;
+      bumpSplash();
       e.preventDefault();
       tRef.current = clampProgress(tRef.current + e.deltaY / 1800);
     };
     const onKey = e => {
       if (phRef.current === 'content') return;
+      bumpSplash();
       if (e.key === 'ArrowDown' || e.key === 'PageDown') tRef.current = clampProgress(tRef.current + 0.06);
       if (e.key === 'ArrowUp'   || e.key === 'PageUp')   tRef.current = clampProgress(tRef.current - 0.06);
     };
     const onTouchStart = e => {
       if (phRef.current === 'content') return;
+      bumpSplash();
       if (e.touches.length === 1 && e.touches[0]) {
         const y = e.touches[0].clientY;
         touchYRef.current = y;
@@ -2183,6 +2214,7 @@ function App() {
     };
     const onTouchMove = e => {
       if (phRef.current === 'content') return;
+      bumpSplash();
       if (!e.touches[0] || touchYRef.current === null) return;
       const nextY = e.touches[0].clientY;
       const deltaY = touchYRef.current - nextY;
@@ -2191,6 +2223,7 @@ function App() {
       tRef.current = clampProgress(tRef.current + deltaY / 900);
     };
     const onTouchEnd = () => {
+      bumpSplash();
       if (phRef.current !== 'content' && touchStartYRef.current !== null && touchYRef.current !== null) {
         const swipeDistance = touchStartYRef.current - touchYRef.current;
         if (swipeDistance > 40) tRef.current = clampProgress(tRef.current + Math.min(0.35, swipeDistance / 360));
@@ -2224,6 +2257,8 @@ function App() {
     setPhase('zoom');
     setActive(null);
     tRef.current = 0;
+    idleAutoRef.current = false;
+    lastSplashInteractRef.current = Date.now();
   }
 
   const { w: cW, h: cH } = sz;
@@ -2269,6 +2304,7 @@ function App() {
           transform: `translate(${tx}px, ${ty}px) scale(${scale})`,
           opacity: phase === 'content' ? 0 : 1,
           transition: phase === 'content' ? 'opacity 0.6s ease' : 'none',
+          ['--hero-globe-cy-pct']: `${GCY * 100}%`,
         }}>
           {/* act-1.svg: vector B&W art, transparent outside paths */}
           <img src="test-pages-new/act-1.svg" alt="" draggable={false} className="hero-art-img" />
@@ -2285,6 +2321,16 @@ function App() {
               pointerEvents: 'none',
             }} />
           )}
+
+          <div
+            className="hero-scroll-hint hero-scroll-hint--in-globe"
+            style={{
+              opacity: Math.max(0, 1 - progress * 8),
+              fontFamily: F,
+            }}
+          >
+            Swipe up to continue.
+          </div>
         </div>
       )}
 
@@ -2293,12 +2339,6 @@ function App() {
         opacity: Math.max(0, 1 - progress * 5),
         fontFamily: F,
       }}>Networks &amp; Nodes</div>
-
-      {/* ── Scroll hint ── */}
-      <div className="hero-scroll-hint" style={{
-        opacity: Math.max(0, 1 - progress * 8),
-        fontFamily: F,
-      }}>Swipe up to continue.</div>
 
       {/* ── Crack % ── */}
       {crackScroll > 0.02 && phase === 'zoom' && (
