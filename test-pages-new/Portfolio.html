@@ -45,11 +45,11 @@ body { background: #0f172a !important; }
     (bio + Spotify + quote/book), not just the visible viewport.
   */
   background-image:
-    linear-gradient(rgba(11, 18, 32, 0.78), rgba(11, 18, 32, 0.78)),
-    url('about-background.svg');
-  background-repeat: repeat-y;
-  background-position: center top;
-  background-size: 100% auto;
+    linear-gradient(rgba(11, 18, 32, 0.42), rgba(11, 18, 32, 0.5)),
+    url('services.svg');
+  background-repeat: no-repeat, no-repeat;
+  background-position: center center, center center;
+  background-size: cover, cover;
   background-attachment: local;
   flex: 1 1 auto;
   min-height: 100%;
@@ -67,9 +67,14 @@ body { background: #0f172a !important; }
   background-size: cover;
 }
 .portfolio-panel-body--services {
-  background-image: url('services.svg');
-  background-position: center center;
-  background-size: cover;
+  background-color: #0b1220;
+  background-image:
+    linear-gradient(rgba(11, 18, 32, 0.52), rgba(11, 18, 32, 0.56)),
+    url('about-background.svg');
+  background-repeat: repeat-y;
+  background-position: center top;
+  background-size: 100% auto;
+  background-attachment: local;
 }
 .portfolio-panel-body--contact {
   background-color: #e9eef6;
@@ -79,7 +84,7 @@ body { background: #0f172a !important; }
   background-size: min(100%, 1600px) auto;
 }
 @media (min-width: 900px) {
-  .portfolio-panel-body--about {
+  .portfolio-panel-body--services {
     background-size: cover;
   }
   .portfolio-panel-body--contact {
@@ -96,8 +101,8 @@ body { background: #0f172a !important; }
 }
 .pf-nav-grid-tile--about {
   background-image:
-    linear-gradient(rgba(11, 18, 32, 0.78), rgba(11, 18, 32, 0.78)),
-    url('about-background.svg');
+    linear-gradient(rgba(11, 18, 32, 0.42), rgba(11, 18, 32, 0.5)),
+    url('services.svg');
   background-repeat: no-repeat, no-repeat;
   background-size: cover, cover;
   background-position: center, center;
@@ -109,8 +114,8 @@ body { background: #0f172a !important; }
 }
 .pf-nav-grid-tile--services {
   background-image:
-    linear-gradient(rgba(11, 18, 32, 0.72), rgba(11, 18, 32, 0.72)),
-    url('services.svg');
+    linear-gradient(rgba(11, 18, 32, 0.52), rgba(11, 18, 32, 0.56)),
+    url('about-background.svg');
 }
 .pf-nav-grid-tile--contact {
   background-color: #e9eef6;
