@@ -3,15 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Networks & Nodes</title>
+<title>Networks & Nodes — a studio practice by David Walker</title>
+<meta name="description" content="Networks & Nodes is a studio practice by David Walker, building fast, calm websites and the infrastructure that keeps them quietly reliable - for creatives, small businesses, and teams that need both sides done right.">
+<link rel="canonical" href="https://www.networksandnodes.org/" />
+<meta property="og:title" content="Networks & Nodes — a studio practice by David Walker">
+<meta property="og:description" content="Fast, calm websites and the infrastructure that keeps them quietly reliable. Portfolio and studio work by David Walker.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.networksandnodes.org/">
+<meta property="og:image" content="https://www.networksandnodes.org/images/og-default.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Networks & Nodes — a studio practice by David Walker">
+<meta name="twitter:description" content="Fast, calm websites and the infrastructure that keeps them quietly reliable.">
+<meta name="twitter:image" content="https://www.networksandnodes.org/images/og-default.png">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-image32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-image16x16.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css" />
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-<script src="test-pages-new/spotify-embed.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { width: 100%; height: 100%; overflow: hidden; background: #0f172a; }
@@ -496,16 +508,6 @@ body { background: #0f172a !important; }
 .pf-work {
   max-width: 42rem;
   margin: 0 auto;
-}
-.pf-work__disclaimer {
-  font-size: 0.82rem;
-  line-height: 1.65;
-  color: #a1a1aa;
-  margin: 0 0 1.75rem;
-  padding: 0.85rem 1rem;
-  border-left: 3px solid rgba(34, 211, 238, 0.35);
-  background: rgba(15, 23, 42, 0.45);
-  border-radius: 0 0.45rem 0.45rem 0;
 }
 .pf-work__cases {
   display: flex;
@@ -1259,14 +1261,6 @@ function SectionFooterNav({ onNavigate, prev, next, contained = false }) {
 }
 
 function AboutSection({ onNavigate }) {
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.portfolioEmbedSpotify) {
-      window.portfolioEmbedSpotify.init();
-      return () => window.portfolioEmbedSpotify.teardown();
-    }
-    return undefined;
-  }, []);
-
   return (
     <div
       data-theme="dark"
@@ -1281,20 +1275,24 @@ function AboutSection({ onNavigate }) {
         <div id="about" className="pf-about">
           <p className="pf-about__eyebrow">About</p>
           <h1 className="pf-about__title">
-            Hey, I&apos;m <span className="pf-about__title-accent">David W.</span>
+            Hey, I&apos;m <span className="pf-about__title-accent">David Walker</span>.
           </h1>
 
           <p className="pf-about__lead">
-            I make fast, understated websites for <strong>artists, photographers, and small studios</strong>—the
-            kind where your images lead and the interface gets out of the way. I spend my days in architecture
-            and infrastructure; I bring that same care to the work I do for people who think in pictures, not
-            in roadmaps.
+            I run <strong>Networks &amp; Nodes</strong>, a small studio practice where
+            I build fast, understated websites for <strong>artists, photographers,
+            and small businesses</strong>—and the infrastructure that keeps them
+            quietly reliable behind the scenes. My day job is network and systems
+            engineering, and the same habits that keep backends boringly dependable
+            are the ones I bring to the work I do for people who think in pictures,
+            not in roadmaps.
           </p>
           <p className="pf-about__p">
-            Over the last decade I&apos;ve designed networks, cloud systems, and internal tools, then carried that
-            habit of clarity to the public side: responsive layouts, type that reads well on a phone, and inquiry
-            flows that feel respectful instead of pushy. I&apos;m not here to dazzle you with jargon—only to help
-            you ship a site you&apos;re happy to send to a gallery, a rep, or a client at midnight.
+            The two sides of this practice share the same habits. A decade of designing networks, cloud systems,
+            and internal tools taught me that the invisible work - the naming conventions, the fallback plans, the
+            quiet logging - is what makes the visible work possible. I carry that habit to the public side:
+            responsive layouts, type that reads well on a phone, and inquiry flows that feel respectful instead of
+            pushy. Heavy technical background, human-facing outcome.
           </p>
           <p className="pf-about__p">
             The same instincts that keep backends boringly reliable—fewer moving parts, honest tradeoffs, attention
@@ -1306,6 +1304,17 @@ function AboutSection({ onNavigate }) {
             Off the clock I still like working with my hands—board-level repair, KiCad, the occasional hardware
             rabbit hole. It keeps me patient with detail, whether that&apos;s a trace on a board or spacing in a
             layout grid.
+          </p>
+          <p className="pf-about__p">
+            The name <strong>Networks &amp; Nodes</strong> comes from the day job.
+            In network engineering, a node is any device with a name and an address
+            on a network; the network is what connects them and lets them do anything
+            useful together. That felt like a fair description of the websites I build
+            too: a portfolio is a network of images with room to breathe between them;
+            a studio is a network of collaborators with different roles; a small
+            business website is a network of promises the business intends to keep.
+            The name is my reminder that the quiet connections matter as much as
+            what they connect.
           </p>
           <p className="pf-about__p">
             <button
@@ -1330,6 +1339,18 @@ function AboutSection({ onNavigate }) {
               <li>
                 <a
                   className="pf-connect__a"
+                  href="/assets/david-walker-resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Resume (PDF)"
+                  style={{ fontFamily: 'DM Sans, system-ui, sans-serif', fontSize: '0.72rem', fontWeight: 600, color: '#c9ae7a', letterSpacing: '0.04em' }}
+                >
+                  CV
+                </a>
+              </li>
+              <li>
+                <a
+                  className="pf-connect__a"
                   href="https://github.com/DaBugg"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -1349,153 +1370,10 @@ function AboutSection({ onNavigate }) {
                   <img className="pf-connect__icon" src="test-pages-new/icons8-linkedin.svg" alt="" aria-hidden="true" />
                 </a>
               </li>
-              <li>
-                <a
-                  className="pf-connect__a"
-                  href="https://www.linkedin.com/in/david-w-3621bb272"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="X"
-                >
-                  <img className="pf-connect__icon" src="test-pages-new/icons8-x.svg" alt="" aria-hidden="true" />
-                </a>
-              </li>
-              <li>
-                <a
-                  className="pf-connect__a"
-                  href="https://www.linkedin.com/in/david-w-3621bb272"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Dribbble"
-                >
-                  <img className="pf-connect__icon" src="test-pages-new/icons8-dribbble.svg" alt="" aria-hidden="true" />
-                </a>
-              </li>
-              <li>
-                <a
-                  className="pf-connect__a"
-                  href="https://www.linkedin.com/in/david-w-3621bb272"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Pinterest"
-                >
-                  <img className="pf-connect__icon" src="test-pages-new/icons8-pinterest.svg" alt="" aria-hidden="true" />
-                </a>
-              </li>
             </ul>
           </nav>
           <SectionFooterNav onNavigate={onNavigate} next="work" />
         </div>
-
-        <section id="spotify" className="section section--soft">
-          <div className="container">
-            <article className="card spotify is-loading" id="spotify-card">
-              <div className="spotify__badge">
-                <svg aria-hidden="true" width="18" height="18" viewBox="0 0 168 168">
-                  <circle fill="currentColor" cx="84" cy="84" r="84" />
-                  <path
-                    fill="#0b1220"
-                    d="M120.2 119.1c-1.6 2.7-5 3.6-7.7 2-21.1-12.6-47.6-15.5-78.8-8.5-3 0.7-6-1.2-6.7-4.2-.7-3 1.2-6 4.2-6.7 34.9-7.8 64.7-4.5 88 9.7 2.7 1.6 3.6 5 2 7.7zm10.9-24.2c-2 3.3-6.3 4.3-9.6 2.3-24.1-14.8-60.8-19.1-89.3-10.4-3.7 1.1-7.5-1-8.7-4.7-1.1-3.7 1-7.5 4.7-8.7 32.9-9.9 73.4-5.1 101.8 12.3 3.3 2 4.3 6.3 2.3 9.6zm1-25.7C103 50.9 61.1 49.3 36.2 56.9 31.8 58.3 27 55.9 25.6 51.6s1.4-8.9 5.7-10.3c29.7-9.3 76.1-7.4 106.9 11.1 3.9 2.3 5.2 7.3 2.9 11.2-2.4 3.9-7.4 5.2-11.2 2.9z"
-                  />
-                </svg>
-                <span>What&apos;s playing right now</span>
-                <span className="spotify__live" aria-hidden="true" />
-              </div>
-
-              <div className="spotify__content">
-                <div className="spotify__media">
-                  <img
-                    id="spotify-cover"
-                    src="https://via.placeholder.com/300x300?text=Spotify"
-                    alt="Album cover"
-                  />
-                </div>
-
-                <div className="spotify__meta">
-                  <p className="small muted" id="spotify-status">Loading…</p>
-                  <h3 className="accent" id="spotify-track">Track title</h3>
-                  <p id="spotify-artist" className="small">Artist name</p>
-                  <p id="spotify-album" className="small muted">Album name</p>
-
-                  <div className="spotify__progress">
-                    <div className="spotify__bar">
-                      <span id="spotify-progress" style={{ width: '0%' }} />
-                    </div>
-                    <div className="spotify__times small muted">
-                      <span id="spotify-current-time">0:00</span>
-                      <span id="spotify-duration">0:00</span>
-                    </div>
-                  </div>
-
-                  <div className="spotify__actions">
-                    <div className="spotify-suggest" id="spotify-suggest">
-                      <button
-                        type="button"
-                        className="btn btn--ghost small spotify-suggest__toggle"
-                        aria-expanded="false"
-                        aria-controls="spotify-suggest-form"
-                      >
-                        Suggest a Song
-                      </button>
-
-                      <div className="spotify-suggest__form-wrapper">
-                        <form
-                          id="spotify-suggest-form"
-                          className="spotify-suggest__form"
-                          action="/api/suggest-song"
-                          method="POST"
-                        >
-                          <div className="spotify-suggest__field spotify-suggest__field--full">
-                            <label htmlFor="song-name" className="spotify-suggest__label">
-                              Song name <span className="spotify-suggest__required">*</span>
-                            </label>
-                            <input
-                              id="song-name"
-                              name="songName"
-                              type="text"
-                              className="spotify-suggest__input"
-                              required
-                              placeholder="e.g., Nights"
-                            />
-                          </div>
-
-                          <div className="spotify-suggest__field spotify-suggest__field--full">
-                            <label htmlFor="song-artist" className="spotify-suggest__label">
-                              Artist <span className="spotify-suggest__optional">(optional)</span>
-                            </label>
-                            <input
-                              id="song-artist"
-                              name="artist"
-                              type="text"
-                              className="spotify-suggest__input"
-                              placeholder="e.g., Frank Ocean"
-                            />
-                          </div>
-
-                          <div className="spotify-suggest__actions spotify-suggest__field--full">
-                            <button type="submit" className="btn btn--primary small">
-                              Submit
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-
-                    <a
-                      id="spotify-open-link"
-                      href="https://open.spotify.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn small"
-                    >
-                      Open in Spotify
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </article>
-          </div>
-        </section>
 
         <div id="quote">
           <div className="pf-reading">
@@ -1547,64 +1425,34 @@ const portfolioPanelShell = {
 
 const WORK_PRODUCT_CARDS = [
   {
-    section: 'Section zero',
-    meta: 'Template · business and product teams',
-    title: 'Business Owner & Product Team Starter',
+    section: 'Case study',
+    meta: 'Enterprise client · end-to-end technical ownership',
+    title: 'Transportation Solutions & Lighting',
     body:
-      'Built for business owners, managers, product developers, and startups that need clear positioning fast. This layout prioritizes offer clarity, timeline expectations, and one direct path to start.',
-    quote: 'This gives us a practical structure to launch with confidence, then iterate as we learn.',
-    cite: 'Best fit: teams validating offers, launching new services, or rebuilding an unclear web presence.',
-    mediaSrc: 'https://player.mux.com/r7u3dBYrfwLMb00YwhKgil6t6ao3Vn00fJq2N12H58FM8',
+      'Transportation Solutions & Lighting supports surveillance and security operations across more than twenty campuses serving municipal, university, and federal environments. When I stepped in as Technical Systems Director, the company was scaling quickly without a unified cloud workflow, and dispatch operations still depended on manual triage.\n\nI designed and deployed a hybrid platform that connected Verkada, NXGO, Dropbox, Wasabi, and Google Cloud into a single event-driven pipeline. Motion events now route footage to client buckets for faster review, while AI-assisted overlays for face, vehicle, and location recognition generate operational datasets used for traffic-pattern planning. I also hardened a Windows Server environment that supports over one hundred concurrent IP camera streams on a 64-channel network.\n\nBeyond infrastructure, I built an automated work-order flow that parses camera uptime logs, flags outages, and generates service orders in ZOHO FSM, replacing repetitive manual dispatch.',
+    quote: '+300% site visibility, $1M+ annual revenue contribution, and approximately 10 hours/week of manual dispatch removed.',
+    cite: 'Combined outcomes across infrastructure, automation, and digital growth work (2025-present).',
+    mediaSrc: 'images/case-tsandl.webp',
   },
   {
-    section: 'Section one',
-    meta: 'Template · image-led portfolio',
-    title: 'Artist Portfolio Starter',
+    section: 'Case study',
+    meta: 'Personal startup · founder and full-stack engineer',
+    title: 'CodeLink',
     body:
-      'Image-forward portfolio template with statement, featured projects, and inquiry CTA. Replace with your final messaging and offer details later.',
-    quote: 'Finally reads like our catalog: pacing, type, and room for the work.',
-    cite: 'Best fit: visual-first portfolios that need a polished but editable structure.',
-    mediaSrc: 'https://player.mux.com/bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM',
+      'CodeLink is a developer-collaboration product I founded to solve a recurring problem: talented builders can find tutorials, jobs, and social content easily, but still struggle to discover serious projects where they can join, contribute, and ship with the right team.\n\nI built the platform as a full-stack application focused on project discovery, team matching, and real-time collaboration loops. The architecture prioritizes quick onboarding, clear project intent, and an interaction model that favors execution over self-promotion. Product decisions are guided by reducing friction between idea discovery and first contribution.\n\nMy role is full ownership across product strategy, interface design, backend architecture, and deployment. The product is still evolving, and I continue validating the matching flow with active users while iterating on reliability, search quality, and team-formation tooling.',
+    quote: 'Designed to move developers from \"interesting idea\" to \"shipping team\" with less noise and less gatekeeping.',
+    cite: 'Founder-led product build, currently in active iteration and growth testing.',
+    mediaSrc: 'images/case-codelink.webp',
   },
   {
-    section: 'Section two',
-    meta: 'Template · studio / independent practice',
-    title: 'Service Overview Template',
+    section: 'Case study',
+    meta: 'Community project · product + technical delivery',
+    title: 'Redeemed Hands',
     body:
-      'Horizontal service card pattern for showing outcomes, process, and package tiers at a glance. Swap in approved copy and pricing language later.',
-    quote: 'One pass tells visitors what we do, who it is for, and what to click next.',
-    cite: 'Best fit: solo studios and teams that need quick clarity before long case studies.',
-    mediaSrc: 'https://player.mux.com/FghhBbV00fPiIiubZGEC00vCec02LmQdg00fZy9NVX00MnA8',
-  },
-  {
-    section: 'Section three',
-    meta: 'Template · case snapshot',
-    title: 'Case Snapshot Layout',
-    body:
-      'Compact before-and-after style case card with visual proof, short context, and clear next step. Intended for quick decision-making by potential leads.',
-    quote: 'Gives me just enough proof to trust the process without reading a full report.',
-    cite: 'Best fit: conversion pages where outcomes need to be scannable at a glance.',
-    mediaSrc: 'https://player.mux.com/8jivLSnoyaDu01mP02iAX1elHaO026zrQ0200pvjGoIeN4mU',
-  },
-  {
-    section: 'Section four',
-    meta: 'Template · narrative + gallery',
-    title: 'Brand Story + Gallery Mix',
-    body:
-      'Blend narrative copy with modular media placements so visitors can choose between reading and browsing. Replace placeholders with project assets.',
-    quote: 'Balanced story and visuals: not too sparse, not too text heavy.',
-    cite: 'Best fit: brands that want authority copy and visual proof in the same lane.',
-    mediaSrc: 'https://player.mux.com/EbDl00U8531qaMnSoynVZI01V02ydAyIqeHzGKVlqn1s4U',
-  },
-  {
-    section: 'Section five',
-    meta: 'Template · launch conversion',
-    title: 'Launch Page Conversion Track',
-    body:
-      'Launch-focused template with social proof row, FAQ accordion, and single CTA to book or inquire. Update copy to match your exact audience.',
-    quote: 'People know the offer, trust the proof, and take one clear next step.',
-    cite: 'Best fit: campaign launches and service pages with one primary conversion goal.',
-    mediaSrc: 'https://player.mux.com/00w302YUzDdVCVmb3RYncHB201Esego5J4Om1YlANIcseo',
+      'Redeemed Hands highlights a community-centered build where the priority was clarity, trust, and accessibility over flashy interaction. The project needed a stable digital home that could communicate mission, direct people to next actions, and stay maintainable without heavy ongoing overhead.\n\nI translated that need into a focused, lightweight web implementation with a clean content hierarchy, mobile-first responsiveness, and practical content structures the team can keep updated over time. Technical choices emphasized reliability and straightforward editing workflows so future updates do not require a full redesign cycle.\n\nMy role covered planning, architecture, implementation, and launch support. The outcome is a platform that better supports community communication and gives the organization a clearer way to present its work and direct engagement.',
+    quote: 'A community-focused build should feel human first: clear intent, easy access, and dependable delivery.',
+    cite: 'Community project case study with end-to-end product and technical execution.',
+    mediaSrc: 'images/case-redeemedhands.webp',
   },
 ];
 
@@ -1616,25 +1464,22 @@ function WorkSection({ onNavigate }) {
           <div className="container">
             <p className="small muted">Work</p>
             <h1 id="work-panel-title" className="title">
-              Product card <span className="accent">template gallery</span>
+              Selected <span className="accent">case studies</span>
             </h1>
             <p className="lead">
-              This section previews reusable page directions you can fold into a portfolio site: hero treatments,
-              trust-building sections, process blocks, social proof, pricing layouts, and focused CTAs. Artists and
-              photographers looking for a clean showcase should compare visual storytelling and gallery flow first,
-              while studios and service-led teams should focus on conversion structure, offer clarity, and inquiry path.
+              A small portfolio of projects I&apos;ve architected, built, or operated end to end - ranging from
+              enterprise surveillance infrastructure to developer platforms and community tools. Each case study notes
+              my role, the problem, the approach, and the outcome. Additional projects are available on request.
             </p>
-            <div className="pf-work-products" aria-label="Work product card videos">
+            <div className="pf-work-products" aria-label="Selected case studies">
               {WORK_PRODUCT_CARDS.map((card) => (
-                <article key={card.section} className="pf-work-product-card">
+                <article key={card.title} className="pf-work-product-card">
                   <div className="pf-service-card__media">
-                    <iframe
-                      src={card.mediaSrc}
-                      title={`${card.section} video preview`}
-                      loading="lazy"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    />
+                    {card.mediaSrc ? (
+                      <img src={card.mediaSrc} alt={`${card.title} case study`} loading="lazy" />
+                    ) : (
+                      <div className="pf-service-card__media-placeholder">Case study media</div>
+                    )}
                   </div>
                   <div className="pf-service-card__body">
                     <p className="small muted" style={{ margin: 0 }}>{card.section}</p>
@@ -1648,9 +1493,9 @@ function WorkSection({ onNavigate }) {
                     <button
                       type="button"
                       className="service__cta portfolio-faux-cta"
-                      onClick={() => onNavigate('services')}
+                      onClick={() => onNavigate('contact')}
                     >
-                      Use This As Template →
+                      Discuss a similar project →
                     </button>
                   </div>
                 </article>
@@ -1658,15 +1503,9 @@ function WorkSection({ onNavigate }) {
             </div>
 
             <p className="small muted" style={{ marginTop: '2rem', maxWidth: '42rem', lineHeight: 1.65 }}>
-              Need capability details instead of template examples? See{' '}
-              <button type="button" className="pf-about__inline-link" onClick={() => onNavigate('services')}>
-                Services
-              </button>
-              . Ready to choose a layout direction? Use{' '}
-              <button type="button" className="pf-about__inline-link" onClick={() => onNavigate('contact')}>
-                Contact
-              </button>
-              .
+              Before these featured engagements, I designed and deployed 15+ responsive sites for small businesses
+              across retail, professional services, and community organizations using Node.js, Express, and Vercel
+              with modern CI/CD workflows. Selected links, scope summaries, and references are available on request.
             </p>
             <SectionFooterNav onNavigate={onNavigate} prev="about" next="services" />
           </div>
@@ -1677,75 +1516,125 @@ function WorkSection({ onNavigate }) {
 }
 
 function ServicesSection({ onNavigate }) {
-  const solutions = [
+  const SERVICES_WEB = [
     {
-      title: 'Custom Web Development',
-      body:
-        'Sites and apps built to convert: modern stacks, responsive layout, and architecture that keeps performance first.',
+      title: 'Portfolio Sites',
+      headline: 'Launching a new body of work, or finally retiring the portfolio you\'ve been apologizing for.',
+      body: 'A portfolio site should get out of the way of the work. That means fast loading even on images-heavy pages, type that reads well next to photographs or artworks, inquiry flows that feel respectful rather than pushy, and mobile layouts where the work still leads. I build from scratch or redesign an existing site, and I handle hosting, deployment, and SEO fundamentals so the site keeps working after launch without constant attention.',
+      deliverables: 'A fully designed, built, and deployed portfolio site with the pages you actually need. Performance optimization, mobile-first responsive layout, basic SEO and Open Graph setup, and a simple CMS or file-based content structure you can update without calling me every time.',
+      engagement: 'Typically four to eight weeks from first conversation to launch.',
+      investment: 'Projects typically begin at $3,500.',
       mediaSrc: null,
       mediaType: 'image',
     },
     {
-      title: 'Analytics & Custom Dashboards',
-      body:
-        'Dashboards wired for decisions you actually make—from first setup through how your team reads the numbers.',
+      title: 'Small-Business Web Presence',
+      headline: 'Replacing a website that\'s been costing you leads instead of earning them.',
+      body: 'Most small-business sites are either inherited and never updated or built from templates that aged badly. A rebuild or refresh done well should lift inbound inquiries, rank better for the searches your customers actually use, and give you a site you are happy to share.',
+      deliverables: 'A rebuilt or refreshed site with clear service descriptions, working contact flows, trust signals, analytics setup, and SEO fundamentals tuned to your local market or niche. Includes deployment guidance and handoff documentation.',
+      engagement: 'Typically three to six weeks for a refresh, five to ten for a full rebuild.',
+      investment: 'Refreshes typically begin at $2,800. Full rebuilds typically begin at $5,500.',
       mediaSrc: null,
       mediaType: 'image',
     },
     {
-      title: 'Automation & Workflow Platforms',
-      body:
-        'Custom tools and integrations that cut manual work so operations keep moving without babysitting every step.',
-      mediaSrc: null,
-      mediaType: 'image',
-    },
-    {
-      title: 'SEO Strategy & Implementation',
-      body:
-        'Technical SEO, structure, and conversion paths so the right people find you—without promising magic rankings.',
-      mediaSrc: null,
-      mediaType: 'image',
-    },
-    {
-      title: 'AI Consulting & Integration',
-      body:
-        'From readiness to production: integrations that fit how you already work, not the other way around.',
+      title: 'SEO & Content Strategy',
+      headline: 'Getting found by the right people, without promises of magic rankings.',
+      body: 'Technical SEO is the foundation, but it only works if the content answers questions your audience is searching for. I handle both sides: audit, implementation of technical fixes, and practical content strategy.',
+      deliverables: 'A written audit identifying technical, structural, and content issues; implementation of technical fixes; and a keyword/content strategy document for your team or me to execute against.',
+      engagement: 'Audits typically take two to three weeks. Implementation adds another three to six weeks.',
+      investment: 'Audits typically begin at $1,800. Ongoing engagements are typically $1,500-$3,500 per month.',
       mediaSrc: null,
       mediaType: 'image',
     },
   ];
+
+  const SERVICES_INFRA = [
+    {
+      title: 'Network Architecture & Secure Systems Design',
+      headline: 'Designing a network that\'s secure, segmented, and documented well enough that the next engineer can take it over.',
+      body: 'For teams that have outgrown consumer-grade networking or need to handle sensitive data without cutting corners, this engagement yields a fit-for-purpose design, documentation that survives handoff, and deployment using hardened baselines rather than vendor defaults.',
+      deliverables: 'Network design documentation, router/switch/firewall configuration, site-to-site VPN setup where needed, monitoring and logging setup, and usable handoff documentation.',
+      engagement: 'Single-site work is often two to four weeks; multi-site deployments can run six to twelve weeks.',
+      investment: 'Starts at $4,500 for single-site engagements. Multi-site scopes are estimated individually.',
+      mediaSrc: null,
+      mediaType: 'image',
+    },
+    {
+      title: 'Custom Automation & Workflow Tooling',
+      headline: 'Building the quiet scripts that save your team ten hours a week.',
+      body: 'Most operational pain in growing businesses is repetitive manual work. Custom automations, integrations, and workflow tooling create measurable leverage by removing bottlenecks across systems your team already uses.',
+      deliverables: 'Scoped automation or integration delivered as deployable code, plus documentation, runbook support, and monitoring hooks.',
+      engagement: 'Small automations usually ship in one to two weeks; larger integrations run two to six weeks.',
+      investment: 'Small automations typically begin at $1,200. Larger tools scale with scope.',
+      mediaSrc: null,
+      mediaType: 'image',
+    },
+    {
+      title: 'AI & Infrastructure Consulting',
+      headline: 'Figuring out what AI should and should not do in your existing operations, and integrating it responsibly when it should.',
+      body: 'Useful AI integration is not hype. It is clear evaluation of what helps now, what should wait, and how to implement without creating dependencies your team cannot inspect or maintain.',
+      deliverables: 'A written readiness assessment, proof-of-concept implementation for approved integrations, and team-facing documentation/training.',
+      engagement: 'Readiness assessments typically run two to three weeks. Implementation adds three to eight weeks.',
+      investment: 'Assessments typically begin at $2,500. Implementation scales by scope.',
+      mediaSrc: null,
+      mediaType: 'image',
+    },
+  ];
+
+  const renderCard = (s) => (
+    <article key={s.title} className="pf-service-card">
+      <div className="pf-service-card__media">
+        {s.mediaSrc && s.mediaType === 'video' ? (
+          <video src={s.mediaSrc} controls playsInline preload="metadata" />
+        ) : s.mediaSrc ? (
+          <img src={s.mediaSrc} alt="" loading="lazy" />
+        ) : (
+          <div className="pf-service-card__media-placeholder">Image or video</div>
+        )}
+      </div>
+      <div className="pf-service-card__body">
+        <h3>{s.title}</h3>
+        <p className="pf-service-card__headline" style={{ fontStyle: 'italic', color: '#e2e8f0' }}>
+          {s.headline}
+        </p>
+        <p>{s.body}</p>
+        <p className="small muted"><strong>Deliverables:</strong> {s.deliverables}</p>
+        <p className="small muted"><strong>Engagement:</strong> {s.engagement}</p>
+        <p className="small muted"><strong>Investment:</strong> {s.investment}</p>
+        <button
+          type="button"
+          className="service__cta portfolio-faux-cta"
+          onClick={() => onNavigate('contact')}
+        >
+          Discuss a project →
+        </button>
+      </div>
+    </article>
+  );
 
   return (
     <div data-theme="dark" className="portfolio-embed-root" style={portfolioPanelShell}>
       <main style={{ paddingTop: '1rem' }}>
         <section id="services" className="section">
           <div className="container">
-            <h2 className="accent">Solutions</h2>
+            <h2 className="accent">Services</h2>
             <p className="muted small">
-              Technology solutions built to drive efficiency, visibility, and growth.
+              Two tracks of work that share one worldview. Web and portfolio projects for people who want their site
+              to feel as considered as the rest of their practice. Infrastructure, automation, and systems work for
+              teams who need reliability you can audit rather than hope for.
             </p>
 
+            <h3 className="accent" style={{ marginTop: '2.5rem' }}>Web &amp; Portfolio</h3>
+            <p className="muted small">Sites that respect the work they show, for creatives and small businesses.</p>
             <div className="pf-services-rail">
-              {solutions.map((s) => (
-                <article key={s.title} className="pf-service-card">
-                  <div className="pf-service-card__media">
-                    {s.mediaSrc && s.mediaType === 'video' ? (
-                      <video src={s.mediaSrc} controls playsInline preload="metadata" />
-                    ) : s.mediaSrc ? (
-                      <img src={s.mediaSrc} alt="" loading="lazy" />
-                    ) : (
-                      <div className="pf-service-card__media-placeholder">Image or video</div>
-                    )}
-                  </div>
-                  <div className="pf-service-card__body">
-                    <h3>{s.title}</h3>
-                    <p>{s.body}</p>
-                    <button type="button" className="service__cta portfolio-faux-cta">
-                      Learn more →
-                    </button>
-                  </div>
-                </article>
-              ))}
+              {SERVICES_WEB.map(renderCard)}
+            </div>
+
+            <h3 className="accent" style={{ marginTop: '3rem' }}>Infrastructure, Automation &amp; Systems</h3>
+            <p className="muted small">For teams that need reliability you can audit rather than hope for.</p>
+            <div className="pf-services-rail">
+              {SERVICES_INFRA.map(renderCard)}
             </div>
             <SectionFooterNav onNavigate={onNavigate} prev="work" next="contact" />
           </div>
@@ -1771,9 +1660,9 @@ const PF_CONTACT_SERVICE_OPTIONS = [
   { value: 'website-ongoing', label: 'Website - ongoing partnership', desc: 'updates, hosting, deployment, seasonal refreshes.' },
   { value: 'web-dev-hosting-rework', label: 'Web development, hosting, or site rework', desc: 'small-business focused builds, infrastructure cleanup, and site refreshes.' },
   { value: 'analytics', label: 'Analytics & dashboards', desc: 'measure what actually matters; no surveillance clutter.' },
-  { value: 'automation', label: 'Automation & workflow', desc: 'the quiet scripts that save hours a week.' },
-  { value: 'seo', label: 'SEO strategy', desc: 'findable without gimmicks.' },
-  { value: 'ai-consulting', label: 'AI / infrastructure consulting', desc: 'for systems and operations work beyond the website.' },
+  { value: 'automation', label: 'Custom Automation & Workflow Tooling', desc: 'the quiet scripts that save hours a week.' },
+  { value: 'seo', label: 'SEO & Content Strategy', desc: 'findable without gimmicks.' },
+  { value: 'ai-consulting', label: 'AI & Infrastructure Consulting', desc: 'for systems and operations work beyond the website.' },
   { value: 'other', label: "Something else - let's talk", desc: "catch-all for cases that don't fit above." },
 ];
 
@@ -2388,11 +2277,18 @@ function App() {
         </div>
       )}
 
-      {/* ── Brand wordmark ── */}
+      {/* ── Brand wordmark ──
+          Two-line treatment. The primary wordmark stays large and centered;
+          a smaller secondary line identifies the principal.
+          Both lines share the same opacity transition tied to scroll progress,
+          so they fade out together as the globe zooms in. */}
       <div className="hero-wordmark" style={{
         opacity: Math.max(0, 1 - progress * 5),
         fontFamily: F,
-      }}>Networks &amp; Nodes</div>
+      }}>
+        <div className="hero-wordmark__primary">Networks &amp; Nodes</div>
+        <div className="hero-wordmark__secondary">a studio practice by David Walker</div>
+      </div>
 
       {/* ── Crack % ── */}
       {crackScroll > 0.02 && phase === 'zoom' && (

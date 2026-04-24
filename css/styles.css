@@ -2456,6 +2456,20 @@ html[data-theme="light"] .cf-particle:nth-child(7n) {
   text-transform: uppercase;
 }
 
+.hero-wordmark__primary {
+  /* No overrides needed - inherits base wordmark styling. */
+}
+
+.hero-wordmark__secondary {
+  margin-top: 0.35em;
+  font-size: 0.32em;
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(201, 174, 122, 0.85);
+  opacity: 0.9;
+}
+
 .hero-scroll-hint {
   position: absolute;
   bottom: 36px;
