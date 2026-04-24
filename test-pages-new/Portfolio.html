@@ -1002,9 +1002,9 @@ const GR  = 0.2095; // globe radius fraction of container height
 
 // ── Four section tiles after crack (same site; Work = template / design routes for leads)
 const CARDS = [
-  { id: 'about',    label: 'About',    sub: 'Click to learn more' },
-  { id: 'work',     label: 'Work',     sub: 'Click to learn more' },
   { id: 'services', label: 'Services', sub: 'Click to learn more' },
+  { id: 'work',     label: 'Work',     sub: 'Click to learn more' },
+  { id: 'about',    label: 'About',    sub: 'Click to learn more' },
   { id: 'contact',  label: 'Contact',  sub: 'Click to learn more' },
 ];
 
@@ -1949,12 +1949,6 @@ function ContactSection({ onNavigate }) {
                               required
                               placeholder="Your body of work, who the site is for, what it needs to do."
                             />
-                          </div>
-
-                          <div className="pf-contact-form__field">
-                            <label htmlFor="pf-q-budget">Budget range (optional)</label>
-                            <input type="text" id="pf-q-budget" name="budget" />
-                            <small>If you&apos;re comfortable sharing - helps me scope honestly.</small>
                           </div>
 
                           {submitError ? (
