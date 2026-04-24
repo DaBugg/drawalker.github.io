@@ -32,9 +32,9 @@ body { background: #0f172a !important; }
   background-image: none;
   background-repeat: no-repeat;
 }
-/* Four-tile home grid: same cream overlay as NavCards chrome */
+/* Four-tile home grid: dark shell; tile art comes from .pf-nav-grid-tile--* */
 .portfolio-panel-body--grid {
-  background-color: rgba(252, 252, 254, 0.97);
+  background-color: #0b1220;
   background-image: none;
 }
 .portfolio-panel-body--about {
@@ -45,7 +45,7 @@ body { background: #0f172a !important; }
   */
   background-image:
     linear-gradient(rgba(11, 18, 32, 0.78), rgba(11, 18, 32, 0.78)),
-    url('about-background.svg');
+    url('test-pages-new/about-background.svg');
   background-repeat: repeat-y;
   background-position: center top;
   background-size: 100% auto;
@@ -61,18 +61,18 @@ body { background: #0f172a !important; }
   border-bottom: 1px solid rgba(148, 163, 184, 0.22);
 }
 .portfolio-panel-body--work {
-  background-image: url('work-background.svg');
+  background-image: url('test-pages-new/work-background.svg');
   background-position: center center;
   background-size: cover;
 }
 .portfolio-panel-body--services {
-  background-image: url('services.svg');
+  background-image: url('test-pages-new/services.svg');
   background-position: center center;
   background-size: cover;
 }
 .portfolio-panel-body--contact {
   background-color: #e9eef6;
-  background-image: url('Contact-background.svg');
+  background-image: url('test-pages-new/Contact-background.svg');
   background-repeat: no-repeat;
   background-position: center bottom;
   background-size: min(100%, 1600px) auto;
@@ -84,6 +84,69 @@ body { background: #0f172a !important; }
   .portfolio-panel-body--contact {
     background-size: min(100%, 2000px) auto;
   }
+}
+
+/* Four section tiles (grid): same SVG art as full sections, dark-friendly read */
+.pf-nav-grid-tile {
+  background-repeat: no-repeat;
+  background-color: #0b1220;
+  background-size: cover;
+  background-position: center;
+}
+.pf-nav-grid-tile--about {
+  background-image:
+    linear-gradient(rgba(11, 18, 32, 0.78), rgba(11, 18, 32, 0.78)),
+    url('test-pages-new/about-background.svg');
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover, cover;
+  background-position: center, center;
+}
+.pf-nav-grid-tile--work {
+  background-image:
+    linear-gradient(rgba(11, 18, 32, 0.72), rgba(11, 18, 32, 0.72)),
+    url('test-pages-new/work-background.svg');
+}
+.pf-nav-grid-tile--services {
+  background-image:
+    linear-gradient(rgba(11, 18, 32, 0.72), rgba(11, 18, 32, 0.72)),
+    url('test-pages-new/services.svg');
+}
+.pf-nav-grid-tile--contact {
+  background-color: #e9eef6;
+  background-image:
+    linear-gradient(rgba(11, 18, 32, 0.68), rgba(11, 18, 32, 0.68)),
+    url('test-pages-new/Contact-background.svg');
+  background-repeat: no-repeat, no-repeat;
+  background-position: center bottom, center bottom;
+  background-size: min(100%, 1600px) auto, min(100%, 1600px) auto;
+}
+@media (min-width: 900px) {
+  .pf-nav-grid-tile--contact {
+    background-size: min(100%, 2000px) auto, min(100%, 2000px) auto;
+  }
+}
+.pf-nav-grid-tile__num {
+  color: rgba(255, 255, 255, 0.1);
+}
+.pf-nav-grid-tile__title {
+  color: rgba(252, 252, 254, 0.96);
+  font-size: clamp(1.05rem, 2.8vw, 2.1rem);
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.pf-nav-grid-tile__sub {
+  color: #f87171;
+  font-size: clamp(0.8rem, 1.15vw, 0.95rem);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+.pf-nav-grid-tile:hover {
+  filter: brightness(1.07);
+}
+.pf-nav-grid-tile:focus-visible {
+  outline: 2px solid rgba(52, 211, 153, 0.55);
+  outline-offset: -3px;
 }
 
 /* Light island inside portfolio (contact): consultation form uses marketing tokens */
@@ -1959,15 +2022,15 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
     if (el) el.scrollTop = 0;
   }, [visible]);
   const backBtn = {
-    background: 'none', border: '1px solid rgba(0,0,0,0.14)',
-    color: 'rgba(0,0,0,0.45)', padding: isMobile ? '7px 12px' : '7px 16px', borderRadius: 2,
-    fontSize: isMobile ? 9 : 10, letterSpacing: isMobile ? '0.16em' : '0.22em', textTransform: 'uppercase',
+    background: 'none', border: '1px solid rgba(201, 174, 122, 0.45)',
+    color: 'rgba(201, 174, 122, 0.92)', padding: isMobile ? '7px 12px' : '7px 16px', borderRadius: 2,
+    fontSize: isMobile ? 10 : 11, letterSpacing: isMobile ? '0.16em' : '0.22em', textTransform: 'uppercase',
     fontFamily: F, cursor: 'pointer',
   };
   const tabBase = {
     background: 'none', border: 'none', borderBottom: '2px solid transparent',
-    color: 'rgba(15,23,42,0.45)', padding: isMobile ? '7px 9px' : '8px 12px', cursor: 'pointer',
-    fontSize: isMobile ? 10 : 11, letterSpacing: isMobile ? '0.12em' : '0.18em', textTransform: 'uppercase', fontFamily: F,
+    color: 'rgba(201, 174, 122, 0.58)', padding: isMobile ? '7px 9px' : '8px 12px', cursor: 'pointer',
+    fontSize: isMobile ? 11 : 12, letterSpacing: isMobile ? '0.12em' : '0.18em', textTransform: 'uppercase', fontFamily: F,
     transition: 'color 0.15s ease, border-color 0.15s ease',
     flex: isMobile ? '0 0 auto' : undefined,
   };
@@ -1978,13 +2041,14 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
       opacity: visible ? 1 : 0,
       pointerEvents: visible ? 'auto' : 'none',
       transition: 'opacity 1s ease',
-      background: 'rgba(252, 252, 254, 0.97)',
+      background: '#0b1220',
       minHeight: 0,
     }}>
       <header style={{
         padding: isMobile ? '12px 14px' : '18px 28px',
         display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '16px 24px',
-        borderBottom: '1px solid rgba(0,0,0,0.08)', rowGap: 14,
+        borderBottom: '1px solid rgba(148,163,184,0.18)', rowGap: 14,
+        background: '#070d18',
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4, width: isMobile ? '100%' : 'auto' }}>
           <button
@@ -1992,12 +2056,14 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
             onClick={() => chooseSection(null)}
             style={{
               background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-              color: 'rgba(0,0,0,0.55)', fontSize: isMobile ? 10 : 11, letterSpacing: isMobile ? '0.16em' : '0.28em', textTransform: 'uppercase',
+              color: '#c9ae7a',
+              textShadow: '0 1px 2px rgba(0,0,0,0.55), 0 0 18px rgba(74, 58, 32, 0.25)',
+              fontSize: isMobile ? 11 : 12, letterSpacing: isMobile ? '0.16em' : '0.28em', textTransform: 'uppercase',
               fontFamily: F, textAlign: 'left',
             }}
           >Networks &amp; Nodes</button>
           <span style={{
-            color: 'rgba(71,85,105,0.55)', fontSize: isMobile ? 10 : 11, letterSpacing: '0.04em', fontFamily: F, fontStyle: 'italic',
+            color: '#9d8658', fontSize: isMobile ? 11 : 12, letterSpacing: '0.04em', fontFamily: F, fontStyle: 'italic',
           }}>Everybody here?</span>
         </div>
 
@@ -2017,8 +2083,8 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
               title={card.sub}
               style={{
                 ...tabBase,
-                color: active === card.id ? 'rgba(15,23,42,0.92)' : tabBase.color,
-                borderBottomColor: active === card.id ? '#15803d' : 'transparent',
+                color: active === card.id ? '#f0dfc4' : tabBase.color,
+                borderBottomColor: active === card.id ? '#f87171' : 'transparent',
                 fontWeight: active === card.id ? 500 : 400,
               }}
             >{card.label}</button>
@@ -2031,8 +2097,8 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
               type="button"
               onClick={goBackToGrid}
               style={{
-                background: 'none', border: 'none', color: 'rgba(71,85,105,0.85)',
-                padding: '6px 4px', cursor: 'pointer', fontFamily: F, fontSize: isMobile ? 10 : 11,
+                background: 'none', border: 'none', color: 'rgba(201, 174, 122, 0.88)',
+                padding: '6px 4px', cursor: 'pointer', fontFamily: F, fontSize: isMobile ? 11 : 12,
                 letterSpacing: isMobile ? '0.08em' : '0.12em', textTransform: 'uppercase',
               }}
             >← Sections</button>
@@ -2041,8 +2107,8 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
             type="button"
             onClick={() => chooseSection(null)}
             style={backBtn}
-            onMouseOver={e => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.28)'; }}
-            onMouseOut={e => { e.currentTarget.style.borderColor = 'rgba(0,0,0,0.14)'; }}
+            onMouseOver={e => { e.currentTarget.style.borderColor = 'rgba(232, 208, 160, 0.65)'; }}
+            onMouseOut={e => { e.currentTarget.style.borderColor = 'rgba(201, 174, 122, 0.45)'; }}
           >{isMobile ? 'Back to intro' : '↑ Back'}</button>
         </div>
       </header>
@@ -2069,42 +2135,31 @@ function NavCards({ visible, onSelect, active, onBackToGrid }) {
               <button
                 key={card.id}
                 type="button"
+                className={`pf-nav-grid-tile pf-nav-grid-tile--${card.id}`}
                 onClick={() => chooseSection(card.id)}
                 style={{
-                  background: 'transparent',
                   border: 'none',
-                  borderRight: i % 2 === 0 ? '1px solid rgba(0,0,0,0.07)' : 'none',
-                  borderBottom: i < 2 ? '1px solid rgba(0,0,0,0.07)' : 'none',
+                  borderRight: i % 2 === 0 ? '1px solid rgba(255,255,255,0.08)' : 'none',
+                  borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none',
                   cursor: 'pointer', padding: 0,
                   display: 'flex', flexDirection: 'column',
                   alignItems: 'center', justifyContent: 'center', gap: 12,
-                  transition: 'background 0.2s ease',
                   position: 'relative', overflow: 'hidden',
                 }}
-                onMouseOver={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.03)'; }}
-                onMouseOut={e => { e.currentTarget.style.background = 'transparent'; }}
               >
-                <span style={{
-                  color: 'rgba(0,0,0,0.06)', fontSize: 'clamp(60px,8vw,120px)',
-                  fontFamily: F, fontWeight: 200, letterSpacing: '-0.04em',
-                  position: 'absolute', top: '50%', left: '50%',
-                  transform: 'translate(-50%,-50%)',
-                  userSelect: 'none', pointerEvents: 'none',
-                  lineHeight: 1,
-                }}>{String(i + 1).padStart(2, '0')}</span>
-                <h2 style={{
-                  color: 'rgba(0,0,0,0.88)', fontSize: 'clamp(18px,2.5vw,36px)',
-                  fontFamily: F, fontWeight: 300, letterSpacing: '0.08em',
-                  textTransform: 'uppercase', position: 'relative',
-                }}>{card.label}</h2>
-                <p style={{
-                  color: '#dc2626',
-                  fontSize: 'clamp(10px,1vw,13px)',
-                  fontFamily: F, fontWeight: 500,
-                  letterSpacing: '0.06em',
-                  textTransform: 'none',
-                  position: 'relative',
-                }}>{card.sub}</p>
+                <span
+                  className="pf-nav-grid-tile__num"
+                  style={{
+                    fontSize: 'clamp(64px,8.5vw,128px)',
+                    fontFamily: F, fontWeight: 200, letterSpacing: '-0.04em',
+                    position: 'absolute', top: '50%', left: '50%',
+                    transform: 'translate(-50%,-50%)',
+                    userSelect: 'none', pointerEvents: 'none',
+                    lineHeight: 1,
+                  }}
+                >{String(i + 1).padStart(2, '0')}</span>
+                <h2 className="pf-nav-grid-tile__title" style={{ fontFamily: F, position: 'relative' }}>{card.label}</h2>
+                <p className="pf-nav-grid-tile__sub" style={{ fontFamily: F, position: 'relative' }}>{card.sub}</p>
               </button>
             ))}
           </div>
