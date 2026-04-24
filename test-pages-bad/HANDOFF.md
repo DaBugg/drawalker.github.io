@@ -1,173 +1,591 @@
-# ATLAS — Handoff
+# Networks & Nodes Website Media Update — Agent Hand-Off
 
-**Repository note:** In this monorepo the project lives under [`test-pages/`](./) (not `atlas-site/`). Optional design exports sit in [`test-pages/assets/`](./assets/); they are not part of the deployed static site.
+## Project
 
-A scroll-driven cinematic landing page in three acts. Built as plain HTML/CSS/JS so it can be dropped into any framework later. This document is everything a new developer needs to pick it up.
+Networks & Nodes portfolio website
 
-**Status at handoff:** v0.1. First act verified rendering in a browser. Acts II/III and popup coded but not yet visually confirmed end-to-end. Pin fix applied but unverified — see "State of the build" below.
+## Goal
 
----
+Update the Services and Work media system so the site uses a consistent card media pattern for images, Mux thumbnails, and click-to-play Mux videos.
 
-## Concept
-
-Three images tell a visual story: Atlas kneels under a sphere (act I), the sphere swells and crushes him (act II), the sphere cracks open with light bursting through four points (act III). The page pins to the viewport while the user scrolls, and a single GSAP timeline scrubs through the three acts in sync with scroll position. When the sphere fractures, a popup navigation emerges — the four cracks become four links.
-
-The "gasp" moment is that scroll doesn't scroll the page; it morphs the image. This is the core concept and the reason the build exists.
+The Work section should remain focused on real case studies. The Services section should use selected Mux videos only where they accurately demonstrate the service being sold.
 
 ---
 
-## Folder structure
+# 1. Current State
 
+The current site is a React-in-HTML implementation inside `index.html` using React 18 and Babel in the browser.
+
+The relevant components are:
+
+* `WorkSection`
+* `ServicesSection`
+* `WORK_PRODUCT_CARDS`
+* `SERVICES_WEB`
+* `SERVICES_INFRA`
+* `renderCard`
+
+Current issue:
+
+* Work cards already use real case-study image paths such as:
+
+  * `images/case-tsandl.webp`
+  * `images/case-codelink.webp`
+  * `images/case-redeemedhands.webp`
+* Services cards are still placeholders because each service object uses:
+
+  * `mediaSrc: null`
+  * `mediaType: 'image'`
+* The current `renderCard` logic only supports local image/video URLs and placeholder rendering.
+* The site needs a reusable `CardMedia` component that supports:
+
+  * static images
+  * Mux video thumbnails
+  * click-to-play Mux iframe embeds
+  * optional Mux animated GIF previews
+
+---
+
+# 2. Content Decision: What To Do With The Existing Mux Videos
+
+## Use these now
+
+### Service: Portfolio Sites
+
+Use Mux Section 1.
+
+Playback ID:
+
+```txt
+bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM
 ```
-atlas-site/   (in this repo: test-pages/)
-├── server.py                    ← zero-dep Python dev server, disposable
-├── README.md                    ← run + port-to-framework notes
-├── HANDOFF.md                   ← this file
-├── index.html                   ← page structure: chrome, 3 stages, copy, popup
-├── styles.css                   ← all visual styling, no build step
-├── app.js                       ← GSAP timeline — the whole animation lives here
-├── vendor/
-│   ├── gsap.min.js              ← GSAP core, bundled locally, no CDN
-│   └── ScrollTrigger.min.js     ← GSAP ScrollTrigger plugin, bundled locally
-├── images/
-│   ├── act-1.svg                ← smaller sphere (initial burden)
-│   ├── act-2.svg                ← massive sphere (breaking point)
-│   └── act-3.svg                ← cracked sphere, four light-points (fracture)
-└── assets/                      ← optional design refs only (not served)
+
+Reason:
+This video best matches a visual portfolio/studio-style website. It fits the Portfolio Sites service well enough to use now.
+
+### Service: Small-Business Web Presence
+
+Use Mux Section 5.
+
+Playback ID:
+
+```txt
+00w302YUzDdVCVmb3RYncHB201Esego5J4Om1YlANIcseo
 ```
 
-`server.py` is a local preview tool only. The **deployable webpage** is `index.html`, `styles.css`, `app.js`, `vendor/`, and `images/` (everything except `server.py`, docs, and `assets/`). To port to Next.js, Astro, Remix, or Vite, copy those files in and re-wire the three `<script>` tags.
+Reason:
+This video best matches a conversion-oriented launch page or small-business site. It fits the Small-Business Web Presence service.
 
 ---
 
-## Run it locally
+## Do not use these right now
 
-```bash
-python3 server.py            # http://localhost:8000
-python3 server.py 3000       # custom port
+### Section 2
+
+Playback ID:
+
+```txt
+FghhBbV00fPiIiubZGEC00vCec02LmQdg00fZy9NVX00MnA8
 ```
 
-No dependencies. If the person prefers Node: `npx serve . -p 8000` (from this folder).
+Decision:
+Do not use in the current Services cards unless a later “Templates / Starting Points” section is added.
+
+### Section 3
+
+Playback ID:
+
+```txt
+8jivLSnoyaDu01mP02iAX1elHaO026zrQ0200pvjGoIeN4mU
+```
+
+Decision:
+Do not use in the current Services cards. It reads more like a case-study/template layout than a service outcome.
+
+### Section 4
+
+Playback ID:
+
+```txt
+EbDl00U8531qaMnSoynVZI01V02ydAyIqeHzGKVlqn1s4U
+```
+
+Decision:
+Optional, but hold for now. It could support brand/gallery-style portfolio work, but Section 1 is the cleaner match for Portfolio Sites.
 
 ---
 
-## Runtime flow
+# 3. Should The Videos Be Redesigned?
 
-The browser loads `index.html`, which pulls Google Fonts and `styles.css`, then three `<script>` tags in order: `vendor/gsap.min.js`, `vendor/ScrollTrigger.min.js`, `app.js`.
+## Direct answer
 
-`app.js` is wrapped in an IIFE. It grabs element references, sets initial visibility via `gsap.set()`, then builds **one** master `gsap.timeline()` whose `ScrollTrigger` config pins `.epic__sticky` and scrubs the timeline over `+=300%` of scroll distance. Every animation is a `tl.to(...)` or `tl.fromTo(...)` appended to that master timeline at a labeled time position.
+Use Section 1 and Section 5 now. Redesign or replace the rest.
 
-Skip, Rewind, and the `Escape` key all use native `window.scrollTo({ behavior: 'smooth' })`. No `ScrollToPlugin` dependency.
+## Longer-term direction
 
----
+The current Mux videos are acceptable as service previews, but they still feel like template demos. They should eventually be redesigned to feel more custom to Networks & Nodes.
 
-## Animation timeline (all in `app.js`)
+The redesigned media should follow this rule:
 
-The timeline runs from `0.00` to `1.00` over `300vh` of scroll distance.
+* Services media should show what the service produces.
+* Work media should show what was actually built.
+* Infrastructure media should not pretend to be a website mockup if the work is really systems, networking, automation, or architecture.
 
-| Time       | What happens                                                         |
-|------------|----------------------------------------------------------------------|
-| 0.00–0.28  | Act I holds. Figure scales slowly to 1.08. Vignette builds.          |
-| 0.28–0.34  | Copy I rises and fades out. Act II fades in and zooms from 1.12→1.0. |
-| 0.34–0.60  | Dwell on act II with micro-jitter and scale — pressure building.     |
-| 0.60–0.70  | The crack: white flash, act II out, act III in, golden burst reveal. |
-| 0.70–0.82  | Beat of calm on act III. Burst breathes subtly.                      |
-| 0.82–1.00  | Popup frame scales in. Four nav nodes stagger in.                    |
+## Recommended future redesigns
 
-The `ScrollTrigger.onUpdate` callback drives two live chrome pieces:
+### Portfolio Sites
 
-1. Bottom progress bar: `transform: scaleX(progress)`
-2. Chapter indicator (Roman numeral + label) flips between I/II/III at the 0.33 / 0.66 thresholds.
+Create a 10–15 second scroll capture of a refined artist/photographer portfolio demo.
 
-It also toggles `pointer-events` on the popup so clicks only register once it's past 82%.
+Visual style:
 
----
+* quiet motion
+* large image-led layout
+* minimal type
+* high-end editorial feeling
+* dark/gold Networks & Nodes visual tone
 
-## Design decisions worth preserving
+### Small-Business Web Presence
 
-**Aesthetic is editorial / mythological book**, not tech-startup. Warm linen paper `#F2ECDE`, deep ink `#0B0A08`, gold palette for the breakthrough moment. Fraunces italic serif for drama, JetBrains Mono for the metadata chrome. If someone pushes to make this more "product-y" with Inter and purple gradients, the concept is dead.
+Create a 10–15 second scroll capture of a service-business landing page.
 
-**`mix-blend-mode: multiply` on the SVG images is load-bearing.** It lets the silhouettes sit on warm paper without white rectangular bleed. More importantly, on act III, multiplying the SVG's white cracks against the golden radial burst behind them turns those cracks *gold* — they literally become light bursting through. Change the blend mode and the breakthrough visual collapses. It is not decorative.
+Visual style:
 
-**The SVGs were processed before shipping.** The originals had large background rectangles baked in — paths filled `#FFFFFF` / `#F2F3F2` covering the full viewBox. Those were stripped programmatically so the silhouettes sit directly on paper. If anyone re-exports from Illustrator or Figma, they need to either export without a background or re-run the cleanup, or rectangular bleed returns and multiply alone won't save it.
+* hero section
+* services cards
+* testimonials/trust section
+* contact CTA
+* mobile-friendly preview
 
-**Scroll-jacked, not auto-play.** If someone wants auto-play on load, the change is ~10 lines in `app.js`: delete the `scrollTrigger` config block and call `tl.play()` on load. But you lose "scroll doesn't scroll, it morphs," which is the whole concept. Discuss before changing.
+### SEO & Content Strategy
 
-**GSAP is local-vendored**, not CDN. Swap back to CDN if preferred, but local means offline dev works, no third-party runtime dependency, and no license to worry about (GSAP 3 is free for most uses; check [greensock.com/licensing](https://greensock.com/licensing) for commercial).
+Do not use a template website video.
 
----
+Use one of these instead:
 
-## Where to change what
+* analytics dashboard graphic
+* keyword/content map graphic
+* search visibility growth chart
+* typography card using an outcome quote
 
-| Thing                              | File + location                                                 |
-|------------------------------------|-----------------------------------------------------------------|
-| Taglines / chapter copy            | `index.html` — `.copy__line` blocks                              |
-| Nav items (currently 4)            | `index.html` — `.popup__nav` → `.node` blocks                   |
-| Brand mark + meta ribbon           | `index.html` — `.chrome__mark`, `.chrome__meta`                 |
-| Popup title + subtitle             | `index.html` — `.popup__head`                                   |
-| Paper/ink/gold/crimson colors      | `styles.css` — `:root` block at top                             |
-| Fonts                              | `index.html` `<link>` + `:root --serif / --mono` in CSS         |
-| Animation timing (act durations)   | `app.js` — time labels on each `tl.to(...)`                     |
-| How long the cinematic holds       | `app.js` — `end: "+=300%"` in ScrollTrigger config              |
-| Chapter threshold breakpoints      | `app.js` — the `chapters` array                                 |
+Suggested asset path:
 
----
+```txt
+images/service-seo-dashboard.webp
+```
 
-## State of the build — honest
+### Network Architecture & Secure Systems Design
 
-**Verified in a browser:** asset serving, paper background, Act I composition (typography, chrome, silhouette-on-linen). Screenshot exists.
+Use a system/network diagram.
 
-**Not verified in a browser:** the scroll scrub through acts II / III / popup. The sandbox the initial build was done in blocked the CDN where GSAP was originally loaded from — the discovery of this late in the process is why GSAP got bundled locally. By the time local vendor was wired in, visual verification couldn't be completed from that environment.
+Suggested asset path:
 
-The ScrollTrigger config shipped (`pin: '.epic__sticky'`, `end: "+=300%"`, default `pinSpacing`) is the canonical GSAP scrub-with-pin pattern. High confidence it'll run. Eyes-on-browser is on the next person.
+```txt
+images/service-network-topology.svg
+```
 
-**If acts II/III don't scrub on first run, first thing to check:** DevTools console for errors. Second thing: that `app.js` is loading *after* the two vendor files (script tag order in `index.html`). Third thing: `ScrollTrigger.refresh()` after fonts load — already in the code, but verify it runs.
+### Custom Automation & Workflow Tooling
 
----
+Use a workflow diagram or short screen capture of automation running.
 
-## What's placeholder and must be replaced before launch
+Suggested asset path:
 
-All copy was written to demonstrate tone, not to ship. Replace:
+```txt
+images/service-automation-flow.svg
+```
 
-- Taglines: "We were born to carry" / "What bends must break" / "And from breaking — begin."
-- Chapter names: "The Burden" / "Until" / "Beyond"
-- Nav items: "Manifesto" / "Product" / "Studio" / "Signal" with their blurbs
-- Meta ribbon: "Mythos / №001 · MMXXVI"
-- Popup title: "Enter the fracture."
-- Alt text on the three `<img>` tags — these were written blind
+### AI & Infrastructure Consulting
 
-None of this copy knows what Atlas actually is as a product or brand.
+Use a before/after systems map or AI workflow architecture graphic.
 
----
+Suggested asset path:
 
-## Open questions for product/design
-
-The following came up during the build and were not resolved:
-
-1. **Scroll-jack or auto-play?** Currently scroll-jacked. Auto-play is a ~10-line change.
-2. **Narrative order** — currently ascending weight (small sphere → big sphere → fracture). Flip possible if the intended arc is different.
-3. **What is Atlas?** Product? Studio? Agency? Personal brand? Without this, copy is mythology-flavored filler.
-4. **Nav IA** — is 4 the right number? What are the real sections?
-5. **Sound** — a low cello note on the crack plus a soft shimmer on popup reveal would destroy, in a good way. Budget for audio?
-6. **Brand voice** — terse/mythological (current) or something lighter?
-7. **Mobile behavior** — responsive CSS exists but not tested on device. Scroll-jacking on touch devices often fights the user; may need `ScrollTrigger.normalizeScroll(true)` or a different approach on narrow viewports.
-8. **Performance** — act-3.svg is ~500KB (many paths). Consider simplifying or converting to WebP/AVIF with alpha if perf becomes an issue.
-9. **Accessibility** — `prefers-reduced-motion` is honored (scrub disabled). But screen-reader journey through the three acts hasn't been audited; the popup dialog needs focus-trap wiring if kept as-is.
+```txt
+images/service-ai-infra-map.svg
+```
 
 ---
 
-## Quick sanity checklist for the next dev
+# 4. Implementation Plan
 
-- [ ] Unzip, `python3 server.py`, open `http://localhost:8000`
-- [ ] Scroll slowly from top to bottom — confirm figure morphs through three acts
-- [ ] Confirm popup appears near the end with four nav links
-- [ ] Click "skip to nav" — should smooth-scroll to popup
-- [ ] Click "rewind the weight" inside popup — should smooth-scroll to top
-- [ ] Check DevTools console — should have zero errors
-- [ ] Test on actual mobile device — scroll-jack behavior is the biggest unknown here
-- [ ] Replace placeholder copy with real brand copy
-- [ ] Port `index.html` / `styles.css` / `app.js` / `vendor/` / `images/` into production framework
+## Step 1 — Add a reusable `CardMedia` component
+
+Place this component above `ServicesSection` in `index.html`.
+
+Important correction:
+Do not use `if (!media || !media.src)` as the only guard. Mux media objects use `playbackId`, not `src`. The guard must allow either `media.src` or `media.playbackId`.
+
+```jsx
+function CardMedia({ media, placeholder = 'Image or video' }) {
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const hasMedia = media && (media.src || media.playbackId);
+
+  if (!hasMedia) {
+    return <div className="pf-service-card__media-placeholder">{placeholder}</div>;
+  }
+
+  if (media.type === 'image') {
+    return (
+      <img
+        src={media.src}
+        alt={media.alt || ''}
+        loading="lazy"
+      />
+    );
+  }
+
+  if (media.type === 'mux-gif') {
+    return (
+      <img
+        src={`https://image.mux.com/${media.playbackId}/animated.gif?width=640&fps=8`}
+        alt={media.alt || ''}
+        loading="lazy"
+      />
+    );
+  }
+
+  if (media.type === 'mux-video') {
+    if (!isPlaying) {
+      return (
+        <button
+          type="button"
+          className="pf-service-card__media-playtrigger"
+          onClick={() => setIsPlaying(true)}
+          aria-label={`Play ${media.alt || 'video preview'}`}
+        >
+          <img
+            src={`https://image.mux.com/${media.playbackId}/thumbnail.webp?time=2&width=1280&height=720&fit_mode=smartcrop`}
+            alt={media.alt || ''}
+            loading="lazy"
+          />
+          <span className="pf-service-card__play-icon" aria-hidden="true">
+            <span />
+          </span>
+        </button>
+      );
+    }
+
+    return (
+      <iframe
+        src={`https://player.mux.com/${media.playbackId}?autoplay=true`}
+        title={media.alt || 'Video preview'}
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+        allowFullScreen
+      />
+    );
+  }
+
+  return <div className="pf-service-card__media-placeholder">{placeholder}</div>;
+}
+```
 
 ---
 
-Author notes: if the animation feels too slow or too fast once you see it live, the single best knob is `end: "+=300%"` in `app.js`. Bump to `+=400%` for slower/more luxurious, drop to `+=200%` for snappier. Don't change individual tween durations until the overall tempo feels right.
+## Step 2 — Add CSS for the clickable thumbnail state
+
+Add this CSS near the existing `.pf-service-card__media` styles.
+
+```css
+.pf-service-card__media-playtrigger {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  display: block;
+  overflow: hidden;
+}
+
+.pf-service-card__media-playtrigger img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.28s ease, filter 0.28s ease;
+}
+
+.pf-service-card__media-playtrigger:hover img {
+  transform: scale(1.035);
+  filter: brightness(0.82);
+}
+
+.pf-service-card__media-playtrigger:focus-visible {
+  outline: 2px solid rgba(201, 174, 122, 0.75);
+  outline-offset: -3px;
+}
+
+.pf-service-card__play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 999px;
+  background: rgba(11, 18, 32, 0.82);
+  border: 1px solid rgba(201, 174, 122, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+.pf-service-card__play-icon span {
+  width: 0;
+  height: 0;
+  margin-left: 0.2rem;
+  border-top: 0.52rem solid transparent;
+  border-bottom: 0.52rem solid transparent;
+  border-left: 0.85rem solid #c9ae7a;
+}
+```
+
+---
+
+## Step 3 — Replace the media render logic inside `renderCard`
+
+Find the current media block inside `renderCard`:
+
+```jsx
+<div className="pf-service-card__media">
+  {s.mediaSrc && s.mediaType === 'video' ? (
+    <video src={s.mediaSrc} controls playsInline preload="metadata" />
+  ) : s.mediaSrc ? (
+    <img src={s.mediaSrc} alt="" loading="lazy" />
+  ) : (
+    <div className="pf-service-card__media-placeholder">Image or video</div>
+  )}
+</div>
+```
+
+Replace it with:
+
+```jsx
+<div className="pf-service-card__media">
+  <CardMedia media={s.media} />
+</div>
+```
+
+---
+
+# 5. Update Services Data
+
+Replace `mediaSrc` and `mediaType` inside the service objects with a new `media` object.
+
+## `SERVICES_WEB`
+
+Use this structure:
+
+```jsx
+const SERVICES_WEB = [
+  {
+    title: 'Portfolio Sites',
+    headline: 'Launching a new body of work, or finally retiring the portfolio you\'ve been apologizing for.',
+    body: 'A portfolio site should get out of the way of the work. That means fast loading even on images-heavy pages, type that reads well next to photographs or artworks, inquiry flows that feel respectful rather than pushy, and mobile layouts where the work still leads. I build from scratch or redesign an existing site, and I handle hosting, deployment, and SEO fundamentals so the site keeps working after launch without constant attention.',
+    deliverables: 'A fully designed, built, and deployed portfolio site with the pages you actually need. Performance optimization, mobile-first responsive layout, basic SEO and Open Graph setup, and a simple CMS or file-based content structure you can update without calling me every time.',
+    engagement: 'Typically four to eight weeks from first conversation to launch.',
+    investment: 'Projects typically begin at $3,500.',
+    media: {
+      type: 'mux-video',
+      playbackId: 'bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM',
+      alt: 'Portfolio website preview',
+    },
+  },
+  {
+    title: 'Small-Business Web Presence',
+    headline: 'Replacing a website that\'s been costing you leads instead of earning them.',
+    body: 'Most small-business sites are either inherited and never updated or built from templates that aged badly. A rebuild or refresh done well should lift inbound inquiries, rank better for the searches your customers actually use, and give you a site you are happy to share.',
+    deliverables: 'A rebuilt or refreshed site with clear service descriptions, working contact flows, trust signals, analytics setup, and SEO fundamentals tuned to your local market or niche. Includes deployment guidance and handoff documentation.',
+    engagement: 'Typically three to six weeks for a refresh, five to ten for a full rebuild.',
+    investment: 'Refreshes typically begin at $2,800. Full rebuilds typically begin at $5,500.',
+    media: {
+      type: 'mux-video',
+      playbackId: '00w302YUzDdVCVmb3RYncHB201Esego5J4Om1YlANIcseo',
+      alt: 'Small business website preview',
+    },
+  },
+  {
+    title: 'SEO & Content Strategy',
+    headline: 'Getting found by the right people, without promises of magic rankings.',
+    body: 'Technical SEO is the foundation, but it only works if the content answers questions your audience is searching for. I handle both sides: audit, implementation of technical fixes, and practical content strategy.',
+    deliverables: 'A written audit identifying technical, structural, and content issues; implementation of technical fixes; and a keyword/content strategy document for your team or me to execute against.',
+    engagement: 'Audits typically take two to three weeks. Implementation adds another three to six weeks.',
+    investment: 'Audits typically begin at $1,800. Ongoing engagements are typically $1,500-$3,500 per month.',
+    media: {
+      type: 'image',
+      src: 'images/service-seo-dashboard.webp',
+      alt: 'SEO dashboard and content strategy preview',
+    },
+  },
+];
+```
+
+---
+
+## `SERVICES_INFRA`
+
+Use this structure:
+
+```jsx
+const SERVICES_INFRA = [
+  {
+    title: 'Network Architecture & Secure Systems Design',
+    headline: 'Designing a network that\'s secure, segmented, and documented well enough that the next engineer can take it over.',
+    body: 'For teams that have outgrown consumer-grade networking or need to handle sensitive data without cutting corners, this engagement yields a fit-for-purpose design, documentation that survives handoff, and deployment using hardened baselines rather than vendor defaults.',
+    deliverables: 'Network design documentation, router/switch/firewall configuration, site-to-site VPN setup where needed, monitoring and logging setup, and usable handoff documentation.',
+    engagement: 'Single-site work is often two to four weeks; multi-site deployments can run six to twelve weeks.',
+    investment: 'Starts at $4,500 for single-site engagements. Multi-site scopes are estimated individually.',
+    media: {
+      type: 'image',
+      src: 'images/service-network-topology.svg',
+      alt: 'Secure network architecture diagram',
+    },
+  },
+  {
+    title: 'Custom Automation & Workflow Tooling',
+    headline: 'Building the quiet scripts that save your team ten hours a week.',
+    body: 'Most operational pain in growing businesses is repetitive manual work. Custom automations, integrations, and workflow tooling create measurable leverage by removing bottlenecks across systems your team already uses.',
+    deliverables: 'Scoped automation or integration delivered as deployable code, plus documentation, runbook support, and monitoring hooks.',
+    engagement: 'Small automations usually ship in one to two weeks; larger integrations run two to six weeks.',
+    investment: 'Small automations typically begin at $1,200. Larger tools scale with scope.',
+    media: {
+      type: 'image',
+      src: 'images/service-automation-flow.svg',
+      alt: 'Automation workflow diagram',
+    },
+  },
+  {
+    title: 'AI & Infrastructure Consulting',
+    headline: 'Figuring out what AI should and should not do in your existing operations, and integrating it responsibly when it should.',
+    body: 'Useful AI integration is not hype. It is clear evaluation of what helps now, what should wait, and how to implement without creating dependencies your team cannot inspect or maintain.',
+    deliverables: 'A written readiness assessment, proof-of-concept implementation for approved integrations, and team-facing documentation/training.',
+    engagement: 'Readiness assessments typically run two to three weeks. Implementation adds three to eight weeks.',
+    investment: 'Assessments typically begin at $2,500. Implementation scales by scope.',
+    media: {
+      type: 'image',
+      src: 'images/service-ai-infra-map.svg',
+      alt: 'AI infrastructure consulting diagram',
+    },
+  },
+];
+```
+
+---
+
+# 6. Work Section Guidance
+
+Do not put the five template Mux videos in `WORK_PRODUCT_CARDS`.
+
+The Work section is now positioned as real case studies. Keep it that way.
+
+Current Work cards should continue using real project media:
+
+```txt
+images/case-tsandl.webp
+images/case-codelink.webp
+images/case-redeemedhands.webp
+```
+
+Optional future improvement:
+Convert Work media to use the same `CardMedia` component, but only if real case-study videos are added later.
+
+Example future Work media shape:
+
+```jsx
+media: {
+  type: 'image',
+  src: 'images/case-tsandl.webp',
+  alt: 'Transportation Solutions & Lighting case study preview',
+}
+```
+
+Then render it with:
+
+```jsx
+<CardMedia media={card.media} placeholder="Case study media" />
+```
+
+Do not use unrelated template footage for TSANDL, CodeLink, or Redeemed Hands.
+
+---
+
+# 7. Asset Checklist
+
+Create or confirm these files exist:
+
+```txt
+images/service-seo-dashboard.webp
+images/service-network-topology.svg
+images/service-automation-flow.svg
+images/service-ai-infra-map.svg
+```
+
+If these assets do not exist yet, keep the placeholder visible or create quick temporary typography/diagram cards.
+
+Suggested temporary placeholders:
+
+* SEO: dark dashboard mockup with “Search visibility / Content map / Technical fixes”
+* Network Architecture: simple topology with router, switch, firewall, cloud, and client nodes
+* Automation: flow from logs → parser → trigger → ZOHO FSM/service order
+* AI Consulting: workflow map from messy operations → assessment → proof of concept → documented system
+
+---
+
+# 8. Acceptance Criteria
+
+The implementation is complete when:
+
+1. Services cards no longer show “Image or video” for Portfolio Sites and Small-Business Web Presence.
+2. Portfolio Sites uses Mux playback ID:
+   `bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM`
+3. Small-Business Web Presence uses Mux playback ID:
+   `00w302YUzDdVCVmb3RYncHB201Esego5J4Om1YlANIcseo`
+4. Mux videos render as thumbnails first, not full iframes on page load.
+5. Clicking a thumbnail swaps it into the Mux iframe player and autoplays.
+6. The play overlay is visible and keyboard-focusable.
+7. SEO, Network Architecture, Automation, and AI Consulting use static images or placeholders until final assets exist.
+8. Work section still uses real case-study media, not the service/template Mux videos.
+9. Desktop horizontal service rails still work.
+10. Mobile stacked service cards still work.
+11. No console errors are introduced.
+12. Page performance does not load multiple Mux iframes before user interaction.
+
+---
+
+# 9. QA Notes
+
+Test these viewport sizes:
+
+* 390px wide mobile
+* 768px tablet
+* 1440px desktop
+
+Test these interactions:
+
+* Navigate from hero to section grid
+* Open Services
+* Scroll both service rails
+* Click Mux thumbnail
+* Confirm video loads only after click
+* Navigate away and back
+* Confirm placeholders/static images do not break layout
+* Keyboard tab to the play button
+* Use Enter/Space to activate the video if browser behavior supports it
+
+---
+
+# 10. Final Direction
+
+Use two existing Mux videos now:
+
+* Section 1 for Portfolio Sites
+* Section 5 for Small-Business Web Presence
+
+Do not force the remaining three videos into the Services section. They are not bad, but they do not map cleanly to the current service strategy.
+
+Redesign the remaining service visuals as diagrams or actual product/workflow assets. That will make the site feel more mature, more technical, and more credible than using six generic website previews.

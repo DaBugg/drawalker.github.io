@@ -861,6 +861,56 @@ body { background: #0f172a !important; }
   border-radius: 0.5rem;
   pointer-events: none;
 }
+.pf-service-card__media-playtrigger {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  display: block;
+  overflow: hidden;
+}
+.pf-service-card__media-playtrigger img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.28s ease, filter 0.28s ease;
+}
+.pf-service-card__media-playtrigger:hover img {
+  transform: scale(1.035);
+  filter: brightness(0.82);
+}
+.pf-service-card__media-playtrigger:focus-visible {
+  outline: 2px solid rgba(201, 174, 122, 0.75);
+  outline-offset: -3px;
+}
+.pf-service-card__play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 999px;
+  background: rgba(11, 18, 32, 0.82);
+  border: 1px solid rgba(201, 174, 122, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+.pf-service-card__play-icon span {
+  width: 0;
+  height: 0;
+  margin-left: 0.2rem;
+  border-top: 0.52rem solid transparent;
+  border-bottom: 0.52rem solid transparent;
+  border-left: 0.85rem solid #c9ae7a;
+}
 .pf-service-card__body {
   display: flex;
   flex-direction: column;
@@ -1515,6 +1565,69 @@ function WorkSection({ onNavigate }) {
   );
 }
 
+function CardMedia({ media, placeholder = 'Image or video' }) {
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const hasMedia = media && (media.src || media.playbackId);
+  if (!hasMedia) {
+    return <div className="pf-service-card__media-placeholder">{placeholder}</div>;
+  }
+
+  if (media.type === 'image') {
+    return (
+      <img
+        src={media.src}
+        alt={media.alt || ''}
+        loading="lazy"
+      />
+    );
+  }
+
+  if (media.type === 'mux-gif') {
+    return (
+      <img
+        src={`https://image.mux.com/${media.playbackId}/animated.gif?width=640&fps=8`}
+        alt={media.alt || ''}
+        loading="lazy"
+      />
+    );
+  }
+
+  if (media.type === 'mux-video') {
+    if (!isPlaying) {
+      return (
+        <button
+          type="button"
+          className="pf-service-card__media-playtrigger"
+          onClick={() => setIsPlaying(true)}
+          aria-label={`Play ${media.alt || 'video preview'}`}
+        >
+          <img
+            src={`https://image.mux.com/${media.playbackId}/thumbnail.webp?time=2&width=1280&height=720&fit_mode=smartcrop`}
+            alt={media.alt || ''}
+            loading="lazy"
+          />
+          <span className="pf-service-card__play-icon" aria-hidden="true">
+            <span />
+          </span>
+        </button>
+      );
+    }
+
+    return (
+      <iframe
+        src={`https://player.mux.com/${media.playbackId}?autoplay=true`}
+        title={media.alt || 'Video preview'}
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+        allowFullScreen
+      />
+    );
+  }
+
+  return <div className="pf-service-card__media-placeholder">{placeholder}</div>;
+}
+
 function ServicesSection({ onNavigate }) {
   const SERVICES_WEB = [
     {
@@ -1524,8 +1637,11 @@ function ServicesSection({ onNavigate }) {
       deliverables: 'A fully designed, built, and deployed portfolio site with the pages you actually need. Performance optimization, mobile-first responsive layout, basic SEO and Open Graph setup, and a simple CMS or file-based content structure you can update without calling me every time.',
       engagement: 'Typically four to eight weeks from first conversation to launch.',
       investment: 'Projects typically begin at $3,500.',
-      mediaSrc: null,
-      mediaType: 'image',
+      media: {
+        type: 'mux-video',
+        playbackId: 'bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM',
+        alt: 'Portfolio website preview',
+      },
     },
     {
       title: 'Small-Business Web Presence',
@@ -1534,8 +1650,11 @@ function ServicesSection({ onNavigate }) {
       deliverables: 'A rebuilt or refreshed site with clear service descriptions, working contact flows, trust signals, analytics setup, and SEO fundamentals tuned to your local market or niche. Includes deployment guidance and handoff documentation.',
       engagement: 'Typically three to six weeks for a refresh, five to ten for a full rebuild.',
       investment: 'Refreshes typically begin at $2,800. Full rebuilds typically begin at $5,500.',
-      mediaSrc: null,
-      mediaType: 'image',
+      media: {
+        type: 'mux-video',
+        playbackId: '00w302YUzDdVCVmb3RYncHB201Esego5J4Om1YlANIcseo',
+        alt: 'Small business website preview',
+      },
     },
     {
       title: 'SEO & Content Strategy',
@@ -1544,8 +1663,11 @@ function ServicesSection({ onNavigate }) {
       deliverables: 'A written audit identifying technical, structural, and content issues; implementation of technical fixes; and a keyword/content strategy document for your team or me to execute against.',
       engagement: 'Audits typically take two to three weeks. Implementation adds another three to six weeks.',
       investment: 'Audits typically begin at $1,800. Ongoing engagements are typically $1,500-$3,500 per month.',
-      mediaSrc: null,
-      mediaType: 'image',
+      media: {
+        type: 'image',
+        src: 'images/service-seo-dashboard.webp',
+        alt: 'SEO dashboard and content strategy preview',
+      },
     },
   ];
 
@@ -1557,8 +1679,11 @@ function ServicesSection({ onNavigate }) {
       deliverables: 'Network design documentation, router/switch/firewall configuration, site-to-site VPN setup where needed, monitoring and logging setup, and usable handoff documentation.',
       engagement: 'Single-site work is often two to four weeks; multi-site deployments can run six to twelve weeks.',
       investment: 'Starts at $4,500 for single-site engagements. Multi-site scopes are estimated individually.',
-      mediaSrc: null,
-      mediaType: 'image',
+      media: {
+        type: 'image',
+        src: 'images/service-network-topology.svg',
+        alt: 'Secure network architecture diagram',
+      },
     },
     {
       title: 'Custom Automation & Workflow Tooling',
@@ -1567,8 +1692,11 @@ function ServicesSection({ onNavigate }) {
       deliverables: 'Scoped automation or integration delivered as deployable code, plus documentation, runbook support, and monitoring hooks.',
       engagement: 'Small automations usually ship in one to two weeks; larger integrations run two to six weeks.',
       investment: 'Small automations typically begin at $1,200. Larger tools scale with scope.',
-      mediaSrc: null,
-      mediaType: 'image',
+      media: {
+        type: 'image',
+        src: 'images/service-automation-flow.svg',
+        alt: 'Automation workflow diagram',
+      },
     },
     {
       title: 'AI & Infrastructure Consulting',
@@ -1577,21 +1705,18 @@ function ServicesSection({ onNavigate }) {
       deliverables: 'A written readiness assessment, proof-of-concept implementation for approved integrations, and team-facing documentation/training.',
       engagement: 'Readiness assessments typically run two to three weeks. Implementation adds three to eight weeks.',
       investment: 'Assessments typically begin at $2,500. Implementation scales by scope.',
-      mediaSrc: null,
-      mediaType: 'image',
+      media: {
+        type: 'image',
+        src: 'images/service-ai-infra-map.svg',
+        alt: 'AI infrastructure consulting diagram',
+      },
     },
   ];
 
   const renderCard = (s) => (
     <article key={s.title} className="pf-service-card">
       <div className="pf-service-card__media">
-        {s.mediaSrc && s.mediaType === 'video' ? (
-          <video src={s.mediaSrc} controls playsInline preload="metadata" />
-        ) : s.mediaSrc ? (
-          <img src={s.mediaSrc} alt="" loading="lazy" />
-        ) : (
-          <div className="pf-service-card__media-placeholder">Image or video</div>
-        )}
+        <CardMedia media={s.media} />
       </div>
       <div className="pf-service-card__body">
         <h3>{s.title}</h3>
