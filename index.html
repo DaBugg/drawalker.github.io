@@ -1284,6 +1284,32 @@ body { background: #0f172a !important; }
   text-decoration: none;
   display: inline-block;
 }
+.pf-flagship-wrap.pf-codelink-showcase {
+  margin-top: 2.5rem;
+}
+.pf-codelink-waitlist {
+  margin: 0.5rem 0 0.2rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.58;
+  color: #e2e8f0;
+}
+.pf-codelink-waitlist strong {
+  color: rgba(34, 211, 238, 0.95);
+  font-weight: 600;
+}
+.pf-codelink-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.75rem;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: flex-start;
+}
+.pf-flagship-case__content .pf-codelink-cta-row .btn.btn--ghost {
+  text-decoration: none;
+}
 @media (min-width: 901px) {
   .pf-flagship-case__visual {
     align-items: center;
@@ -1314,6 +1340,10 @@ body { background: #0f172a !important; }
     max-width: 36rem;
   }
   .pf-flagship-case .service__cta.portfolio-faux-cta {
+    align-self: center;
+  }
+  .pf-codelink-cta-row {
+    justify-content: center;
     align-self: center;
   }
   .pf-flagship-outcomes {
@@ -1848,16 +1878,6 @@ const portfolioPanelShell = {
 const WORK_PRODUCT_CARDS = [
   {
     section: 'Case study',
-    meta: 'Personal startup · founder and full-stack engineer',
-    title: 'CodeLink',
-    body:
-      'CodeLink is a developer-collaboration product I founded to solve a recurring problem: talented builders can find tutorials, jobs, and social content easily, but still struggle to discover serious projects where they can join, contribute, and ship with the right team.\n\nI built the platform as a full-stack application focused on project discovery, team matching, and real-time collaboration loops. The architecture prioritizes quick onboarding, clear project intent, and an interaction model that favors execution over self-promotion. Product decisions are guided by reducing friction between idea discovery and first contribution.\n\nMy role is full ownership across product strategy, interface design, backend architecture, and deployment. The product is still evolving, and I continue validating the matching flow with active users while iterating on reliability, search quality, and team-formation tooling.',
-    quote: 'Designed to move developers from \"interesting idea\" to \"shipping team\" with less noise and less gatekeeping.',
-    cite: 'Founder-led product build, currently in active iteration and growth testing.',
-    mediaSrc: 'images/case-codelink.webp',
-  },
-  {
-    section: 'Case study',
     meta: 'Community project · product + technical delivery',
     title: 'Redeemed Hands',
     body:
@@ -1942,11 +1962,73 @@ function WorkSection({ onNavigate }) {
               </article>
             </div>
 
+            <div className="pf-flagship-wrap pf-codelink-showcase">
+              <p className="pf-flagship-framing">Founder-led startup · platform MVP</p>
+              <article className="pf-flagship-case" aria-labelledby="codelink-showcase-title">
+                <div className="pf-flagship-case__visual">
+                  <div className="pf-flagship-browser">
+                    <div className="pf-flagship-browser__chrome" aria-hidden="true">
+                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--r" />
+                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--y" />
+                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--g" />
+                      <span className="pf-flagship-browser__url">codelink.live</span>
+                    </div>
+                    <div className="pf-flagship-browser__viewport">
+                      <iframe
+                        src="https://player.mux.com/KOxacSLriw7uuyhxs89KPiAHclOq02opBJ9bPs6Sfoho"
+                        title="CodeLink — startup showcase preview (Mux)"
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                        allowFullScreen
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="pf-flagship-case__content">
+                  <p className="small muted" style={{ margin: 0 }}>Startup showcase</p>
+                  <p className="small muted" style={{ margin: 0 }}>Founder-led product · full-stack MVP</p>
+                  <h2 id="codelink-showcase-title">CodeLink</h2>
+                  <p className="pf-flagship-lead">
+                    CodeLink is a collaboration platform for builders, founders, developers, designers, and contributors
+                    who want to ship together—not another generic feed. It helps you organize projects, find the right
+                    collaborators, keep tasks honest, and build proof-of-work around real builds instead of polished
+                    empty profiles.
+                  </p>
+                  <p className="pf-codelink-waitlist">
+                    <strong>The waitlist is now live.</strong>
+                  </p>
+                  <ul className="pf-flagship-proof">
+                    <li>Project spaces that keep intent, ownership, and next actions visible across disciplines.</li>
+                    <li>Collaborator discovery tuned for people who plan to commit—not browse.</li>
+                    <li>Task flows that stay tied to outcomes so momentum survives handoffs and time zones.</li>
+                    <li>Proof-of-work you can stand behind: real projects, real progress, less performative noise.</li>
+                  </ul>
+                  <div className="pf-codelink-cta-row">
+                    <a
+                      href="https://www.codelink.live/waitlist"
+                      className="service__cta portfolio-faux-cta"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Join the Waitlist
+                    </a>
+                    <a
+                      href="#contact"
+                      className="btn btn--ghost"
+                      onClick={goContact}
+                    >
+                      Build a Product Like This
+                    </a>
+                  </div>
+                </div>
+              </article>
+            </div>
+
             <h2 className="accent" style={{ marginTop: '2.25rem', fontSize: 'clamp(1.05rem, 2vw, 1.25rem)' }}>
               Additional case studies
             </h2>
             <p className="muted small" style={{ marginTop: '0.35rem', maxWidth: '40rem' }}>
-              Selected builds across product, platform, and community work.
+              Community and client builds beyond the flagship work above.
             </p>
             <div className="pf-work-products" aria-label="Additional case studies">
               {WORK_PRODUCT_CARDS.map((card) => (
