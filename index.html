@@ -1222,6 +1222,16 @@ body { background: #0f172a !important; }
   border: 0;
   background: #0f172a;
 }
+.pf-flagship-browser__viewport img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  border: 0;
+}
 .pf-flagship-case__content {
   padding: 1.2rem 1.2rem 1.35rem;
   display: flex;
@@ -1287,6 +1297,45 @@ body { background: #0f172a !important; }
 .pf-flagship-wrap.pf-codelink-showcase {
   margin-top: 2.5rem;
 }
+.pf-flagship-wrap.pf-redeemed-showcase {
+  margin-top: 2.5rem;
+}
+.pf-redeemed-showcase .pf-flagship-framing {
+  color: rgba(251, 146, 60, 0.95);
+}
+.pf-redeemed-showcase .pf-flagship-case {
+  border-color: rgba(251, 146, 60, 0.28);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(249, 115, 22, 0.12);
+}
+.pf-redeemed-showcase .pf-flagship-case__visual {
+  border-right-color: rgba(251, 146, 60, 0.22);
+}
+.pf-redeemed-showcase .pf-flagship-browser {
+  box-shadow:
+    0 0 0 1px rgba(251, 146, 60, 0.18),
+    0 20px 48px rgba(0, 0, 0, 0.5);
+}
+.pf-redeemed-showcase .pf-flagship-outcomes li {
+  border-color: rgba(249, 115, 22, 0.42);
+  background: rgba(15, 23, 42, 0.88);
+}
+.pf-redeemed-showcase .pf-flagship-proof li::marker {
+  color: rgba(251, 146, 60, 0.92);
+}
+.pf-redeemed-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.75rem;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: flex-start;
+}
+.pf-flagship-case__content .pf-redeemed-cta-row .btn.btn--ghost {
+  text-decoration: none;
+}
 .pf-codelink-waitlist {
   margin: 0.5rem 0 0.2rem;
   font-family: "DM Sans", system-ui, sans-serif;
@@ -1342,7 +1391,8 @@ body { background: #0f172a !important; }
   .pf-flagship-case .service__cta.portfolio-faux-cta {
     align-self: center;
   }
-  .pf-codelink-cta-row {
+  .pf-codelink-cta-row,
+  .pf-redeemed-cta-row {
     justify-content: center;
     align-self: center;
   }
@@ -1875,23 +1925,16 @@ const portfolioPanelShell = {
   fontFamily: 'var(--font-sans)',
 };
 
-const WORK_PRODUCT_CARDS = [
-  {
-    section: 'Case study',
-    meta: 'Community project · product + technical delivery',
-    title: 'Redeemed Hands',
-    body:
-      'Redeemed Hands highlights a community-centered build where the priority was clarity, trust, and accessibility over flashy interaction. The project needed a stable digital home that could communicate mission, direct people to next actions, and stay maintainable without heavy ongoing overhead.\n\nI translated that need into a focused, lightweight web implementation with a clean content hierarchy, mobile-first responsiveness, and practical content structures the team can keep updated over time. Technical choices emphasized reliability and straightforward editing workflows so future updates do not require a full redesign cycle.\n\nMy role covered planning, architecture, implementation, and launch support. The outcome is a platform that better supports community communication and gives the organization a clearer way to present its work and direct engagement.',
-    quote: 'A community-focused build should feel human first: clear intent, easy access, and dependable delivery.',
-    cite: 'Community project case study with end-to-end product and technical execution.',
-    mediaSrc: 'images/case-redeemedhands.webp',
-  },
-];
+const WORK_PRODUCT_CARDS = [];
 
 function WorkSection({ onNavigate }) {
   const goContact = (e) => {
     if (e && e.preventDefault) e.preventDefault();
     onNavigate('contact');
+  };
+  const goServices = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    onNavigate('services');
   };
 
   return (
@@ -1917,7 +1960,7 @@ function WorkSection({ onNavigate }) {
                       <span className="pf-flagship-browser__dot pf-flagship-browser__dot--r" />
                       <span className="pf-flagship-browser__dot pf-flagship-browser__dot--y" />
                       <span className="pf-flagship-browser__dot pf-flagship-browser__dot--g" />
-                      <span className="pf-flagship-browser__url">transportationsolutionsandlighting.com</span>
+                      <span className="pf-flagship-browser__url">www.tsandl.us</span>
                     </div>
                     <div className="pf-flagship-browser__viewport">
                       <iframe
@@ -2024,42 +2067,110 @@ function WorkSection({ onNavigate }) {
               </article>
             </div>
 
-            <h2 className="accent" style={{ marginTop: '2.25rem', fontSize: 'clamp(1.05rem, 2vw, 1.25rem)' }}>
-              Additional case studies
-            </h2>
-            <p className="muted small" style={{ marginTop: '0.35rem', maxWidth: '40rem' }}>
-              Community and client builds beyond the flagship work above.
-            </p>
-            <div className="pf-work-products" aria-label="Additional case studies">
-              {WORK_PRODUCT_CARDS.map((card) => (
-                <article key={card.title} className="pf-work-product-card">
-                  <div className="pf-service-card__media">
-                    {card.mediaSrc ? (
-                      <img src={card.mediaSrc} alt={`${card.title} case study`} loading="lazy" />
-                    ) : (
-                      <div className="pf-service-card__media-placeholder">Case study media</div>
-                    )}
+            <div className="pf-flagship-wrap pf-redeemed-showcase">
+              <p className="pf-flagship-framing">Local Launch Kit · community outreach</p>
+              <article className="pf-flagship-case" aria-labelledby="redeemed-showcase-title">
+                <div className="pf-flagship-case__visual">
+                  <div className="pf-flagship-browser">
+                    <div className="pf-flagship-browser__chrome" aria-hidden="true">
+                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--r" />
+                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--y" />
+                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--g" />
+                      <span className="pf-flagship-browser__url">redeemedhands.com</span>
+                    </div>
+                    <div className="pf-flagship-browser__viewport">
+                      <img
+                        src="images/redeemed-hands.jpeg"
+                        alt="Redeemed Hands homepage — concrete, construction and renovations"
+                        width={1200}
+                        height={675}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
                   </div>
-                  <div className="pf-service-card__body">
-                    <p className="small muted" style={{ margin: 0 }}>{card.section}</p>
-                    <p className="small muted" style={{ margin: 0 }}>{card.meta}</p>
-                    <h3>{card.title}</h3>
-                    <p>{card.body}</p>
-                    <figure style={{ margin: 0 }}>
-                      <blockquote className="pf-service-card__quote">{card.quote}</blockquote>
-                      <figcaption className="pf-service-card__cite">{card.cite}</figcaption>
-                    </figure>
-                    <button
-                      type="button"
+                </div>
+                <div className="pf-flagship-case__content">
+                  <p className="small muted" style={{ margin: 0 }}>Local Business Outreach</p>
+                  <p className="small muted" style={{ margin: 0 }}>Concrete · construction · renovation services</p>
+                  <h2 id="redeemed-showcase-title">Redeemed Hands</h2>
+                  <p className="pf-flagship-lead">
+                    Redeemed Hands is a local concrete, construction, and renovation company. The site&apos;s job is
+                    straightforward: present services clearly, build trust before the first call, surface contact
+                    details without friction, and walk visitors toward requesting a quote—especially on mobile, where
+                    most referrals land first.
+                  </p>
+                  <ul className="pf-flagship-outcomes">
+                    <li>Local: service-business positioning</li>
+                    <li>Quote: focused conversion path</li>
+                    <li>Mobile: friendly customer experience</li>
+                  </ul>
+                  <ul className="pf-flagship-proof">
+                    <li>Created a clear service-focused homepage for concrete, construction, and renovation work.</li>
+                    <li>Positioned the business around reliability, clean finishes, and getting the job done right.</li>
+                    <li>Added direct contact information and a quote-focused customer path.</li>
+                    <li>Used a simple structure that works well for local search, referrals, and mobile visitors.</li>
+                  </ul>
+                  <div className="pf-redeemed-cta-row">
+                    <a
+                      href="#contact"
                       className="service__cta portfolio-faux-cta"
-                      onClick={() => onNavigate('contact')}
+                      onClick={goContact}
                     >
-                      Build Something Similar
-                    </button>
+                      Launch a Local Business Site
+                    </a>
+                    <a
+                      href="#services"
+                      className="btn btn--ghost"
+                      onClick={goServices}
+                    >
+                      View Local Launch Kit
+                    </a>
                   </div>
-                </article>
-              ))}
+                </div>
+              </article>
             </div>
+
+            {WORK_PRODUCT_CARDS.length > 0 ? (
+              <>
+                <h2 className="accent" style={{ marginTop: '2.25rem', fontSize: 'clamp(1.05rem, 2vw, 1.25rem)' }}>
+                  Additional case studies
+                </h2>
+                <p className="muted small" style={{ marginTop: '0.35rem', maxWidth: '40rem' }}>
+                  Community and client builds beyond the flagship work above.
+                </p>
+                <div className="pf-work-products" aria-label="Additional case studies">
+                  {WORK_PRODUCT_CARDS.map((card) => (
+                    <article key={card.title} className="pf-work-product-card">
+                      <div className="pf-service-card__media">
+                        {card.mediaSrc ? (
+                          <img src={card.mediaSrc} alt={`${card.title} case study`} loading="lazy" />
+                        ) : (
+                          <div className="pf-service-card__media-placeholder">Case study media</div>
+                        )}
+                      </div>
+                      <div className="pf-service-card__body">
+                        <p className="small muted" style={{ margin: 0 }}>{card.section}</p>
+                        <p className="small muted" style={{ margin: 0 }}>{card.meta}</p>
+                        <h3>{card.title}</h3>
+                        <p>{card.body}</p>
+                        <figure style={{ margin: 0 }}>
+                          <blockquote className="pf-service-card__quote">{card.quote}</blockquote>
+                          <figcaption className="pf-service-card__cite">{card.cite}</figcaption>
+                        </figure>
+                        <button
+                          type="button"
+                          className="service__cta portfolio-faux-cta"
+                          onClick={() => onNavigate('contact')}
+                        >
+                          Build Something Similar
+                        </button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </>
+            ) : null}
 
             <p className="small muted" style={{ marginTop: '2rem', maxWidth: '42rem', lineHeight: 1.65 }}>
               Before these featured engagements, I designed and deployed 15+ responsive sites for small businesses
