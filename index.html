@@ -1130,13 +1130,180 @@ body { background: #0f172a !important; }
   }
 }
 
-button.service__cta.portfolio-faux-cta {
+.pf-flagship-wrap {
+  margin-top: 1.5rem;
+}
+.pf-flagship-framing {
+  margin: 0 0 0.85rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: clamp(0.72rem, 1.35vw, 0.82rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(34, 211, 238, 0.88);
+}
+.pf-flagship-case {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+  gap: 0;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(71, 85, 105, 0.55);
+  background: linear-gradient(165deg, rgba(30, 41, 59, 0.94), rgba(15, 23, 42, 0.92));
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+}
+.pf-flagship-case__visual {
+  padding: 1.05rem 1rem 1.1rem 1.1rem;
+  display: flex;
+  align-items: stretch;
+  border-right: 1px solid rgba(51, 65, 85, 0.65);
+  background: linear-gradient(200deg, rgba(15, 23, 42, 0.55), rgba(30, 41, 59, 0.4));
+}
+.pf-flagship-browser {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.65rem;
+  border: 1px solid rgba(51, 65, 85, 0.85);
+  box-shadow:
+    0 0 0 1px rgba(34, 211, 238, 0.12),
+    0 20px 48px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  min-height: 240px;
+  background: #020617;
+}
+.pf-flagship-browser__chrome {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.48rem 0.65rem;
+  background: linear-gradient(180deg, #1e293b, #0f172a);
+  border-bottom: 1px solid rgba(51, 65, 85, 0.75);
+}
+.pf-flagship-browser__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.pf-flagship-browser__dot--r { background: rgba(248, 113, 113, 0.88); }
+.pf-flagship-browser__dot--y { background: rgba(234, 179, 8, 0.85); }
+.pf-flagship-browser__dot--g { background: rgba(34, 197, 94, 0.78); }
+.pf-flagship-browser__url {
+  flex: 1;
+  min-width: 0;
+  margin-left: 0.25rem;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.62rem;
+  color: rgba(148, 163, 184, 0.95);
+  padding: 0.28rem 0.5rem;
+  border-radius: 0.35rem;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(51, 65, 85, 0.65);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pf-flagship-browser__viewport {
+  flex: 1;
+  min-height: 200px;
+  position: relative;
+  background: #020617;
+}
+.pf-flagship-browser__viewport img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  object-fit: cover;
+  object-position: top center;
+}
+.pf-flagship-case__content {
+  padding: 1.2rem 1.2rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.pf-flagship-case__content h2 {
+  margin: 0.2rem 0 0;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: clamp(1.2rem, 2.6vw, 1.55rem);
+  font-weight: 600;
+  color: #f8fafc;
+  line-height: 1.22;
+}
+.pf-flagship-lead {
+  margin: 0.35rem 0 0.45rem !important;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.86rem !important;
+  line-height: 1.62 !important;
+  color: #cbd5e1 !important;
+  max-width: 38rem;
+}
+.pf-flagship-outcomes {
+  list-style: none;
+  margin: 0.4rem 0 0.55rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+.pf-flagship-outcomes li {
+  border-radius: 0.55rem;
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  background: rgba(15, 23, 42, 0.82);
+  padding: 0.62rem 0.65rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.74rem;
+  line-height: 1.45;
+  color: #e2e8f0;
+  font-weight: 500;
+}
+.pf-flagship-proof {
+  margin: 0.35rem 0 0.55rem;
+  padding-left: 1.15rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.58;
+  color: #cbd5e1;
+  list-style-type: disc;
+}
+.pf-flagship-proof li {
+  margin-bottom: 0.42rem;
+}
+.pf-flagship-proof li::marker {
+  color: rgba(34, 211, 238, 0.8);
+}
+.pf-flagship-case .service__cta.portfolio-faux-cta {
+  align-self: flex-start;
+  margin-top: 0.35rem;
+  text-decoration: none;
+  display: inline-block;
+}
+@media (max-width: 900px) {
+  .pf-flagship-case {
+    grid-template-columns: 1fr;
+  }
+  .pf-flagship-case__visual {
+    border-right: 0;
+    border-bottom: 1px solid rgba(51, 65, 85, 0.65);
+  }
+  .pf-flagship-outcomes {
+    grid-template-columns: 1fr;
+  }
+}
+
+button.service__cta.portfolio-faux-cta,
+a.service__cta.portfolio-faux-cta {
   font: inherit;
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
 }
-button.service__cta.portfolio-faux-cta:focus-visible {
+button.service__cta.portfolio-faux-cta:focus-visible,
+a.service__cta.portfolio-faux-cta:focus-visible {
   outline: 2px solid rgba(34, 211, 238, 0.55);
   outline-offset: 3px;
 }
@@ -1144,7 +1311,8 @@ button.service__cta.portfolio-faux-cta:focus-visible {
   0%, 100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0); }
   50% { box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.14); }
 }
-.portfolio-embed-root button.service__cta.portfolio-faux-cta {
+.portfolio-embed-root button.service__cta.portfolio-faux-cta,
+.portfolio-embed-root a.service__cta.portfolio-faux-cta {
   animation: portfolio-faux-cta-ring 4.2s ease-in-out infinite;
 }
 </style>
@@ -1578,16 +1746,6 @@ const portfolioPanelShell = {
 const WORK_PRODUCT_CARDS = [
   {
     section: 'Case study',
-    meta: 'Enterprise client · end-to-end technical ownership',
-    title: 'Transportation Solutions & Lighting',
-    body:
-      'Transportation Solutions & Lighting supports surveillance and security operations across more than twenty campuses serving municipal, university, and federal environments. When I stepped in as Technical Systems Director, the company was scaling quickly without a unified cloud workflow, and dispatch operations still depended on manual triage.\n\nI designed and deployed a hybrid platform that connected Verkada, NXGO, Dropbox, Wasabi, and Google Cloud into a single event-driven pipeline. Motion events now route footage to client buckets for faster review, while AI-assisted overlays for face, vehicle, and location recognition generate operational datasets used for traffic-pattern planning. I also hardened a Windows Server environment that supports over one hundred concurrent IP camera streams on a 64-channel network.\n\nBeyond infrastructure, I built an automated work-order flow that parses camera uptime logs, flags outages, and generates service orders in ZOHO FSM, replacing repetitive manual dispatch.',
-    quote: '+300% site visibility, $1M+ annual revenue contribution, and approximately 10 hours/week of manual dispatch removed.',
-    cite: 'Combined outcomes across infrastructure, automation, and digital growth work (2025-present).',
-    mediaSrc: 'images/case-tsandl.webp',
-  },
-  {
-    section: 'Case study',
     meta: 'Personal startup · founder and full-stack engineer',
     title: 'CodeLink',
     body:
@@ -1609,6 +1767,11 @@ const WORK_PRODUCT_CARDS = [
 ];
 
 function WorkSection({ onNavigate }) {
+  const goContact = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    onNavigate('contact');
+  };
+
   return (
     <div data-theme="dark" className="portfolio-embed-root" style={portfolioPanelShell}>
       <main style={{ paddingTop: '1rem' }}>
@@ -1616,14 +1779,75 @@ function WorkSection({ onNavigate }) {
           <div className="container">
             <p className="small muted">Work</p>
             <h1 id="work-panel-title" className="title">
-              Selected <span className="accent">case studies</span>
+              Enterprise <span className="accent">Smart Infrastructure</span> Case Study
             </h1>
             <p className="lead">
-              A small portfolio of projects I&apos;ve architected, built, or operated end to end - ranging from
-              enterprise surveillance infrastructure to developer platforms and community tools. Each case study notes
-              my role, the problem, the approach, and the outcome. Additional projects are available on request.
+              Flagship client work: how unified cloud workflows, camera operations, and dispatch automation moved a
+              multi-campus surveillance operator from manual triage to measurable revenue and time back in the week.
             </p>
-            <div className="pf-work-products" aria-label="Selected case studies">
+
+            <div className="pf-flagship-wrap">
+              <p className="pf-flagship-framing">Enterprise Smart Infrastructure Case Study</p>
+              <article className="pf-flagship-case" aria-labelledby="flagship-tsl-title">
+                <div className="pf-flagship-case__visual">
+                  <div className="pf-flagship-browser">
+                    <div className="pf-flagship-browser__chrome" aria-hidden="true">
+                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--r" />
+                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--y" />
+                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--g" />
+                      <span className="pf-flagship-browser__url">transportationsolutionsandlighting.com</span>
+                    </div>
+                    <div className="pf-flagship-browser__viewport">
+                      <img
+                        src="assets/images/tsl-homepage-preview.jpg"
+                        alt="Transportation Solutions &amp; Lighting website homepage preview"
+                        width={1200}
+                        height={750}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="pf-flagship-case__content">
+                  <p className="small muted" style={{ margin: 0 }}>Case Study</p>
+                  <p className="small muted" style={{ margin: 0 }}>Enterprise client · end-to-end technical ownership</p>
+                  <h2 id="flagship-tsl-title">Transportation Solutions &amp; Lighting</h2>
+                  <p className="pf-flagship-lead">
+                    Multi-campus municipal, university, and federal surveillance environments needed one accountable
+                    systems layer—not another dashboard. I owned technical direction for cloud routing, high-volume IP
+                    camera infrastructure, and dispatch automation so operations, service, and sales could see the same
+                    truth without living in spreadsheets.
+                  </p>
+                  <ul className="pf-flagship-outcomes">
+                    <li>300%+ site visibility increase</li>
+                    <li>$1M+ annual revenue contribution supported</li>
+                    <li>10 hrs/week manual dispatch work reduced</li>
+                  </ul>
+                  <ul className="pf-flagship-proof">
+                    <li>Built cloud workflows for camera event routing and footage organization.</li>
+                    <li>Improved operational visibility across surveillance, service, and dispatch systems.</li>
+                    <li>Supported technical infrastructure for high-volume IP camera environments.</li>
+                    <li>Automated work-order logic for outages, service flags, and operational triage.</li>
+                  </ul>
+                  <a
+                    href="#contact"
+                    className="service__cta portfolio-faux-cta"
+                    onClick={goContact}
+                  >
+                    Build Something Similar
+                  </a>
+                </div>
+              </article>
+            </div>
+
+            <h2 className="accent" style={{ marginTop: '2.25rem', fontSize: 'clamp(1.05rem, 2vw, 1.25rem)' }}>
+              Additional case studies
+            </h2>
+            <p className="muted small" style={{ marginTop: '0.35rem', maxWidth: '40rem' }}>
+              Selected builds across product, platform, and community work.
+            </p>
+            <div className="pf-work-products" aria-label="Additional case studies">
               {WORK_PRODUCT_CARDS.map((card) => (
                 <article key={card.title} className="pf-work-product-card">
                   <div className="pf-service-card__media">
@@ -1647,7 +1871,7 @@ function WorkSection({ onNavigate }) {
                       className="service__cta portfolio-faux-cta"
                       onClick={() => onNavigate('contact')}
                     >
-                      Build Something Similar.
+                      Build Something Similar
                     </button>
                   </div>
                 </article>
@@ -2061,7 +2285,7 @@ function ContactSection({ onNavigate }) {
   return (
     <div data-theme="light" className="portfolio-embed-root pf-contact-embed" style={shellLight}>
       <main>
-        <section id="portfolio-contact" className="section section--soft">
+        <section id="contact" className="section section--soft">
           <div className="container">
             <div className="pf-contact-journey">
               <div className="pf-contact-step">
