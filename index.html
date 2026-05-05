@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Networks & Nodes — a studio practice by David Walker</title>
-<meta name="description" content="Networks & Nodes is a studio practice by David Walker, building fast, calm websites and the infrastructure that keeps them quietly reliable - for creatives, small businesses, and teams that need both sides done right.">
+<title>Networks & Nodes — business systems, websites, and automation</title>
+<meta name="description" content="Networks & Nodes helps owner-led businesses ship calm websites, dependable automation, and infrastructure you can audit—so your tools connect instead of fighting each other.">
 <link rel="canonical" href="https://www.networksandnodes.org/" />
-<meta property="og:title" content="Networks & Nodes — a studio practice by David Walker">
-<meta property="og:description" content="Fast, calm websites and the infrastructure that keeps them quietly reliable. Portfolio and studio work by David Walker.">
+<meta property="og:title" content="Networks & Nodes — business systems, websites, and automation">
+<meta property="og:description" content="Calm websites, honest SEO, workflow automation, and hardened systems for teams that need reliability—not scattered tools.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.networksandnodes.org/">
 <meta property="og:image" content="https://www.networksandnodes.org/images/og-default.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Networks & Nodes — a studio practice by David Walker">
-<meta name="twitter:description" content="Fast, calm websites and the infrastructure that keeps them quietly reliable.">
+<meta name="twitter:title" content="Networks & Nodes — business systems, websites, and automation">
+<meta name="twitter:description" content="Calm websites, honest SEO, workflow automation, and hardened systems for teams that need reliability—not scattered tools.">
 <meta name="twitter:image" content="https://www.networksandnodes.org/images/og-default.png">
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-image32x32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-image16x16.png" />
@@ -940,6 +940,108 @@ body { background: #0f172a !important; }
   margin-top: 0.25rem;
 }
 
+.pf-svc-hero-title {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(1.75rem, 4.2vw, 2.45rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color: #f8fafc;
+  margin: 0 0 1rem;
+  max-width: 40rem;
+}
+.pf-svc-block {
+  margin-top: 2.5rem;
+}
+.pf-svc-block__title {
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  font-weight: 600;
+  color: #f1f5f9;
+  margin: 0 0 0.75rem;
+}
+.pf-svc-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.35rem;
+  align-items: center;
+}
+.pf-svc-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 0.35rem;
+}
+.pf-svc-tile {
+  border-radius: 0.85rem;
+  border: 1px solid rgba(71, 85, 105, 0.55);
+  background: linear-gradient(165deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.88));
+  padding: 1.1rem 1.15rem;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+}
+.pf-svc-tile h4 {
+  margin: 0 0 0.5rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+.pf-svc-tile p {
+  margin: 0;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: #cbd5e1;
+}
+.pf-svc-process {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+  gap: 0.85rem;
+  margin-top: 0.35rem;
+}
+.pf-svc-process__step {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(71, 85, 105, 0.5);
+  padding: 1rem 0.95rem;
+  background: rgba(15, 23, 42, 0.65);
+}
+.pf-svc-process__num {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: rgba(248, 113, 113, 0.92);
+  font-family: "Inter", sans-serif;
+  margin-bottom: 0.35rem;
+}
+.pf-svc-process__step h4 {
+  margin: 0 0 0.4rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+.pf-svc-process__step p {
+  margin: 0;
+  font-size: 0.76rem;
+  line-height: 1.5;
+  color: #94a3b8;
+}
+.pf-svc-trust-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+}
+.portfolio-embed-root[data-theme="dark"] .btn.btn--ghost {
+  color: rgba(248, 250, 252, 0.9);
+  border-color: rgba(148, 163, 184, 0.42);
+}
+.portfolio-embed-root[data-theme="dark"] .btn.btn--ghost:hover {
+  border-color: rgba(201, 174, 122, 0.55);
+  color: #f8fafc;
+}
+
 .pf-work-products {
   display: flex;
   flex-direction: column;
@@ -1545,7 +1647,7 @@ function WorkSection({ onNavigate }) {
                       className="service__cta portfolio-faux-cta"
                       onClick={() => onNavigate('contact')}
                     >
-                      Discuss a similar project →
+                      Build Something Similar.
                     </button>
                   </div>
                 </article>
@@ -1629,7 +1731,12 @@ function CardMedia({ media, placeholder = 'Image or video' }) {
 }
 
 function ServicesSection({ onNavigate }) {
-  const SERVICES_WEB = [
+  const technicalAnchorRef = useRef(null);
+  const scrollToTechnical = () => {
+    technicalAnchorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const TECHNICAL_CAPABILITIES_WEB = [
     {
       title: 'Portfolio Sites',
       headline: 'Launching a new body of work, or finally retiring the portfolio you\'ve been apologizing for.',
@@ -1671,7 +1778,7 @@ function ServicesSection({ onNavigate }) {
     },
   ];
 
-  const SERVICES_INFRA = [
+  const TECHNICAL_CAPABILITIES_INFRA = [
     {
       title: 'Network Architecture & Secure Systems Design',
       headline: 'Designing a network that\'s secure, segmented, and documented well enough that the next engineer can take it over.',
@@ -1713,6 +1820,41 @@ function ServicesSection({ onNavigate }) {
     },
   ];
 
+  const whoForTiles = [
+    { title: 'Owner-led brands', body: 'You need a site and stack that match how you actually sell and operate—not a brochure that drifts out of date.' },
+    { title: 'Operations-heavy teams', body: 'Too much copy-paste between spreadsheets, CRMs, and inboxes. You want integrations that remove drag without adding fragility.' },
+    { title: 'Local growth businesses', body: 'You compete on visibility and trust in a real market. You want fundamentals done right: findability, proof, and a calm inquiry path.' },
+    { title: 'Product builders', body: 'You are shipping fast and need disciplined automation, hosting, and handoff docs your collaborators can trust.' },
+  ];
+
+  const coreOffers = [
+    {
+      title: 'Local Launch Kit',
+      body: 'A fast path to a credible local presence: site, core pages, fundamentals for search and maps, and a launch checklist your team can execute against.',
+    },
+    {
+      title: 'Growth Engine Plan',
+      body: 'Website plus measurable demand: technical SEO, structured content, analytics that answer real questions, and a practical update rhythm—not vanity metrics.',
+    },
+    {
+      title: 'Systems & Automation Sprint',
+      body: 'Connect the tools you already pay for; replace fragile manual workflows with monitored automations, logging, and runbooks you can hand to the next person.',
+    },
+  ];
+
+  const processSteps = [
+    { num: '01', title: 'Discovery', body: 'Align on goals, constraints, and what success looks like in the first 30–60 days—before build work locks you in.' },
+    { num: '02', title: 'Systems map', body: 'A written picture of the site, data, and integrations so tradeoffs are explicit and scope stays defensible.' },
+    { num: '03', title: 'Build & deploy', body: 'Shipping in milestones with staging, checks, and rollback-friendly changes—not a big-bang reveal.' },
+    { num: '04', title: 'Handoff & iterate', body: 'Documentation your team can use, plus a sensible path for improvements once real traffic and ops feedback arrive.' },
+  ];
+
+  const trustTiles = [
+    { title: 'One accountable partner', body: 'Planning, build, and operations context stay in one thread—less ping-pong between siloed vendors.' },
+    { title: 'Boring-by-design reliability', body: 'Fewer moving parts, explicit tradeoffs, and instrumentation so issues surface early instead of after hours.' },
+    { title: 'Scope you can defend', body: 'Fixed phases where it makes sense, honest ranges where discovery is still underway, and no mystery invoices.' },
+  ];
+
   const renderCard = (s) => (
     <article key={s.title} className="pf-service-card">
       <div className="pf-service-card__media">
@@ -1732,7 +1874,7 @@ function ServicesSection({ onNavigate }) {
           className="service__cta portfolio-faux-cta"
           onClick={() => onNavigate('contact')}
         >
-          Discuss a project →
+          Start This Project.
         </button>
       </div>
     </article>
@@ -1743,24 +1885,108 @@ function ServicesSection({ onNavigate }) {
       <main style={{ paddingTop: '1rem' }}>
         <section id="services" className="section">
           <div className="container">
-            <h2 className="accent">Services</h2>
+            <p className="small muted">Services</p>
+            <h1 className="pf-svc-hero-title">Your business needs systems, not scattered tools.</h1>
+            <p className="lead" style={{ maxWidth: '42rem', marginTop: 0 }}>
+              Your website, automations, and internal tools should connect—not fight each other. Networks &amp; Nodes
+              designs and ships calm systems for owner-led businesses: clear sites, honest SEO, integrations that save
+              hours, and infrastructure you can document and hand off.
+            </p>
+            <div className="pf-svc-hero-actions">
+              <button type="button" className="service__cta portfolio-faux-cta" onClick={() => onNavigate('contact')}>
+                Start a Project
+              </button>
+              <button type="button" className="btn btn--ghost" onClick={scrollToTechnical}>
+                View Services
+              </button>
+            </div>
+
+            <div className="pf-svc-block">
+              <h2 className="pf-svc-block__title">Who This Is For</h2>
+              <div className="pf-svc-card-grid">
+                {whoForTiles.map((t) => (
+                  <div key={t.title} className="pf-svc-tile">
+                    <h4>{t.title}</h4>
+                    <p>{t.body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="pf-svc-block">
+              <h2 className="pf-svc-block__title">Core Service Offers</h2>
+              <div className="pf-svc-card-grid">
+                {coreOffers.map((o) => (
+                  <div key={o.title} className="pf-svc-tile">
+                    <h4>{o.title}</h4>
+                    <p>{o.body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="pf-svc-block">
+              <h2 className="pf-svc-block__title">How It Works</h2>
+              <div className="pf-svc-process">
+                {processSteps.map((step) => (
+                  <div key={step.num} className="pf-svc-process__step">
+                    <span className="pf-svc-process__num">{step.num}</span>
+                    <h4>{step.title}</h4>
+                    <p>{step.body}</p>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: '1.35rem' }}>
+                <button type="button" className="service__cta portfolio-faux-cta" onClick={() => onNavigate('contact')}>
+                  Request a Systems Review
+                </button>
+              </div>
+            </div>
+
+            <h2
+              id="pf-services-technical"
+              ref={technicalAnchorRef}
+              className="accent"
+              style={{ marginTop: '2.75rem', scrollMarginTop: '1rem' }}
+            >
+              Technical Capabilities
+            </h2>
             <p className="muted small">
-              Two tracks of work that share one worldview. Web and portfolio projects for people who want their site
-              to feel as considered as the rest of their practice. Infrastructure, automation, and systems work for
-              teams who need reliability you can audit rather than hope for.
+              Detailed delivery patterns for web surfaces and for infrastructure work—same standards, different depth.
             </p>
 
-            <h3 className="accent" style={{ marginTop: '2.5rem' }}>Web &amp; Portfolio</h3>
-            <p className="muted small">Sites that respect the work they show, for creatives and small businesses.</p>
+            <h3 className="accent" style={{ marginTop: '1.5rem' }}>Web &amp; portfolio</h3>
+            <p className="muted small">Sites that load fast, read well on phones, and stay maintainable after launch.</p>
             <div className="pf-services-rail">
-              {SERVICES_WEB.map(renderCard)}
+              {TECHNICAL_CAPABILITIES_WEB.map(renderCard)}
             </div>
 
-            <h3 className="accent" style={{ marginTop: '3rem' }}>Infrastructure, Automation &amp; Systems</h3>
+            <h3 className="accent" style={{ marginTop: '3rem' }}>Infrastructure, automation &amp; systems</h3>
             <p className="muted small">For teams that need reliability you can audit rather than hope for.</p>
             <div className="pf-services-rail">
-              {SERVICES_INFRA.map(renderCard)}
+              {TECHNICAL_CAPABILITIES_INFRA.map(renderCard)}
             </div>
+
+            <div className="pf-svc-block">
+              <h2 className="pf-svc-block__title">Why Work With Networks &amp; Nodes</h2>
+              <div className="pf-svc-card-grid">
+                {trustTiles.map((t) => (
+                  <div key={t.title} className="pf-svc-tile">
+                    <h4>{t.title}</h4>
+                    <p>{t.body}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="pf-svc-trust-actions">
+                <button type="button" className="service__cta portfolio-faux-cta" onClick={() => onNavigate('contact')}>
+                  Start a Project
+                </button>
+                <button type="button" className="btn btn--ghost" onClick={() => onNavigate('contact')}>
+                  Request a Systems Review
+                </button>
+              </div>
+            </div>
+
             <SectionFooterNav onNavigate={onNavigate} prev="work" next="contact" />
           </div>
         </section>
@@ -1976,7 +2202,7 @@ function ContactSection({ onNavigate }) {
                           ) : null}
 
                           <button type="submit" className="btn btn--large pf-contact-form__submit" disabled={isSubmitting}>
-                            {isSubmitting ? 'Sending...' : 'Send'}
+                            {isSubmitting ? 'Sending...' : 'Send Project Details'}
                           </button>
                           <p className="pf-contact-form__fallback">
                             Or email me directly at <a href="mailto:david@networksandnodes.org">david@networksandnodes.org</a>
@@ -2412,7 +2638,7 @@ function App() {
         fontFamily: F,
       }}>
         <div className="hero-wordmark__primary">Networks &amp; Nodes</div>
-        <div className="hero-wordmark__secondary">a studio practice by David Walker</div>
+        <div className="hero-wordmark__secondary">business systems, websites, and automation</div>
       </div>
 
       {/* ── Crack % ── */}
