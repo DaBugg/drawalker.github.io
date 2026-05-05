@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Networks & Nodes — a studio practice by David Walker</title>
-<meta name="description" content="Networks & Nodes is a studio practice by David Walker, building fast, calm websites and the infrastructure that keeps them quietly reliable - for creatives, small businesses, and teams that need both sides done right.">
+<title>Networks & Nodes | Business systems, websites, and automation</title>
+<meta name="description" content="Networks & Nodes helps small businesses and growing teams solve operational problems with websites, analytics, automation, and practical technical systems.">
 <link rel="canonical" href="https://www.networksandnodes.org/" />
-<meta property="og:title" content="Networks & Nodes — a studio practice by David Walker">
-<meta property="og:description" content="Fast, calm websites and the infrastructure that keeps them quietly reliable. Portfolio and studio work by David Walker.">
+<meta property="og:title" content="Networks & Nodes | Business systems, websites, and automation">
+<meta property="og:description" content="Solve business problems with practical websites, automation, analytics, and technical systems support.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.networksandnodes.org/">
 <meta property="og:image" content="https://www.networksandnodes.org/images/og-default.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Networks & Nodes — a studio practice by David Walker">
-<meta name="twitter:description" content="Fast, calm websites and the infrastructure that keeps them quietly reliable.">
+<meta name="twitter:title" content="Networks & Nodes | Business systems, websites, and automation">
+<meta name="twitter:description" content="Business-first websites, automation, analytics, and infrastructure for small businesses and growing teams.">
 <meta name="twitter:image" content="https://www.networksandnodes.org/images/og-default.png">
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-image32x32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-image16x16.png" />
@@ -1545,7 +1545,7 @@ function WorkSection({ onNavigate }) {
                       className="service__cta portfolio-faux-cta"
                       onClick={() => onNavigate('contact')}
                     >
-                      Discuss a similar project →
+                      Build Something Similar
                     </button>
                   </div>
                 </article>
@@ -1629,7 +1629,7 @@ function CardMedia({ media, placeholder = 'Image or video' }) {
 }
 
 function ServicesSection({ onNavigate }) {
-  const SERVICES_WEB = [
+  const TECHNICAL_CAPABILITIES_WEB = [
     {
       title: 'Portfolio Sites',
       headline: 'Launching a new body of work, or finally retiring the portfolio you\'ve been apologizing for.',
@@ -1671,7 +1671,7 @@ function ServicesSection({ onNavigate }) {
     },
   ];
 
-  const SERVICES_INFRA = [
+  const TECHNICAL_CAPABILITIES_INFRA = [
     {
       title: 'Network Architecture & Secure Systems Design',
       headline: 'Designing a network that\'s secure, segmented, and documented well enough that the next engineer can take it over.',
@@ -1732,7 +1732,7 @@ function ServicesSection({ onNavigate }) {
           className="service__cta portfolio-faux-cta"
           onClick={() => onNavigate('contact')}
         >
-          Discuss a project →
+          Start This Project
         </button>
       </div>
     </article>
@@ -1743,23 +1743,80 @@ function ServicesSection({ onNavigate }) {
       <main style={{ paddingTop: '1rem' }}>
         <section id="services" className="section">
           <div className="container">
-            <h2 className="accent">Services</h2>
-            <p className="muted small">
-              Two tracks of work that share one worldview. Web and portfolio projects for people who want their site
-              to feel as considered as the rest of their practice. Infrastructure, automation, and systems work for
-              teams who need reliability you can audit rather than hope for.
+            <h1 className="title" style={{ marginBottom: '0.75rem' }}>Your business needs systems, not scattered tools.</h1>
+            <p className="lead" style={{ maxWidth: '52rem' }}>
+              Networks &amp; Nodes helps small businesses, founders, and growing teams build websites,
+              automation, analytics, and AI-ready infrastructure that connect directly to business operations.
             </p>
+            <div className="hero-actions" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', margin: '1.5rem 0 2.25rem' }}>
+              <button type="button" className="service__cta portfolio-faux-cta" onClick={() => onNavigate('contact')}>Start a Project</button>
+              <button type="button" className="service__cta portfolio-faux-cta" onClick={() => onNavigate('services')}>View Services</button>
+            </div>
 
-            <h3 className="accent" style={{ marginTop: '2.5rem' }}>Web &amp; Portfolio</h3>
-            <p className="muted small">Sites that respect the work they show, for creatives and small businesses.</p>
+            <h2 className="accent">Who This Is For</h2>
+            <p className="muted small">Built for businesses that need practical technology systems.</p>
             <div className="pf-services-rail">
-              {SERVICES_WEB.map(renderCard)}
+              {[
+                ['Local Businesses', 'Need a credible website, local search presence, and simple systems to capture leads.'],
+                ['Growing Teams', 'Need to replace manual work, messy spreadsheets, and disconnected tools.'],
+                ['Founders & Builders', 'Need help turning an idea into a working MVP, internal platform, or prototype.'],
+                ['AI-Ready Businesses', 'Want automation or AI, but need data, workflows, and infrastructure cleaned up first.'],
+              ].map(([title, body]) => (
+                <article key={title} className="pf-service-card">
+                  <div className="pf-service-card__body"><h3>{title}</h3><p>{body}</p></div>
+                </article>
+              ))}
+            </div>
+
+            <h2 className="accent" style={{ marginTop: '2rem' }}>Core Service Offers</h2>
+            <p className="muted small">Three clear ways to buy based on business stage and operational need.</p>
+            <div className="pf-services-rail">
+              {[
+                ['Local Launch Kit', 'For small businesses that need to look legitimate online.', 'Website or landing page · Mobile responsive design · Contact form · Google Business Profile support · Basic SEO · Analytics setup · Local credibility improvements', 'Start a Local Launch'],
+                ['Growth Engine Plan', 'For businesses with a website that need stronger systems and measurement.', 'Website upgrades · SEO/content structure · Analytics dashboard · Lead tracking · CRM setup · Monthly reporting · Conversion improvements', 'Build a Growth Engine'],
+                ['Systems & Automation Sprint', 'For teams with repetitive work and disconnected tools.', 'Workflow audit · Automation planning · Python/Node scripts · API integrations · Internal dashboards · Data collection systems · Documentation and handoff', 'Plan an Automation Sprint'],
+              ].map(([title, fit, includes, cta]) => (
+                <article key={title} className="pf-service-card">
+                  <div className="pf-service-card__body">
+                    <h3>{title}</h3><p><strong>{fit}</strong></p><p className="small muted"><strong>Includes:</strong> {includes}</p>
+                    <button type="button" className="service__cta portfolio-faux-cta" onClick={() => onNavigate('contact')}>{cta}</button>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <h2 className="accent" style={{ marginTop: '2rem' }}>How It Works</h2>
+            <p className="muted small">Every engagement starts with the business problem first, then the right technical solution.</p>
+            <div className="pf-services-rail">
+              {[
+                ['01 Discovery', 'We identify the business goal, current systems, pain points, and best next step.'],
+                ['02 Audit & Scope', 'Website, workflows, tools, data, and infrastructure are reviewed before building.'],
+                ['03 Build', 'The site, dashboard, automation, integration, or system is designed and implemented.'],
+                ['04 Handoff', 'You receive documentation, training, and recommendations for what to improve next.'],
+              ].map(([title, body]) => (
+                <article key={title} className="pf-service-card"><div className="pf-service-card__body"><h3>{title}</h3><p>{body}</p></div></article>
+              ))}
+            </div>
+            <button type="button" className="service__cta portfolio-faux-cta" onClick={() => onNavigate('contact')} style={{ marginTop: '1rem' }}>Request a Systems Review</button>
+
+            <h3 className="accent" style={{ marginTop: '3rem' }}>Technical Capabilities</h3>
+            <p className="muted small">Delivery depth that supports the offers above.</p>
+            <div className="pf-services-rail">
+              {TECHNICAL_CAPABILITIES_WEB.map(renderCard)}
             </div>
 
             <h3 className="accent" style={{ marginTop: '3rem' }}>Infrastructure, Automation &amp; Systems</h3>
             <p className="muted small">For teams that need reliability you can audit rather than hope for.</p>
             <div className="pf-services-rail">
-              {SERVICES_INFRA.map(renderCard)}
+              {TECHNICAL_CAPABILITIES_INFRA.map(renderCard)}
+            </div>
+            <h3 className="accent" style={{ marginTop: '3rem' }}>Why Work With Networks &amp; Nodes</h3>
+            <div className="pf-services-rail">
+              {[
+                ['Business-first systems', 'Every project starts with the operational problem, not a software trend.'],
+                ['Cross-functional technical skill', 'Web development, automation, analytics, infrastructure, and AI-readiness are handled together.'],
+                ['Built for handoff', 'Projects include documentation and clear next steps so your team can maintain momentum.'],
+              ].map(([title, body]) => <article key={title} className="pf-service-card"><div className="pf-service-card__body"><h3>{title}</h3><p>{body}</p><button type="button" className="service__cta portfolio-faux-cta" onClick={() => onNavigate('contact')}>Start This Project</button></div></article>)}
             </div>
             <SectionFooterNav onNavigate={onNavigate} prev="work" next="contact" />
           </div>
@@ -1976,7 +2033,7 @@ function ContactSection({ onNavigate }) {
                           ) : null}
 
                           <button type="submit" className="btn btn--large pf-contact-form__submit" disabled={isSubmitting}>
-                            {isSubmitting ? 'Sending...' : 'Send'}
+                            {isSubmitting ? 'Sending...' : 'Send Project Details'}
                           </button>
                           <p className="pf-contact-form__fallback">
                             Or email me directly at <a href="mailto:david@networksandnodes.org">david@networksandnodes.org</a>
