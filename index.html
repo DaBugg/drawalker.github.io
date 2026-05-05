@@ -1033,6 +1033,152 @@ body { background: #0f172a !important; }
   gap: 0.65rem;
   margin-top: 1.25rem;
 }
+
+/* Services: video-first grid + three-path offers */
+.pf-svc-video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 1.15rem;
+  margin-top: 1.75rem;
+}
+.pf-svc-video-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(71, 85, 105, 0.55);
+  background: linear-gradient(165deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.88));
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease;
+}
+.pf-svc-video-card:hover {
+  border-color: rgba(34, 211, 238, 0.55);
+  box-shadow:
+    0 0 0 1px rgba(34, 211, 238, 0.22),
+    0 14px 36px rgba(0, 0, 0, 0.38);
+  transform: translateY(-2px);
+}
+.pf-svc-video-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #0f172a;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.65);
+}
+.pf-svc-video-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.pf-svc-video-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  padding: 1rem 1.05rem 1.1rem;
+}
+.pf-svc-video-card__body h3 {
+  margin: 0;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  line-height: 1.3;
+}
+.pf-svc-video-card__body p {
+  margin: 0;
+  flex: 1 1 auto;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: #cbd5e1;
+}
+.pf-svc-video-card__cta {
+  align-self: flex-start;
+  margin-top: 0.15rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #22d3ee;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.pf-svc-video-card__cta:hover {
+  color: #67e8f9;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.pf-svc-offer-intro {
+  max-width: 44rem;
+}
+.pf-svc-offer-intro .lead {
+  margin-bottom: 0.35rem;
+}
+.pf-svc-offer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 1rem;
+  margin-top: 0.85rem;
+}
+.pf-svc-offer-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(71, 85, 105, 0.55);
+  background: linear-gradient(165deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.88));
+  padding: 1.15rem 1.2rem 1.2rem;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+  scroll-margin-top: 1rem;
+}
+.pf-svc-offer-card h3 {
+  margin: 0;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+.pf-svc-offer-card > p {
+  margin: 0;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: #cbd5e1;
+}
+.pf-svc-offer-card__includes-label {
+  margin: 0.1rem 0 0;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.95);
+}
+.pf-svc-offer-card ul {
+  margin: 0;
+  padding: 0 0 0 1.1rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: #94a3b8;
+}
+.pf-svc-offer-card li {
+  margin-bottom: 0.22rem;
+}
+.pf-svc-offer-card li:last-child {
+  margin-bottom: 0;
+}
+.pf-svc-offer-card .service__cta {
+  margin-top: 0.35rem;
+  align-self: flex-start;
+}
+
 .portfolio-embed-root[data-theme="dark"] .btn.btn--ghost {
   color: rgba(248, 250, 252, 0.9);
   border-color: rgba(148, 163, 184, 0.42);
@@ -1471,11 +1617,25 @@ body { background: #0f172a !important; }
   .pf-featured-card__body {
     text-align: center;
   }
+  .pf-featured-card__desc,
+  .pf-featured-card__callout,
+  .pf-featured-card__callout-sub {
+    text-align: center;
+    margin-inline: auto;
+    width: min(100%, 38rem);
+  }
+  .pf-featured-metrics {
+    grid-template-columns: 1fr;
+    width: min(100%, 24rem);
+    margin-inline: auto;
+  }
   .pf-featured-metrics li {
     text-align: center;
   }
   .pf-featured-proof {
-    text-align: left;
+    text-align: center;
+    list-style-position: inside;
+    padding-left: 0;
     margin-inline: auto;
     max-width: 36rem;
   }
@@ -1486,8 +1646,9 @@ body { background: #0f172a !important; }
     justify-content: center;
     align-self: center;
   }
-  .pf-featured-metrics {
-    grid-template-columns: 1fr;
+  .pf-featured-builds__footnote {
+    text-align: center;
+    margin-inline: auto;
   }
 }
 
@@ -1566,7 +1727,7 @@ body { background: #0f172a !important; }
     margin-inline: auto;
   }
   .portfolio-embed-root .pf-featured-builds__footnote {
-    text-align: left;
+    text-align: center;
     margin-inline: auto;
     max-width: 42rem;
   }
@@ -2302,218 +2463,97 @@ function WorkSection({ onNavigate }) {
   );
 }
 
-function CardMedia({ media, placeholder = 'Image or video' }) {
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const hasMedia = media && (media.src || media.playbackId);
-  if (!hasMedia) {
-    return <div className="pf-service-card__media-placeholder">{placeholder}</div>;
-  }
-
-  if (media.type === 'image') {
-    return (
-      <img
-        src={media.src}
-        alt={media.alt || ''}
-        loading="lazy"
-      />
-    );
-  }
-
-  if (media.type === 'mux-gif') {
-    return (
-      <img
-        src={`https://image.mux.com/${media.playbackId}/animated.gif?width=640&fps=8`}
-        alt={media.alt || ''}
-        loading="lazy"
-      />
-    );
-  }
-
-  if (media.type === 'mux-video') {
-    if (!isPlaying) {
-      return (
-        <button
-          type="button"
-          className="pf-service-card__media-playtrigger"
-          onClick={() => setIsPlaying(true)}
-          aria-label={`Play ${media.alt || 'video preview'}`}
-        >
-          <img
-            src={`https://image.mux.com/${media.playbackId}/thumbnail.webp?time=2&width=1280&height=720&fit_mode=smartcrop`}
-            alt={media.alt || ''}
-            loading="lazy"
-          />
-          <span className="pf-service-card__play-icon" aria-hidden="true">
-            <span />
-          </span>
-        </button>
-      );
-    }
-
-    return (
-      <iframe
-        src={`https://player.mux.com/${media.playbackId}?autoplay=true`}
-        title={media.alt || 'Video preview'}
-        loading="lazy"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-        allowFullScreen
-      />
-    );
-  }
-
-  return <div className="pf-service-card__media-placeholder">{placeholder}</div>;
-}
-
 function ServicesSection({ onNavigate }) {
-  const technicalAnchorRef = useRef(null);
-  const scrollToTechnical = () => {
-    technicalAnchorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const goContact = (e) => {
+    e.preventDefault();
+    onNavigate('contact');
   };
 
-  const TECHNICAL_CAPABILITIES_WEB = [
+  const scrollToOffer = (id) => (e) => {
+    e.preventDefault();
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const muxAllow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen';
+
+  const serviceVideos = [
     {
-      title: 'Portfolio Sites',
-      headline: 'Launching a new body of work, or finally retiring the portfolio you\'ve been apologizing for.',
-      body: 'A portfolio site should get out of the way of the work. That means fast loading even on images-heavy pages, type that reads well next to photographs or artworks, inquiry flows that feel respectful rather than pushy, and mobile layouts where the work still leads. I build from scratch or redesign an existing site, and I handle hosting, deployment, and SEO fundamentals so the site keeps working after launch without constant attention.',
-      deliverables: 'A fully designed, built, and deployed portfolio site with the pages you actually need. Performance optimization, mobile-first responsive layout, basic SEO and Open Graph setup, and a simple CMS or file-based content structure you can update without calling me every time.',
-      engagement: 'Typically four to eight weeks from first conversation to launch.',
-      investment: 'Projects typically begin at $3,500.',
-      media: {
-        type: 'mux-video',
-        playbackId: 'bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM',
-        alt: 'Portfolio website preview',
-      },
+      title: 'Launch Your Digital Foundation',
+      copy: 'For businesses that need a clean website, clear service positioning, local visibility, and a simple path for customers to take action.',
+      src: 'https://player.mux.com/bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM',
+      cta: 'Explore Local Launch',
+      offerId: 'offer-local-launch',
     },
     {
-      title: 'Small-Business Web Presence',
-      headline: 'Replacing a website that\'s been costing you leads instead of earning them.',
-      body: 'Most small-business sites are either inherited and never updated or built from templates that aged badly. A rebuild or refresh done well should lift inbound inquiries, rank better for the searches your customers actually use, and give you a site you are happy to share.',
-      deliverables: 'A rebuilt or refreshed site with clear service descriptions, working contact flows, trust signals, analytics setup, and SEO fundamentals tuned to your local market or niche. Includes deployment guidance and handoff documentation.',
-      engagement: 'Typically three to six weeks for a refresh, five to ten for a full rebuild.',
-      investment: 'Refreshes typically begin at $2,800. Full rebuilds typically begin at $5,500.',
-      media: {
-        type: 'mux-video',
-        playbackId: '00w302YUzDdVCVmb3RYncHB201Esego5J4Om1YlANIcseo',
-        alt: 'Small business website preview',
-      },
+      title: 'Turn Your Website Into a Growth System',
+      copy: 'For businesses that need better tracking, lead flow, analytics, content structure, and conversion paths instead of a website that just sits there.',
+      src: 'https://player.mux.com/FghhBbV00fPiIiubZGEC00vCec02LmQdg00fZy9NVX00MnA8',
+      cta: 'Explore Growth Systems',
+      offerId: 'offer-growth-engine',
     },
     {
-      title: 'SEO & Content Strategy',
-      headline: 'Getting found by the right people, without promises of magic rankings.',
-      body: 'Technical SEO is the foundation, but it only works if the content answers questions your audience is searching for. I handle both sides: audit, implementation of technical fixes, and practical content strategy.',
-      deliverables: 'A written audit identifying technical, structural, and content issues; implementation of technical fixes; and a keyword/content strategy document for your team or me to execute against.',
-      engagement: 'Audits typically take two to three weeks. Implementation adds another three to six weeks.',
-      investment: 'Audits typically begin at $1,800. Ongoing engagements are typically $1,500-$3,500 per month.',
-      media: {
-        type: 'image',
-        src: 'images/service-seo-dashboard.webp',
-        alt: 'SEO dashboard and content strategy preview',
-      },
+      title: 'Automate Repetitive Work',
+      copy: 'For teams losing time to spreadsheets, manual dispatch, repeated data entry, disconnected tools, or workflows that should not still depend on human copy-paste.',
+      src: 'https://player.mux.com/8jivLSnoyaDu01mP02iAX1elHaO026zrQ0200pvjGoIeN4mU',
+      cta: 'Explore Automation',
+      offerId: 'offer-systems-automation',
+    },
+    {
+      title: 'Prepare for AI-Ready Operations',
+      copy: 'For businesses that want to use AI or smarter systems, but first need better data structure, cleaner workflows, and more reliable infrastructure.',
+      src: 'https://player.mux.com/EbDl00U8531qaMnSoynVZI01V02ydAyIqeHzG',
+      cta: 'Explore AI Readiness',
+      offerId: 'offer-systems-automation',
     },
   ];
 
-  const TECHNICAL_CAPABILITIES_INFRA = [
+  const offers = [
     {
-      title: 'Network Architecture & Secure Systems Design',
-      headline: 'Designing a network that\'s secure, segmented, and documented well enough that the next engineer can take it over.',
-      body: 'For teams that have outgrown consumer-grade networking or need to handle sensitive data without cutting corners, this engagement yields a fit-for-purpose design, documentation that survives handoff, and deployment using hardened baselines rather than vendor defaults.',
-      deliverables: 'Network design documentation, router/switch/firewall configuration, site-to-site VPN setup where needed, monitoring and logging setup, and usable handoff documentation.',
-      engagement: 'Single-site work is often two to four weeks; multi-site deployments can run six to twelve weeks.',
-      investment: 'Starts at $4,500 for single-site engagements. Multi-site scopes are estimated individually.',
-      media: {
-        type: 'image',
-        src: 'images/service-network-topology.svg',
-        alt: 'Secure network architecture diagram',
-      },
-    },
-    {
-      title: 'Custom Automation & Workflow Tooling',
-      headline: 'Building the quiet scripts that save your team ten hours a week.',
-      body: 'Most operational pain in growing businesses is repetitive manual work. Custom automations, integrations, and workflow tooling create measurable leverage by removing bottlenecks across systems your team already uses.',
-      deliverables: 'Scoped automation or integration delivered as deployable code, plus documentation, runbook support, and monitoring hooks.',
-      engagement: 'Small automations usually ship in one to two weeks; larger integrations run two to six weeks.',
-      investment: 'Small automations typically begin at $1,200. Larger tools scale with scope.',
-      media: {
-        type: 'image',
-        src: 'images/service-automation-flow.svg',
-        alt: 'Automation workflow diagram',
-      },
-    },
-    {
-      title: 'AI & Infrastructure Consulting',
-      headline: 'Figuring out what AI should and should not do in your existing operations, and integrating it responsibly when it should.',
-      body: 'Useful AI integration is not hype. It is clear evaluation of what helps now, what should wait, and how to implement without creating dependencies your team cannot inspect or maintain.',
-      deliverables: 'A written readiness assessment, proof-of-concept implementation for approved integrations, and team-facing documentation/training.',
-      engagement: 'Readiness assessments typically run two to three weeks. Implementation adds three to eight weeks.',
-      investment: 'Assessments typically begin at $2,500. Implementation scales by scope.',
-      media: {
-        type: 'image',
-        src: 'images/service-ai-infra-map.svg',
-        alt: 'AI infrastructure consulting diagram',
-      },
-    },
-  ];
-
-  const whoForTiles = [
-    { title: 'Owner-led brands', body: 'You need a site and stack that match how you actually sell and operate—not a brochure that drifts out of date.' },
-    { title: 'Operations-heavy teams', body: 'Too much copy-paste between spreadsheets, CRMs, and inboxes. You want integrations that remove drag without adding fragility.' },
-    { title: 'Local growth businesses', body: 'You compete on visibility and trust in a real market. You want fundamentals done right: findability, proof, and a calm inquiry path.' },
-    { title: 'Product builders', body: 'You are shipping fast and need disciplined automation, hosting, and handoff docs your collaborators can trust.' },
-  ];
-
-  const coreOffers = [
-    {
+      id: 'offer-local-launch',
       title: 'Local Launch Kit',
-      body: 'A fast path to a credible local presence: site, core pages, fundamentals for search and maps, and a launch checklist your team can execute against.',
+      copy: 'For local businesses that need to look legitimate, explain their services clearly, and turn visitors into calls, forms, or quote requests.',
+      includes: [
+        'Website or landing page',
+        'Mobile-first layout',
+        'Service positioning',
+        'Contact and quote flow',
+        'Basic SEO structure',
+        'Analytics setup',
+        'Local visibility support',
+      ],
+      cta: 'Start a Local Launch',
     },
     {
-      title: 'Growth Engine Plan',
-      body: 'Website plus measurable demand: technical SEO, structured content, analytics that answer real questions, and a practical update rhythm—not vanity metrics.',
+      id: 'offer-growth-engine',
+      title: 'Growth Engine',
+      copy: 'For businesses with an existing website or customer flow that needs better tracking, clearer funnels, stronger content structure, and measurable improvement.',
+      includes: [
+        'Website improvements',
+        'Lead tracking',
+        'Analytics dashboards',
+        'SEO/content structure',
+        'CRM or form routing',
+        'Conversion improvements',
+        'Reporting setup',
+      ],
+      cta: 'Build a Growth Engine',
     },
     {
-      title: 'Systems & Automation Sprint',
-      body: 'Connect the tools you already pay for; replace fragile manual workflows with monitored automations, logging, and runbooks you can hand to the next person.',
+      id: 'offer-systems-automation',
+      title: 'Systems & Automation',
+      copy: 'For teams that are losing time to manual work, disconnected tools, messy data, or workflows that need to be cleaned up and automated.',
+      includes: [
+        'Workflow audit',
+        'Automation planning',
+        'Python or Node.js scripts',
+        'API integrations',
+        'Internal dashboards',
+        'Cloud workflow support',
+        'Documentation and handoff',
+      ],
+      cta: 'Plan an Automation Sprint',
     },
   ];
-
-  const processSteps = [
-    { num: '01', title: 'Discovery', body: 'Align on goals, constraints, and what success looks like in the first 30–60 days—before build work locks you in.' },
-    { num: '02', title: 'Systems map', body: 'A written picture of the site, data, and integrations so tradeoffs are explicit and scope stays defensible.' },
-    { num: '03', title: 'Build & deploy', body: 'Shipping in milestones with staging, checks, and rollback-friendly changes—not a big-bang reveal.' },
-    { num: '04', title: 'Handoff & iterate', body: 'Documentation your team can use, plus a sensible path for improvements once real traffic and ops feedback arrive.' },
-  ];
-
-  const trustTiles = [
-    { title: 'One accountable partner', body: 'Planning, build, and operations context stay in one thread—less ping-pong between siloed vendors.' },
-    { title: 'Boring-by-design reliability', body: 'Fewer moving parts, explicit tradeoffs, and instrumentation so issues surface early instead of after hours.' },
-    { title: 'Scope you can defend', body: 'Fixed phases where it makes sense, honest ranges where discovery is still underway, and no mystery invoices.' },
-  ];
-
-  const renderCard = (s) => (
-    <article key={s.title} className="pf-service-card">
-      <div className="pf-service-card__media">
-        <CardMedia media={s.media} />
-      </div>
-      <div className="pf-service-card__body">
-        <h3>{s.title}</h3>
-        <p className="pf-service-card__headline" style={{ fontStyle: 'italic', color: '#e2e8f0' }}>
-          {s.headline}
-        </p>
-        <p>{s.body}</p>
-        <p className="small muted"><strong>Deliverables:</strong> {s.deliverables}</p>
-        <p className="small muted"><strong>Engagement:</strong> {s.engagement}</p>
-        <p className="small muted"><strong>Investment:</strong> {s.investment}</p>
-        <button
-          type="button"
-          className="service__cta portfolio-faux-cta"
-          onClick={() => onNavigate('contact')}
-        >
-          Start This Project.
-        </button>
-      </div>
-    </article>
-  );
 
   return (
     <div data-theme="dark" className="portfolio-embed-root" style={portfolioPanelShell}>
@@ -2521,104 +2561,62 @@ function ServicesSection({ onNavigate }) {
         <section id="services" className="section">
           <div className="container">
             <p className="small muted">Services</p>
-            <h1 className="pf-svc-hero-title">Your business needs systems, not scattered tools.</h1>
-            <p className="lead" style={{ maxWidth: '42rem', marginTop: 0 }}>
-              Your website, automations, and internal tools should connect—not fight each other. Networks &amp; Nodes
-              designs and ships calm systems for owner-led businesses: clear sites, honest SEO, integrations that save
-              hours, and infrastructure you can document and hand off.
+            <h1 className="pf-svc-hero-title">
+              Websites, automation, and business systems built around how you actually operate.
+            </h1>
+            <p className="lead" style={{ maxWidth: '44rem', marginTop: 0 }}>
+              Networks &amp; Nodes helps businesses move from scattered tools and manual workflows to connected digital
+              systems — from local business websites to automation, analytics, cloud workflows, and AI-ready
+              infrastructure.
             </p>
             <div className="pf-svc-hero-actions">
-              <button type="button" className="service__cta portfolio-faux-cta" onClick={() => onNavigate('contact')}>
-                Start a Project
-              </button>
-              <button type="button" className="btn btn--ghost" onClick={scrollToTechnical}>
-                View Services
-              </button>
+              <a href="#contact" className="service__cta portfolio-faux-cta" onClick={goContact}>
+                Request a Systems Review
+              </a>
             </div>
 
-            <div className="pf-svc-block">
-              <h2 className="pf-svc-block__title">Who This Is For</h2>
-              <div className="pf-svc-card-grid">
-                {whoForTiles.map((t) => (
-                  <div key={t.title} className="pf-svc-tile">
-                    <h4>{t.title}</h4>
-                    <p>{t.body}</p>
+            <div className="pf-svc-video-grid">
+              {serviceVideos.map((v) => (
+                <article key={v.title} className="pf-svc-video-card">
+                  <div className="pf-svc-video-wrap">
+                    <iframe src={v.src} title={v.title} loading="lazy" allow={muxAllow} allowFullScreen />
                   </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="pf-svc-block">
-              <h2 className="pf-svc-block__title">Core Service Offers</h2>
-              <div className="pf-svc-card-grid">
-                {coreOffers.map((o) => (
-                  <div key={o.title} className="pf-svc-tile">
-                    <h4>{o.title}</h4>
-                    <p>{o.body}</p>
+                  <div className="pf-svc-video-card__body">
+                    <h3>{v.title}</h3>
+                    <p>{v.copy}</p>
+                    <a href={`#${v.offerId}`} className="pf-svc-video-card__cta" onClick={scrollToOffer(v.offerId)}>
+                      {v.cta}
+                    </a>
                   </div>
+                </article>
+              ))}
+            </div>
+
+            <div id="services-offers" className="pf-svc-block">
+              <h2 className="pf-svc-block__title">Choose the right starting point.</h2>
+              <div className="pf-svc-offer-intro">
+                <p className="lead muted" style={{ maxWidth: '44rem', marginTop: 0 }}>
+                  Every business does not need the same build. Some need a clean local website. Some need better
+                  analytics and lead tracking. Others need automation, dashboards, cloud workflows, or AI-ready
+                  infrastructure. These three paths keep the process simple.
+                </p>
+              </div>
+              <div className="pf-svc-offer-grid">
+                {offers.map((o) => (
+                  <article key={o.id} id={o.id} className="pf-svc-offer-card">
+                    <h3>{o.title}</h3>
+                    <p>{o.copy}</p>
+                    <p className="pf-svc-offer-card__includes-label">Includes</p>
+                    <ul>
+                      {o.includes.map((line) => (
+                        <li key={line}>{line}</li>
+                      ))}
+                    </ul>
+                    <a href="#contact" className="service__cta portfolio-faux-cta" onClick={goContact}>
+                      {o.cta}
+                    </a>
+                  </article>
                 ))}
-              </div>
-            </div>
-
-            <div className="pf-svc-block">
-              <h2 className="pf-svc-block__title">How It Works</h2>
-              <div className="pf-svc-process">
-                {processSteps.map((step) => (
-                  <div key={step.num} className="pf-svc-process__step">
-                    <span className="pf-svc-process__num">{step.num}</span>
-                    <h4>{step.title}</h4>
-                    <p>{step.body}</p>
-                  </div>
-                ))}
-              </div>
-              <div style={{ marginTop: '1.35rem' }}>
-                <button type="button" className="service__cta portfolio-faux-cta" onClick={() => onNavigate('contact')}>
-                  Request a Systems Review
-                </button>
-              </div>
-            </div>
-
-            <h2
-              id="pf-services-technical"
-              ref={technicalAnchorRef}
-              className="accent"
-              style={{ marginTop: '2.75rem', scrollMarginTop: '1rem' }}
-            >
-              Technical Capabilities
-            </h2>
-            <p className="muted small">
-              Detailed delivery patterns for web surfaces and for infrastructure work—same standards, different depth.
-            </p>
-
-            <h3 className="accent" style={{ marginTop: '1.5rem' }}>Web &amp; portfolio</h3>
-            <p className="muted small">Sites that load fast, read well on phones, and stay maintainable after launch.</p>
-            <div className="pf-services-rail">
-              {TECHNICAL_CAPABILITIES_WEB.map(renderCard)}
-            </div>
-
-            <h3 className="accent" style={{ marginTop: '3rem' }}>Infrastructure, automation &amp; systems</h3>
-            <p className="muted small">For teams that need reliability you can audit rather than hope for.</p>
-            <div className="pf-services-rail">
-              {TECHNICAL_CAPABILITIES_INFRA.map(renderCard)}
-            </div>
-
-            <div className="pf-svc-block">
-              <h2 className="pf-svc-block__title">Why Work With Networks &amp; Nodes</h2>
-              <div className="pf-svc-card-grid">
-                {trustTiles.map((t) => (
-                  <div key={t.title} className="pf-svc-tile">
-                    <h4>{t.title}</h4>
-                    <p>{t.body}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="pf-svc-trust-actions">
-                <button type="button" className="service__cta portfolio-faux-cta" onClick={() => onNavigate('contact')}>
-                  Start a Project
-                </button>
-                <button type="button" className="btn btn--ghost" onClick={() => onNavigate('contact')}>
-                  Request a Systems Review
-                </button>
               </div>
             </div>
 
