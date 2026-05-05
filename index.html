@@ -1284,6 +1284,17 @@ body { background: #0f172a !important; }
   text-decoration: none;
   display: inline-block;
 }
+@media (min-width: 901px) {
+  .pf-flagship-case__visual {
+    align-items: center;
+    justify-content: center;
+  }
+  .pf-flagship-browser {
+    flex: 0 1 auto;
+    align-self: center;
+    width: 100%;
+  }
+}
 @media (max-width: 900px) {
   .pf-flagship-case {
     grid-template-columns: 1fr;
@@ -1291,9 +1302,98 @@ body { background: #0f172a !important; }
   .pf-flagship-case__visual {
     border-right: 0;
     border-bottom: 1px solid rgba(51, 65, 85, 0.65);
+    align-items: center;
+    justify-content: center;
+  }
+  .pf-flagship-case__content {
+    text-align: center;
+  }
+  .pf-flagship-case .pf-flagship-proof {
+    text-align: left;
+    margin-inline: auto;
+    max-width: 36rem;
+  }
+  .pf-flagship-case .service__cta.portfolio-faux-cta {
+    align-self: center;
   }
   .pf-flagship-outcomes {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .portfolio-panel-body {
+    padding-inline: clamp(0.65rem, 3.5vw, 1rem);
+  }
+  .portfolio-embed-root main .section > .container {
+    text-align: center;
+  }
+  .portfolio-embed-root .pf-section-footer-nav {
+    justify-content: center;
+  }
+  .portfolio-embed-root .pf-work-product-card .pf-service-card__body {
+    text-align: center;
+  }
+  .portfolio-embed-root .pf-work-product-card .pf-service-card__body .service__cta {
+    align-self: center;
+    margin-inline: auto;
+  }
+  .portfolio-embed-root .pf-work-product-card .pf-service-card__quote,
+  .portfolio-embed-root .pf-work-product-card .pf-service-card__cite {
+    text-align: left;
+    margin-inline: auto;
+    max-width: 32rem;
+  }
+  .portfolio-embed-root .pf-svc-hero-actions,
+  .portfolio-embed-root .pf-svc-trust-actions {
+    justify-content: center;
+  }
+  .portfolio-embed-root .pf-service-card__body {
+    text-align: center;
+  }
+  .portfolio-embed-root .pf-service-card__body .service__cta {
+    align-self: center;
+    margin-inline: auto;
+  }
+  .about-embed-root .pf-about {
+    text-align: center;
+  }
+  .about-embed-root .pf-connect__list {
+    justify-content: center;
+  }
+  .about-embed-root .pf-reading {
+    justify-items: center;
+    text-align: center;
+  }
+  .about-embed-root .pf-reading__cover {
+    justify-self: center;
+  }
+  .about-embed-root .pf-reading__quote-block h2 {
+    text-align: center;
+  }
+  .about-embed-root .pf-reading__quote-block blockquote {
+    text-align: left;
+    margin-inline: auto;
+    max-width: 28rem;
+  }
+  .about-embed-root .pf-reading__book {
+    margin-inline: auto;
+    text-align: center;
+    max-width: 22rem;
+  }
+  .portfolio-embed-root.pf-contact-embed main .container {
+    text-align: center;
+  }
+  .portfolio-embed-root.pf-contact-embed .pf-contact-form {
+    text-align: left;
+    margin-inline: auto;
+    max-width: 26rem;
+  }
+  .portfolio-embed-root.pf-contact-embed .pf-contact-summary-chip {
+    justify-content: center;
+  }
+  .portfolio-embed-root.pf-contact-embed .pf-contact-form__submit {
+    margin-inline: auto;
   }
 }
 
