@@ -1130,50 +1130,78 @@ body { background: #0f172a !important; }
   }
 }
 
-.pf-flagship-wrap {
-  margin-top: 1.5rem;
+/* ── Featured Builds (Work) — three proof cards, accent via modifier + CSS vars ── */
+.pf-featured-builds__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+  margin-top: 1.75rem;
 }
-.pf-flagship-framing {
-  margin: 0 0 0.85rem;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: clamp(0.72rem, 1.35vw, 0.82rem);
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(34, 211, 238, 0.88);
+.pf-featured-card {
+  --fb-accent-soft: rgba(74, 222, 128, 0.92);
+  --fb-accent-dim: rgba(34, 197, 94, 0.38);
+  --fb-accent-glow: rgba(34, 197, 94, 0.18);
+  --fb-accent-ring: rgba(34, 197, 94, 0.35);
+  --fb-cta-bg: linear-gradient(165deg, rgba(22, 163, 74, 0.95), rgba(21, 128, 61, 0.98));
+  --fb-cta-color: #f0fdf4;
+  --fb-ghost-border: rgba(34, 197, 94, 0.45);
+  --fb-ghost-color: rgba(220, 252, 231, 0.95);
+  border-radius: 0.9rem;
+  border: 1px solid color-mix(in oklab, var(--fb-accent) 32%, rgba(51, 65, 85, 0.65));
+  background: linear-gradient(165deg, rgba(30, 41, 59, 0.94), rgba(15, 23, 42, 0.93));
+  overflow: hidden;
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.32),
+    0 0 0 1px var(--fb-accent-glow);
 }
-.pf-flagship-case {
+.pf-featured-card--codelink {
+  --fb-accent: #3b82f6;
+  --fb-accent-soft: rgba(147, 197, 253, 0.95);
+  --fb-accent-dim: rgba(59, 130, 246, 0.42);
+  --fb-accent-glow: rgba(59, 130, 246, 0.2);
+  --fb-accent-ring: rgba(96, 165, 250, 0.45);
+  --fb-cta-bg: linear-gradient(165deg, rgba(37, 99, 235, 0.95), rgba(29, 78, 216, 0.98));
+  --fb-cta-color: #eff6ff;
+  --fb-ghost-border: rgba(96, 165, 250, 0.5);
+  --fb-ghost-color: rgba(219, 234, 254, 0.96);
+}
+.pf-featured-card--redeemed {
+  --fb-accent: rgba(248, 250, 252, 0.94);
+  --fb-accent-soft: rgba(248, 250, 252, 0.88);
+  --fb-accent-dim: rgba(255, 255, 255, 0.32);
+  --fb-accent-glow: rgba(255, 255, 255, 0.14);
+  --fb-accent-ring: rgba(255, 255, 255, 0.38);
+  --fb-cta-bg: linear-gradient(165deg, rgba(248, 250, 252, 0.98), rgba(226, 232, 240, 0.95));
+  --fb-cta-color: #0f172a;
+  --fb-ghost-border: rgba(255, 255, 255, 0.42);
+  --fb-ghost-color: rgba(248, 250, 252, 0.95);
+}
+.pf-featured-card__grid {
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
   gap: 0;
-  border-radius: 0.85rem;
-  border: 1px solid rgba(71, 85, 105, 0.55);
-  background: linear-gradient(165deg, rgba(30, 41, 59, 0.94), rgba(15, 23, 42, 0.92));
-  overflow: hidden;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
 }
-.pf-flagship-case__visual {
+.pf-featured-card__media {
   padding: 1.05rem 1rem 1.1rem 1.1rem;
   display: flex;
   align-items: stretch;
-  border-right: 1px solid rgba(51, 65, 85, 0.65);
-  background: linear-gradient(200deg, rgba(15, 23, 42, 0.55), rgba(30, 41, 59, 0.4));
+  justify-content: stretch;
+  border-right: 1px solid color-mix(in oklab, var(--fb-accent) 22%, rgba(51, 65, 85, 0.55));
+  background: linear-gradient(200deg, rgba(15, 23, 42, 0.58), rgba(30, 41, 59, 0.38));
 }
-.pf-flagship-browser {
+.pf-featured-browser {
   flex: 1;
   width: 100%;
   display: flex;
   flex-direction: column;
   border-radius: 0.65rem;
-  border: 1px solid rgba(51, 65, 85, 0.85);
-  box-shadow:
-    0 0 0 1px rgba(34, 211, 238, 0.12),
-    0 20px 48px rgba(0, 0, 0, 0.5);
+  border: 1px solid color-mix(in oklab, var(--fb-accent) 28%, rgba(51, 65, 85, 0.75));
+  box-shadow: 0 0 0 1px var(--fb-accent-glow), 0 20px 48px rgba(0, 0, 0, 0.48);
   overflow: hidden;
   min-height: 240px;
   background: #020617;
 }
-.pf-flagship-browser__chrome {
+.pf-featured-browser__chrome {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
@@ -1182,38 +1210,45 @@ body { background: #0f172a !important; }
   background: linear-gradient(180deg, #1e293b, #0f172a);
   border-bottom: 1px solid rgba(51, 65, 85, 0.75);
 }
-.pf-flagship-browser__dot {
+.pf-featured-browser__dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
   flex-shrink: 0;
 }
-.pf-flagship-browser__dot--r { background: rgba(248, 113, 113, 0.88); }
-.pf-flagship-browser__dot--y { background: rgba(234, 179, 8, 0.85); }
-.pf-flagship-browser__dot--g { background: rgba(34, 197, 94, 0.78); }
-.pf-flagship-browser__url {
+.pf-featured-browser__dot--r { background: rgba(248, 113, 113, 0.88); }
+.pf-featured-browser__dot--y { background: rgba(234, 179, 8, 0.85); }
+.pf-featured-browser__dot--g { background: rgba(34, 197, 94, 0.78); }
+.pf-featured-browser__url {
   flex: 1;
   min-width: 0;
   margin-left: 0.25rem;
   font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 0.62rem;
-  color: rgba(148, 163, 184, 0.95);
+  font-size: clamp(0.58rem, 1.5vw, 0.62rem);
+  color: rgba(148, 163, 184, 0.96);
   padding: 0.28rem 0.5rem;
   border-radius: 0.35rem;
   background: rgba(15, 23, 42, 0.95);
-  border: 1px solid rgba(51, 65, 85, 0.65);
+  border: 1px solid color-mix(in oklab, var(--fb-accent) 18%, rgba(51, 65, 85, 0.65));
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
-.pf-flagship-browser__viewport {
+.pf-featured-browser__url:hover {
+  color: var(--fb-accent-soft);
+  border-color: var(--fb-accent-dim);
+}
+.pf-featured-browser__viewport {
   flex: 1;
   min-height: 200px;
   position: relative;
   background: #020617;
   aspect-ratio: 16 / 9;
 }
-.pf-flagship-browser__viewport iframe {
+.pf-featured-browser__viewport iframe {
   position: absolute;
   inset: 0;
   display: block;
@@ -1222,7 +1257,7 @@ body { background: #0f172a !important; }
   border: 0;
   background: #0f172a;
 }
-.pf-flagship-browser__viewport img {
+.pf-featured-browser__viewport img {
   position: absolute;
   inset: 0;
   display: block;
@@ -1232,171 +1267,225 @@ body { background: #0f172a !important; }
   object-position: top center;
   border: 0;
 }
-.pf-flagship-case__content {
+.pf-featured-card__body {
   padding: 1.2rem 1.2rem 1.35rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.45rem;
 }
-.pf-flagship-case__content h2 {
-  margin: 0.2rem 0 0;
+.pf-featured-card__eyebrow {
+  margin: 0;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: clamp(0.7rem, 1.35vw, 0.8rem);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fb-accent-soft);
+}
+.pf-featured-card__type {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  line-height: 1.45;
+}
+.pf-featured-card__body h2 {
+  margin: 0.15rem 0 0;
   font-family: "DM Sans", system-ui, sans-serif;
   font-size: clamp(1.2rem, 2.6vw, 1.55rem);
   font-weight: 600;
   color: #f8fafc;
-  line-height: 1.22;
+  line-height: 1.2;
 }
-.pf-flagship-lead {
-  margin: 0.35rem 0 0.45rem !important;
+.pf-featured-card__desc {
+  margin: 0.25rem 0 0.35rem;
   font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.86rem !important;
-  line-height: 1.62 !important;
-  color: #cbd5e1 !important;
+  font-size: 0.86rem;
+  line-height: 1.62;
+  color: #cbd5e1;
   max-width: 38rem;
 }
-.pf-flagship-outcomes {
+.pf-featured-card__callout {
+  margin: 0.35rem 0 0.15rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--fb-accent-dim);
+  background: color-mix(in oklab, var(--fb-accent) 8%, rgba(15, 23, 42, 0.88));
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #e2e8f0;
+}
+.pf-featured-card__callout strong {
+  color: var(--fb-accent-soft);
+  font-weight: 600;
+}
+.pf-featured-card__callout-sub {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: #94a3b8;
+}
+.pf-featured-metrics {
   list-style: none;
-  margin: 0.4rem 0 0.55rem;
+  margin: 0.35rem 0 0.5rem;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.5rem;
 }
-.pf-flagship-outcomes li {
+.pf-featured-metrics li {
   border-radius: 0.55rem;
-  border: 1px solid rgba(34, 211, 238, 0.3);
+  border: 1px solid var(--fb-accent-dim);
   background: rgba(15, 23, 42, 0.82);
   padding: 0.62rem 0.65rem;
   font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.74rem;
-  line-height: 1.45;
-  color: #e2e8f0;
+  text-align: left;
+}
+.pf-featured-metric__k {
+  display: block;
+  font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+  font-weight: 700;
+  color: var(--fb-accent-soft);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+.pf-featured-metric__v {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: #cbd5e1;
   font-weight: 500;
 }
-.pf-flagship-proof {
-  margin: 0.35rem 0 0.55rem;
-  padding-left: 1.15rem;
+.pf-featured-proof {
+  margin: 0.3rem 0 0.45rem;
+  padding-left: 1.1rem;
   font-family: "DM Sans", system-ui, sans-serif;
   font-size: 0.82rem;
   line-height: 1.58;
   color: #cbd5e1;
   list-style-type: disc;
 }
-.pf-flagship-proof li {
-  margin-bottom: 0.42rem;
+.pf-featured-proof li {
+  margin-bottom: 0.4rem;
 }
-.pf-flagship-proof li::marker {
-  color: rgba(34, 211, 238, 0.8);
+.pf-featured-proof li::marker {
+  color: var(--fb-accent-soft);
 }
-.pf-flagship-case .service__cta.portfolio-faux-cta {
-  align-self: flex-start;
-  margin-top: 0.35rem;
-  text-decoration: none;
-  display: inline-block;
-}
-.pf-flagship-wrap.pf-codelink-showcase {
-  margin-top: 2.5rem;
-}
-.pf-flagship-wrap.pf-redeemed-showcase {
-  margin-top: 2.5rem;
-}
-.pf-redeemed-showcase .pf-flagship-framing {
-  color: rgba(251, 146, 60, 0.95);
-}
-.pf-redeemed-showcase .pf-flagship-case {
-  border-color: rgba(251, 146, 60, 0.28);
-  box-shadow:
-    0 10px 28px rgba(0, 0, 0, 0.28),
-    0 0 0 1px rgba(249, 115, 22, 0.12);
-}
-.pf-redeemed-showcase .pf-flagship-case__visual {
-  border-right-color: rgba(251, 146, 60, 0.22);
-}
-.pf-redeemed-showcase .pf-flagship-browser {
-  box-shadow:
-    0 0 0 1px rgba(251, 146, 60, 0.18),
-    0 20px 48px rgba(0, 0, 0, 0.5);
-}
-.pf-redeemed-showcase .pf-flagship-outcomes li {
-  border-color: rgba(249, 115, 22, 0.42);
-  background: rgba(15, 23, 42, 0.88);
-}
-.pf-redeemed-showcase .pf-flagship-proof li::marker {
-  color: rgba(251, 146, 60, 0.92);
-}
-.pf-redeemed-cta-row {
+.pf-featured-tags {
+  list-style: none;
+  margin: 0.35rem 0 0.15rem;
+  padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.65rem;
-  margin-top: 0.75rem;
-  align-items: center;
-  justify-content: flex-start;
-  align-self: flex-start;
+  gap: 0.4rem;
 }
-.pf-flagship-case__content .pf-redeemed-cta-row .btn.btn--ghost {
-  text-decoration: none;
-}
-.pf-codelink-waitlist {
-  margin: 0.5rem 0 0.2rem;
+.pf-featured-tags li {
   font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.92rem;
-  line-height: 1.58;
-  color: #e2e8f0;
-}
-.pf-codelink-waitlist strong {
-  color: rgba(34, 211, 238, 0.95);
+  font-size: 0.68rem;
   font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fb-accent-soft);
+  padding: 0.32rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--fb-accent-dim);
+  background: color-mix(in oklab, var(--fb-accent) 10%, rgba(15, 23, 42, 0.75));
 }
-.pf-codelink-cta-row {
+.pf-featured-card__cta-row {
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
-  margin-top: 0.75rem;
+  margin-top: 0.65rem;
   align-items: center;
   justify-content: flex-start;
   align-self: flex-start;
 }
-.pf-flagship-case__content .pf-codelink-cta-row .btn.btn--ghost {
+.pf-featured-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.55rem 1.15rem;
+  border-radius: 999px;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: clamp(0.82rem, 1.8vw, 0.92rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.12s ease, filter 0.15s ease, box-shadow 0.2s ease;
+}
+.pf-featured-cta--primary {
+  background: var(--fb-cta-bg);
+  color: var(--fb-cta-color);
+  box-shadow: 0 0 0 1px var(--fb-accent-ring);
+}
+.pf-featured-cta--primary:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+.pf-featured-cta--ghost {
+  background: transparent;
+  color: var(--fb-ghost-color);
+  border-color: var(--fb-ghost-border);
+}
+.pf-featured-cta--ghost:hover {
+  border-color: var(--fb-accent-soft);
+  color: #f8fafc;
+}
+.pf-featured-cta:focus-visible {
+  outline: 2px solid var(--fb-accent-soft);
+  outline-offset: 3px;
+}
+.pf-featured-builds__footnote {
+  margin-top: 2.25rem;
+  max-width: 42rem;
+  line-height: 1.65;
+  font-size: 0.88rem;
+  color: #94a3b8;
 }
 @media (min-width: 901px) {
-  .pf-flagship-case__visual {
+  .pf-featured-card__media {
     align-items: center;
     justify-content: center;
   }
-  .pf-flagship-browser {
+  .pf-featured-browser {
     flex: 0 1 auto;
     align-self: center;
     width: 100%;
   }
 }
 @media (max-width: 900px) {
-  .pf-flagship-case {
+  .pf-featured-card__grid {
     grid-template-columns: 1fr;
   }
-  .pf-flagship-case__visual {
+  .pf-featured-card__media {
     border-right: 0;
-    border-bottom: 1px solid rgba(51, 65, 85, 0.65);
+    border-bottom: 1px solid color-mix(in oklab, var(--fb-accent) 22%, rgba(51, 65, 85, 0.55));
     align-items: center;
     justify-content: center;
   }
-  .pf-flagship-case__content {
+  .pf-featured-card__body {
     text-align: center;
   }
-  .pf-flagship-case .pf-flagship-proof {
+  .pf-featured-metrics li {
+    text-align: center;
+  }
+  .pf-featured-proof {
     text-align: left;
     margin-inline: auto;
     max-width: 36rem;
   }
-  .pf-flagship-case .service__cta.portfolio-faux-cta {
-    align-self: center;
+  .pf-featured-tags {
+    justify-content: center;
   }
-  .pf-codelink-cta-row,
-  .pf-redeemed-cta-row {
+  .pf-featured-card__cta-row {
     justify-content: center;
     align-self: center;
   }
-  .pf-flagship-outcomes {
+  .pf-featured-metrics {
     grid-template-columns: 1fr;
   }
 }
@@ -1475,6 +1564,11 @@ body { background: #0f172a !important; }
   .portfolio-embed-root.pf-contact-embed .pf-contact-form__submit {
     margin-inline: auto;
   }
+  .portfolio-embed-root .pf-featured-builds__footnote {
+    text-align: left;
+    margin-inline: auto;
+    max-width: 42rem;
+  }
 }
 
 button.service__cta.portfolio-faux-cta,
@@ -1511,7 +1605,7 @@ const GR  = 0.2095; // globe radius fraction of container height
 // ── Four section tiles after crack (same site; Work = template / design routes for leads)
 const CARDS = [
   { id: 'services', label: 'Services', sub: 'Click to learn more' },
-  { id: 'work',     label: 'Work',     sub: 'Click to learn more' },
+  { id: 'work',     label: 'Featured Builds', sub: 'Click to learn more' },
   { id: 'about',    label: 'About',    sub: 'Click to learn more' },
   { id: 'contact',  label: 'Contact',  sub: 'Click to learn more' },
 ];
@@ -1830,8 +1924,8 @@ function AboutSection({ onNavigate }) {
             page.
           </p>
           <p className="pf-about__p">
-            <strong>Services</strong> is where I spell out what I build; <strong>Work</strong> shows design templates
-            and starting points you can pick from. When you are ready to send links or talk timelines, use{' '}
+            <strong>Services</strong> is where I spell out what I build; <strong>Featured Builds</strong> shows proof across
+            enterprise, startup, and local work. When you are ready to send links or talk timelines, use{' '}
             <strong>Contact</strong>.
           </p>
 
@@ -1925,8 +2019,6 @@ const portfolioPanelShell = {
   fontFamily: 'var(--font-sans)',
 };
 
-const WORK_PRODUCT_CARDS = [];
-
 function WorkSection({ onNavigate }) {
   const goContact = (e) => {
     if (e && e.preventDefault) e.preventDefault();
@@ -1940,242 +2032,267 @@ function WorkSection({ onNavigate }) {
   return (
     <div data-theme="dark" className="portfolio-embed-root" style={portfolioPanelShell}>
       <main style={{ paddingTop: '1rem' }}>
-        <section id="work" className="section" aria-labelledby="work-panel-title">
+        <section id="work" className="section" aria-labelledby="featured-builds-title">
           <div className="container">
-            <p className="small muted">Work</p>
-            <h1 id="work-panel-title" className="title">
-              Enterprise <span className="accent">Smart Infrastructure</span> Case Study
+            <p className="small muted">Featured Builds</p>
+            <h1 id="featured-builds-title" className="title">
+              Proof across{' '}
+              <span className="accent">enterprise systems, startup products, and local business launches</span>.
             </h1>
             <p className="lead">
-              Flagship client work: how unified cloud workflows, camera operations, and dispatch automation moved a
-              multi-campus surveillance operator from manual triage to measurable revenue and time back in the week.
+              Networks &amp; Nodes is built around practical implementation: infrastructure, automation, product platforms,
+              and local business websites that connect directly to operations, visibility, and customer action.
             </p>
 
-            <div className="pf-flagship-wrap">
-              <p className="pf-flagship-framing">Enterprise Smart Infrastructure Case Study</p>
-              <article className="pf-flagship-case" aria-labelledby="flagship-tsl-title">
-                <div className="pf-flagship-case__visual">
-                  <div className="pf-flagship-browser">
-                    <div className="pf-flagship-browser__chrome" aria-hidden="true">
-                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--r" />
-                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--y" />
-                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--g" />
-                      <span className="pf-flagship-browser__url">www.tsandl.us</span>
-                    </div>
-                    <div className="pf-flagship-browser__viewport">
-                      <iframe
-                        src="https://player.mux.com/WLiGImnah5qDmAo4zLVERPxgkUL5AQSNsNNKFhAGdFI"
-                        title="Transportation Solutions &amp; Lighting — case study preview (Mux)"
-                        loading="lazy"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-                        allowFullScreen
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="pf-flagship-case__content">
-                  <p className="small muted" style={{ margin: 0 }}>Case Study</p>
-                  <p className="small muted" style={{ margin: 0 }}>Enterprise client · end-to-end technical ownership</p>
-                  <h2 id="flagship-tsl-title">Transportation Solutions &amp; Lighting</h2>
-                  <p className="pf-flagship-lead">
-                    Multi-campus municipal, university, and federal surveillance environments needed one accountable
-                    systems layer—not another dashboard. I owned technical direction for cloud routing, high-volume IP
-                    camera infrastructure, and dispatch automation so operations, service, and sales could see the same
-                    truth without living in spreadsheets.
-                  </p>
-                  <ul className="pf-flagship-outcomes">
-                    <li>300%+ site visibility increase</li>
-                    <li>$1M+ annual revenue contribution supported</li>
-                    <li>10 hrs/week manual dispatch work reduced</li>
-                  </ul>
-                  <ul className="pf-flagship-proof">
-                    <li>Built cloud workflows for camera event routing and footage organization.</li>
-                    <li>Improved operational visibility across surveillance, service, and dispatch systems.</li>
-                    <li>Supported technical infrastructure for high-volume IP camera environments.</li>
-                    <li>Automated work-order logic for outages, service flags, and operational triage.</li>
-                  </ul>
-                  <a
-                    href="#contact"
-                    className="service__cta portfolio-faux-cta"
-                    onClick={goContact}
-                  >
-                    Build Something Similar
-                  </a>
-                </div>
-              </article>
-            </div>
-
-            <div className="pf-flagship-wrap pf-codelink-showcase">
-              <p className="pf-flagship-framing">Founder-led startup · platform MVP</p>
-              <article className="pf-flagship-case" aria-labelledby="codelink-showcase-title">
-                <div className="pf-flagship-case__visual">
-                  <div className="pf-flagship-browser">
-                    <div className="pf-flagship-browser__chrome" aria-hidden="true">
-                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--r" />
-                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--y" />
-                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--g" />
-                      <span className="pf-flagship-browser__url">codelink.live</span>
-                    </div>
-                    <div className="pf-flagship-browser__viewport">
-                      <iframe
-                        src="https://player.mux.com/KOxacSLriw7uuyhxs89KPiAHclOq02opBJ9bPs6Sfoho"
-                        title="CodeLink — startup showcase preview (Mux)"
-                        loading="lazy"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-                        allowFullScreen
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="pf-flagship-case__content">
-                  <p className="small muted" style={{ margin: 0 }}>Startup showcase</p>
-                  <p className="small muted" style={{ margin: 0 }}>Founder-led product · full-stack MVP</p>
-                  <h2 id="codelink-showcase-title">CodeLink</h2>
-                  <p className="pf-flagship-lead">
-                    CodeLink is a collaboration platform for builders, founders, developers, designers, and contributors
-                    who want to ship together—not another generic feed. It helps you organize projects, find the right
-                    collaborators, keep tasks honest, and build proof-of-work around real builds instead of polished
-                    empty profiles.
-                  </p>
-                  <p className="pf-codelink-waitlist">
-                    <strong>The waitlist is now live.</strong>
-                  </p>
-                  <ul className="pf-flagship-proof">
-                    <li>Project spaces that keep intent, ownership, and next actions visible across disciplines.</li>
-                    <li>Collaborator discovery tuned for people who plan to commit—not browse.</li>
-                    <li>Task flows that stay tied to outcomes so momentum survives handoffs and time zones.</li>
-                    <li>Proof-of-work you can stand behind: real projects, real progress, less performative noise.</li>
-                  </ul>
-                  <div className="pf-codelink-cta-row">
-                    <a
-                      href="https://www.codelink.live/waitlist"
-                      className="service__cta portfolio-faux-cta"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Join the Waitlist
-                    </a>
-                    <a
-                      href="#contact"
-                      className="btn btn--ghost"
-                      onClick={goContact}
-                    >
-                      Build a Product Like This
-                    </a>
-                  </div>
-                </div>
-              </article>
-            </div>
-
-            <div className="pf-flagship-wrap pf-redeemed-showcase">
-              <p className="pf-flagship-framing">Local Launch Kit · community outreach</p>
-              <article className="pf-flagship-case" aria-labelledby="redeemed-showcase-title">
-                <div className="pf-flagship-case__visual">
-                  <div className="pf-flagship-browser">
-                    <div className="pf-flagship-browser__chrome" aria-hidden="true">
-                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--r" />
-                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--y" />
-                      <span className="pf-flagship-browser__dot pf-flagship-browser__dot--g" />
-                      <span className="pf-flagship-browser__url">redeemedhands.com</span>
-                    </div>
-                    <div className="pf-flagship-browser__viewport">
-                      <img
-                        src="images/redeemed-hands.jpeg"
-                        alt="Redeemed Hands homepage — concrete, construction and renovations"
-                        width={1200}
-                        height={675}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="pf-flagship-case__content">
-                  <p className="small muted" style={{ margin: 0 }}>Local Business Outreach</p>
-                  <p className="small muted" style={{ margin: 0 }}>Concrete · construction · renovation services</p>
-                  <h2 id="redeemed-showcase-title">Redeemed Hands</h2>
-                  <p className="pf-flagship-lead">
-                    Redeemed Hands is a local concrete, construction, and renovation company. The site&apos;s job is
-                    straightforward: present services clearly, build trust before the first call, surface contact
-                    details without friction, and walk visitors toward requesting a quote—especially on mobile, where
-                    most referrals land first.
-                  </p>
-                  <ul className="pf-flagship-outcomes">
-                    <li>Local: service-business positioning</li>
-                    <li>Quote: focused conversion path</li>
-                    <li>Mobile: friendly customer experience</li>
-                  </ul>
-                  <ul className="pf-flagship-proof">
-                    <li>Created a clear service-focused homepage for concrete, construction, and renovation work.</li>
-                    <li>Positioned the business around reliability, clean finishes, and getting the job done right.</li>
-                    <li>Added direct contact information and a quote-focused customer path.</li>
-                    <li>Used a simple structure that works well for local search, referrals, and mobile visitors.</li>
-                  </ul>
-                  <div className="pf-redeemed-cta-row">
-                    <a
-                      href="#contact"
-                      className="service__cta portfolio-faux-cta"
-                      onClick={goContact}
-                    >
-                      Launch a Local Business Site
-                    </a>
-                    <a
-                      href="#services"
-                      className="btn btn--ghost"
-                      onClick={goServices}
-                    >
-                      View Local Launch Kit
-                    </a>
-                  </div>
-                </div>
-              </article>
-            </div>
-
-            {WORK_PRODUCT_CARDS.length > 0 ? (
-              <>
-                <h2 className="accent" style={{ marginTop: '2.25rem', fontSize: 'clamp(1.05rem, 2vw, 1.25rem)' }}>
-                  Additional case studies
-                </h2>
-                <p className="muted small" style={{ marginTop: '0.35rem', maxWidth: '40rem' }}>
-                  Community and client builds beyond the flagship work above.
-                </p>
-                <div className="pf-work-products" aria-label="Additional case studies">
-                  {WORK_PRODUCT_CARDS.map((card) => (
-                    <article key={card.title} className="pf-work-product-card">
-                      <div className="pf-service-card__media">
-                        {card.mediaSrc ? (
-                          <img src={card.mediaSrc} alt={`${card.title} case study`} loading="lazy" />
-                        ) : (
-                          <div className="pf-service-card__media-placeholder">Case study media</div>
-                        )}
-                      </div>
-                      <div className="pf-service-card__body">
-                        <p className="small muted" style={{ margin: 0 }}>{card.section}</p>
-                        <p className="small muted" style={{ margin: 0 }}>{card.meta}</p>
-                        <h3>{card.title}</h3>
-                        <p>{card.body}</p>
-                        <figure style={{ margin: 0 }}>
-                          <blockquote className="pf-service-card__quote">{card.quote}</blockquote>
-                          <figcaption className="pf-service-card__cite">{card.cite}</figcaption>
-                        </figure>
-                        <button
-                          type="button"
-                          className="service__cta portfolio-faux-cta"
-                          onClick={() => onNavigate('contact')}
+            <div className="pf-featured-builds__stack">
+              <article className="pf-featured-card pf-featured-card--tsl" aria-labelledby="featured-tsl-title">
+                <div className="pf-featured-card__grid">
+                  <div className="pf-featured-card__media">
+                    <div className="pf-featured-browser">
+                      <div className="pf-featured-browser__chrome" aria-hidden="true">
+                        <span className="pf-featured-browser__dot pf-featured-browser__dot--r" />
+                        <span className="pf-featured-browser__dot pf-featured-browser__dot--y" />
+                        <span className="pf-featured-browser__dot pf-featured-browser__dot--g" />
+                        <a
+                          className="pf-featured-browser__url"
+                          href="https://www.tsandl.us"
+                          target="_blank"
+                          rel="noopener noreferrer"
                         >
-                          Build Something Similar
-                        </button>
+                          www.tsandl.us
+                        </a>
                       </div>
-                    </article>
-                  ))}
+                      <div className="pf-featured-browser__viewport">
+                        <img
+                          src="assets/images/tsl-homepage-preview.jpg"
+                          alt="Transportation Solutions &amp; Lighting website preview"
+                          width={1200}
+                          height={675}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pf-featured-card__body">
+                    <p className="pf-featured-card__eyebrow">Enterprise Smart Infrastructure Case Study</p>
+                    <p className="pf-featured-card__type">
+                      Case Study · Enterprise client · end-to-end technical ownership
+                    </p>
+                    <h2 id="featured-tsl-title">Transportation Solutions &amp; Lighting</h2>
+                    <p className="pf-featured-card__desc">
+                      Multi-campus municipal, university, and federal surveillance environments needed one accountable
+                      systems layer, not another disconnected dashboard. I owned technical direction for cloud routing,
+                      high-volume IP camera infrastructure, and dispatch automation so operations, service, and sales
+                      could work from the same source of truth.
+                    </p>
+                    <ul className="pf-featured-metrics">
+                      <li>
+                        <span className="pf-featured-metric__k">300%+</span>
+                        <span className="pf-featured-metric__v">site visibility increase</span>
+                      </li>
+                      <li>
+                        <span className="pf-featured-metric__k">$1M+</span>
+                        <span className="pf-featured-metric__v">annual revenue contribution supported</span>
+                      </li>
+                      <li>
+                        <span className="pf-featured-metric__k">10 hrs/week</span>
+                        <span className="pf-featured-metric__v">manual dispatch work reduced</span>
+                      </li>
+                    </ul>
+                    <ul className="pf-featured-proof">
+                      <li>Built cloud workflows for camera event routing and footage organization.</li>
+                      <li>Improved operational visibility across surveillance, service, and dispatch systems.</li>
+                      <li>Supported technical infrastructure for high-volume IP camera environments.</li>
+                      <li>Automated work-order logic for outages, service flags, and operational triage.</li>
+                    </ul>
+                    <ul className="pf-featured-tags">
+                      <li>Enterprise Systems</li>
+                      <li>Cloud Workflow</li>
+                      <li>Dispatch Automation</li>
+                      <li>Surveillance Ops</li>
+                    </ul>
+                    <div className="pf-featured-card__cta-row">
+                      <a
+                        href="#contact"
+                        className="pf-featured-cta pf-featured-cta--primary"
+                        onClick={goContact}
+                      >
+                        Build Something Similar
+                      </a>
+                    </div>
+                  </div>
                 </div>
-              </>
-            ) : null}
+              </article>
 
-            <p className="small muted" style={{ marginTop: '2rem', maxWidth: '42rem', lineHeight: 1.65 }}>
+              <article className="pf-featured-card pf-featured-card--codelink" aria-labelledby="featured-codelink-title">
+                <div className="pf-featured-card__grid">
+                  <div className="pf-featured-card__media">
+                    <div className="pf-featured-browser">
+                      <div className="pf-featured-browser__chrome" aria-hidden="true">
+                        <span className="pf-featured-browser__dot pf-featured-browser__dot--r" />
+                        <span className="pf-featured-browser__dot pf-featured-browser__dot--y" />
+                        <span className="pf-featured-browser__dot pf-featured-browser__dot--g" />
+                        <a
+                          className="pf-featured-browser__url"
+                          href="https://www.codelink.live/waitlist"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          codelink.live
+                        </a>
+                      </div>
+                      <div className="pf-featured-browser__viewport">
+                        <iframe
+                          src="https://player.mux.com/KOxacSLriw7uuyhxs89KPiAHclOq02opBJ9bPs6Sfoho"
+                          title="CodeLink platform preview"
+                          loading="lazy"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                          allowFullScreen
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pf-featured-card__body">
+                    <p className="pf-featured-card__eyebrow">Founder-Led Startup · Platform MVP</p>
+                    <p className="pf-featured-card__type">Startup Showcase · full-stack MVP</p>
+                    <h2 id="featured-codelink-title">CodeLink</h2>
+                    <p className="pf-featured-card__desc">
+                      CodeLink is a collaboration platform for builders, founders, developers, designers, and contributors
+                      who want to ship together, not scroll through another generic feed. It helps users organize projects,
+                      find collaborators, manage tasks, and create proof-of-work around real projects instead of polished
+                      empty profiles.
+                    </p>
+                    <div className="pf-featured-card__callout">
+                      <strong>The waitlist is now live.</strong>
+                    </div>
+                    <p className="pf-featured-card__callout-sub">
+                      Early users can join now and follow the platform as it moves toward launch.
+                    </p>
+                    <ul className="pf-featured-proof">
+                      <li>Project spaces that keep intent, ownership, and next actions visible across disciplines.</li>
+                      <li>Collaborator discovery tuned for people who plan to commit, not just browse.</li>
+                      <li>Task flows tied to outcomes so momentum survives handoffs and time zones.</li>
+                      <li>Proof-of-work around real projects, real progress, and less performative noise.</li>
+                    </ul>
+                    <ul className="pf-featured-tags">
+                      <li>Founder-Led Startup</li>
+                      <li>Platform MVP</li>
+                      <li>Product Build</li>
+                      <li>Waitlist Live</li>
+                    </ul>
+                    <div className="pf-featured-card__cta-row">
+                      <a
+                        href="https://www.codelink.live/waitlist"
+                        className="pf-featured-cta pf-featured-cta--primary"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Join the Waitlist
+                      </a>
+                      <a
+                        href="#contact"
+                        className="pf-featured-cta pf-featured-cta--ghost"
+                        onClick={goContact}
+                      >
+                        Build a Product Like This
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article className="pf-featured-card pf-featured-card--redeemed" aria-labelledby="featured-redeemed-title">
+                <div className="pf-featured-card__grid">
+                  <div className="pf-featured-card__media">
+                    <div className="pf-featured-browser">
+                      <div className="pf-featured-browser__chrome" aria-hidden="true">
+                        <span className="pf-featured-browser__dot pf-featured-browser__dot--r" />
+                        <span className="pf-featured-browser__dot pf-featured-browser__dot--y" />
+                        <span className="pf-featured-browser__dot pf-featured-browser__dot--g" />
+                        <a
+                          className="pf-featured-browser__url"
+                          href="https://redeemedhands.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          redeemedhands.com
+                        </a>
+                      </div>
+                      <div className="pf-featured-browser__viewport">
+                        <img
+                          src="assets/images/redeemed-hands-preview.jpg"
+                          alt="Redeemed Hands homepage for concrete, construction, and renovations"
+                          width={1200}
+                          height={675}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pf-featured-card__body">
+                    <p className="pf-featured-card__eyebrow">Local Launch Kit · Community Outreach</p>
+                    <p className="pf-featured-card__type">
+                      Local Business Outreach · concrete · construction · renovation services
+                    </p>
+                    <h2 id="featured-redeemed-title">Redeemed Hands</h2>
+                    <p className="pf-featured-card__desc">
+                      Redeemed Hands is a local concrete, construction, and renovation service business. The website
+                      helps the business present services clearly, build trust, show contact information, and guide
+                      visitors toward requesting a quote, especially on mobile where most referrals land first.
+                    </p>
+                    <ul className="pf-featured-metrics">
+                      <li>
+                        <span className="pf-featured-metric__k">Local</span>
+                        <span className="pf-featured-metric__v">service-business positioning</span>
+                      </li>
+                      <li>
+                        <span className="pf-featured-metric__k">Quote</span>
+                        <span className="pf-featured-metric__v">focused conversion path</span>
+                      </li>
+                      <li>
+                        <span className="pf-featured-metric__k">Mobile</span>
+                        <span className="pf-featured-metric__v">friendly customer experience</span>
+                      </li>
+                    </ul>
+                    <ul className="pf-featured-proof">
+                      <li>Created a clear service-focused homepage for concrete, construction, and renovation work.</li>
+                      <li>Positioned the business around reliability, clean finishes, and getting the job done right.</li>
+                      <li>Added direct contact information and a quote-focused customer path.</li>
+                      <li>Used a simple structure that works well for local search, referrals, and mobile visitors.</li>
+                    </ul>
+                    <ul className="pf-featured-tags">
+                      <li>Local Business</li>
+                      <li>Construction Services</li>
+                      <li>Quote Funnel</li>
+                      <li>Local Launch Kit</li>
+                    </ul>
+                    <div className="pf-featured-card__cta-row">
+                      <a
+                        href="#contact"
+                        className="pf-featured-cta pf-featured-cta--primary"
+                        onClick={goContact}
+                      >
+                        Launch a Local Business Site
+                      </a>
+                      <a
+                        href="#services"
+                        className="pf-featured-cta pf-featured-cta--ghost"
+                        onClick={goServices}
+                      >
+                        View Local Launch Kit
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <p className="pf-featured-builds__footnote small muted">
               Before these featured engagements, I designed and deployed 15+ responsive sites for small businesses
-              across retail, professional services, and community organizations using Node.js, Express, and Vercel
-              with modern CI/CD workflows. Selected links, scope summaries, and references are available on request.
+              across retail, professional services, and community organizations using Node.js, Express, Vercel, and
+              modern CI/CD workflows. Selected links, scope summaries, and references are available on request.
             </p>
             <SectionFooterNav onNavigate={onNavigate} prev="about" next="services" />
           </div>
