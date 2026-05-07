@@ -1,6 +1,12 @@
 /* Spotify card for Portfolio.html embed — same behavior as about-me.js (polling + progress). */
 (function () {
-  const SPOTIFY_IDLE_IMAGE = '../images/not_playing.png';
+  const SPOTIFY_IDLE_IMAGE = (() => {
+    try {
+      const el = document.querySelector('script[src*="spotify-embed"]');
+      if (el && el.src) return new URL('../images/not_playing.png', el.src).href;
+    } catch (_) {}
+    return 'images/not_playing.png';
+  })();
   const SPOTIFY_POLL_INTERVAL_MS = 10000;
   const SPOTIFY_PROGRESS_TICK_MS = 250;
 

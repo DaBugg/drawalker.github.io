@@ -53,7 +53,7 @@ body { background: #0f172a !important; }
   background-color: #0b1220;
   /*
     Paint on the scroll container itself so it spans the entire About content
-    (bio + Spotify + quote/book), not just the visible viewport.
+    (bio + quote/book + Spotify), not just the visible viewport.
   */
   background-image:
     linear-gradient(rgba(11, 18, 32, 0.42), rgba(11, 18, 32, 0.5)),
@@ -647,30 +647,42 @@ body { background: #0f172a !important; }
   outline: 2px solid #c9ae7a;
   outline-offset: 3px;
 }
-.pf-reading {
+.pf-reading-bottom {
   max-width: 68rem;
   margin: 0 auto;
   padding: 2.5rem clamp(1.1rem, 4vw, 2.25rem) 2rem;
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) auto;
-  grid-template-rows: auto auto;
-  gap: 1.25rem 2rem;
+  grid-template-columns: minmax(0, 1.12fr) minmax(260px, 400px);
+  gap: 1.5rem 2rem;
   align-items: start;
   border-top: 1px solid rgba(51, 65, 85, 0.65);
 }
-.pf-reading__quote-block { grid-column: 1; grid-row: 1 / span 2; }
-.pf-reading__book { grid-column: 2; grid-row: 1; align-self: start; }
-.pf-reading__cover { grid-column: 2; grid-row: 2; align-self: start; }
-@media (max-width: 800px) {
-  .pf-reading {
+.pf-reading-bottom__col--left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+  min-width: 0;
+}
+.pf-reading-bottom__book-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.25rem;
+  align-items: flex-start;
+}
+.pf-reading-bottom__col--spotify {
+  min-width: 0;
+}
+.pf-about-spotify-wrap {
+  width: 100%;
+}
+.about-embed-root .pf-reading-bottom .spotify {
+  margin: 0;
+  max-width: none;
+  width: 100%;
+}
+@media (max-width: 900px) {
+  .pf-reading-bottom {
     grid-template-columns: 1fr;
-    grid-template-rows: none;
-  }
-  .pf-reading__quote-block,
-  .pf-reading__book,
-  .pf-reading__cover {
-    grid-column: 1;
-    grid-row: auto;
   }
 }
 .pf-reading__quote-block h2 {
@@ -1692,9 +1704,12 @@ body { background: #0f172a !important; }
   .about-embed-root .pf-connect__list {
     justify-content: center;
   }
-  .about-embed-root .pf-reading {
+  .about-embed-root .pf-reading-bottom {
     justify-items: center;
     text-align: center;
+  }
+  .about-embed-root .pf-reading-bottom__book-row {
+    justify-content: center;
   }
   .about-embed-root .pf-reading__cover {
     justify-self: center;
@@ -1711,6 +1726,9 @@ body { background: #0f172a !important; }
     margin-inline: auto;
     text-align: center;
     max-width: 22rem;
+  }
+  .about-embed-root .pf-reading-bottom .spotify__actions {
+    align-items: center;
   }
   .portfolio-embed-root.pf-contact-embed main .container {
     text-align: center;
@@ -1757,6 +1775,7 @@ a.service__cta.portfolio-faux-cta:focus-visible {
 </head>
 <body>
 <div id="root"></div>
+<script src="test-pages-new/spotify-embed.js"></script>
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
 
@@ -2019,6 +2038,14 @@ function SectionFooterNav({ onNavigate, prev, next, contained = false }) {
 }
 
 function AboutSection({ onNavigate }) {
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.portfolioEmbedSpotify) {
+      window.portfolioEmbedSpotify.init();
+      return () => window.portfolioEmbedSpotify.teardown();
+    }
+    return undefined;
+  }, []);
+
   return (
     <div
       data-theme="dark"
@@ -2134,38 +2161,152 @@ function AboutSection({ onNavigate }) {
         </div>
 
         <div id="quote">
-          <div className="pf-reading">
-            <div className="pf-reading__quote-block">
-              <h2>A line I keep nearby</h2>
-              <blockquote>
-                <p>&quot;Those who do not want to imitate anything, produce nothing.&quot;</p>
-                <footer>— Salvador Dalí</footer>
-              </blockquote>
+          <div className="pf-reading-bottom">
+            <div className="pf-reading-bottom__col pf-reading-bottom__col--left">
+              <div className="pf-reading__quote-block">
+                <h2>A line I keep nearby</h2>
+                <blockquote>
+                  <p>&quot;Those who do not want to imitate anything, produce nothing.&quot;</p>
+                  <footer>— Salvador Dalí</footer>
+                </blockquote>
+              </div>
+
+              <div className="pf-reading-bottom__book-row">
+                <div className="pf-reading__book">
+                  <h2>On the desk</h2>
+                  <h3>Apple in China</h3>
+                  <a
+                    href="https://www.amazon.com/Apple-China-Capture-Greatest-Company/dp/1668053373"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Find it on Amazon
+                  </a>
+                </div>
+
+                <div className="pf-reading__cover">
+                  <figure>
+                    <picture>
+                      <source srcSet="images/book-of-the-month.webp" type="image/webp" />
+                      <img
+                        src="images/book-of-the-month.png"
+                        alt="Cover of Apple in China"
+                        loading="lazy"
+                      />
+                    </picture>
+                  </figure>
+                </div>
+              </div>
             </div>
 
-            <div className="pf-reading__book">
-              <h2>On the desk</h2>
-              <h3>Apple in China</h3>
-              <a
-                href="https://www.amazon.com/Apple-China-Capture-Greatest-Company/dp/1668053373"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Find it on Amazon
-              </a>
-            </div>
+            <div className="pf-reading-bottom__col pf-reading-bottom__col--spotify">
+              <section id="spotify" className="pf-about-spotify-wrap" aria-label="Spotify now playing">
+                <article className="card spotify is-loading" id="spotify-card">
+                  <div className="spotify__badge">
+                    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 168 168">
+                      <circle fill="currentColor" cx="84" cy="84" r="84" />
+                      <path
+                        fill="#0b1220"
+                        d="M120.2 119.1c-1.6 2.7-5 3.6-7.7 2-21.1-12.6-47.6-15.5-78.8-8.5-3 0.7-6-1.2-6.7-4.2-.7-3 1.2-6 4.2-6.7 34.9-7.8 64.7-4.5 88 9.7 2.7 1.6 3.6 5 2 7.7zm10.9-24.2c-2 3.3-6.3 4.3-9.6 2.3-24.1-14.8-60.8-19.1-89.3-10.4-3.7 1.1-7.5-1-8.7-4.7-1.1-3.7 1-7.5 4.7-8.7 32.9-9.9 73.4-5.1 101.8 12.3 3.3 2 4.3 6.3 2.3 9.6zm1-25.7C103 50.9 61.1 49.3 36.2 56.9 31.8 58.3 27 55.9 25.6 51.6s1.4-8.9 5.7-10.3c29.7-9.3 76.1-7.4 106.9 11.1 3.9 2.3 5.2 7.3 2.9 11.2-2.4 3.9-7.4 5.2-11.2 2.9z"
+                      />
+                    </svg>
+                    <span>What&apos;s playing right now</span>
+                    <span className="spotify__live" aria-hidden="true" />
+                  </div>
 
-            <div className="pf-reading__cover">
-              <figure>
-                <picture>
-                  <source srcSet="images/book-of-the-month.webp" type="image/webp" />
-                  <img
-                    src="images/book-of-the-month.png"
-                    alt="Cover of Apple in China"
-                    loading="lazy"
-                  />
-                </picture>
-              </figure>
+                  <div className="spotify__content">
+                    <div className="spotify__media">
+                      <img
+                        id="spotify-cover"
+                        src="https://via.placeholder.com/300x300?text=Spotify"
+                        alt="Album cover"
+                      />
+                    </div>
+
+                    <div className="spotify__meta">
+                      <p className="small muted" id="spotify-status">Loading…</p>
+                      <h3 className="accent" id="spotify-track">Track title</h3>
+                      <p id="spotify-artist" className="small">Artist name</p>
+                      <p id="spotify-album" className="small muted">Album name</p>
+
+                      <div className="spotify__progress">
+                        <div className="spotify__bar">
+                          <span id="spotify-progress" style={{ width: '0%' }} />
+                        </div>
+                        <div className="spotify__times small muted">
+                          <span id="spotify-current-time">0:00</span>
+                          <span id="spotify-duration">0:00</span>
+                        </div>
+                      </div>
+
+                      <div className="spotify__actions">
+                        <div className="spotify-suggest" id="spotify-suggest">
+                          <button
+                            type="button"
+                            className="btn btn--ghost small spotify-suggest__toggle"
+                            aria-expanded="false"
+                            aria-controls="spotify-suggest-form"
+                          >
+                            Suggest a Song
+                          </button>
+
+                          <div className="spotify-suggest__form-wrapper">
+                            <form
+                              id="spotify-suggest-form"
+                              className="spotify-suggest__form"
+                              action="/api/suggest-song"
+                              method="POST"
+                            >
+                              <div className="spotify-suggest__field spotify-suggest__field--full">
+                                <label htmlFor="song-name" className="spotify-suggest__label">
+                                  Song name <span className="spotify-suggest__required">*</span>
+                                </label>
+                                <input
+                                  id="song-name"
+                                  name="songName"
+                                  type="text"
+                                  className="spotify-suggest__input"
+                                  required
+                                  placeholder="e.g., Nights"
+                                />
+                              </div>
+
+                              <div className="spotify-suggest__field spotify-suggest__field--full">
+                                <label htmlFor="song-artist" className="spotify-suggest__label">
+                                  Artist <span className="spotify-suggest__optional">(optional)</span>
+                                </label>
+                                <input
+                                  id="song-artist"
+                                  name="artist"
+                                  type="text"
+                                  className="spotify-suggest__input"
+                                  placeholder="e.g., Frank Ocean"
+                                />
+                              </div>
+
+                              <div className="spotify-suggest__actions spotify-suggest__field--full">
+                                <button type="submit" className="btn btn--primary small">
+                                  Submit
+                                </button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+
+                        <a
+                          id="spotify-open-link"
+                          href="https://open.spotify.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn small"
+                        >
+                          Open in Spotify
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </section>
             </div>
           </div>
         </div>
