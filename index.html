@@ -733,6 +733,12 @@ body { background: #0f172a !important; }
   color: #f5f5f5;
   font-family: "DM Sans", system-ui, sans-serif;
 }
+.pf-reading__book p {
+  margin: -0.35rem 0 0.65rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
 .pf-reading__book a {
   font-size: 0.82rem;
   font-weight: 500;
@@ -2173,10 +2179,13 @@ function AboutSection({ onNavigate }) {
 
               <div className="pf-reading-bottom__book-row">
                 <div className="pf-reading__book">
-                  <h2>On the desk</h2>
-                  <h3>Apple in China</h3>
+                  <h2>New book of the month</h2>
+                  <h3>Creative Capital</h3>
+                  <p className="small muted">
+                    Spencer E. Ante
+                  </p>
                   <a
-                    href="https://www.amazon.com/Apple-China-Capture-Greatest-Company/dp/1668053373"
+                    href="https://www.amazon.com/Creative-Capital-Georges-Doriot-Venture/dp/1422101223"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -2186,14 +2195,11 @@ function AboutSection({ onNavigate }) {
 
                 <div className="pf-reading__cover">
                   <figure>
-                    <picture>
-                      <source srcSet="images/book-of-the-month.webp" type="image/webp" />
-                      <img
-                        src="images/book-of-the-month.png"
-                        alt="Cover of Apple in China"
-                        loading="lazy"
-                      />
-                    </picture>
+                    <img
+                      src="images/book-creative-capital.png"
+                      alt="Cover of Creative Capital by Spencer E. Ante"
+                      loading="lazy"
+                    />
                   </figure>
                 </div>
               </div>
@@ -2642,7 +2648,7 @@ function ServicesSection({ onNavigate }) {
     {
       title: 'Prepare for AI-Ready Operations',
       copy: 'For businesses that want to use AI or smarter systems, but first need better data structure, cleaner workflows, and more reliable infrastructure.',
-      src: 'https://player.mux.com/EbDl00U8531qaMnSoynVZI01V02ydAyIqeHzG',
+      src: 'https://player.mux.com/EbDl00U8531qaMnSoynVZI01V02ydAyIqeHzGKVlqn1s4U',
       cta: 'Explore AI Readiness',
       offerId: 'offer-systems-automation',
     },
