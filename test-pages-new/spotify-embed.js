@@ -15,6 +15,9 @@
   let spotifyProgressTimer = null;
   let suggestToggleHandler = null;
   let suggestSubmitHandler = null;
+  let suggestTurnstileWidgetId = null;
+  let suggestTurnstileRequired = false;
+  let suggestTurnstileReady = false;
 
   const spotifyPlaybackState = {
     isPlaying: false,
@@ -181,6 +184,12 @@
       form.removeEventListener('submit', suggestSubmitHandler);
       suggestSubmitHandler = null;
     }
+    if (suggestTurnstileWidgetId != null && window.siteTurnstile) {
+      window.siteTurnstile.remove(suggestTurnstileWidgetId);
+      suggestTurnstileWidgetId = null;
+    }
+    suggestTurnstileRequired = false;
+    suggestTurnstileReady = false;
   }
 
   function ensureSuggestNotification(form) {
@@ -224,31 +233,81 @@
       if (form) {
         const submitBtn = form.querySelector('button[type="submit"]');
         const feedback = ensureSuggestNotification(form);
+        const turnstileContainer = document.getElementById('spotify-suggest-turnstile');
+
+        if (turnstileContainer && window.siteTurnstile) {
+          window.siteTurnstile.fetchSiteKey().then((siteKey) => {
+            if (!siteKey || suggestTurnstileWidgetId != null) return;
+            suggestTurnstileRequired = true;
+            suggestTurnstileReady = false;
+            if (submitBtn) submitBtn.disabled = true;
+            window.siteTurnstile.render(turnstileContainer, {
+              theme: 'dark',
+              callback: () => {
+                suggestTurnstileReady = true;
+                if (submitBtn) submitBtn.disabled = false;
+              },
+              onExpire: () => {
+                suggestTurnstileReady = false;
+                if (submitBtn) submitBtn.disabled = true;
+              },
+              onError: () => {
+                suggestTurnstileReady = false;
+                if (submitBtn) submitBtn.disabled = true;
+              },
+            }).then((widgetId) => {
+              if (widgetId != null) suggestTurnstileWidgetId = widgetId;
+            });
+          });
+        } else {
+          suggestTurnstileRequired = false;
+          suggestTurnstileReady = true;
+        }
+
         suggestSubmitHandler = async (e) => {
           e.preventDefault();
           const formData = new FormData(form);
           const songName = String(formData.get('songName') || '').trim();
           const artist = String(formData.get('artist') || '').trim();
           if (!songName) return;
+          if (suggestTurnstileRequired && !suggestTurnstileReady) {
+            feedback.textContent = 'Please complete the verification check before submitting.';
+            feedback.style.color = '#fca5a5';
+            feedback.style.display = 'block';
+            return;
+          }
           if (submitBtn) submitBtn.disabled = true;
           feedback.style.display = 'none';
           try {
+            const payload = Object.fromEntries(formData.entries());
             const response = await fetch(form.action || '/api/suggest-song', {
               method: form.method || 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ songName, artist }),
+              body: JSON.stringify(payload),
             });
             if (!response.ok) throw new Error('Submission failed');
             form.reset();
             feedback.textContent = 'Your song has been submitted.';
             feedback.style.color = '#86efac';
             feedback.style.display = 'block';
+            if (suggestTurnstileWidgetId != null && window.siteTurnstile) {
+              window.siteTurnstile.reset(suggestTurnstileWidgetId);
+              suggestTurnstileReady = false;
+              if (submitBtn) submitBtn.disabled = suggestTurnstileRequired;
+            }
           } catch (_) {
             feedback.textContent = 'Could not submit right now. Please try again.';
             feedback.style.color = '#fca5a5';
             feedback.style.display = 'block';
+            if (suggestTurnstileWidgetId != null && window.siteTurnstile) {
+              window.siteTurnstile.reset(suggestTurnstileWidgetId);
+              suggestTurnstileReady = false;
+              if (submitBtn) submitBtn.disabled = suggestTurnstileRequired;
+            }
           } finally {
-            if (submitBtn) submitBtn.disabled = false;
+            if (submitBtn && (!suggestTurnstileRequired || suggestTurnstileReady)) {
+              submitBtn.disabled = false;
+            }
           }
         };
         form.addEventListener('submit', suggestSubmitHandler);

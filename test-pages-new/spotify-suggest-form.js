@@ -40,6 +40,40 @@
     }
 
     const submitBtn = form.querySelector('button[type="submit"]');
+    const turnstileContainer = document.getElementById('spotify-suggest-turnstile');
+    let turnstileWidgetId = null;
+    let turnstileRequired = false;
+    let turnstileReady = false;
+
+    if (turnstileContainer && window.siteTurnstile) {
+      window.siteTurnstile.fetchSiteKey().then((siteKey) => {
+        if (!siteKey) {
+          turnstileReady = true;
+          return;
+        }
+        turnstileRequired = true;
+        if (submitBtn) submitBtn.disabled = true;
+        window.siteTurnstile.render(turnstileContainer, {
+          theme: 'auto',
+          callback: () => {
+            turnstileReady = true;
+            if (submitBtn) submitBtn.disabled = false;
+          },
+          onExpire: () => {
+            turnstileReady = false;
+            if (submitBtn) submitBtn.disabled = true;
+          },
+          onError: () => {
+            turnstileReady = false;
+            if (submitBtn) submitBtn.disabled = true;
+          },
+        }).then((widgetId) => {
+          turnstileWidgetId = widgetId;
+        });
+      });
+    } else {
+      turnstileReady = true;
+    }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -50,15 +84,20 @@
         setFeedback(feedbackEl, 'Add a song name', 'So I know what to look for.', 'error');
         return;
       }
+      if (turnstileRequired && !turnstileReady) {
+        setFeedback(feedbackEl, 'Verification needed', 'Complete the check before submitting.', 'error');
+        return;
+      }
 
       if (submitBtn) submitBtn.disabled = true;
       setFeedback(feedbackEl, 'Sending…', 'One moment.', 'success');
 
       try {
+        const payload = Object.fromEntries(fd.entries());
         const res = await fetch(form.action || '/api/suggest-song', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ songName, artist }),
+          body: JSON.stringify(payload),
         });
         const text = await res.text();
         const data = text ? parseJsonSafe(text) : null;
@@ -68,15 +107,32 @@
             (data && (data.error || data.message)) ||
             (res.status === 400 ? 'Song name is required.' : 'Could not send. Try again later.');
           setFeedback(feedbackEl, 'Not sent', msg, 'error');
+          if (turnstileWidgetId != null && window.siteTurnstile) {
+            window.siteTurnstile.reset(turnstileWidgetId);
+            turnstileReady = false;
+            if (submitBtn) submitBtn.disabled = turnstileRequired;
+          }
           return;
         }
 
         form.reset();
         setFeedback(feedbackEl, 'Song Sent', 'Tune in to see if I listen.', 'success');
+        if (turnstileWidgetId != null && window.siteTurnstile) {
+          window.siteTurnstile.reset(turnstileWidgetId);
+          turnstileReady = false;
+          if (submitBtn) submitBtn.disabled = turnstileRequired;
+        }
       } catch (_) {
         setFeedback(feedbackEl, 'Not sent', 'Network error. Try again in a moment.', 'error');
+        if (turnstileWidgetId != null && window.siteTurnstile) {
+          window.siteTurnstile.reset(turnstileWidgetId);
+          turnstileReady = false;
+          if (submitBtn) submitBtn.disabled = turnstileRequired;
+        }
       } finally {
-        if (submitBtn) submitBtn.disabled = false;
+        if (submitBtn && (!turnstileRequired || turnstileReady)) {
+          submitBtn.disabled = false;
+        }
       }
     });
   }

@@ -78,8 +78,25 @@ SMTP_HOST=
 SMTP_PORT=
 SMTP_USER=
 SMTP_PASS=
-MAIL_TO=
-MAIL_FROM=
+CONTACT_EMAIL=
+```
+
+### Cloudflare Turnstile (form spam protection)
+
+Create a Turnstile widget in the [Cloudflare dashboard](https://dash.cloudflare.com/?to=/:account/turnstile) for your domain, then add:
+
+```env
+TURNSTILE_SITE_KEY=
+TURNSTILE_SECRET_KEY=
+```
+
+If these are not set, forms still work locally without the widget. When `TURNSTILE_SECRET_KEY` is set in production, submissions without a valid token are rejected.
+
+Cloudflare provides always-pass test keys for development:
+
+```env
+TURNSTILE_SITE_KEY=1x00000000000000000000AA
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
 ```
 
 
@@ -88,7 +105,7 @@ MAIL_FROM=
 * [ ] Ensure background effects don’t r on every mode switch
 * [ ] Improve lighthouse performance (reduce blocking JS, compress media)
 * [ ] Add caching for quote + spotify responses
-* [ ] Harden form endpoint (rate limit + validation)
+* [x] Harden form endpoint (Turnstile verification)
 * [ ] Add SQL database to Quotes section to change from manuall quote changes.
 
 ---

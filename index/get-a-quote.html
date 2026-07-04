@@ -103,7 +103,9 @@
             </label>
           </div>
 
-          <button type="submit" class="btn-primary">Book Consultation</button>
+          <div id="quote-turnstile" class="form-turnstile"></div>
+
+          <button type="submit" class="btn-primary" id="quote-submit">Book Consultation</button>
         </form>
       </div>
     </section>
@@ -114,5 +116,79 @@
       <p>&copy; 2026 David W. Advisory. All rights reserved.</p>
     </div>
   </footer>
+  <script src="../js/turnstile.js"></script>
+  <script>
+    (function () {
+      const form = document.querySelector('.quote-form');
+      if (!form || !window.siteTurnstile) return;
+
+      const submitBtn = document.getElementById('quote-submit');
+      const turnstileContainer = document.getElementById('quote-turnstile');
+      let turnstileWidgetId = null;
+      let turnstileRequired = false;
+      let turnstileReady = false;
+
+      window.siteTurnstile.fetchSiteKey().then((siteKey) => {
+        if (!siteKey) {
+          turnstileReady = true;
+          return;
+        }
+        turnstileRequired = true;
+        if (submitBtn) submitBtn.disabled = true;
+        window.siteTurnstile.render(turnstileContainer, {
+          theme: 'auto',
+          callback: () => {
+            turnstileReady = true;
+            if (submitBtn) submitBtn.disabled = false;
+          },
+          onExpire: () => {
+            turnstileReady = false;
+            if (submitBtn) submitBtn.disabled = true;
+          },
+          onError: () => {
+            turnstileReady = false;
+            if (submitBtn) submitBtn.disabled = true;
+          },
+        }).then((widgetId) => {
+          turnstileWidgetId = widgetId;
+        });
+      });
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (turnstileRequired && !turnstileReady) return;
+
+        if (submitBtn) submitBtn.disabled = true;
+        const payload = Object.fromEntries(new FormData(form).entries());
+
+        try {
+          const response = await fetch(form.action, {
+            method: form.method || 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          if (!response.ok) throw new Error('Submission failed');
+          form.reset();
+          alert('Thanks — your consultation request has been sent.');
+          if (turnstileWidgetId != null) {
+            window.siteTurnstile.reset(turnstileWidgetId);
+            turnstileReady = false;
+            if (submitBtn) submitBtn.disabled = turnstileRequired;
+          }
+        } catch (_) {
+          alert('Something went wrong sending your request. Please try again or email directly.');
+          if (turnstileWidgetId != null) {
+            window.siteTurnstile.reset(turnstileWidgetId);
+            turnstileReady = false;
+            if (submitBtn) submitBtn.disabled = turnstileRequired;
+          }
+        } finally {
+          if (submitBtn && (!turnstileRequired || turnstileReady)) {
+            submitBtn.disabled = false;
+          }
+        }
+      });
+    })();
+  </script>
 </body>
 </html>

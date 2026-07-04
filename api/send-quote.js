@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const { verifyTurnstileToken } = require('../lib/verify-turnstile');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
@@ -45,6 +46,7 @@ module.exports = async (req, res) => {
     project,
     projectDetails,
     budget,
+    'cf-turnstile-response': turnstileToken,
     // Backward-compat legacy fields:
     phone,
     contact,
@@ -53,6 +55,18 @@ module.exports = async (req, res) => {
     details,
     newsletter,
   } = body;
+
+  const remoteIp =
+    (req.headers['x-forwarded-for'] || '').split(',')[0].trim() ||
+    req.headers['x-real-ip'] ||
+    req.socket?.remoteAddress ||
+    '';
+
+  const turnstileResult = await verifyTurnstileToken(turnstileToken, remoteIp);
+  if (!turnstileResult.success) {
+    res.status(403).json({ ok: false, error: turnstileResult.error });
+    return;
+  }
 
   const normalizedName = (name || '').trim();
   const normalizedEmail = (email || '').trim();

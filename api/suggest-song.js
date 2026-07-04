@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const { verifyTurnstileToken } = require('../lib/verify-turnstile');
 
 function parseUrlEncoded(raw) {
   const params = new URLSearchParams(raw);
@@ -36,6 +37,19 @@ module.exports = async (req, res) => {
   const body = parseBody(req);
   const songName = (body.songName || body.song_name || '').trim();
   const artist = (body.artist || '').trim();
+  const turnstileToken = body['cf-turnstile-response'];
+
+  const remoteIp =
+    (req.headers['x-forwarded-for'] || '').split(',')[0].trim() ||
+    req.headers['x-real-ip'] ||
+    req.socket?.remoteAddress ||
+    '';
+
+  const turnstileResult = await verifyTurnstileToken(turnstileToken, remoteIp);
+  if (!turnstileResult.success) {
+    res.status(403).json({ ok: false, error: turnstileResult.error });
+    return;
+  }
 
   if (!songName) {
     res.status(400).json({ ok: false, error: 'Song name is required.' });

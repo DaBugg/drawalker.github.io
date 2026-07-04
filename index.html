@@ -401,6 +401,9 @@ body { background: #0f172a !important; }
   font-size: 0.82rem;
   color: #b91c1c;
 }
+.pf-contact-form__turnstile {
+  margin-top: 0.75rem;
+}
 .pf-contact-form__fallback {
   margin: 0.2rem 0 0;
   font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
@@ -1781,6 +1784,7 @@ a.service__cta.portfolio-faux-cta:focus-visible {
 </head>
 <body>
 <div id="root"></div>
+<script src="js/turnstile.js"></script>
 <script src="test-pages-new/spotify-embed.js"></script>
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
@@ -2291,6 +2295,7 @@ function AboutSection({ onNavigate }) {
                               </div>
 
                               <div className="spotify-suggest__actions spotify-suggest__field--full">
+                                <div id="spotify-suggest-turnstile" className="spotify-suggest__turnstile" />
                                 <button type="submit" className="btn btn--primary small">
                                   Submit
                                 </button>
@@ -2804,6 +2809,10 @@ function ContactSection({ onNavigate }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [turnstileRequired, setTurnstileRequired] = useState(false);
+  const [turnstileReady, setTurnstileReady] = useState(false);
+  const turnstileContainerRef = useRef(null);
+  const turnstileWidgetIdRef = useRef(null);
 
   const shellLight = {
     minHeight: '100%',
@@ -2815,9 +2824,55 @@ function ContactSection({ onNavigate }) {
   const roleLabel = PF_CONTACT_ROLE_OPTIONS.find((item) => item.value === role)?.label || '';
   const serviceLabel = PF_CONTACT_SERVICE_OPTIONS.find((item) => item.value === service)?.label || '';
 
+  useEffect(() => {
+    if (step !== 3 || isSubmitted || !window.siteTurnstile) return undefined;
+
+    let cancelled = false;
+
+    (async () => {
+      const siteKey = await window.siteTurnstile.fetchSiteKey();
+      if (cancelled) return;
+
+      if (!siteKey) {
+        setTurnstileRequired(false);
+        setTurnstileReady(true);
+        return;
+      }
+
+      setTurnstileRequired(true);
+      setTurnstileReady(false);
+
+      const widgetId = await window.siteTurnstile.render(turnstileContainerRef.current, {
+        theme: 'light',
+        callback: () => {
+          if (!cancelled) setTurnstileReady(true);
+        },
+        onExpire: () => setTurnstileReady(false),
+        onError: () => setTurnstileReady(false),
+      });
+
+      if (!cancelled && widgetId != null) {
+        turnstileWidgetIdRef.current = widgetId;
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+      setTurnstileReady(false);
+      if (turnstileWidgetIdRef.current != null && window.siteTurnstile) {
+        window.siteTurnstile.remove(turnstileWidgetIdRef.current);
+        turnstileWidgetIdRef.current = null;
+      }
+    };
+  }, [step, isSubmitted]);
+
   const onFormSubmit = async (e) => {
     e.preventDefault();
     setSubmitError('');
+    if (turnstileRequired && !turnstileReady) {
+      setSubmitError('Please complete the verification check before sending.');
+      return;
+    }
     setIsSubmitting(true);
     try {
       const form = e.currentTarget;
@@ -2833,6 +2888,10 @@ function ContactSection({ onNavigate }) {
       setIsSubmitted(true);
     } catch (error) {
       setSubmitError('Something went wrong sending your note. Please try again or email directly.');
+      if (turnstileWidgetIdRef.current != null && window.siteTurnstile) {
+        window.siteTurnstile.reset(turnstileWidgetIdRef.current);
+        setTurnstileReady(false);
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -2981,7 +3040,13 @@ function ContactSection({ onNavigate }) {
                             </p>
                           ) : null}
 
-                          <button type="submit" className="btn btn--large pf-contact-form__submit" disabled={isSubmitting}>
+                          <div ref={turnstileContainerRef} className="pf-contact-form__turnstile" />
+
+                          <button
+                            type="submit"
+                            className="btn btn--large pf-contact-form__submit"
+                            disabled={isSubmitting || (turnstileRequired && !turnstileReady)}
+                          >
                             {isSubmitting ? 'Sending...' : 'Send Project Details'}
                           </button>
                           <p className="pf-contact-form__fallback">
