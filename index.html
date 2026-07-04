@@ -1784,7 +1784,7 @@ a.service__cta.portfolio-faux-cta:focus-visible {
 </head>
 <body>
 <div id="root"></div>
-<script src="js/turnstile.js"></script>
+<script src="js/form-security.js"></script>
 <script src="test-pages-new/spotify-embed.js"></script>
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
@@ -2825,7 +2825,14 @@ function ContactSection({ onNavigate }) {
   const serviceLabel = PF_CONTACT_SERVICE_OPTIONS.find((item) => item.value === service)?.label || '';
 
   useEffect(() => {
-    if (step !== 3 || isSubmitted || !window.siteTurnstile) return undefined;
+    if (step !== 3 || isSubmitted) return undefined;
+
+    if (!window.siteTurnstile) {
+      setTurnstileRequired(true);
+      setTurnstileReady(false);
+      setSubmitError('Verification could not load. Please refresh and try again.');
+      return undefined;
+    }
 
     let cancelled = false;
 
@@ -2850,7 +2857,10 @@ function ContactSection({ onNavigate }) {
             if (!cancelled) setTurnstileReady(true);
           },
           onExpire: () => setTurnstileReady(false),
-          onError: () => setTurnstileReady(false),
+          onError: () => {
+            setTurnstileReady(false);
+            setSubmitError('Verification failed to load. Please refresh and try again.');
+          },
         });
 
         if (!cancelled && widgetId != null) {

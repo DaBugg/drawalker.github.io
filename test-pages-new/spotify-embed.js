@@ -267,8 +267,12 @@
             });
           });
         } else {
-          suggestTurnstileRequired = false;
-          suggestTurnstileReady = true;
+          suggestTurnstileRequired = true;
+          suggestTurnstileReady = false;
+          feedback.textContent = 'Verification could not load. Please refresh and try again.';
+          feedback.style.color = '#fca5a5';
+          feedback.style.display = 'block';
+          if (submitBtn) submitBtn.disabled = true;
         }
 
         suggestSubmitHandler = async (e) => {

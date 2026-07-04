@@ -77,7 +77,10 @@
         });
       });
     } else {
-      turnstileReady = true;
+      turnstileRequired = true;
+      turnstileReady = false;
+      setFeedback(feedbackEl, 'Verification unavailable', 'Refresh the page and try again.', 'error');
+      if (submitBtn) submitBtn.disabled = true;
     }
 
     form.addEventListener('submit', async (e) => {

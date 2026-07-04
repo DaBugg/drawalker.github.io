@@ -116,21 +116,27 @@
       <p>&copy; 2026 David W. Advisory. All rights reserved.</p>
     </div>
   </footer>
-  <script src="../js/turnstile.js"></script>
+  <script src="../js/form-security.js"></script>
   <script>
     (function () {
       const form = document.querySelector('.quote-form');
-      if (!form || !window.siteTurnstile) return;
+      if (!form) return;
 
       const submitBtn = document.getElementById('quote-submit');
       const turnstileContainer = document.getElementById('quote-turnstile');
       let turnstileWidgetId = null;
-      let turnstileRequired = false;
+      let turnstileRequired = true;
       let turnstileReady = false;
+      if (submitBtn) submitBtn.disabled = true;
+
+      if (!window.siteTurnstile) {
+        alert('Verification could not load. Please refresh and try again.');
+        return;
+      }
 
       window.siteTurnstile.fetchSiteKey().then((siteKey) => {
         if (!siteKey) {
-          turnstileReady = true;
+          alert('Verification could not load. Please refresh and try again.');
           return;
         }
         turnstileRequired = true;
