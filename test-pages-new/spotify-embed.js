@@ -242,6 +242,7 @@
             suggestTurnstileReady = false;
             if (submitBtn) submitBtn.disabled = true;
             window.siteTurnstile.render(turnstileContainer, {
+              siteKey,
               theme: 'dark',
               callback: () => {
                 suggestTurnstileReady = true;
@@ -257,6 +258,12 @@
               },
             }).then((widgetId) => {
               if (widgetId != null) suggestTurnstileWidgetId = widgetId;
+            }).catch(() => {
+              feedback.textContent = 'Verification could not load. Please refresh and try again.';
+              feedback.style.color = '#fca5a5';
+              feedback.style.display = 'block';
+              suggestTurnstileReady = false;
+              if (submitBtn) submitBtn.disabled = true;
             });
           });
         } else {

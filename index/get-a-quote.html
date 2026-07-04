@@ -136,6 +136,7 @@
         turnstileRequired = true;
         if (submitBtn) submitBtn.disabled = true;
         window.siteTurnstile.render(turnstileContainer, {
+          siteKey,
           theme: 'auto',
           callback: () => {
             turnstileReady = true;
@@ -151,6 +152,10 @@
           },
         }).then((widgetId) => {
           turnstileWidgetId = widgetId;
+        }).catch(() => {
+          turnstileReady = false;
+          if (submitBtn) submitBtn.disabled = true;
+          alert('Verification could not load. Please refresh and try again.');
         });
       });
 

@@ -54,6 +54,7 @@
         turnstileRequired = true;
         if (submitBtn) submitBtn.disabled = true;
         window.siteTurnstile.render(turnstileContainer, {
+          siteKey,
           theme: 'auto',
           callback: () => {
             turnstileReady = true;
@@ -69,6 +70,10 @@
           },
         }).then((widgetId) => {
           turnstileWidgetId = widgetId;
+        }).catch(() => {
+          setFeedback(feedbackEl, 'Verification unavailable', 'Refresh the page and try again.', 'error');
+          turnstileReady = false;
+          if (submitBtn) submitBtn.disabled = true;
         });
       });
     } else {

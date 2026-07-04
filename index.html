@@ -2842,17 +2842,24 @@ function ContactSection({ onNavigate }) {
       setTurnstileRequired(true);
       setTurnstileReady(false);
 
-      const widgetId = await window.siteTurnstile.render(turnstileContainerRef.current, {
-        theme: 'light',
-        callback: () => {
-          if (!cancelled) setTurnstileReady(true);
-        },
-        onExpire: () => setTurnstileReady(false),
-        onError: () => setTurnstileReady(false),
-      });
+      try {
+        const widgetId = await window.siteTurnstile.render(turnstileContainerRef.current, {
+          siteKey,
+          theme: 'light',
+          callback: () => {
+            if (!cancelled) setTurnstileReady(true);
+          },
+          onExpire: () => setTurnstileReady(false),
+          onError: () => setTurnstileReady(false),
+        });
 
-      if (!cancelled && widgetId != null) {
-        turnstileWidgetIdRef.current = widgetId;
+        if (!cancelled && widgetId != null) {
+          turnstileWidgetIdRef.current = widgetId;
+        }
+      } catch (_) {
+        if (!cancelled) {
+          setSubmitError('Verification could not load. Please refresh and try again.');
+        }
       }
     })();
 

@@ -19,10 +19,14 @@
   }
 
   async function fetchSiteKey() {
-    const response = await fetch('/api/turnstile-config', { cache: 'no-store' });
-    if (!response.ok) return '';
-    const data = await response.json();
-    return data.siteKey || '';
+    try {
+      const response = await fetch('/api/turnstile-config', { cache: 'no-store' });
+      if (!response.ok) return '';
+      const data = await response.json();
+      return data.siteKey || '';
+    } catch (_) {
+      return '';
+    }
   }
 
   async function render(container, options) {
