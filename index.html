@@ -1,3528 +1,516 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Networks & Nodes — business systems, websites, and automation</title>
-<meta name="description" content="Networks & Nodes helps owner-led businesses ship calm websites, dependable automation, and infrastructure you can audit—so your tools connect instead of fighting each other.">
-<link rel="canonical" href="https://www.networksandnodes.org/" />
-<meta property="og:title" content="Networks & Nodes — business systems, websites, and automation">
-<meta property="og:description" content="Calm websites, honest SEO, workflow automation, and hardened systems for teams that need reliability—not scattered tools.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.networksandnodes.org/">
-<meta property="og:image" content="https://www.networksandnodes.org/images/og-default.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Networks & Nodes — business systems, websites, and automation">
-<meta name="twitter:description" content="Calm websites, honest SEO, workflow automation, and hardened systems for teams that need reliability—not scattered tools.">
-<meta name="twitter:image" content="https://www.networksandnodes.org/images/og-default.png">
-<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-image32x32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-image16x16.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css" />
-<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: 100%; height: 100%; overflow: hidden; background: #0f172a; }
-#root { width: 100%; height: 100%; }
-::-webkit-scrollbar { display: none; }
-/* Keep zoom shell behind NavCards; site stylesheet sets body for marketing pages */
-body { background: #0f172a !important; }
-
-/* Scroll region below NavCards header — header row is separate; art lives here only */
-.portfolio-panel-body {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  display: flex;
-  flex-direction: column;
-  background-color: #0b1220;
-  background-image: none;
-  background-repeat: no-repeat;
-}
-/* Four-tile home grid: dark shell; tile art comes from .pf-nav-grid-tile--* */
-.portfolio-panel-body--grid {
-  background-color: #0b1220;
-  background-image: none;
-}
-.portfolio-panel-body--about {
-  background-color: #0b1220;
-  /*
-    Paint on the scroll container itself so it spans the entire About content
-    (bio + quote/book + Spotify), not just the visible viewport.
-  */
-  background-image:
-    linear-gradient(rgba(11, 18, 32, 0.42), rgba(11, 18, 32, 0.5)),
-    url('test-pages-new/services.svg');
-  background-repeat: no-repeat, no-repeat;
-  background-position: center center, center center;
-  background-size: cover, cover;
-  background-attachment: local;
-  flex: 1 1 auto;
-  min-height: 100%;
-  width: 100%;
-}
-/* Let illustration show through (global .section--soft is opaque) */
-.portfolio-panel-body--about .section.section--soft {
-  background: transparent !important;
-  border-top: 1px solid rgba(148, 163, 184, 0.22);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.22);
-}
-.portfolio-panel-body--work {
-  background-image: url('test-pages-new/work-background.svg');
-  background-position: center center;
-  background-size: cover;
-}
-.portfolio-panel-body--services {
-  background-color: #0b1220;
-  background-image:
-    linear-gradient(rgba(11, 18, 32, 0.52), rgba(11, 18, 32, 0.56)),
-    url('test-pages-new/about-background.svg');
-  background-repeat: repeat-y;
-  background-position: center top;
-  background-size: 100% auto;
-  background-attachment: local;
-}
-.portfolio-panel-body--contact {
-  background-color: #e9eef6;
-  background-image: url('test-pages-new/Contact-background.svg');
-  background-repeat: no-repeat;
-  background-position: center bottom;
-  background-size: min(100%, 1600px) auto;
-}
-@media (min-width: 900px) {
-  .portfolio-panel-body--services {
-    background-size: cover;
-  }
-  .portfolio-panel-body--contact {
-    background-size: min(100%, 2000px) auto;
-  }
-}
-
-/* Four section tiles (grid): same SVG art as full sections, dark-friendly read */
-.pf-nav-grid-tile {
-  background-repeat: no-repeat;
-  background-color: #0b1220;
-  background-size: cover;
-  background-position: center;
-}
-.pf-nav-grid-tile--about {
-  background-image:
-    linear-gradient(rgba(11, 18, 32, 0.42), rgba(11, 18, 32, 0.5)),
-    url('test-pages-new/services.svg');
-  background-repeat: no-repeat, no-repeat;
-  background-size: cover, cover;
-  background-position: center, center;
-}
-.pf-nav-grid-tile--work {
-  background-image:
-    linear-gradient(rgba(11, 18, 32, 0.72), rgba(11, 18, 32, 0.72)),
-    url('test-pages-new/work-background.svg');
-}
-.pf-nav-grid-tile--services {
-  background-image:
-    linear-gradient(rgba(11, 18, 32, 0.52), rgba(11, 18, 32, 0.56)),
-    url('test-pages-new/about-background.svg');
-}
-.pf-nav-grid-tile--contact {
-  background-color: #e9eef6;
-  background-image:
-    linear-gradient(rgba(11, 18, 32, 0.68), rgba(11, 18, 32, 0.68)),
-    url('test-pages-new/Contact-background.svg');
-  background-repeat: no-repeat, no-repeat;
-  background-position: center bottom, center bottom;
-  background-size: min(100%, 1600px) auto, min(100%, 1600px) auto;
-}
-@media (min-width: 900px) {
-  .pf-nav-grid-tile--contact {
-    background-size: min(100%, 2000px) auto, min(100%, 2000px) auto;
-  }
-}
-.pf-nav-grid-tile__num {
-  color: rgba(255, 255, 255, 0.1);
-}
-.pf-nav-grid-tile__title {
-  color: rgba(252, 252, 254, 0.96);
-  font-size: clamp(1.05rem, 2.8vw, 2.1rem);
-  font-weight: 300;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.pf-nav-grid-tile__sub {
-  color: #f87171;
-  font-size: clamp(0.8rem, 1.15vw, 0.95rem);
-  font-weight: 500;
-  letter-spacing: 0.06em;
-}
-.pf-nav-grid-tile:hover {
-  filter: brightness(1.07);
-}
-.pf-nav-grid-tile:focus-visible {
-  outline: 2px solid rgba(52, 211, 153, 0.55);
-  outline-offset: -3px;
-}
-
-/* Light island inside portfolio (contact): consultation form uses marketing tokens */
-.portfolio-embed-root[data-theme="light"] {
-  color-scheme: light;
-  --bg: #f8fafc;
-  --bg-soft: #f1f5f9;
-  --surface: #ffffff;
-  --surface-border: #e5e7eb;
-  --text: #0f172a;
-  --text-muted: #475569;
-  --accent: #16a34a;
-  --accent-strong: #15803d;
-  --link: #1d4ed8;
-  --accent-cyan: #0891b2;
-  --accent-emerald: #059669;
-  --accent-blue: #2563eb;
-  --shadow: 0 6px 20px rgba(15, 23, 42, 0.1);
-  color: var(--text);
-}
-.pf-contact-embed .section {
-  padding-top: 1.75rem;
-  padding-bottom: 2.5rem;
-}
-.pf-contact-embed .title {
-  color: var(--text);
-}
-
-/* Portfolio contact — three-step journey */
-.pf-contact-journey {
-  max-width: 54rem;
-}
-.pf-contact-step {
-  border-radius: 1.15rem;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: linear-gradient(
-    165deg,
-    rgba(255, 255, 255, 0.98) 0%,
-    color-mix(in oklab, var(--bg-soft) 88%, white) 55%,
-    rgba(255, 255, 255, 0.94) 100%
-  );
-  box-shadow:
-    0 1px 2px rgba(15, 23, 42, 0.04),
-    0 18px 40px -16px rgba(15, 23, 42, 0.14);
-  padding: clamp(1.2rem, 3vw, 1.85rem);
-}
-.pf-contact-step__progress {
-  display: block;
-  margin: 0 0 0.95rem;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  color: #64748b;
-}
-.pf-contact-step__header {
-  margin-bottom: 1.35rem;
-}
-.pf-contact-step__eyebrow {
-  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: #64748b;
-  margin: 0 0 0.45rem;
-}
-.pf-contact-step__title {
-  margin: 0;
-  font-family: "Instrument Serif", Georgia, serif;
-  font-weight: 400;
-  line-height: 1.12;
-  font-size: clamp(2rem, 5vw, 2.8rem);
-  color: #0f172a;
-}
-.pf-contact-title-accent {
-  color: #c9ae7a;
-  font-style: italic;
-}
-.pf-contact-step__back {
-  appearance: none;
-  border: 1px solid rgba(15, 23, 42, 0.18);
-  background: #fff;
-  color: #1e293b;
-  border-radius: 0.65rem;
-  padding: 0.45rem 0.75rem;
-  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  font-weight: 600;
-  font-size: 0.82rem;
-  margin-bottom: 0.9rem;
-  cursor: pointer;
-}
-.pf-contact-step__back:focus-visible {
-  outline: none;
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-blue) 24%, transparent);
-}
-.pf-contact-step__heading {
-  margin: 0 0 0.45rem;
-  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: #0f172a;
-}
-.pf-contact-step__helper {
-  margin: 0 0 1rem;
-  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  font-size: 0.94rem;
-  color: #334155;
-  line-height: 1.65;
-}
-.pf-contact-tiles {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.7rem;
-}
-@media (min-width: 768px) {
-  .pf-contact-tiles {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-.pf-contact-tile {
-  text-align: left;
-  border: 1px solid rgba(15, 23, 42, 0.11);
-  background: #fff;
-  border-radius: 0.8rem;
-  padding: 0.8rem 0.9rem;
-  cursor: pointer;
-  transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.12s ease;
-}
-.pf-contact-tile:hover {
-  border-color: color-mix(in oklab, var(--accent-cyan) 55%, var(--surface-border));
-  box-shadow: 0 4px 16px -12px rgba(2, 132, 199, 0.45);
-}
-.pf-contact-tile:focus-visible {
-  outline: none;
-  border-color: var(--accent-cyan);
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-cyan) 28%, transparent);
-}
-.pf-contact-tile--selected {
-  border-color: var(--accent-cyan);
-  background: color-mix(in oklab, var(--accent-cyan) 10%, white);
-  box-shadow: 0 0 0 1px color-mix(in oklab, var(--accent-cyan) 26%, transparent);
-}
-.pf-contact-tile__label {
-  display: block;
-  margin-bottom: 0.15rem;
-  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: #0f172a;
-}
-.pf-contact-tile__desc {
-  margin: 0;
-  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  font-size: 0.84rem;
-  line-height: 1.5;
-  color: #475569;
-}
-.pf-contact-summary-chip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem 0.8rem;
-  align-items: center;
-  margin: 0 0 1rem;
-  padding: 0.65rem 0.75rem;
-  border-radius: 0.75rem;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: color-mix(in oklab, var(--bg-soft) 75%, white);
-  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  font-size: 0.84rem;
-  color: #334155;
-}
-.pf-contact-summary-chip__edit {
-  appearance: none;
-  border: none;
-  background: none;
-  color: #1d4ed8;
-  font-size: 0.82rem;
-  font-weight: 600;
-  padding: 0;
-  cursor: pointer;
-}
-.pf-contact-summary-chip__edit:focus-visible {
-  outline: 2px solid rgba(29, 78, 216, 0.45);
-  outline-offset: 2px;
-  border-radius: 0.2rem;
-}
-.pf-contact-form {
-  display: grid;
-  gap: 0.9rem;
-}
-.pf-contact-form__field {
-  display: grid;
-  gap: 0.35rem;
-}
-.pf-contact-form__field label {
-  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: #334155;
-}
-.pf-contact-form__field small {
-  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  font-size: 0.76rem;
-  color: #64748b;
-}
-.pf-contact-form__field input,
-.pf-contact-form__field select,
-.pf-contact-form__field textarea {
-  border-radius: 0.65rem;
-  border: 1px solid rgba(15, 23, 42, 0.1);
-  background: #fff;
-  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.03);
-  padding: 0.6rem 0.72rem;
-  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  font-size: 0.92rem;
-  color: #0f172a;
-}
-.pf-contact-form__field input:focus,
-.pf-contact-form__field select:focus,
-.pf-contact-form__field textarea:focus {
-  outline: none;
-  border-color: var(--accent-cyan);
-  box-shadow:
-    inset 0 1px 2px rgba(15, 23, 42, 0.03),
-    0 0 0 3px color-mix(in oklab, var(--accent-cyan) 22%, transparent);
-}
-.pf-contact-form__submit {
-  width: 100%;
-}
-.pf-contact-form__status {
-  margin: 0;
-  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  font-size: 0.82rem;
-  color: #b91c1c;
-}
-.pf-contact-form__turnstile {
-  margin-top: 0.75rem;
-}
-.pf-contact-form__fallback {
-  margin: 0.2rem 0 0;
-  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  font-size: 0.84rem;
-  color: #475569;
-}
-.pf-contact-success {
-  border-radius: 0.9rem;
-  border: 1px solid rgba(15, 23, 42, 0.1);
-  background: #fff;
-  padding: 1rem;
-}
-.pf-contact-success h3 {
-  margin: 0 0 0.45rem;
-  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  font-size: 1.06rem;
-  color: #0f172a;
-}
-.pf-contact-success p {
-  margin: 0;
-  font-family: "DM Sans", var(--font-sans), system-ui, sans-serif;
-  color: #475569;
-  line-height: 1.6;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .pf-contact-step__body {
-    animation: pf-contact-step-in 180ms ease;
-  }
-  @keyframes pf-contact-step-in {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-}
-
-/* About + reading — dark surface, subdued art, gold accents (wordmark #c9ae7a) */
-.pf-about-main {
-  font-family: "DM Sans", system-ui, sans-serif;
-  color: #d4d4d4;
-  padding: 0  clamp(1.1rem, 4vw, 2.25rem) 3rem;
-}
-.pf-about {
-  max-width: 38rem;
-  margin: 0 auto;
-}
-.pf-about__eyebrow {
-  font-size: 0.68rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: #a1a1aa;
-  margin-bottom: 0.65rem;
-}
-.pf-about__title {
-  font-family: "Instrument Serif", Georgia, serif;
-  font-size: clamp(2rem, 4vw, 2.85rem);
-  font-weight: 400;
-  line-height: 1.12;
-  margin: 0 0 1.25rem;
-  color: #fafafa;
-}
-.pf-about__title-accent {
-  font-style: italic;
-  color: #c9ae7a;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 20px rgba(201, 174, 122, 0.2);
-}
-.pf-about__lead {
-  font-size: 1.05rem;
-  line-height: 1.75;
-  color: #e5e5e5;
-  font-weight: 500;
-  margin: 0 0 1rem;
-}
-.pf-about__p {
-  font-size: 0.98rem;
-  line-height: 1.72;
-  color: #c4c4c4;
-  font-weight: 500;
-  margin: 0 0 1rem;
-}
-.pf-about__p strong { color: #fafafa; font-weight: 600; }
-.pf-about__inline-link {
-  display: inline;
-  color: #c9ae7a;
-  text-decoration: none;
-  border: none;
-  border-bottom: 1px solid rgba(201, 174, 122, 0.55);
-  border-radius: 0;
-  padding: 0 0 1px;
-  cursor: pointer;
-  background: none;
-  font: inherit;
-  vertical-align: baseline;
-  font-weight: 500;
-}
-.pf-about__inline-link:hover {
-  color: #dcc9a0;
-  border-bottom-color: rgba(220, 201, 160, 0.85);
-}
-
-.pf-work {
-  max-width: 42rem;
-  margin: 0 auto;
-}
-.pf-work__cases {
-  display: flex;
-  flex-direction: column;
-  gap: 1.35rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.pf-work-case {
-  border: 1px solid rgba(115, 115, 115, 0.38);
-  border-radius: 0.65rem;
-  padding: 1.2rem 1.3rem 1.35rem;
-  background: rgba(15, 23, 42, 0.55);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
-}
-.pf-work-case__meta {
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #a1a1aa;
-  margin: 0 0 0.5rem;
-}
-.pf-work-case__title {
-  font-family: "Instrument Serif", Georgia, serif;
-  font-size: 1.35rem;
-  font-weight: 400;
-  line-height: 1.2;
-  color: #fafafa;
-  margin: 0 0 0.65rem;
-}
-.pf-work-case__body {
-  font-size: 0.92rem;
-  line-height: 1.72;
-  color: #c4c4c4;
-  margin: 0 0 1rem;
-  font-weight: 500;
-}
-.pf-work-case__quote {
-  margin: 0;
-  padding: 0.75rem 0 0.35rem 1rem;
-  border-left: 2px solid rgba(201, 174, 122, 0.55);
-  font-family: "Instrument Serif", Georgia, serif;
-  font-size: 1.05rem;
-  font-style: italic;
-  line-height: 1.55;
-  color: #e8e8e8;
-}
-.pf-work-case__cite {
-  display: block;
-  margin-top: 0.65rem;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.78rem;
-  font-style: normal;
-  letter-spacing: 0.02em;
-  color: #a3a3a3;
-  line-height: 1.5;
-}
-
-.pf-connect {
-  margin-top: 2rem;
-  padding-top: 1.75rem;
-  border-top: 1px solid rgba(115, 115, 115, 0.35);
-}
-.pf-connect__label {
-  font-size: 0.68rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: #a1a1aa;
-  margin: 0 0 0.9rem;
-}
-.pf-connect__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem;
-}
-.pf-connect__a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  padding: 0.35rem;
-  border-radius: 999px;
-  border: 1px solid rgba(201, 174, 122, 0.35);
-  background: rgba(15, 23, 42, 0.72);
-  text-decoration: none;
-  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
-}
-.pf-connect__a:hover {
-  border-color: rgba(201, 174, 122, 0.75);
-  background: rgba(30, 41, 59, 0.92);
-  transform: translateY(-1px);
-}
-.pf-connect__a:focus-visible {
-  outline: 2px solid #c9ae7a;
-  outline-offset: 3px;
-}
-.pf-connect__icon {
-  width: 1.2rem;
-  height: 1.2rem;
-  display: block;
-}
-.pf-section-footer-nav {
-  margin: 2.25rem auto 0;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(115, 115, 115, 0.35);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-}
-.pf-section-footer-nav--contained {
-  width: min(1100px, 92%);
-}
-.pf-section-footer-btn {
-  border: 1px solid rgba(201, 174, 122, 0.35);
-  background: rgba(15, 23, 42, 0.72);
-  color: #e5e5e5;
-  border-radius: 999px;
-  padding: 0.5rem 0.95rem;
-  font-size: 0.82rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-weight: 500;
-  cursor: pointer;
-  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
-}
-.pf-section-footer-btn:hover {
-  border-color: rgba(201, 174, 122, 0.75);
-  background: rgba(30, 41, 59, 0.92);
-  color: #fafafa;
-}
-.pf-section-footer-btn:focus-visible {
-  outline: 2px solid #c9ae7a;
-  outline-offset: 3px;
-}
-.pf-reading-bottom {
-  max-width: 68rem;
-  margin: 0 auto;
-  padding: 2.5rem clamp(1.1rem, 4vw, 2.25rem) 2rem;
-  display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(260px, 400px);
-  gap: 1.5rem 2rem;
-  align-items: start;
-  border-top: 1px solid rgba(51, 65, 85, 0.65);
-}
-.pf-reading-bottom__col--left {
-  display: flex;
-  flex-direction: column;
-  gap: 1.35rem;
-  min-width: 0;
-}
-.pf-reading-bottom__book-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem 1.25rem;
-  align-items: flex-start;
-}
-.pf-reading-bottom__col--spotify {
-  min-width: 0;
-}
-.pf-about-spotify-wrap {
-  width: 100%;
-}
-.about-embed-root .pf-reading-bottom .spotify {
-  margin: 0;
-  max-width: none;
-  width: 100%;
-}
-@media (max-width: 900px) {
-  .pf-reading-bottom {
-    grid-template-columns: 1fr;
-  }
-}
-.pf-reading__quote-block h2 {
-  font-family: "Instrument Serif", Georgia, serif;
-  font-size: clamp(1.35rem, 2.5vw, 1.65rem);
-  font-weight: 400;
-  font-style: italic;
-  color: #c9ae7a;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 18px rgba(201, 174, 122, 0.18);
-  margin: 0 0 0.85rem;
-}
-.pf-reading__quote-block blockquote {
-  margin: 0;
-  padding: 0 0 0 1rem;
-  border-left: 3px solid rgba(201, 174, 122, 0.55);
-  font-family: "Instrument Serif", Georgia, serif;
-  font-size: clamp(1.15rem, 2vw, 1.35rem);
-  line-height: 1.45;
-  color: #e5e5e5;
-}
-.pf-reading__quote-block blockquote p { margin: 0; }
-.pf-reading__quote-block blockquote footer {
-  margin-top: 0.75rem;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.85rem;
-  font-style: normal;
-  color: #a3a3a3;
-}
-.pf-reading__book {
-  border-radius: 1rem;
-  border: 1px solid rgba(71, 85, 105, 0.55);
-  background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.65));
-  padding: 1.15rem 1.25rem;
-}
-.pf-reading__book h2 {
-  font-family: "Instrument Serif", Georgia, serif;
-  font-size: clamp(1.2rem, 2vw, 1.45rem);
-  font-weight: 400;
-  font-style: italic;
-  color: #c9ae7a;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 16px rgba(201, 174, 122, 0.16);
-  margin: 0 0 0.5rem;
-}
-.pf-reading__book h3 {
-  margin: 0 0 0.65rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #f5f5f5;
-  font-family: "DM Sans", system-ui, sans-serif;
-}
-.pf-reading__book p {
-  margin: -0.35rem 0 0.65rem;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.85rem;
-  line-height: 1.45;
-}
-.pf-reading__book a {
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: #c9ae7a;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.pf-reading__book a:hover { color: #dcc9a0; }
-.pf-reading__cover { justify-self: start; }
-.pf-reading__cover figure { margin: 0; }
-.pf-reading__cover img {
-  width: 108px;
-  height: 156px;
-  object-fit: cover;
-  border-radius: 0.45rem;
-  border: 1px solid rgba(71, 85, 105, 0.65);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
-}
-.pf-services-rail {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  gap: 1rem;
-  margin-top: 1.5rem;
-  padding: 0.35rem 0.15rem 1.1rem;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(148, 163, 184, 0.45) transparent;
-}
-@media (max-width: 760px) {
-  .pf-services-rail {
-    flex-direction: column;
-    flex-wrap: nowrap;
-    overflow-x: visible;
-    overflow-y: visible;
-    scroll-snap-type: none;
-    gap: 0.85rem;
-    margin-top: 1rem;
-    padding: 0.2rem 0 0.35rem;
-  }
-  .pf-service-card {
-    flex: 1 1 auto;
-    min-height: 280px;
-    width: 100%;
-    max-width: none;
-  }
-}
-.pf-services-rail::-webkit-scrollbar {
-  display: block;
-  height: 6px;
-}
-.pf-services-rail::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.4);
-  border-radius: 999px;
-}
-.pf-service-card {
-  --pf-svc-border: rgba(71, 85, 105, 0.55);
-  --pf-svc-border-hover: rgba(34, 211, 238, 0.55);
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  min-height: min(52vh, 380px);
-  flex: 0 0 clamp(220px, 78vw, 300px);
-  scroll-snap-align: start;
-  border-radius: 0.85rem;
-  border: 1px solid var(--pf-svc-border);
-  background: linear-gradient(165deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.88));
-  overflow: hidden;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
-  transition:
-    border-color 0.22s ease,
-    box-shadow 0.22s ease,
-    transform 0.22s ease,
-    outline-color 0.22s ease;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-}
-@media (min-width: 1100px) {
-  .pf-services-rail {
-    overflow-x: visible;
-    flex-wrap: nowrap;
-    gap: 1.1rem;
-  }
-  .pf-service-card {
-    flex: 1 1 0;
-    min-width: 0;
-    max-width: none;
-    min-height: 360px;
-  }
-}
-.pf-service-card:hover {
-  border-color: var(--pf-svc-border-hover);
-  box-shadow:
-    0 0 0 1px rgba(34, 211, 238, 0.22),
-    0 14px 36px rgba(0, 0, 0, 0.38);
-  transform: translateY(-3px);
-}
-.pf-service-card:focus-within {
-  border-color: var(--pf-svc-border-hover);
-  outline-color: rgba(34, 211, 238, 0.45);
-}
-.pf-service-card__media {
-  position: relative;
-  min-height: 0;
-  border-bottom: 1px solid rgba(51, 65, 85, 0.65);
-  background: linear-gradient(135deg, rgba(51, 65, 85, 0.55), rgba(15, 23, 42, 0.9));
-}
-.pf-service-card__media img,
-.pf-service-card__media video,
-.pf-service-card__media iframe {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.pf-service-card__media video,
-.pf-service-card__media iframe {
-  background: #0f172a;
-  border: 0;
-}
-.pf-service-card__media-placeholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  text-align: center;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(148, 163, 184, 0.85);
-  border: 1px dashed rgba(100, 116, 139, 0.45);
-  margin: 0.65rem;
-  border-radius: 0.5rem;
-  pointer-events: none;
-}
-.pf-service-card__media-playtrigger {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  display: block;
-  overflow: hidden;
-}
-.pf-service-card__media-playtrigger img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.28s ease, filter 0.28s ease;
-}
-.pf-service-card__media-playtrigger:hover img {
-  transform: scale(1.035);
-  filter: brightness(0.82);
-}
-.pf-service-card__media-playtrigger:focus-visible {
-  outline: 2px solid rgba(201, 174, 122, 0.75);
-  outline-offset: -3px;
-}
-.pf-service-card__play-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 3.25rem;
-  height: 3.25rem;
-  border-radius: 999px;
-  background: rgba(11, 18, 32, 0.82);
-  border: 1px solid rgba(201, 174, 122, 0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
-  pointer-events: none;
-}
-.pf-service-card__play-icon span {
-  width: 0;
-  height: 0;
-  margin-left: 0.2rem;
-  border-top: 0.52rem solid transparent;
-  border-bottom: 0.52rem solid transparent;
-  border-left: 0.85rem solid #c9ae7a;
-}
-.pf-service-card__body {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  padding: 0.95rem 1rem 1rem;
-  gap: 0.5rem;
-}
-.pf-service-card__body h3 {
-  margin: 0;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #f1f5f9;
-  line-height: 1.3;
-}
-.pf-service-card__body p {
-  margin: 0;
-  flex: 1 1 auto;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.82rem;
-  line-height: 1.55;
-  color: #cbd5e1;
-  font-weight: 400;
-}
-.pf-service-card__body .service__cta {
-  align-self: flex-start;
-  margin-top: 0.25rem;
-}
-
-.pf-svc-hero-title {
-  font-family: "Instrument Serif", Georgia, serif;
-  font-size: clamp(1.75rem, 4.2vw, 2.45rem);
-  font-weight: 400;
-  line-height: 1.2;
-  color: #f8fafc;
-  margin: 0 0 1rem;
-  max-width: 40rem;
-}
-.pf-svc-block {
-  margin-top: 2.5rem;
-}
-.pf-svc-block__title {
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: clamp(1.05rem, 2vw, 1.25rem);
-  font-weight: 600;
-  color: #f1f5f9;
-  margin: 0 0 0.75rem;
-}
-.pf-svc-hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-  margin-top: 1.35rem;
-  align-items: center;
-}
-.pf-svc-card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-top: 0.35rem;
-}
-.pf-svc-tile {
-  border-radius: 0.85rem;
-  border: 1px solid rgba(71, 85, 105, 0.55);
-  background: linear-gradient(165deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.88));
-  padding: 1.1rem 1.15rem;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
-}
-.pf-svc-tile h4 {
-  margin: 0 0 0.5rem;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #f1f5f9;
-}
-.pf-svc-tile p {
-  margin: 0;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.8rem;
-  line-height: 1.55;
-  color: #cbd5e1;
-}
-.pf-svc-process {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
-  gap: 0.85rem;
-  margin-top: 0.35rem;
-}
-.pf-svc-process__step {
-  border-radius: 0.75rem;
-  border: 1px solid rgba(71, 85, 105, 0.5);
-  padding: 1rem 0.95rem;
-  background: rgba(15, 23, 42, 0.65);
-}
-.pf-svc-process__num {
-  display: block;
-  font-size: 1.2rem;
-  font-weight: 300;
-  letter-spacing: 0.08em;
-  color: rgba(248, 113, 113, 0.92);
-  font-family: "Inter", sans-serif;
-  margin-bottom: 0.35rem;
-}
-.pf-svc-process__step h4 {
-  margin: 0 0 0.4rem;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: #e2e8f0;
-}
-.pf-svc-process__step p {
-  margin: 0;
-  font-size: 0.76rem;
-  line-height: 1.5;
-  color: #94a3b8;
-}
-.pf-svc-trust-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-  margin-top: 1.25rem;
-}
-
-/* Services: video-first grid + three-path offers */
-.pf-svc-video-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-  gap: 1.15rem;
-  margin-top: 1.75rem;
-}
-.pf-svc-video-card {
-  display: flex;
-  flex-direction: column;
-  border-radius: 0.85rem;
-  border: 1px solid rgba(71, 85, 105, 0.55);
-  background: linear-gradient(165deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.88));
-  overflow: hidden;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
-  transition:
-    border-color 0.22s ease,
-    box-shadow 0.22s ease,
-    transform 0.22s ease;
-}
-.pf-svc-video-card:hover {
-  border-color: rgba(34, 211, 238, 0.55);
-  box-shadow:
-    0 0 0 1px rgba(34, 211, 238, 0.22),
-    0 14px 36px rgba(0, 0, 0, 0.38);
-  transform: translateY(-2px);
-}
-.pf-svc-video-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #0f172a;
-  border-bottom: 1px solid rgba(51, 65, 85, 0.65);
-}
-.pf-svc-video-wrap iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  display: block;
-}
-.pf-svc-video-card__body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  flex: 1;
-  padding: 1rem 1.05rem 1.1rem;
-}
-.pf-svc-video-card__body h3 {
-  margin: 0;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #f1f5f9;
-  line-height: 1.3;
-}
-.pf-svc-video-card__body p {
-  margin: 0;
-  flex: 1 1 auto;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.82rem;
-  line-height: 1.55;
-  color: #cbd5e1;
-}
-.pf-svc-video-card__cta {
-  align-self: flex-start;
-  margin-top: 0.15rem;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #22d3ee;
-  text-decoration: none;
-  letter-spacing: 0.02em;
-}
-.pf-svc-video-card__cta:hover {
-  color: #67e8f9;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.pf-svc-offer-intro {
-  max-width: 44rem;
-}
-.pf-svc-offer-intro .lead {
-  margin-bottom: 0.35rem;
-}
-.pf-svc-offer-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-  gap: 1rem;
-  margin-top: 0.85rem;
-}
-.pf-svc-offer-card {
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-  border-radius: 0.85rem;
-  border: 1px solid rgba(71, 85, 105, 0.55);
-  background: linear-gradient(165deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.88));
-  padding: 1.15rem 1.2rem 1.2rem;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
-  scroll-margin-top: 1rem;
-}
-.pf-svc-offer-card h3 {
-  margin: 0;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 1.02rem;
-  font-weight: 600;
-  color: #f1f5f9;
-}
-.pf-svc-offer-card > p {
-  margin: 0;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.82rem;
-  line-height: 1.55;
-  color: #cbd5e1;
-}
-.pf-svc-offer-card__includes-label {
-  margin: 0.1rem 0 0;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(148, 163, 184, 0.95);
-}
-.pf-svc-offer-card ul {
-  margin: 0;
-  padding: 0 0 0 1.1rem;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.78rem;
-  line-height: 1.5;
-  color: #94a3b8;
-}
-.pf-svc-offer-card li {
-  margin-bottom: 0.22rem;
-}
-.pf-svc-offer-card li:last-child {
-  margin-bottom: 0;
-}
-.pf-svc-offer-card .service__cta {
-  margin-top: 0.35rem;
-  align-self: flex-start;
-}
-
-.portfolio-embed-root[data-theme="dark"] .btn.btn--ghost {
-  color: rgba(248, 250, 252, 0.9);
-  border-color: rgba(148, 163, 184, 0.42);
-}
-.portfolio-embed-root[data-theme="dark"] .btn.btn--ghost:hover {
-  border-color: rgba(201, 174, 122, 0.55);
-  color: #f8fafc;
-}
-
-.pf-work-products {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-.pf-work-product-card {
-  --pf-work-border: rgba(71, 85, 105, 0.55);
-  --pf-work-border-hover: rgba(34, 211, 238, 0.55);
-  display: grid;
-  grid-template-columns: minmax(260px, 44%) 1fr;
-  border-radius: 0.85rem;
-  border: 1px solid var(--pf-work-border);
-  background: linear-gradient(165deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.88));
-  overflow: hidden;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
-  transition:
-    border-color 0.22s ease,
-    box-shadow 0.22s ease,
-    transform 0.22s ease;
-}
-.pf-work-product-card:hover {
-  border-color: var(--pf-work-border-hover);
-  box-shadow:
-    0 0 0 1px rgba(34, 211, 238, 0.22),
-    0 14px 36px rgba(0, 0, 0, 0.38);
-  transform: translateY(-2px);
-}
-.pf-work-product-card .pf-service-card__media {
-  border-bottom: 0;
-  border-right: 1px solid rgba(51, 65, 85, 0.65);
-  aspect-ratio: 16 / 9;
-  min-height: 220px;
-}
-.pf-work-product-card .pf-service-card__media iframe {
-  width: 100%;
-  height: 100%;
-}
-.pf-work-product-card .pf-service-card__body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  padding: 1rem 1.1rem 1.05rem;
-}
-.pf-work-product-card .pf-service-card__body h3 {
-  margin: 0;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.98rem;
-  font-weight: 600;
-  color: #f1f5f9;
-  line-height: 1.3;
-}
-.pf-work-product-card .pf-service-card__body p {
-  margin: 0;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.84rem;
-  line-height: 1.55;
-  color: #cbd5e1;
-  font-weight: 400;
-}
-.pf-work-product-card .pf-service-card__quote {
-  margin: 0.15rem 0 0;
-  padding-left: 0.8rem;
-  border-left: 2px solid rgba(201, 174, 122, 0.5);
-  font-family: "Instrument Serif", Georgia, serif;
-  font-size: 0.98rem;
-  font-style: italic;
-  color: #e2e8f0;
-  line-height: 1.45;
-}
-.pf-work-product-card .pf-service-card__cite {
-  margin-top: 0.45rem;
-  display: block;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.76rem;
-  color: #94a3b8;
-  line-height: 1.45;
-}
-@media (max-width: 900px) {
-  .pf-work-product-card {
-    grid-template-columns: 1fr;
-  }
-  .pf-work-product-card .pf-service-card__media {
-    border-right: 0;
-    border-bottom: 1px solid rgba(51, 65, 85, 0.65);
-  }
-}
-
-/* ── Featured Builds (Work) — three proof cards, accent via modifier + CSS vars ── */
-.pf-featured-builds__stack {
-  display: flex;
-  flex-direction: column;
-  gap: 2.25rem;
-  margin-top: 1.75rem;
-}
-.pf-featured-card {
-  --fb-accent: #22c55e;
-  --fb-accent-soft: rgba(74, 222, 128, 0.92);
-  --fb-accent-dim: rgba(34, 197, 94, 0.38);
-  --fb-accent-glow: rgba(34, 197, 94, 0.18);
-  --fb-accent-ring: rgba(34, 197, 94, 0.35);
-  --fb-cta-bg: linear-gradient(165deg, rgba(22, 163, 74, 0.95), rgba(21, 128, 61, 0.98));
-  --fb-cta-color: #f0fdf4;
-  --fb-ghost-border: rgba(34, 197, 94, 0.45);
-  --fb-ghost-color: rgba(220, 252, 231, 0.95);
-  border-radius: 0.9rem;
-  border: 1px solid color-mix(in oklab, var(--fb-accent) 32%, rgba(51, 65, 85, 0.65));
-  background: linear-gradient(165deg, rgba(30, 41, 59, 0.94), rgba(15, 23, 42, 0.93));
-  overflow: hidden;
-  box-shadow:
-    0 12px 32px rgba(0, 0, 0, 0.32),
-    0 0 0 1px var(--fb-accent-glow);
-}
-.pf-featured-card--codelink {
-  --fb-accent: #f97316;
-  --fb-accent-soft: rgba(253, 186, 116, 0.96);
-  --fb-accent-dim: rgba(249, 115, 22, 0.44);
-  --fb-accent-glow: rgba(249, 115, 22, 0.22);
-  --fb-accent-ring: rgba(251, 146, 60, 0.48);
-  --fb-cta-bg: linear-gradient(165deg, rgba(234, 88, 12, 0.96), rgba(194, 65, 12, 0.98));
-  --fb-cta-color: #fff7ed;
-  --fb-ghost-border: rgba(251, 146, 60, 0.52);
-  --fb-ghost-color: rgba(255, 237, 213, 0.96);
-}
-.pf-featured-card--redeemed {
-  --fb-accent: rgba(248, 250, 252, 0.94);
-  --fb-accent-soft: rgba(248, 250, 252, 0.88);
-  --fb-accent-dim: rgba(255, 255, 255, 0.32);
-  --fb-accent-glow: rgba(255, 255, 255, 0.14);
-  --fb-accent-ring: rgba(255, 255, 255, 0.38);
-  --fb-cta-bg: linear-gradient(165deg, rgba(248, 250, 252, 0.98), rgba(226, 232, 240, 0.95));
-  --fb-cta-color: #0f172a;
-  --fb-ghost-border: rgba(255, 255, 255, 0.42);
-  --fb-ghost-color: rgba(248, 250, 252, 0.95);
-}
-.pf-featured-card__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
-  gap: 0;
-}
-.pf-featured-card__media {
-  padding: 1.05rem 1rem 1.1rem 1.1rem;
-  display: flex;
-  align-items: stretch;
-  justify-content: stretch;
-  border-right: 1px solid color-mix(in oklab, var(--fb-accent) 22%, rgba(51, 65, 85, 0.55));
-  background: linear-gradient(200deg, rgba(15, 23, 42, 0.58), rgba(30, 41, 59, 0.38));
-}
-.pf-featured-browser {
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  border-radius: 0.65rem;
-  border: 1px solid color-mix(in oklab, var(--fb-accent) 28%, rgba(51, 65, 85, 0.75));
-  box-shadow: 0 0 0 1px var(--fb-accent-glow), 0 20px 48px rgba(0, 0, 0, 0.48);
-  overflow: hidden;
-  min-height: 240px;
-  background: #020617;
-}
-.pf-featured-browser__chrome {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.48rem 0.65rem;
-  background: linear-gradient(180deg, #1e293b, #0f172a);
-  border-bottom: 1px solid rgba(51, 65, 85, 0.75);
-}
-.pf-featured-browser__dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.pf-featured-browser__dot--r { background: rgba(248, 113, 113, 0.88); }
-.pf-featured-browser__dot--y { background: rgba(234, 179, 8, 0.85); }
-.pf-featured-browser__dot--g { background: rgba(34, 197, 94, 0.78); }
-.pf-featured-browser__url {
-  flex: 1;
-  min-width: 0;
-  margin-left: 0.25rem;
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: clamp(0.58rem, 1.5vw, 0.62rem);
-  color: rgba(148, 163, 184, 0.96);
-  padding: 0.28rem 0.5rem;
-  border-radius: 0.35rem;
-  background: rgba(15, 23, 42, 0.95);
-  border: 1px solid color-mix(in oklab, var(--fb-accent) 18%, rgba(51, 65, 85, 0.65));
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-decoration: none;
-  cursor: pointer;
-  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
-}
-.pf-featured-browser__url:hover {
-  color: var(--fb-accent-soft);
-  border-color: var(--fb-accent-dim);
-}
-.pf-featured-browser__viewport {
-  flex: 1;
-  min-height: 200px;
-  position: relative;
-  background: #020617;
-  aspect-ratio: 16 / 9;
-}
-.pf-featured-browser__viewport iframe {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  background: #0f172a;
-}
-.pf-featured-browser__viewport img {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  border: 0;
-}
-.pf-featured-card__body {
-  padding: 1.2rem 1.2rem 1.35rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-}
-.pf-featured-card__eyebrow {
-  margin: 0;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: clamp(0.7rem, 1.35vw, 0.8rem);
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--fb-accent-soft);
-}
-.pf-featured-card__type {
-  margin: 0;
-  font-size: 0.8rem;
-  color: #94a3b8;
-  line-height: 1.45;
-}
-.pf-featured-card__body h2 {
-  margin: 0.15rem 0 0;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: clamp(1.2rem, 2.6vw, 1.55rem);
-  font-weight: 600;
-  color: #f8fafc;
-  line-height: 1.2;
-}
-.pf-featured-card__desc {
-  margin: 0.25rem 0 0.35rem;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.86rem;
-  line-height: 1.62;
-  color: #cbd5e1;
-  max-width: 38rem;
-}
-.pf-featured-card__callout {
-  margin: 0.35rem 0 0.15rem;
-  padding: 0.55rem 0.65rem;
-  border-radius: 0.5rem;
-  border: 1px solid var(--fb-accent-dim);
-  background: color-mix(in oklab, var(--fb-accent) 8%, rgba(15, 23, 42, 0.88));
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.88rem;
-  line-height: 1.5;
-  color: #e2e8f0;
-}
-.pf-featured-card__callout strong {
-  color: var(--fb-accent-soft);
-  font-weight: 600;
-}
-.pf-featured-card__callout-sub {
-  margin: 0.35rem 0 0;
-  font-size: 0.8rem;
-  line-height: 1.55;
-  color: #94a3b8;
-}
-.pf-featured-metrics {
-  list-style: none;
-  margin: 0.35rem 0 0.5rem;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.5rem;
-}
-.pf-featured-metrics li {
-  border-radius: 0.55rem;
-  border: 1px solid var(--fb-accent-dim);
-  background: rgba(15, 23, 42, 0.82);
-  padding: 0.62rem 0.65rem;
-  font-family: "DM Sans", system-ui, sans-serif;
-  text-align: left;
-}
-.pf-featured-metric__k {
-  display: block;
-  font-size: clamp(0.95rem, 2.2vw, 1.1rem);
-  font-weight: 700;
-  color: var(--fb-accent-soft);
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-}
-.pf-featured-metric__v {
-  display: block;
-  margin-top: 0.25rem;
-  font-size: 0.72rem;
-  line-height: 1.4;
-  color: #cbd5e1;
-  font-weight: 500;
-}
-.pf-featured-proof {
-  margin: 0.3rem 0 0.45rem;
-  padding-left: 1.1rem;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.82rem;
-  line-height: 1.58;
-  color: #cbd5e1;
-  list-style-type: disc;
-}
-.pf-featured-proof li {
-  margin-bottom: 0.4rem;
-}
-.pf-featured-proof li::marker {
-  color: var(--fb-accent-soft);
-}
-.pf-featured-tags {
-  list-style: none;
-  margin: 0.35rem 0 0.15rem;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-.pf-featured-tags li {
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--fb-accent-soft);
-  padding: 0.32rem 0.55rem;
-  border-radius: 999px;
-  border: 1px solid var(--fb-accent-dim);
-  background: color-mix(in oklab, var(--fb-accent) 10%, rgba(15, 23, 42, 0.75));
-}
-.pf-featured-card__cta-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-  margin-top: 0.65rem;
-  align-items: center;
-  justify-content: flex-start;
-  align-self: flex-start;
-}
-.pf-featured-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.75rem;
-  padding: 0.55rem 1.15rem;
-  border-radius: 999px;
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-size: clamp(0.82rem, 1.8vw, 0.92rem);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-decoration: none;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: transform 0.12s ease, filter 0.15s ease, box-shadow 0.2s ease;
-}
-.pf-featured-cta--primary {
-  background: var(--fb-cta-bg);
-  color: var(--fb-cta-color);
-  box-shadow: 0 0 0 1px var(--fb-accent-ring);
-}
-.pf-featured-cta--primary:hover {
-  filter: brightness(1.06);
-  transform: translateY(-1px);
-}
-.pf-featured-cta--ghost {
-  background: transparent;
-  color: var(--fb-ghost-color);
-  border-color: var(--fb-ghost-border);
-}
-.pf-featured-cta--ghost:hover {
-  border-color: var(--fb-accent-soft);
-  color: #f8fafc;
-}
-.pf-featured-cta:focus-visible {
-  outline: 2px solid var(--fb-accent-soft);
-  outline-offset: 3px;
-}
-.pf-featured-builds__footnote {
-  margin-top: 2.25rem;
-  max-width: 42rem;
-  line-height: 1.65;
-  font-size: 0.88rem;
-  color: #94a3b8;
-}
-@media (min-width: 901px) {
-  .pf-featured-card__media {
-    align-items: center;
-    justify-content: center;
-  }
-  .pf-featured-browser {
-    flex: 0 1 auto;
-    align-self: center;
-    width: 100%;
-  }
-}
-@media (max-width: 900px) {
-  .pf-featured-card__grid {
-    grid-template-columns: 1fr;
-  }
-  .pf-featured-card__media {
-    border-right: 0;
-    border-bottom: 1px solid color-mix(in oklab, var(--fb-accent) 22%, rgba(51, 65, 85, 0.55));
-    align-items: center;
-    justify-content: center;
-  }
-  .pf-featured-card__body {
-    text-align: center;
-  }
-  .pf-featured-card__desc,
-  .pf-featured-card__callout,
-  .pf-featured-card__callout-sub {
-    text-align: center;
-    margin-inline: auto;
-    width: min(100%, 38rem);
-  }
-  .pf-featured-metrics {
-    grid-template-columns: 1fr;
-    width: min(100%, 24rem);
-    margin-inline: auto;
-  }
-  .pf-featured-metrics li {
-    text-align: center;
-  }
-  .pf-featured-proof {
-    text-align: center;
-    list-style-position: inside;
-    padding-left: 0;
-    margin-inline: auto;
-    max-width: 36rem;
-  }
-  .pf-featured-tags {
-    justify-content: center;
-  }
-  .pf-featured-card__cta-row {
-    justify-content: center;
-    align-self: center;
-  }
-  .pf-featured-builds__footnote {
-    text-align: center;
-    margin-inline: auto;
-  }
-}
-
-@media (max-width: 760px) {
-  .portfolio-panel-body {
-    padding-inline: clamp(0.65rem, 3.5vw, 1rem);
-  }
-  .portfolio-embed-root main .section > .container {
-    text-align: center;
-  }
-  .portfolio-embed-root .pf-section-footer-nav {
-    justify-content: center;
-  }
-  .portfolio-embed-root .pf-work-product-card .pf-service-card__body {
-    text-align: center;
-  }
-  .portfolio-embed-root .pf-work-product-card .pf-service-card__body .service__cta {
-    align-self: center;
-    margin-inline: auto;
-  }
-  .portfolio-embed-root .pf-work-product-card .pf-service-card__quote,
-  .portfolio-embed-root .pf-work-product-card .pf-service-card__cite {
-    text-align: left;
-    margin-inline: auto;
-    max-width: 32rem;
-  }
-  .portfolio-embed-root .pf-svc-hero-actions,
-  .portfolio-embed-root .pf-svc-trust-actions {
-    justify-content: center;
-  }
-  .portfolio-embed-root .pf-service-card__body {
-    text-align: center;
-  }
-  .portfolio-embed-root .pf-service-card__body .service__cta {
-    align-self: center;
-    margin-inline: auto;
-  }
-  .about-embed-root .pf-about {
-    text-align: center;
-  }
-  .about-embed-root .pf-connect__list {
-    justify-content: center;
-  }
-  .about-embed-root .pf-reading-bottom {
-    justify-items: center;
-    text-align: center;
-  }
-  .about-embed-root .pf-reading-bottom__book-row {
-    justify-content: center;
-  }
-  .about-embed-root .pf-reading__cover {
-    justify-self: center;
-  }
-  .about-embed-root .pf-reading__quote-block h2 {
-    text-align: center;
-  }
-  .about-embed-root .pf-reading__quote-block blockquote {
-    text-align: left;
-    margin-inline: auto;
-    max-width: 28rem;
-  }
-  .about-embed-root .pf-reading__book {
-    margin-inline: auto;
-    text-align: center;
-    max-width: 22rem;
-  }
-  .about-embed-root .pf-reading-bottom .spotify__actions {
-    align-items: center;
-  }
-  .portfolio-embed-root.pf-contact-embed main .container {
-    text-align: center;
-  }
-  .portfolio-embed-root.pf-contact-embed .pf-contact-form {
-    text-align: left;
-    margin-inline: auto;
-    max-width: 26rem;
-  }
-  .portfolio-embed-root.pf-contact-embed .pf-contact-summary-chip {
-    justify-content: center;
-  }
-  .portfolio-embed-root.pf-contact-embed .pf-contact-form__submit {
-    margin-inline: auto;
-  }
-  .portfolio-embed-root .pf-featured-builds__footnote {
-    text-align: center;
-    margin-inline: auto;
-    max-width: 42rem;
-  }
-}
-
-button.service__cta.portfolio-faux-cta,
-a.service__cta.portfolio-faux-cta {
-  font: inherit;
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-}
-button.service__cta.portfolio-faux-cta:focus-visible,
-a.service__cta.portfolio-faux-cta:focus-visible {
-  outline: 2px solid rgba(34, 211, 238, 0.55);
-  outline-offset: 3px;
-}
-@keyframes portfolio-faux-cta-ring {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0); }
-  50% { box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.14); }
-}
-.portfolio-embed-root button.service__cta.portfolio-faux-cta,
-.portfolio-embed-root a.service__cta.portfolio-faux-cta {
-  animation: portfolio-faux-cta-ring 4.2s ease-in-out infinite;
-}
-</style>
-</head>
-<body>
-<div id="root"></div>
-<script src="js/form-security.js"></script>
-<script src="test-pages-new/spotify-embed.js"></script>
-<script type="text/babel">
-const { useState, useEffect, useRef } = React;
-
-// Globe position in hero art (848×1264 viewBox — act-1.svg)
-const GCY = 0.2095; // globe center Y fraction of container height
-const GR  = 0.2095; // globe radius fraction of container height
-
-// ── Four section tiles after crack (same site; Work = template / design routes for leads)
-const CARDS = [
-  { id: 'services', label: 'Services', sub: 'Click to learn more' },
-  { id: 'work',     label: 'Featured Builds', sub: 'Click to learn more' },
-  { id: 'about',    label: 'About',    sub: 'Click to learn more' },
-  { id: 'contact',  label: 'Contact',  sub: 'Click to learn more' },
-];
-
-// fluid-particle.tsx — Canvas + JS only (no Tailwind for the effect). Ported from TS; fixed DPR transform + listener cleanup.
-function FluidParticles({
-  particleDensity = 100,
-  particleSize = 1,
-  particleColor = '#555555',
-  activeColor = '#ffffff',
-  maxBlastRadius = 300,
-  hoverDelay = 100,
-  interactionDistance = 10,
-}) {
-  const canvasRef = useRef(null);
-  const ctxRef = useRef(null);
-  const particlesRef = useRef([]);
-  const mouseRef = useRef({ x: 0, y: 0, prevX: 0, prevY: 0 });
-  const blastRef = useRef({ active: false, x: 0, y: 0, radius: 0, maxRadius: maxBlastRadius });
-  const animationRef = useRef(0);
-  const hoverTimerRef = useRef(null);
-  const lastMoveRef = useRef(0);
-  const optsRef = useRef({ particleDensity, particleSize, particleColor, activeColor, maxBlastRadius, hoverDelay, interactionDistance });
-  optsRef.current = { particleDensity, particleSize, particleColor, activeColor, maxBlastRadius, hoverDelay, interactionDistance };
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return undefined;
-
-    const o = () => optsRef.current;
-    let ctx = canvas.getContext('2d', { alpha: true });
-    ctxRef.current = ctx;
-    if (ctx) ctx.globalCompositeOperation = 'lighter';
-
-    function easeOutQuad(t) { return t * (2 - t); }
-
-    class Particle {
-      constructor(x, y) {
-        const { particleSize: ps, particleColor: pc } = o();
-        this.x = x; this.y = y; this.baseX = x; this.baseY = y;
-        this.size = Math.random() * ps + 0.5;
-        this.density = Math.random() * 3 + 1;
-        this.color = pc;
-        this.vx = 0; this.vy = 0;
-        this.friction = 0.9 - 0.01 * this.density;
-      }
-      draw() {
-        if (!ctx) return;
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      update() {
-        if (!ctx) return;
-        const { activeColor: ac, particleColor: pc, interactionDistance: idist } = o();
-        this.x += this.vx; this.y += this.vy;
-        this.vx *= this.friction; this.vy *= this.friction;
-
-        const m = mouseRef.current;
-        const dx = m.x - this.x, dy = m.y - this.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < idist && dist > 0) {
-          const fx = dx / dist, fy = dy / dist;
-          const force = (idist - dist) / idist;
-          this.x -= fx * force * this.density * 0.6;
-          this.y -= fy * force * this.density * 0.6;
-          this.color = ac;
-        } else {
-          if (this.x !== this.baseX) this.x -= (this.x - this.baseX) / 20;
-          if (this.y !== this.baseY) this.y -= (this.y - this.baseY) / 20;
-          this.color = pc;
-        }
-
-        const b = blastRef.current;
-        if (b.active) {
-          const bx = this.x - b.x, by = this.y - b.y;
-          const bd = Math.sqrt(bx * bx + by * by);
-          if (bd < b.radius && bd > 0) {
-            const nx = bx / bd, ny = by / bd;
-            const bf = (b.radius - bd) / b.radius;
-            this.vx += nx * bf * 15;
-            this.vy += ny * bf * 15;
-            const intensity = Math.min(255, Math.floor(255 - bd));
-            this.color = `rgba(${intensity}, 100, 255, 0.8)`;
-          }
-        }
-        this.draw();
-      }
-    }
-
-    function initParticles() {
-      const { particleDensity: pd } = o();
-      const w = window.innerWidth, h = window.innerHeight;
-      const n = Math.floor((w * h) / pd);
-      particlesRef.current = [];
-      for (let i = 0; i < n; i++) {
-        particlesRef.current.push(new Particle(Math.random() * w, Math.random() * h));
-      }
-    }
-
-    function triggerBlast(x, y) {
-      const { maxBlastRadius: mr } = o();
-      blastRef.current = { active: true, x, y, radius: 0, maxRadius: mr };
-      const start = performance.now();
-      const duration = 300;
-      function expandBlast(ts) {
-        const elapsed = ts - start;
-        const progress = Math.min(elapsed / duration, 1);
-        blastRef.current.radius = easeOutQuad(progress) * blastRef.current.maxRadius;
-        if (progress < 1) requestAnimationFrame(expandBlast);
-        else setTimeout(() => { blastRef.current.active = false; }, 100);
-      }
-      requestAnimationFrame(expandBlast);
-      if (hoverTimerRef.current) {
-        clearTimeout(hoverTimerRef.current);
-        hoverTimerRef.current = null;
-      }
-    }
-
-    function handleResize() {
-      const dpr = window.devicePixelRatio || 1;
-      const w = window.innerWidth, h = window.innerHeight;
-      canvas.width = Math.floor(w * dpr);
-      canvas.height = Math.floor(h * dpr);
-      canvas.style.width = `${w}px`;
-      canvas.style.height = `${h}px`;
-      ctx = canvas.getContext('2d', { alpha: true });
-      ctxRef.current = ctx;
-      if (ctx) {
-        ctx.globalCompositeOperation = 'lighter';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
-      initParticles();
-    }
-
-    function animate() {
-      const c = ctxRef.current;
-      if (!c) return;
-      const w = window.innerWidth, h = window.innerHeight;
-      c.clearRect(0, 0, w, h);
-      particlesRef.current.forEach((p) => p.update());
-      animationRef.current = requestAnimationFrame(animate);
-    }
-
-    const moveThrottle = 10;
-    function onMouseMove(e) {
-      const now = performance.now();
-      if (now - lastMoveRef.current < moveThrottle) return;
-      lastMoveRef.current = now;
-      const m = mouseRef.current;
-      const prevX = m.x, prevY = m.y;
-      mouseRef.current = { x: e.clientX, y: e.clientY, prevX, prevY };
-      const dx = mouseRef.current.x - mouseRef.current.prevX;
-      const dy = mouseRef.current.y - mouseRef.current.prevY;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const { hoverDelay: hd } = o();
-      if (dist < 5) {
-        if (hoverTimerRef.current === null) {
-          hoverTimerRef.current = setTimeout(() => {
-            triggerBlast(e.clientX, e.clientY);
-          }, hd);
-        }
-      } else if (hoverTimerRef.current) {
-        clearTimeout(hoverTimerRef.current);
-        hoverTimerRef.current = null;
-      }
-    }
-
-    function onTouchMove(e) {
-      if (e.touches.length > 1 && e.touches[0]) {
-        const m = mouseRef.current;
-        const prevX = m.x, prevY = m.y;
-        mouseRef.current = {
-          x: e.touches[0].clientX,
-          y: e.touches[0].clientY,
-          prevX, prevY,
-        };
-      }
-    }
-
-    function onTouchStart(e) {
-      const { hoverDelay: hd } = o();
-      if (e.touches.length > 1 && e.touches[0]) {
-        const x = e.touches[0].clientX, y = e.touches[0].clientY;
-        hoverTimerRef.current = setTimeout(() => triggerBlast(x, y), hd);
-      }
-    }
-
-    function onTouchEnd() {
-      if (hoverTimerRef.current) {
-        clearTimeout(hoverTimerRef.current);
-        hoverTimerRef.current = null;
-      }
-    }
-
-    function onClick(e) {
-      triggerBlast(e.clientX, e.clientY);
-    }
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('touchmove', onTouchMove, { passive: true });
-    window.addEventListener('touchstart', onTouchStart, { passive: true });
-    window.addEventListener('touchend', onTouchEnd);
-    window.addEventListener('click', onClick);
-    animationRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('touchmove', onTouchMove);
-      window.removeEventListener('touchstart', onTouchStart);
-      window.removeEventListener('touchend', onTouchEnd);
-      window.removeEventListener('click', onClick);
-      if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
-      cancelAnimationFrame(animationRef.current);
-    };
-  }, []);
-
-  return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
-      <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, display: 'block' }} />
-    </div>
-  );
-}
-
-function SectionFooterNav({ onNavigate, prev, next, contained = false }) {
-  if (!prev && !next) return null;
-  return (
-    <nav
-      className={`pf-section-footer-nav${contained ? ' pf-section-footer-nav--contained' : ''}`}
-      aria-label="Section navigation"
-    >
-      {prev ? (
-        <button type="button" className="pf-section-footer-btn" onClick={() => onNavigate(prev)}>
-          ← Go Back to Previous Section
-        </button>
-      ) : null}
-      {next ? (
-        <button type="button" className="pf-section-footer-btn" onClick={() => onNavigate(next)}>
-          Next Section →
-        </button>
-      ) : null}
-    </nav>
-  );
-}
-
-function AboutSection({ onNavigate }) {
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.portfolioEmbedSpotify) {
-      window.portfolioEmbedSpotify.init();
-      return () => window.portfolioEmbedSpotify.teardown();
-    }
-    return undefined;
-  }, []);
-
-  return (
-    <div
-      data-theme="dark"
-      className="about-embed-root"
-      style={{
-        minHeight: '100%',
-        background: 'transparent',
-        color: '#d4d4d4',
-      }}
-    >
-      <main className="pf-about-main" style={{ paddingTop: '1rem' }}>
-        <div id="about" className="pf-about">
-          <p className="pf-about__eyebrow">About</p>
-          <h1 className="pf-about__title">
-            Hey, I&apos;m <span className="pf-about__title-accent">David Walker</span>.
-          </h1>
-
-          <p className="pf-about__lead">
-            I run <strong>Networks &amp; Nodes</strong>, a small studio practice where
-            I build fast, understated websites for <strong>artists, photographers,
-            and small businesses</strong>—and the infrastructure that keeps them
-            quietly reliable behind the scenes. My day job is network and systems
-            engineering, and the same habits that keep backends boringly dependable
-            are the ones I bring to the work I do for people who think in pictures,
-            not in roadmaps.
-          </p>
-          <p className="pf-about__p">
-            The two sides of this practice share the same habits. A decade of designing networks, cloud systems,
-            and internal tools taught me that the invisible work - the naming conventions, the fallback plans, the
-            quiet logging - is what makes the visible work possible. I carry that habit to the public side:
-            responsive layouts, type that reads well on a phone, and inquiry flows that feel respectful instead of
-            pushy. Heavy technical background, human-facing outcome.
-          </p>
-          <p className="pf-about__p">
-            The same instincts that keep backends boringly reliable—fewer moving parts, honest tradeoffs, attention
-            to performance—are the ones I use when I tune how your portfolio loads and how captions breathe next to
-            full-bleed work. Heavy technical background, human-facing outcome: a calm site that still feels like
-            yours.
-          </p>
-          <p className="pf-about__p">
-            Off the clock I still like working with my hands—board-level repair, KiCad, the occasional hardware
-            rabbit hole. It keeps me patient with detail, whether that&apos;s a trace on a board or spacing in a
-            layout grid.
-          </p>
-          <p className="pf-about__p">
-            The name <strong>Networks &amp; Nodes</strong> comes from the day job.
-            In network engineering, a node is any device with a name and an address
-            on a network; the network is what connects them and lets them do anything
-            useful together. That felt like a fair description of the websites I build
-            too: a portfolio is a network of images with room to breathe between them;
-            a studio is a network of collaborators with different roles; a small
-            business website is a network of promises the business intends to keep.
-            The name is my reminder that the quiet connections matter as much as
-            what they connect.
-          </p>
-          <p className="pf-about__p">
-            <button
-              type="button"
-              className="pf-about__inline-link"
-              onClick={() => onNavigate('contact')}
-            >
-              Get in touch
-            </button>
-            {' '}if you&apos;d like to talk about your next site, timelines, or how you want your work to move on the
-            page.
-          </p>
-          <p className="pf-about__p">
-            <strong>Services</strong> is where I spell out what I build; <strong>Featured Builds</strong> shows proof across
-            enterprise, startup, and local work. When you are ready to send links or talk timelines, use{' '}
-            <strong>Contact</strong>.
-          </p>
-
-          <nav className="pf-connect" aria-label="Resume and social links">
-            <p className="pf-connect__label">Resume &amp; social</p>
-            <ul className="pf-connect__list">
-              <li>
-                <a
-                  className="pf-connect__a"
-                  href="/assets/david-walker-resume.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Resume (PDF)"
-                  style={{ fontFamily: 'DM Sans, system-ui, sans-serif', fontSize: '0.72rem', fontWeight: 600, color: '#c9ae7a', letterSpacing: '0.04em' }}
-                >
-                  CV
-                </a>
-              </li>
-              <li>
-                <a
-                  className="pf-connect__a"
-                  href="https://github.com/DaBugg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="GitHub"
-                >
-                  <img className="pf-connect__icon" src="test-pages-new/icons8-github.svg" alt="" aria-hidden="true" />
-                </a>
-              </li>
-              <li>
-                <a
-                  className="pf-connect__a"
-                  href="https://www.linkedin.com/in/david-w-3621bb272"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn"
-                >
-                  <img className="pf-connect__icon" src="test-pages-new/icons8-linkedin.svg" alt="" aria-hidden="true" />
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <SectionFooterNav onNavigate={onNavigate} next="work" />
-        </div>
-
-        <div id="quote">
-          <div className="pf-reading-bottom">
-            <div className="pf-reading-bottom__col pf-reading-bottom__col--left">
-              <div className="pf-reading__quote-block">
-                <h2>A line I keep nearby</h2>
-                <blockquote>
-                  <p>&quot;Those who do not want to imitate anything, produce nothing.&quot;</p>
-                  <footer>— Salvador Dalí</footer>
-                </blockquote>
-              </div>
-
-              <div className="pf-reading-bottom__book-row">
-                <div className="pf-reading__book">
-                  <h2>New book of the month</h2>
-                  <h3>Creative Capital</h3>
-                  <p className="small muted">
-                    Spencer E. Ante
-                  </p>
-                  <a
-                    href="https://www.amazon.com/Creative-Capital-Georges-Doriot-Venture/dp/1422101223"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Find it on Amazon
-                  </a>
-                </div>
-
-                <div className="pf-reading__cover">
-                  <figure>
-                    <img
-                      src="images/book-creative-capital.png"
-                      alt="Cover of Creative Capital by Spencer E. Ante"
-                      loading="lazy"
-                    />
-                  </figure>
-                </div>
-              </div>
-            </div>
-
-            <div className="pf-reading-bottom__col pf-reading-bottom__col--spotify">
-              <section id="spotify" className="pf-about-spotify-wrap" aria-label="Spotify now playing">
-                <article className="card spotify is-loading" id="spotify-card">
-                  <div className="spotify__badge">
-                    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 168 168">
-                      <circle fill="currentColor" cx="84" cy="84" r="84" />
-                      <path
-                        fill="#0b1220"
-                        d="M120.2 119.1c-1.6 2.7-5 3.6-7.7 2-21.1-12.6-47.6-15.5-78.8-8.5-3 0.7-6-1.2-6.7-4.2-.7-3 1.2-6 4.2-6.7 34.9-7.8 64.7-4.5 88 9.7 2.7 1.6 3.6 5 2 7.7zm10.9-24.2c-2 3.3-6.3 4.3-9.6 2.3-24.1-14.8-60.8-19.1-89.3-10.4-3.7 1.1-7.5-1-8.7-4.7-1.1-3.7 1-7.5 4.7-8.7 32.9-9.9 73.4-5.1 101.8 12.3 3.3 2 4.3 6.3 2.3 9.6zm1-25.7C103 50.9 61.1 49.3 36.2 56.9 31.8 58.3 27 55.9 25.6 51.6s1.4-8.9 5.7-10.3c29.7-9.3 76.1-7.4 106.9 11.1 3.9 2.3 5.2 7.3 2.9 11.2-2.4 3.9-7.4 5.2-11.2 2.9z"
-                      />
-                    </svg>
-                    <span>What&apos;s playing right now</span>
-                    <span className="spotify__live" aria-hidden="true" />
-                  </div>
-
-                  <div className="spotify__content">
-                    <div className="spotify__media">
-                      <img
-                        id="spotify-cover"
-                        src="https://via.placeholder.com/300x300?text=Spotify"
-                        alt="Album cover"
-                      />
-                    </div>
-
-                    <div className="spotify__meta">
-                      <p className="small muted" id="spotify-status">Loading…</p>
-                      <h3 className="accent" id="spotify-track">Track title</h3>
-                      <p id="spotify-artist" className="small">Artist name</p>
-                      <p id="spotify-album" className="small muted">Album name</p>
-
-                      <div className="spotify__progress">
-                        <div className="spotify__bar">
-                          <span id="spotify-progress" style={{ width: '0%' }} />
-                        </div>
-                        <div className="spotify__times small muted">
-                          <span id="spotify-current-time">0:00</span>
-                          <span id="spotify-duration">0:00</span>
-                        </div>
-                      </div>
-
-                      <div className="spotify__actions">
-                        <div className="spotify-suggest" id="spotify-suggest">
-                          <button
-                            type="button"
-                            className="btn btn--ghost small spotify-suggest__toggle"
-                            aria-expanded="false"
-                            aria-controls="spotify-suggest-form"
-                          >
-                            Suggest a Song
-                          </button>
-
-                          <div className="spotify-suggest__form-wrapper">
-                            <form
-                              id="spotify-suggest-form"
-                              className="spotify-suggest__form"
-                              action="/api/suggest-song"
-                              method="POST"
-                            >
-                              <div className="spotify-suggest__field spotify-suggest__field--full">
-                                <label htmlFor="song-name" className="spotify-suggest__label">
-                                  Song name <span className="spotify-suggest__required">*</span>
-                                </label>
-                                <input
-                                  id="song-name"
-                                  name="songName"
-                                  type="text"
-                                  className="spotify-suggest__input"
-                                  required
-                                  placeholder="e.g., Nights"
-                                />
-                              </div>
-
-                              <div className="spotify-suggest__field spotify-suggest__field--full">
-                                <label htmlFor="song-artist" className="spotify-suggest__label">
-                                  Artist <span className="spotify-suggest__optional">(optional)</span>
-                                </label>
-                                <input
-                                  id="song-artist"
-                                  name="artist"
-                                  type="text"
-                                  className="spotify-suggest__input"
-                                  placeholder="e.g., Frank Ocean"
-                                />
-                              </div>
-
-                              <div className="spotify-suggest__actions spotify-suggest__field--full">
-                                <div id="spotify-suggest-turnstile" className="spotify-suggest__turnstile" />
-                                <button type="submit" className="btn btn--primary small">
-                                  Submit
-                                </button>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-
-                        <a
-                          id="spotify-open-link"
-                          href="https://open.spotify.com"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn small"
-                        >
-                          Open in Spotify
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              </section>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-  );
-}
-
-const portfolioPanelShell = {
-  minHeight: '100%',
-  background: 'transparent',
-  color: 'var(--text)',
-  fontFamily: 'var(--font-sans)',
-};
-
-function WorkSection({ onNavigate }) {
-  const goContact = (e) => {
-    if (e && e.preventDefault) e.preventDefault();
-    onNavigate('contact');
-  };
-  const goServices = (e) => {
-    if (e && e.preventDefault) e.preventDefault();
-    onNavigate('services');
-  };
-
-  return (
-    <div data-theme="dark" className="portfolio-embed-root" style={portfolioPanelShell}>
-      <main style={{ paddingTop: '1rem' }}>
-        <section id="work" className="section" aria-labelledby="featured-builds-title">
-          <div className="container">
-            <p className="small muted">Featured Builds</p>
-            <h1 id="featured-builds-title" className="title">
-              Proof across{' '}
-              <span className="accent">enterprise systems, startup products, and local business launches</span>.
-            </h1>
-            <p className="lead">
-              Networks &amp; Nodes is built around practical implementation: infrastructure, automation, product platforms,
-              and local business websites that connect directly to operations, visibility, and customer action.
-            </p>
-
-            <div className="pf-featured-builds__stack">
-              <article className="pf-featured-card pf-featured-card--tsl" aria-labelledby="featured-tsl-title">
-                <div className="pf-featured-card__grid">
-                  <div className="pf-featured-card__media">
-                    <div className="pf-featured-browser">
-                      <div className="pf-featured-browser__chrome" aria-hidden="true">
-                        <span className="pf-featured-browser__dot pf-featured-browser__dot--r" />
-                        <span className="pf-featured-browser__dot pf-featured-browser__dot--y" />
-                        <span className="pf-featured-browser__dot pf-featured-browser__dot--g" />
-                        <a
-                          className="pf-featured-browser__url"
-                          href="https://www.tsandl.us"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          www.tsandl.us
-                        </a>
-                      </div>
-                      <div className="pf-featured-browser__viewport">
-                        <iframe
-                          src="https://player.mux.com/WLiGImnah5qDmAo4zLVERPxgkUL5AQSNsNNKFhAGdFI"
-                          title="Transportation Solutions &amp; Lighting — case study preview (Mux)"
-                          loading="lazy"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-                          allowFullScreen
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="pf-featured-card__body">
-                    <p className="pf-featured-card__eyebrow">Enterprise Smart Infrastructure Case Study</p>
-                    <p className="pf-featured-card__type">
-                      Case Study · Enterprise client · end-to-end technical ownership
-                    </p>
-                    <h2 id="featured-tsl-title">Transportation Solutions &amp; Lighting</h2>
-                    <p className="pf-featured-card__desc">
-                      Multi-campus municipal, university, and federal surveillance environments needed one accountable
-                      systems layer, not another disconnected dashboard. I owned technical direction for cloud routing,
-                      high-volume IP camera infrastructure, and dispatch automation so operations, service, and sales
-                      could work from the same source of truth.
-                    </p>
-                    <ul className="pf-featured-metrics">
-                      <li>
-                        <span className="pf-featured-metric__k">300%+</span>
-                        <span className="pf-featured-metric__v">site visibility increase</span>
-                      </li>
-                      <li>
-                        <span className="pf-featured-metric__k">$1M+</span>
-                        <span className="pf-featured-metric__v">annual revenue contribution supported</span>
-                      </li>
-                      <li>
-                        <span className="pf-featured-metric__k">10 hrs/week</span>
-                        <span className="pf-featured-metric__v">manual dispatch work reduced</span>
-                      </li>
-                    </ul>
-                    <ul className="pf-featured-proof">
-                      <li>Built cloud workflows for camera event routing and footage organization.</li>
-                      <li>Improved operational visibility across surveillance, service, and dispatch systems.</li>
-                      <li>Supported technical infrastructure for high-volume IP camera environments.</li>
-                      <li>Automated work-order logic for outages, service flags, and operational triage.</li>
-                    </ul>
-                    <ul className="pf-featured-tags">
-                      <li>Enterprise Systems</li>
-                      <li>Cloud Workflow</li>
-                      <li>Dispatch Automation</li>
-                      <li>Surveillance Ops</li>
-                    </ul>
-                    <div className="pf-featured-card__cta-row">
-                      <a
-                        href="#contact"
-                        className="pf-featured-cta pf-featured-cta--primary"
-                        onClick={goContact}
-                      >
-                        Build Something Similar
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </article>
-
-              <article className="pf-featured-card pf-featured-card--codelink" aria-labelledby="featured-codelink-title">
-                <div className="pf-featured-card__grid">
-                  <div className="pf-featured-card__media">
-                    <div className="pf-featured-browser">
-                      <div className="pf-featured-browser__chrome" aria-hidden="true">
-                        <span className="pf-featured-browser__dot pf-featured-browser__dot--r" />
-                        <span className="pf-featured-browser__dot pf-featured-browser__dot--y" />
-                        <span className="pf-featured-browser__dot pf-featured-browser__dot--g" />
-                        <a
-                          className="pf-featured-browser__url"
-                          href="https://www.codelink.live/waitlist"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          codelink.live
-                        </a>
-                      </div>
-                      <div className="pf-featured-browser__viewport">
-                        <iframe
-                          src="https://player.mux.com/KOxacSLriw7uuyhxs89KPiAHclOq02opBJ9bPs6Sfoho"
-                          title="CodeLink platform preview"
-                          loading="lazy"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-                          allowFullScreen
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="pf-featured-card__body">
-                    <p className="pf-featured-card__eyebrow">Founder-Led Startup · Platform MVP</p>
-                    <p className="pf-featured-card__type">Startup Showcase · full-stack MVP</p>
-                    <h2 id="featured-codelink-title">CodeLink</h2>
-                    <p className="pf-featured-card__desc">
-                      CodeLink is a collaboration platform for builders, founders, developers, designers, and contributors
-                      who want to ship together, not scroll through another generic feed. It helps users organize projects,
-                      find collaborators, manage tasks, and create proof-of-work around real projects instead of polished
-                      empty profiles.
-                    </p>
-                    <div className="pf-featured-card__callout">
-                      <strong>The waitlist is now live.</strong>
-                    </div>
-                    <p className="pf-featured-card__callout-sub">
-                      Early users can join now and follow the platform as it moves toward launch.
-                    </p>
-                    <ul className="pf-featured-proof">
-                      <li>Project spaces that keep intent, ownership, and next actions visible across disciplines.</li>
-                      <li>Collaborator discovery tuned for people who plan to commit, not just browse.</li>
-                      <li>Task flows tied to outcomes so momentum survives handoffs and time zones.</li>
-                      <li>Proof-of-work around real projects, real progress, and less performative noise.</li>
-                    </ul>
-                    <ul className="pf-featured-tags">
-                      <li>Founder-Led Startup</li>
-                      <li>Platform MVP</li>
-                      <li>Product Build</li>
-                      <li>Waitlist Live</li>
-                    </ul>
-                    <div className="pf-featured-card__cta-row">
-                      <a
-                        href="https://www.codelink.live/waitlist"
-                        className="pf-featured-cta pf-featured-cta--primary"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Join the Waitlist
-                      </a>
-                      <a
-                        href="#contact"
-                        className="pf-featured-cta pf-featured-cta--ghost"
-                        onClick={goContact}
-                      >
-                        Build a Product Like This
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </article>
-
-              <article className="pf-featured-card pf-featured-card--redeemed" aria-labelledby="featured-redeemed-title">
-                <div className="pf-featured-card__grid">
-                  <div className="pf-featured-card__media">
-                    <div className="pf-featured-browser">
-                      <div className="pf-featured-browser__chrome" aria-hidden="true">
-                        <span className="pf-featured-browser__dot pf-featured-browser__dot--r" />
-                        <span className="pf-featured-browser__dot pf-featured-browser__dot--y" />
-                        <span className="pf-featured-browser__dot pf-featured-browser__dot--g" />
-                        <a
-                          className="pf-featured-browser__url"
-                          href="https://redeemedhands.com"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          redeemedhands.com
-                        </a>
-                      </div>
-                      <div className="pf-featured-browser__viewport">
-                        <img
-                          src="assets/images/redeemed-hands-preview.jpg"
-                          alt="Redeemed Hands homepage for concrete, construction, and renovations"
-                          width={1200}
-                          height={675}
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="pf-featured-card__body">
-                    <p className="pf-featured-card__eyebrow">Local Launch Kit · Community Outreach</p>
-                    <p className="pf-featured-card__type">
-                      Local Business Outreach · concrete · construction · renovation services
-                    </p>
-                    <h2 id="featured-redeemed-title">Redeemed Hands</h2>
-                    <p className="pf-featured-card__desc">
-                      Redeemed Hands is a local concrete, construction, and renovation service business. The website
-                      helps the business present services clearly, build trust, show contact information, and guide
-                      visitors toward requesting a quote, especially on mobile where most referrals land first.
-                    </p>
-                    <ul className="pf-featured-metrics">
-                      <li>
-                        <span className="pf-featured-metric__k">Local</span>
-                        <span className="pf-featured-metric__v">service-business positioning</span>
-                      </li>
-                      <li>
-                        <span className="pf-featured-metric__k">Quote</span>
-                        <span className="pf-featured-metric__v">focused conversion path</span>
-                      </li>
-                      <li>
-                        <span className="pf-featured-metric__k">Mobile</span>
-                        <span className="pf-featured-metric__v">friendly customer experience</span>
-                      </li>
-                    </ul>
-                    <ul className="pf-featured-proof">
-                      <li>Created a clear service-focused homepage for concrete, construction, and renovation work.</li>
-                      <li>Positioned the business around reliability, clean finishes, and getting the job done right.</li>
-                      <li>Added direct contact information and a quote-focused customer path.</li>
-                      <li>Used a simple structure that works well for local search, referrals, and mobile visitors.</li>
-                    </ul>
-                    <ul className="pf-featured-tags">
-                      <li>Local Business</li>
-                      <li>Construction Services</li>
-                      <li>Quote Funnel</li>
-                      <li>Local Launch Kit</li>
-                    </ul>
-                    <div className="pf-featured-card__cta-row">
-                      <a
-                        href="#contact"
-                        className="pf-featured-cta pf-featured-cta--primary"
-                        onClick={goContact}
-                      >
-                        Launch a Local Business Site
-                      </a>
-                      <a
-                        href="#services"
-                        className="pf-featured-cta pf-featured-cta--ghost"
-                        onClick={goServices}
-                      >
-                        View Local Launch Kit
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </div>
-
-            <p className="pf-featured-builds__footnote small muted">
-              Before these featured engagements, I designed and deployed 15+ responsive sites for small businesses
-              across retail, professional services, and community organizations using Node.js, Express, Vercel, and
-              modern CI/CD workflows. Selected links, scope summaries, and references are available on request.
-            </p>
-            <SectionFooterNav onNavigate={onNavigate} prev="about" next="services" />
-          </div>
-        </section>
-      </main>
-    </div>
-  );
-}
-
-function ServicesSection({ onNavigate }) {
-  const goContact = (e) => {
-    e.preventDefault();
-    onNavigate('contact');
-  };
-
-  const scrollToOffer = (id) => (e) => {
-    e.preventDefault();
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
-  const muxAllow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen';
-
-  const serviceVideos = [
-    {
-      title: 'Launch Your Digital Foundation',
-      copy: 'For businesses that need a clean website, clear service positioning, local visibility, and a simple path for customers to take action.',
-      src: 'https://player.mux.com/bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM',
-      cta: 'Explore Local Launch',
-      offerId: 'offer-local-launch',
-    },
-    {
-      title: 'Turn Your Website Into a Growth System',
-      copy: 'For businesses that need better tracking, lead flow, analytics, content structure, and conversion paths instead of a website that just sits there.',
-      src: 'https://player.mux.com/FghhBbV00fPiIiubZGEC00vCec02LmQdg00fZy9NVX00MnA8',
-      cta: 'Explore Growth Systems',
-      offerId: 'offer-growth-engine',
-    },
-    {
-      title: 'Automate Repetitive Work',
-      copy: 'For teams losing time to spreadsheets, manual dispatch, repeated data entry, disconnected tools, or workflows that should not still depend on human copy-paste.',
-      src: 'https://player.mux.com/8jivLSnoyaDu01mP02iAX1elHaO026zrQ0200pvjGoIeN4mU',
-      cta: 'Explore Automation',
-      offerId: 'offer-systems-automation',
-    },
-    {
-      title: 'Prepare for AI-Ready Operations',
-      copy: 'For businesses that want to use AI or smarter systems, but first need better data structure, cleaner workflows, and more reliable infrastructure.',
-      src: 'https://player.mux.com/EbDl00U8531qaMnSoynVZI01V02ydAyIqeHzGKVlqn1s4U',
-      cta: 'Explore AI Readiness',
-      offerId: 'offer-systems-automation',
-    },
-  ];
-
-  const offers = [
-    {
-      id: 'offer-local-launch',
-      title: 'Local Launch Kit',
-      copy: 'For local businesses that need to look legitimate, explain their services clearly, and turn visitors into calls, forms, or quote requests.',
-      includes: [
-        'Website or landing page',
-        'Mobile-first layout',
-        'Service positioning',
-        'Contact and quote flow',
-        'Basic SEO structure',
-        'Analytics setup',
-        'Local visibility support',
-      ],
-      cta: 'Start a Local Launch',
-    },
-    {
-      id: 'offer-growth-engine',
-      title: 'Growth Engine',
-      copy: 'For businesses with an existing website or customer flow that needs better tracking, clearer funnels, stronger content structure, and measurable improvement.',
-      includes: [
-        'Website improvements',
-        'Lead tracking',
-        'Analytics dashboards',
-        'SEO/content structure',
-        'CRM or form routing',
-        'Conversion improvements',
-        'Reporting setup',
-      ],
-      cta: 'Build a Growth Engine',
-    },
-    {
-      id: 'offer-systems-automation',
-      title: 'Systems & Automation',
-      copy: 'For teams that are losing time to manual work, disconnected tools, messy data, or workflows that need to be cleaned up and automated.',
-      includes: [
-        'Workflow audit',
-        'Automation planning',
-        'Python or Node.js scripts',
-        'API integrations',
-        'Internal dashboards',
-        'Cloud workflow support',
-        'Documentation and handoff',
-      ],
-      cta: 'Plan an Automation Sprint',
-    },
-  ];
-
-  return (
-    <div data-theme="dark" className="portfolio-embed-root" style={portfolioPanelShell}>
-      <main style={{ paddingTop: '1rem' }}>
-        <section id="services" className="section">
-          <div className="container">
-            <p className="small muted">Services</p>
-            <h1 className="pf-svc-hero-title">
-              Websites, automation, and business systems built around how you actually operate.
-            </h1>
-            <p className="lead" style={{ maxWidth: '44rem', marginTop: 0 }}>
-              Networks &amp; Nodes helps businesses move from scattered tools and manual workflows to connected digital
-              systems — from local business websites to automation, analytics, cloud workflows, and AI-ready
-              infrastructure.
-            </p>
-            <div className="pf-svc-hero-actions">
-              <a href="#contact" className="service__cta portfolio-faux-cta" onClick={goContact}>
-                Request a Systems Review
-              </a>
-            </div>
-
-            <div className="pf-svc-video-grid">
-              {serviceVideos.map((v) => (
-                <article key={v.title} className="pf-svc-video-card">
-                  <div className="pf-svc-video-wrap">
-                    <iframe src={v.src} title={v.title} loading="lazy" allow={muxAllow} allowFullScreen />
-                  </div>
-                  <div className="pf-svc-video-card__body">
-                    <h3>{v.title}</h3>
-                    <p>{v.copy}</p>
-                    <a href={`#${v.offerId}`} className="pf-svc-video-card__cta" onClick={scrollToOffer(v.offerId)}>
-                      {v.cta}
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            <div id="services-offers" className="pf-svc-block">
-              <h2 className="pf-svc-block__title">Choose the right starting point.</h2>
-              <div className="pf-svc-offer-intro">
-                <p className="lead muted" style={{ maxWidth: '44rem', marginTop: 0 }}>
-                  Every business does not need the same build. Some need a clean local website. Some need better
-                  analytics and lead tracking. Others need automation, dashboards, cloud workflows, or AI-ready
-                  infrastructure. These three paths keep the process simple.
-                </p>
-              </div>
-              <div className="pf-svc-offer-grid">
-                {offers.map((o) => (
-                  <article key={o.id} id={o.id} className="pf-svc-offer-card">
-                    <h3>{o.title}</h3>
-                    <p>{o.copy}</p>
-                    <p className="pf-svc-offer-card__includes-label">Includes</p>
-                    <ul>
-                      {o.includes.map((line) => (
-                        <li key={line}>{line}</li>
-                      ))}
-                    </ul>
-                    <a href="#contact" className="service__cta portfolio-faux-cta" onClick={goContact}>
-                      {o.cta}
-                    </a>
-                  </article>
-                ))}
-              </div>
-            </div>
-
-            <SectionFooterNav onNavigate={onNavigate} prev="work" next="contact" />
-          </div>
-        </section>
-      </main>
-    </div>
-  );
-}
-
-const PF_CONTACT_ROLE_OPTIONS = [
-  { value: 'photographer', label: 'Photographer', desc: 'editorial, commercial, or fine-art.' },
-  { value: 'videographer', label: 'Videographer', desc: 'shooter, editor, or reel-driven director.' },
-  { value: 'business-owner', label: 'Business owner', desc: 'founder, operator, or owner-led brand.' },
-  { value: 'artist', label: 'Multi-disciplinary artist', desc: 'painter, sculptor, installation, mixed-media.' },
-  { value: 'small-business', label: 'Small business', desc: 'team-led business looking for a clearer web presence.' },
-  { value: 'startup', label: 'Startup', desc: 'early-stage team shipping fast and validating positioning.' },
-  { value: 'product-developer', label: 'Product developer', desc: 'building digital products and customer-facing experiences.' },
-  { value: 'other', label: 'Other', desc: 'writer, musician, performer, or anyone else with work to show.' },
-];
-
-const PF_CONTACT_SERVICE_OPTIONS = [
-  { value: 'website-turnkey', label: 'Website - turnkey', desc: 'one engagement, designed, built, launched, handed off.' },
-  { value: 'website-ongoing', label: 'Website - ongoing partnership', desc: 'updates, hosting, deployment, seasonal refreshes.' },
-  { value: 'web-dev-hosting-rework', label: 'Web development, hosting, or site rework', desc: 'small-business focused builds, infrastructure cleanup, and site refreshes.' },
-  { value: 'analytics', label: 'Analytics & dashboards', desc: 'measure what actually matters; no surveillance clutter.' },
-  { value: 'automation', label: 'Custom Automation & Workflow Tooling', desc: 'the quiet scripts that save hours a week.' },
-  { value: 'seo', label: 'SEO & Content Strategy', desc: 'findable without gimmicks.' },
-  { value: 'ai-consulting', label: 'AI & Infrastructure Consulting', desc: 'for systems and operations work beyond the website.' },
-  { value: 'other', label: "Something else - let's talk", desc: "catch-all for cases that don't fit above." },
-];
-
-function ContactSection({ onNavigate }) {
-  const [step, setStep] = useState(1);
-  const [role, setRole] = useState('');
-  const [service, setService] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [turnstileRequired, setTurnstileRequired] = useState(false);
-  const [turnstileReady, setTurnstileReady] = useState(false);
-  const turnstileContainerRef = useRef(null);
-  const turnstileWidgetIdRef = useRef(null);
-
-  const shellLight = {
-    minHeight: '100%',
-    background: 'transparent',
-    color: 'var(--text)',
-    fontFamily: 'var(--font-sans)',
-  };
-
-  const roleLabel = PF_CONTACT_ROLE_OPTIONS.find((item) => item.value === role)?.label || '';
-  const serviceLabel = PF_CONTACT_SERVICE_OPTIONS.find((item) => item.value === service)?.label || '';
-
-  useEffect(() => {
-    if (step !== 3 || isSubmitted) return undefined;
-
-    if (!window.siteTurnstile) {
-      setTurnstileRequired(true);
-      setTurnstileReady(false);
-      setSubmitError('Verification could not load. Please refresh and try again.');
-      return undefined;
-    }
-
-    let cancelled = false;
-
-    (async () => {
-      const siteKey = await window.siteTurnstile.fetchSiteKey();
-      if (cancelled) return;
-
-      if (!siteKey) {
-        setTurnstileRequired(false);
-        setTurnstileReady(true);
-        return;
-      }
-
-      setTurnstileRequired(true);
-      setTurnstileReady(false);
-
-      try {
-        const widgetId = await window.siteTurnstile.render(turnstileContainerRef.current, {
-          siteKey,
-          theme: 'light',
-          callback: () => {
-            if (!cancelled) setTurnstileReady(true);
-          },
-          onExpire: () => setTurnstileReady(false),
-          onError: () => {
-            setTurnstileReady(false);
-            setSubmitError('Verification failed to load. Please refresh and try again.');
-          },
-        });
-
-        if (!cancelled && widgetId != null) {
-          turnstileWidgetIdRef.current = widgetId;
-        }
-      } catch (_) {
-        if (!cancelled) {
-          setSubmitError('Verification could not load. Please refresh and try again.');
-        }
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-      setTurnstileReady(false);
-      if (turnstileWidgetIdRef.current != null && window.siteTurnstile) {
-        window.siteTurnstile.remove(turnstileWidgetIdRef.current);
-        turnstileWidgetIdRef.current = null;
-      }
-    };
-  }, [step, isSubmitted]);
-
-  const onFormSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitError('');
-    if (turnstileRequired && !turnstileReady) {
-      setSubmitError('Please complete the verification check before sending.');
-      return;
-    }
-    setIsSubmitting(true);
-    try {
-      const form = e.currentTarget;
-      const payload = Object.fromEntries(new FormData(form).entries());
-      const response = await fetch(form.action, {
-        method: form.method || 'post',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      if (!response.ok) {
-        throw new Error('Submission failed');
-      }
-      setIsSubmitted(true);
-    } catch (error) {
-      setSubmitError('Something went wrong sending your note. Please try again or email directly.');
-      if (turnstileWidgetIdRef.current != null && window.siteTurnstile) {
-        window.siteTurnstile.reset(turnstileWidgetIdRef.current);
-        setTurnstileReady(false);
-      }
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  return (
-    <div data-theme="light" className="portfolio-embed-root pf-contact-embed" style={shellLight}>
-      <main>
-        <section id="contact" className="section section--soft">
-          <div className="container">
-            <div className="pf-contact-journey">
-              <div className="pf-contact-step">
-                <span className="pf-contact-step__progress">Step {step} of 3</span>
-                <header className="pf-contact-step__header">
-                  <p className="pf-contact-step__eyebrow">Contact</p>
-                  <h1 className="pf-contact-step__title">
-                    Tell me about your <span className="pf-contact-title-accent">next site</span>
-                  </h1>
-                </header>
-
-                <div className="pf-contact-step__body" key={`contact-step-${step}-${isSubmitted ? 'done' : 'active'}`}>
-                  {step === 1 ? (
-                    <section className="pf-contact-step__panel">
-                      <h2 className="pf-contact-step__heading">Who are you?</h2>
-                      <p className="pf-contact-step__helper">
-                        Pick the one that fits best - it just helps me scope the right kind of reply.
-                      </p>
-                      <div className="pf-contact-tiles">
-                        {PF_CONTACT_ROLE_OPTIONS.map((item) => (
-                          <button
-                            key={item.value}
-                            type="button"
-                            className={`pf-contact-tile${role === item.value ? ' pf-contact-tile--selected' : ''}`}
-                            onClick={() => {
-                              setRole(item.value);
-                              setStep(2);
-                            }}
-                          >
-                            <span className="pf-contact-tile__label">{item.label}</span>
-                            <p className="pf-contact-tile__desc">{item.desc}</p>
-                          </button>
-                        ))}
-                      </div>
-                    </section>
-                  ) : null}
-
-                  {step === 2 ? (
-                    <section className="pf-contact-step__panel">
-                      <button type="button" className="pf-contact-step__back" onClick={() => setStep(1)}>
-                        Back
-                      </button>
-                      <h2 className="pf-contact-step__heading">What service do you need?</h2>
-                      <p className="pf-contact-step__helper">
-                        Website work is the main thing - but I also do the rest of the stack when it&apos;s useful.
-                      </p>
-                      <div className="pf-contact-tiles">
-                        {PF_CONTACT_SERVICE_OPTIONS.map((item) => (
-                          <button
-                            key={item.value}
-                            type="button"
-                            className={`pf-contact-tile${service === item.value ? ' pf-contact-tile--selected' : ''}`}
-                            onClick={() => {
-                              setService(item.value);
-                              setStep(3);
-                            }}
-                          >
-                            <span className="pf-contact-tile__label">{item.label}</span>
-                            <p className="pf-contact-tile__desc">{item.desc}</p>
-                          </button>
-                        ))}
-                      </div>
-                    </section>
-                  ) : null}
-
-                  {step === 3 ? (
-                    <section className="pf-contact-step__panel">
-                      <button type="button" className="pf-contact-step__back" onClick={() => setStep(2)}>
-                        Back
-                      </button>
-                      <h2 className="pf-contact-step__heading">A few last details</h2>
-                      <p className="pf-contact-step__helper">
-                        Last step - enough to write you back with something useful, not a pitch.
-                      </p>
-
-                      {!isSubmitted ? (
-                        <form className="pf-contact-form" action="/api/send-quote" method="post" onSubmit={onFormSubmit}>
-                          <div className="pf-contact-summary-chip">
-                            <span>{roleLabel || 'Role'} · {serviceLabel || 'Service'}</span>
-                            <button type="button" className="pf-contact-summary-chip__edit" onClick={() => setStep(1)}>
-                              Edit role
-                            </button>
-                            <button type="button" className="pf-contact-summary-chip__edit" onClick={() => setStep(2)}>
-                              Edit service
-                            </button>
-                          </div>
-
-                          <input type="hidden" name="role" value={role} />
-                          <input type="hidden" name="service" value={service} />
-
-                          <div className="pf-contact-form__field">
-                            <label htmlFor="pf-q-name">Your name</label>
-                            <input type="text" id="pf-q-name" name="name" required />
-                          </div>
-
-                          <div className="pf-contact-form__field">
-                            <label htmlFor="pf-q-email">Email</label>
-                            <input type="email" id="pf-q-email" name="email" required />
-                          </div>
-
-                          <div className="pf-contact-form__field">
-                            <label htmlFor="pf-q-work-links">Links to your profile</label>
-                            <input
-                              type="text"
-                              id="pf-q-work-links"
-                              name="work_links"
-                              required
-                              placeholder="Website, LinkedIn, GitHub, Dribbble, Instagram, or any profile that best represents you."
-                            />
-                          </div>
-
-                          <div className="pf-contact-form__field">
-                            <label htmlFor="pf-q-timeline">Timeline</label>
-                            <select id="pf-q-timeline" name="timeline">
-                              <option value="">Select one</option>
-                              <option value="within-a-month">Within a month</option>
-                              <option value="1-3-months">1-3 months</option>
-                              <option value="3-6-months">3-6 months</option>
-                              <option value="no-fixed-date">No fixed date</option>
-                            </select>
-                          </div>
-
-                          <div className="pf-contact-form__field">
-                            <label htmlFor="pf-q-project">About the project</label>
-                            <textarea
-                              id="pf-q-project"
-                              name="project"
-                              rows="4"
-                              required
-                              placeholder="Your body of work, who the site is for, what it needs to do."
-                            />
-                          </div>
-
-                          {submitError ? (
-                            <p className="pf-contact-form__status" role="alert">
-                              {submitError}
-                            </p>
-                          ) : null}
-
-                          <div ref={turnstileContainerRef} className="pf-contact-form__turnstile" />
-
-                          <button
-                            type="submit"
-                            className="btn btn--large pf-contact-form__submit"
-                            disabled={isSubmitting || (turnstileRequired && !turnstileReady)}
-                          >
-                            {isSubmitting ? 'Sending...' : 'Send Project Details'}
-                          </button>
-                          <p className="pf-contact-form__fallback">
-                            Or email me directly at <a href="mailto:david@networksandnodes.org">david@networksandnodes.org</a>
-                          </p>
-                        </form>
-                      ) : (
-                        <div className="pf-contact-success">
-                          <h3>You&apos;re all set.</h3>
-                          <p>
-                            I&apos;ll respond within the next six hours with next steps to book a discovery call.
-                          </p>
-                        </div>
-                      )}
-                    </section>
-                  ) : null}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <SectionFooterNav onNavigate={onNavigate} prev="services" contained />
-      </main>
-    </div>
-  );
-}
-
-function NavCards({ visible, onSelect, active, onBackToGrid }) {
-  const F = 'Inter, Helvetica Neue, sans-serif';
-  const panelBodyRef = useRef(null);
-  const scrollPanelTop = () => {
-    const el = panelBodyRef.current;
-    if (!el) return;
-    el.scrollTop = 0;
-  };
-  const chooseSection = (id) => {
-    scrollPanelTop();
-    onSelect(id);
-  };
-  const goBackToGrid = () => {
-    scrollPanelTop();
-    onBackToGrid();
-  };
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    return window.innerWidth < 760;
-  });
-  useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth < 760);
-    onResize();
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
-  useEffect(() => {
-    if (!visible) return;
-    const el = panelBodyRef.current;
-    if (el) el.scrollTop = 0;
-  }, [visible]);
-  const backBtn = {
-    background: 'none', border: '1px solid rgba(201, 174, 122, 0.45)',
-    color: 'rgba(201, 174, 122, 0.92)', padding: isMobile ? '7px 12px' : '7px 16px', borderRadius: 2,
-    fontSize: isMobile ? 10 : 11, letterSpacing: isMobile ? '0.16em' : '0.22em', textTransform: 'uppercase',
-    fontFamily: F, cursor: 'pointer',
-  };
-  const tabBase = {
-    background: 'none', border: 'none', borderBottom: '2px solid transparent',
-    color: 'rgba(201, 174, 122, 0.58)', padding: isMobile ? '7px 9px' : '8px 12px', cursor: 'pointer',
-    fontSize: isMobile ? 11 : 12, letterSpacing: isMobile ? '0.12em' : '0.18em', textTransform: 'uppercase', fontFamily: F,
-    transition: 'color 0.15s ease, border-color 0.15s ease',
-    flex: isMobile ? '0 0 auto' : undefined,
-  };
-  return (
-    <div style={{
-      position: 'absolute', inset: 0, zIndex: 20,
-      display: 'flex', flexDirection: 'column',
-      opacity: visible ? 1 : 0,
-      pointerEvents: visible ? 'auto' : 'none',
-      transition: 'opacity 1s ease',
-      background: '#0b1220',
-      minHeight: 0,
-    }}>
-      <header style={{
-        padding: isMobile ? '12px 14px' : '18px 28px',
-        display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '16px 24px',
-        borderBottom: '1px solid rgba(148,163,184,0.18)', rowGap: 14,
-        background: '#070d18',
-      }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4, width: isMobile ? '100%' : 'auto' }}>
-          <button
-            type="button"
-            onClick={() => chooseSection(null)}
-            style={{
-              background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-              color: '#c9ae7a',
-              textShadow: '0 1px 2px rgba(0,0,0,0.55), 0 0 18px rgba(74, 58, 32, 0.25)',
-              fontSize: isMobile ? 11 : 12, letterSpacing: isMobile ? '0.16em' : '0.28em', textTransform: 'uppercase',
-              fontFamily: F, textAlign: 'left',
-            }}
-          >Networks &amp; Nodes</button>
-          <span style={{
-            color: '#9d8658', fontSize: isMobile ? 11 : 12, letterSpacing: '0.04em', fontFamily: F, fontStyle: 'italic',
-          }}>Everybody here?</span>
-        </div>
-
-        <nav
-          style={{
-            flex: isMobile ? '1 1 100%' : '1 1 200px', display: 'flex', flexWrap: isMobile ? 'nowrap' : 'wrap', justifyContent: isMobile ? 'flex-start' : 'center',
-            alignItems: 'center', gap: 4, minWidth: 0, overflowX: isMobile ? 'auto' : 'visible',
-            scrollbarWidth: isMobile ? 'none' : 'auto', paddingBottom: isMobile ? 2 : 0,
-          }}
-          aria-label="Sections"
-        >
-          {CARDS.map(card => (
-            <button
-              key={card.id}
-              type="button"
-              onClick={() => chooseSection(card.id)}
-              title={card.sub}
-              style={{
-                ...tabBase,
-                color: active === card.id ? '#f0dfc4' : tabBase.color,
-                borderBottomColor: active === card.id ? '#f87171' : 'transparent',
-                fontWeight: active === card.id ? 500 : 400,
-              }}
-            >{card.label}</button>
-          ))}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#071019" />
+    <meta name="color-scheme" content="dark" />
+    <title>Networks &amp; Nodes — business systems, websites, and automation</title>
+    <meta
+      name="description"
+      content="Networks & Nodes helps owner-led businesses ship calm websites, dependable automation, and infrastructure you can audit—so your tools connect instead of fighting each other."
+    />
+    <link rel="canonical" href="https://www.networksandnodes.org/" />
+    <meta property="og:title" content="Networks &amp; Nodes — business systems, websites, and automation" />
+    <meta
+      property="og:description"
+      content="Calm websites, honest SEO, workflow automation, and hardened systems for teams that need reliability—not scattered tools."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.networksandnodes.org/" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-image32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-image16x16.png" />
+    <link rel="stylesheet" href="/css/site.css" />
+    <script type="module" src="/src/main.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" data-header>
+      <div class="header-inner">
+        <a class="brand" href="#home" aria-label="Networks & Nodes, home">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>Networks <b>&amp;</b> Nodes</span>
+        </a>
+
+        <nav class="desktop-nav" aria-label="Primary">
+          <a href="#services">Services</a>
+          <a href="#work">Featured Builds</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
         </nav>
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: isMobile ? 'space-between' : 'flex-start', gap: 10, marginLeft: isMobile ? 0 : 'auto', width: isMobile ? '100%' : 'auto' }}>
-          {active !== null && (
-            <button
-              type="button"
-              onClick={goBackToGrid}
-              style={{
-                background: 'none', border: 'none', color: 'rgba(201, 174, 122, 0.88)',
-                padding: '6px 4px', cursor: 'pointer', fontFamily: F, fontSize: isMobile ? 11 : 12,
-                letterSpacing: isMobile ? '0.08em' : '0.12em', textTransform: 'uppercase',
-              }}
-            >← Sections</button>
-          )}
-          <button
-            type="button"
-            onClick={() => chooseSection(null)}
-            style={backBtn}
-            onMouseOver={e => { e.currentTarget.style.borderColor = 'rgba(232, 208, 160, 0.65)'; }}
-            onMouseOut={e => { e.currentTarget.style.borderColor = 'rgba(201, 174, 122, 0.45)'; }}
-          >{isMobile ? 'Back to intro' : '↑ Back'}</button>
-        </div>
-      </header>
+        <a class="header-cta" href="#contact" data-project="Systems Review">Start a project</a>
+        <button
+          class="menu-button"
+          type="button"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          aria-label="Open navigation"
+          data-menu-button
+        >
+          <span></span><span></span>
+        </button>
+      </div>
+    </header>
 
-      <div
-        ref={panelBodyRef}
-        className={[
-          'portfolio-panel-body',
-          active === null && 'portfolio-panel-body--grid',
-          active === 'about' && 'portfolio-panel-body--about',
-          active === 'work' && 'portfolio-panel-body--work',
-          active === 'services' && 'portfolio-panel-body--services',
-          active === 'contact' && 'portfolio-panel-body--contact',
-        ].filter(Boolean).join(' ')}
-      >
-        {active === null ? (
-          <div style={{
-            flex: 1, display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gridTemplateRows: '1fr 1fr',
-            minHeight: 0,
-          }}>
-            {CARDS.map((card, i) => (
-              <button
-                key={card.id}
-                type="button"
-                className={`pf-nav-grid-tile pf-nav-grid-tile--${card.id}`}
-                onClick={() => chooseSection(card.id)}
-                style={{
-                  border: 'none',
-                  borderRight: i % 2 === 0 ? '1px solid rgba(255,255,255,0.08)' : 'none',
-                  borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.08)' : 'none',
-                  cursor: 'pointer', padding: 0,
-                  display: 'flex', flexDirection: 'column',
-                  alignItems: 'center', justifyContent: 'center', gap: 12,
-                  position: 'relative', overflow: 'hidden',
-                }}
-              >
-                <span
-                  className="pf-nav-grid-tile__num"
-                  style={{
-                    fontSize: 'clamp(64px,8.5vw,128px)',
-                    fontFamily: F, fontWeight: 200, letterSpacing: '-0.04em',
-                    position: 'absolute', top: '50%', left: '50%',
-                    transform: 'translate(-50%,-50%)',
-                    userSelect: 'none', pointerEvents: 'none',
-                    lineHeight: 1,
-                  }}
-                >{String(i + 1).padStart(2, '0')}</span>
-                <h2 className="pf-nav-grid-tile__title" style={{ fontFamily: F, position: 'relative' }}>{card.label}</h2>
-                <p className="pf-nav-grid-tile__sub" style={{ fontFamily: F, position: 'relative' }}>{card.sub}</p>
+    <div class="menu-backdrop" data-menu-backdrop hidden></div>
+    <aside class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" aria-hidden="true" data-menu inert>
+      <div class="mobile-menu-head">
+        <span>Navigate</span>
+        <button type="button" class="menu-close" aria-label="Close navigation" data-menu-close>Close</button>
+      </div>
+      <nav aria-label="Mobile primary">
+        <a href="#home"><span>01</span>Home</a>
+        <a href="#services"><span>02</span>Services</a>
+        <a href="#work"><span>03</span>Featured Builds</a>
+        <a href="#about"><span>04</span>About</a>
+        <a href="#contact"><span>05</span>Contact</a>
+      </nav>
+      <a class="button button-primary mobile-menu-cta" href="#contact" data-project="Systems Review">Start a project</a>
+      <p>Business systems, websites, and automation.</p>
+    </aside>
+
+    <main id="main">
+      <section class="hero" id="home" aria-labelledby="home-title">
+        <div class="hero-noise" aria-hidden="true"></div>
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow"><span></span> Business systems, websites &amp; automation</p>
+            <h1 id="home-title">Business systems that <em>connect</em> instead of fight each other.</h1>
+            <p class="hero-lead">
+              Websites, automation, analytics, and infrastructure for owner-led businesses that need reliable growth
+              and fewer manual handoffs.
+            </p>
+            <div class="action-row">
+              <a class="button button-primary" href="#contact" data-project="Systems Review">
+                Start a project <span aria-hidden="true">↗</span>
+              </a>
+              <a class="button button-secondary" href="#work">
+                View Featured Builds <span aria-hidden="true">↓</span>
+              </a>
+            </div>
+            <ul class="hero-proof" aria-label="How Networks & Nodes works">
+              <li><b>01</b><span>Diagnose the handoffs</span></li>
+              <li><b>02</b><span>Build the right layer</span></li>
+              <li><b>03</b><span>Document the system</span></li>
+            </ul>
+          </div>
+
+          <div class="network-map" aria-label="A connected system diagram" role="img" data-particle-host>
+            <div class="map-ring map-ring-one"></div>
+            <div class="map-ring map-ring-two"></div>
+            <div class="map-line map-line-one"></div>
+            <div class="map-line map-line-two"></div>
+            <div class="map-line map-line-three"></div>
+            <span class="node node-core"><i></i><b>Core system</b><small>Reliable source of truth</small></span>
+            <span class="node node-web"><i></i><b>Website</b><small>Clear customer action</small></span>
+            <span class="node node-data"><i></i><b>Analytics</b><small>Useful measurement</small></span>
+            <span class="node node-ops"><i></i><b>Operations</b><small>Fewer manual handoffs</small></span>
+            <span class="map-status"><i></i> All systems connected</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section services-section" id="services" aria-labelledby="services-title">
+        <div class="section-shell">
+          <header class="section-intro reveal">
+            <div>
+              <p class="eyebrow"><span></span> 02 / Services</p>
+              <h2 id="services-title">One connected system, built from the <em>right starting point.</em></h2>
+            </div>
+            <p>
+              Some businesses need a clean local website. Others need better lead tracking, workflow automation, or
+              infrastructure ready for smarter tools. The work starts with the bottleneck—not a preset stack.
+            </p>
+          </header>
+
+          <div class="service-paths">
+            <article class="service-card reveal" id="offer-local-launch">
+              <span class="card-number">01</span>
+              <p class="card-kicker">Websites &amp; local visibility</p>
+              <h3>Local Launch Kit</h3>
+              <p>
+                For local businesses that need to look legitimate, explain services clearly, and turn visits into
+                calls, forms, or quote requests.
+              </p>
+              <ul>
+                <li>Mobile-first website or landing page</li>
+                <li>Service positioning and contact flow</li>
+                <li>SEO structure, analytics, and local visibility</li>
+              </ul>
+              <a href="#contact" data-project="Local Launch Kit">Start a Local Launch <span>↗</span></a>
+            </article>
+
+            <article class="service-card reveal" id="offer-growth-engine">
+              <span class="card-number">02</span>
+              <p class="card-kicker">Growth systems &amp; analytics</p>
+              <h3>Growth Engine</h3>
+              <p>
+                For businesses with an existing customer flow that needs stronger tracking, clearer funnels, and
+                measurable improvement.
+              </p>
+              <ul>
+                <li>Website and conversion improvements</li>
+                <li>Lead tracking, CRM routing, and dashboards</li>
+                <li>SEO content structure and reporting</li>
+              </ul>
+              <a href="#contact" data-project="Growth Engine">Build a Growth Engine <span>↗</span></a>
+            </article>
+
+            <article class="service-card reveal" id="offer-systems-automation">
+              <span class="card-number">03</span>
+              <p class="card-kicker">Automation &amp; infrastructure</p>
+              <h3>Systems &amp; Automation</h3>
+              <p>
+                For teams losing time to manual work, disconnected tools, messy data, or workflows that should no
+                longer depend on copy-and-paste.
+              </p>
+              <ul>
+                <li>Workflow audit and automation planning</li>
+                <li>Python, Node.js, and API integrations</li>
+                <li>Cloud workflows, dashboards, and handoff</li>
+              </ul>
+              <a href="#contact" data-project="Systems & Automation">Plan an Automation Sprint <span>↗</span></a>
+            </article>
+          </div>
+
+          <div class="systems-review reveal">
+            <div>
+              <p class="eyebrow"><span></span> Not sure where to start?</p>
+              <h3>Find the handoff that costs you the most time.</h3>
+            </div>
+            <p>
+              A systems review maps the customer path, operational tools, data, and repeated work before recommending
+              what to build.
+            </p>
+            <a class="button button-primary" href="#contact" data-project="Systems Review">Request a Systems Review</a>
+          </div>
+
+          <div class="media-section reveal" aria-labelledby="service-stories-title">
+            <div class="subsection-heading">
+              <p class="eyebrow"><span></span> See each path</p>
+              <h3 id="service-stories-title">Short service explainers—loaded only when you choose to play.</h3>
+            </div>
+            <div class="media-grid media-grid-four">
+              <article class="media-card">
+                <button class="media-poster" type="button" data-mux-id="bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM" data-video-title="Launch Your Digital Foundation">
+                  <span class="play-icon" aria-hidden="true">▶</span><span>Play: Launch Your Digital Foundation</span>
+                </button>
+                <div><h4>Launch Your Digital Foundation</h4><a href="#offer-local-launch">Explore Local Launch</a></div>
+              </article>
+              <article class="media-card">
+                <button class="media-poster" type="button" data-mux-id="FghhBbV00fPiIiubZGEC00vCec02LmQdg00fZy9NVX00MnA8" data-video-title="Turn Your Website Into a Growth System">
+                  <span class="play-icon" aria-hidden="true">▶</span><span>Play: Turn Your Website Into a Growth System</span>
+                </button>
+                <div><h4>Turn Your Website Into a Growth System</h4><a href="#offer-growth-engine">Explore Growth Systems</a></div>
+              </article>
+              <article class="media-card">
+                <button class="media-poster" type="button" data-mux-id="8jivLSnoyaDu01mP02iAX1elHaO026zrQ0200pvjGoIeN4mU" data-video-title="Automate Repetitive Work">
+                  <span class="play-icon" aria-hidden="true">▶</span><span>Play: Automate Repetitive Work</span>
+                </button>
+                <div><h4>Automate Repetitive Work</h4><a href="#offer-systems-automation">Explore Automation</a></div>
+              </article>
+              <article class="media-card">
+                <button class="media-poster" type="button" data-mux-id="EbDl00U8531qaMnSoynVZI01V02ydAyIqeHzGKVlqn1s4U" data-video-title="Prepare for AI-Ready Operations">
+                  <span class="play-icon" aria-hidden="true">▶</span><span>Play: Prepare for AI-Ready Operations</span>
+                </button>
+                <div><h4>Prepare for AI-Ready Operations</h4><a href="#offer-systems-automation">Explore AI Readiness</a></div>
+              </article>
+            </div>
+          </div>
+          <nav class="section-nav" aria-label="Services section navigation">
+            <a href="#home">← Home</a><a href="#work">Featured Builds →</a>
+          </nav>
+        </div>
+      </section>
+
+      <section class="section work-section" id="work" aria-labelledby="work-title">
+        <div class="section-shell">
+          <header class="section-intro reveal">
+            <div>
+              <p class="eyebrow"><span></span> 03 / Featured Builds</p>
+              <h2 id="work-title">Proof across <em>enterprise, startup, and local</em> work.</h2>
+            </div>
+            <p>
+              Practical implementation across infrastructure, automation, product platforms, and websites that
+              connect directly to operations, visibility, and customer action.
+            </p>
+          </header>
+
+          <div class="case-stack">
+            <article class="case-card reveal">
+              <div class="case-media">
+                <div class="browser-bar"><i></i><i></i><i></i><a href="https://www.tsandl.us" target="_blank" rel="noopener noreferrer">www.tsandl.us</a></div>
+                <button class="media-poster case-poster case-poster-tsl" type="button" data-mux-id="WLiGImnah5qDmAo4zLVERPxgkUL5AQSNsNNKFhAGdFI" data-video-title="Transportation Solutions & Lighting case study preview">
+                  <span class="play-icon" aria-hidden="true">▶</span><span>Play case study</span>
+                </button>
+              </div>
+              <div class="case-body">
+                <p class="card-kicker">Enterprise smart infrastructure</p>
+                <h3>Transportation Solutions &amp; Lighting</h3>
+                <p>
+                  Multi-campus municipal, university, and federal surveillance environments needed one accountable
+                  systems layer—not another disconnected dashboard. Technical direction connected cloud routing,
+                  high-volume IP camera infrastructure, and dispatch automation.
+                </p>
+                <ul class="metrics">
+                  <li><strong>300%+</strong><span>site visibility increase</span></li>
+                  <li><strong>$1M+</strong><span>annual revenue contribution supported</span></li>
+                  <li><strong>10 hrs/wk</strong><span>manual dispatch work reduced</span></li>
+                </ul>
+                <ul class="tag-list"><li>Enterprise systems</li><li>Cloud workflow</li><li>Dispatch automation</li></ul>
+                <a class="text-cta" href="#contact" data-project="Build Something Similar">Build Something Similar <span>↗</span></a>
+              </div>
+            </article>
+
+            <article class="case-card reveal">
+              <div class="case-media">
+                <div class="browser-bar"><i></i><i></i><i></i><a href="https://www.codelink.live/waitlist" target="_blank" rel="noopener noreferrer">codelink.live</a></div>
+                <button class="media-poster case-poster case-poster-codelink" type="button" data-mux-id="KOxacSLriw7uuyhxs89KPiAHclOq02opBJ9bPs6Sfoho" data-video-title="CodeLink platform preview">
+                  <span class="play-icon" aria-hidden="true">▶</span><span>Play product preview</span>
+                </button>
+              </div>
+              <div class="case-body">
+                <p class="card-kicker">Founder-led startup · platform MVP</p>
+                <h3>CodeLink</h3>
+                <p>
+                  A collaboration platform for builders who want to ship together—not scroll through another generic
+                  feed. It organizes projects, collaborators, tasks, and proof-of-work around real progress.
+                </p>
+                <ul class="proof-list">
+                  <li>Project spaces keep intent, ownership, and next actions visible.</li>
+                  <li>Collaborator discovery is tuned for people ready to commit.</li>
+                  <li>Task flows stay tied to outcomes across handoffs and time zones.</li>
+                </ul>
+                <ul class="tag-list"><li>Full-stack MVP</li><li>Product build</li><li>Waitlist live</li></ul>
+                <div class="case-actions">
+                  <a class="text-cta" href="https://www.codelink.live/waitlist" target="_blank" rel="noopener noreferrer">Join the Waitlist <span>↗</span></a>
+                  <a class="text-cta text-cta-secondary" href="#contact" data-project="Product Build">Build a Product Like This</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="case-card reveal">
+              <div class="case-media">
+                <div class="browser-bar"><i></i><i></i><i></i><a href="https://redeemedhands.com" target="_blank" rel="noopener noreferrer">redeemedhands.com</a></div>
+                <div class="local-preview" role="img" aria-label="Redeemed Hands local construction business website preview">
+                  <span>Redeemed Hands</span><strong>Built with skill.<br />Finished with purpose.</strong><small>Concrete · construction · renovation</small>
+                </div>
+              </div>
+              <div class="case-body">
+                <p class="card-kicker">Local Launch Kit · community outreach</p>
+                <h3>Redeemed Hands</h3>
+                <p>
+                  A mobile-first local service site that presents concrete, construction, and renovation services
+                  clearly, builds trust, and guides referrals toward requesting a quote.
+                </p>
+                <ul class="metrics">
+                  <li><strong>Local</strong><span>service-business positioning</span></li>
+                  <li><strong>Quote</strong><span>focused conversion path</span></li>
+                  <li><strong>Mobile</strong><span>friendly customer experience</span></li>
+                </ul>
+                <ul class="tag-list"><li>Local business</li><li>Quote funnel</li><li>Local Launch Kit</li></ul>
+                <div class="case-actions">
+                  <a class="text-cta" href="#contact" data-project="Local Launch Kit">Launch a Local Business Site <span>↗</span></a>
+                  <a class="text-cta text-cta-secondary" href="#services">View Local Launch Kit</a>
+                </div>
+              </div>
+            </article>
+          </div>
+          <p class="work-footnote reveal">
+            Before these engagements, David designed and deployed 15+ responsive sites for small businesses across
+            retail, professional services, and community organizations. Selected scope summaries and references are
+            available on request.
+          </p>
+          <nav class="section-nav" aria-label="Featured Builds section navigation">
+            <a href="#services">← Services</a><a href="#process">Process →</a>
+          </nav>
+        </div>
+      </section>
+
+      <section class="section process-section" id="process" aria-labelledby="process-title">
+        <div class="section-shell">
+          <header class="section-intro reveal">
+            <div>
+              <p class="eyebrow"><span></span> 04 / Process</p>
+              <h2 id="process-title">A calm path from <em>friction to handoff.</em></h2>
+            </div>
+            <p>Small, reviewable phases keep the system useful throughout the work and make ownership clear at launch.</p>
+          </header>
+          <ol class="process-grid">
+            <li class="reveal"><b>01</b><h3>Map</h3><p>Find the customer, data, and operational handoffs that create friction.</p></li>
+            <li class="reveal"><b>02</b><h3>Prioritize</h3><p>Choose the smallest connected build that changes the business outcome.</p></li>
+            <li class="reveal"><b>03</b><h3>Build</h3><p>Ship in visible stages with performance, accessibility, and failure states included.</p></li>
+            <li class="reveal"><b>04</b><h3>Handoff</h3><p>Document decisions, ownership, measurement, and the next sensible improvement.</p></li>
+          </ol>
+          <nav class="section-nav" aria-label="Process section navigation">
+            <a href="#work">← Featured Builds</a><a href="#about">About →</a>
+          </nav>
+        </div>
+      </section>
+
+      <section class="section about-section" id="about" aria-labelledby="about-title">
+        <div class="section-shell about-grid">
+          <div class="about-copy reveal">
+            <p class="eyebrow"><span></span> 05 / About</p>
+            <h2 id="about-title">The visible experience and the <em>invisible system</em> should agree.</h2>
+            <p class="about-lead">
+              I’m David Walker, the network and systems engineer behind Networks &amp; Nodes. I help owner-led
+              businesses connect customer-facing websites with the automation, analytics, and infrastructure that
+              make the promise behind the page reliable.
+            </p>
+            <p>
+              A decade of designing networks, cloud systems, and internal tools taught me that naming, fallback plans,
+              quiet logging, and clear ownership are what make visible work dependable. Those same habits shape
+              mobile layouts, inquiry flows, dashboards, and integrations.
+            </p>
+            <p>
+              The goal is fewer moving parts, honest tradeoffs, and a system your team can understand after handoff.
+              Creative and portfolio experience supports that work; business outcomes and operational clarity lead it.
+            </p>
+            <div class="social-row" aria-label="Resume and social profiles">
+              <a href="mailto:david@networksandnodes.org?subject=Resume%20request">Request resume</a>
+              <a href="https://github.com/DaBugg" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a href="https://www.linkedin.com/in/david-w-3621bb272" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </div>
+          </div>
+          <aside class="about-aside reveal">
+            <blockquote>
+              <p>“Those who do not want to imitate anything, produce nothing.”</p>
+              <footer>— Salvador Dalí</footer>
+            </blockquote>
+            <div class="reading-card">
+              <p class="card-kicker">Book of the month</p>
+              <h3>Creative Capital</h3>
+              <p>Spencer E. Ante</p>
+              <a href="https://www.amazon.com/Creative-Capital-Georges-Doriot-Venture/dp/1422101223" target="_blank" rel="noopener noreferrer">Find it on Amazon ↗</a>
+            </div>
+            <a class="listening-link" href="https://open.spotify.com/user/958bb618c89849528b53fd2e76c88947" target="_blank" rel="noopener noreferrer">
+              <span aria-hidden="true">♫</span><span><small>Off the clock</small>See what I’m listening to on Spotify</span><b>↗</b>
+            </a>
+          </aside>
+          <nav class="section-nav section-nav-wide" aria-label="About section navigation">
+            <a href="#process">← Process</a><a href="#contact">Contact →</a>
+          </nav>
+        </div>
+      </section>
+
+      <section class="section contact-section" id="contact" aria-labelledby="contact-title">
+        <div class="section-shell contact-grid">
+          <div class="contact-copy reveal">
+            <p class="eyebrow"><span></span> 06 / Contact</p>
+            <h2 id="contact-title">Tell me what is not working—and what a <em>better system</em> should do.</h2>
+            <p>
+              Begin with the friction. You do not need a technical specification or a perfect project name before
+              reaching out.
+            </p>
+            <a class="email-link" href="mailto:david@networksandnodes.org">david@networksandnodes.org <span>↗</span></a>
+            <dl>
+              <div><dt>Response</dt><dd>Usually within one business day</dd></div>
+              <div><dt>Best fit</dt><dd>Owner-led teams improving connected operations</dd></div>
+              <div><dt>Location</dt><dd>Remote · United States</dd></div>
+            </dl>
+          </div>
+
+          <div class="form-card reveal">
+            <form action="/api/send-quote" method="post" data-contact-form novalidate>
+              <div class="honeypot" aria-hidden="true">
+                <label for="website">Leave this field empty</label>
+                <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="name">Name <span aria-hidden="true">*</span></label>
+                  <input id="name" name="name" type="text" autocomplete="name" required maxlength="100" />
+                  <span class="field-error" id="name-error"></span>
+                </div>
+                <div class="field">
+                  <label for="email">Email <span aria-hidden="true">*</span></label>
+                  <input id="email" name="email" type="email" autocomplete="email" required maxlength="254" />
+                  <span class="field-error" id="email-error"></span>
+                </div>
+              </div>
+              <div class="field">
+                <label for="organization">Organization <small>(optional)</small></label>
+                <input id="organization" name="organization" type="text" autocomplete="organization" maxlength="120" />
+              </div>
+              <div class="field">
+                <label for="project_type">Project type <small>(optional)</small></label>
+                <select id="project_type" name="project_type">
+                  <option value="">Choose the closest fit</option>
+                  <option>Systems Review</option>
+                  <option>Local Launch Kit</option>
+                  <option>Growth Engine</option>
+                  <option>Systems &amp; Automation</option>
+                  <option>Product Build</option>
+                  <option>Something else</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="problem">What is not working today? <span aria-hidden="true">*</span></label>
+                <textarea id="problem" name="problem" rows="3" required maxlength="2000" placeholder="The handoff, bottleneck, or customer friction you keep running into."></textarea>
+                <span class="field-error" id="problem-error"></span>
+              </div>
+              <div class="field">
+                <label for="project">Desired outcome or project description <span aria-hidden="true">*</span></label>
+                <textarea id="project" name="project" rows="4" required maxlength="4000" placeholder="What should be easier, faster, clearer, or more reliable when the work is done?"></textarea>
+                <span class="field-error" id="project-error"></span>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="timeline">Timeline <small>(optional)</small></label>
+                  <select id="timeline" name="timeline">
+                    <option value="">Select one</option>
+                    <option>Within a month</option>
+                    <option>1–3 months</option>
+                    <option>3–6 months</option>
+                    <option>No fixed date</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="budget">Budget range <small>(optional)</small></label>
+                  <select id="budget" name="budget">
+                    <option value="">Select one</option>
+                    <option>Under $3,000</option>
+                    <option>$3,000–$7,500</option>
+                    <option>$7,500–$15,000</option>
+                    <option>$15,000+</option>
+                    <option>Not sure yet</option>
+                  </select>
+                </div>
+              </div>
+              <input type="hidden" name="context" value="" data-project-context />
+              <div class="turnstile-slot" data-turnstile></div>
+              <p class="form-status" role="alert" aria-live="assertive" data-form-status></p>
+              <button class="button button-primary form-submit" type="submit">
+                <span>Send project details</span><b aria-hidden="true">↗</b>
               </button>
-            ))}
+            </form>
+            <div class="form-success" role="status" tabindex="-1" data-form-success hidden>
+              <p class="eyebrow"><span></span> Message sent</p>
+              <h3>You’re all set.</h3>
+              <p>I’ll review the details and reply with a useful next step—usually within one business day.</p>
+              <a href="#home">Return home</a>
+            </div>
           </div>
-        ) : active === 'about' ? (
-          <AboutSection onNavigate={(id) => { scrollPanelTop(); onSelect(id); }} />
-        ) : active === 'work' ? (
-          <WorkSection onNavigate={(id) => { scrollPanelTop(); onSelect(id); }} />
-        ) : active === 'services' ? (
-          <ServicesSection onNavigate={(id) => { scrollPanelTop(); onSelect(id); }} />
-        ) : active === 'contact' ? (
-          <ContactSection onNavigate={(id) => { scrollPanelTop(); onSelect(id); }} />
-        ) : null}
-      </div>
-    </div>
-  );
-}
-
-// ── App
-function App() {
-  const [progress, setProgress] = useState(0);
-  const [phase, setPhase]       = useState('zoom'); // 'zoom' | 'content'
-  const [active, setActive]     = useState(null);
-  const [sz, setSz]             = useState({ w: 0, h: 0 });
-
-  const pRef   = useRef(0);
-  const tRef   = useRef(0);
-  const phRef  = useRef('zoom');
-  const rafRef = useRef(null);
-  const heroRef = useRef(null);
-  const touchYRef = useRef(null);
-  const touchStartYRef = useRef(null);
-  const lastSplashInteractRef = useRef(Date.now());
-  const idleAutoRef = useRef(false);
-
-  useEffect(() => { phRef.current = phase; }, [phase]);
-
-  // Container size
-  useEffect(() => {
-    const upd = () => setSz({ w: window.innerHeight * (848/1264), h: window.innerHeight });
-    upd();
-    window.addEventListener('resize', upd);
-    return () => window.removeEventListener('resize', upd);
-  }, []);
-
-  // Lerp loop
-  useEffect(() => {
-    const tick = () => {
-      const cur  = pRef.current;
-      const alpha = idleAutoRef.current ? 0.014 : 0.050;
-      const next = cur + (tRef.current - cur) * alpha;
-      if (Math.abs(next - cur) > 0.00004) {
-        pRef.current = next;
-        setProgress(next);
-        if (next > 0.960 && phRef.current === 'zoom') {
-          idleAutoRef.current = false;
-          setPhase('content');
-          setActive(null);
-        }
-      }
-      rafRef.current = requestAnimationFrame(tick);
-    };
-    rafRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, []);
-
-  // After 4s idle on splash, slowly auto-advance zoom then open the four-tile grid
-  useEffect(() => {
-    if (phase !== 'zoom') return undefined;
-    const tick = () => {
-      if (phRef.current !== 'zoom') return;
-      if (idleAutoRef.current) return;
-      if (Date.now() - lastSplashInteractRef.current < 4000) return;
-      idleAutoRef.current = true;
-      tRef.current = 1;
-    };
-    const id = setInterval(tick, 400);
-    return () => clearInterval(id);
-  }, [phase]);
-
-  // Scroll / keys
-  useEffect(() => {
-    const clampProgress = value => Math.max(0, Math.min(1, value));
-    const bumpSplash = () => {
-      lastSplashInteractRef.current = Date.now();
-      idleAutoRef.current = false;
-    };
-    const onWheel = e => {
-      if (phRef.current === 'content') return;
-      bumpSplash();
-      e.preventDefault();
-      tRef.current = clampProgress(tRef.current + e.deltaY / 1800);
-    };
-    const onKey = e => {
-      if (phRef.current === 'content') return;
-      bumpSplash();
-      if (e.key === 'ArrowDown' || e.key === 'PageDown') tRef.current = clampProgress(tRef.current + 0.06);
-      if (e.key === 'ArrowUp'   || e.key === 'PageUp')   tRef.current = clampProgress(tRef.current - 0.06);
-    };
-    const onTouchStart = e => {
-      if (phRef.current === 'content') return;
-      bumpSplash();
-      if (e.touches.length === 1 && e.touches[0]) {
-        const y = e.touches[0].clientY;
-        touchYRef.current = y;
-        touchStartYRef.current = y;
-      }
-    };
-    const onTouchMove = e => {
-      if (phRef.current === 'content') return;
-      bumpSplash();
-      if (!e.touches[0] || touchYRef.current === null) return;
-      const nextY = e.touches[0].clientY;
-      const deltaY = touchYRef.current - nextY;
-      touchYRef.current = nextY;
-      if (Math.abs(deltaY) < 0.5) return;
-      tRef.current = clampProgress(tRef.current + deltaY / 900);
-    };
-    const onTouchEnd = () => {
-      bumpSplash();
-      if (phRef.current !== 'content' && touchStartYRef.current !== null && touchYRef.current !== null) {
-        const swipeDistance = touchStartYRef.current - touchYRef.current;
-        if (swipeDistance > 40) tRef.current = clampProgress(tRef.current + Math.min(0.35, swipeDistance / 360));
-      }
-      touchYRef.current = null;
-      touchStartYRef.current = null;
-    };
-
-    window.addEventListener('wheel', onWheel, { passive: false });
-    window.addEventListener('keydown', onKey);
-    const heroEl = heroRef.current;
-    if (heroEl) {
-      heroEl.addEventListener('touchstart', onTouchStart, { passive: true });
-      heroEl.addEventListener('touchmove', onTouchMove, { passive: true });
-      heroEl.addEventListener('touchend', onTouchEnd);
-      heroEl.addEventListener('touchcancel', onTouchEnd);
-    }
-    return () => {
-      window.removeEventListener('wheel', onWheel);
-      window.removeEventListener('keydown', onKey);
-      if (heroEl) {
-        heroEl.removeEventListener('touchstart', onTouchStart);
-        heroEl.removeEventListener('touchmove', onTouchMove);
-        heroEl.removeEventListener('touchend', onTouchEnd);
-        heroEl.removeEventListener('touchcancel', onTouchEnd);
-      }
-    };
-  }, []);
-
-  function handleBack() {
-    setPhase('zoom');
-    setActive(null);
-    tRef.current = 0;
-    idleAutoRef.current = false;
-    lastSplashInteractRef.current = Date.now();
-  }
-
-  const { w: cW, h: cH } = sz;
-  // Crack reveal: starts after a short scroll, ramps so cracks read on the globe through mid-zoom
-  const crackScroll = progress < 0.045 ? 0 : Math.min(1, (progress - 0.045) / 0.58);
-
-  // Max scale to fill viewport from globe center
-  const vW = window.innerWidth, vH = window.innerHeight;
-  const globeR = cH * GR;
-  const globeVX = vW / 2, globeVY = cH * GCY;
-  const corners = [[0,0],[vW,0],[0,vH],[vW,vH]];
-  const maxDist = Math.max(...corners.map(([x,y]) => Math.sqrt((x-globeVX)**2+(y-globeVY)**2)));
-  const maxScale = globeR > 0 ? (maxDist / globeR) * 1.18 : 6;
-  const scale = 1 + Math.pow(progress, 0.58) * (maxScale - 1);
-  const tx = window.innerWidth / 2 - (cW / 2) * scale;
-  const ty = cH * GCY * (1 - scale);
-
-  // Crack overlay: circle expands from globe center as crackScroll increases (globe-only reveal)
-  const clipR = crackScroll * globeR * 1.08;
-  const clipCX = cW / 2;
-  const clipCY = cH * GCY;
-  const crackOpacity = Math.min(1, Math.pow(crackScroll, 0.85) * 1.15);
-
-  const F = 'Inter, Helvetica Neue, sans-serif';
-
-  return (
-    <>
-      <FluidParticles
-        particleDensity={100}
-        particleSize={1}
-        particleColor="#555555"
-        activeColor="#f1f5f9"
-        maxBlastRadius={300}
-        hoverDelay={100}
-        interactionDistance={100}
-      />
-      <div ref={heroRef} className="hero-shell">
-
-      {/* ── Zoom container ── */}
-      {cW > 0 && (
-        <div className="hero-zoom-layer" style={{
-          width: cW, height: cH,
-          transform: `translate(${tx}px, ${ty}px) scale(${scale})`,
-          opacity: phase === 'content' ? 0 : 1,
-          transition: phase === 'content' ? 'opacity 0.6s ease' : 'none',
-          ['--hero-globe-cy-pct']: `${GCY * 100}%`,
-        }}>
-          {/* act-1.svg: vector B&W art, transparent outside paths */}
-          <img src="test-pages-new/act-1.svg" alt="" draggable={false} className="hero-art-img" />
-
-          {/* cracked-globe: lighten so dark lines read on black act-1 globe; clip + opacity follow scroll */}
-          {crackScroll > 0.001 && (
-            <img src="test-pages-new/cracked-globe.svg" alt="" draggable={false} style={{
-              position: 'absolute', top: 0, left: 0,
-              width: '100%', height: '100%',
-              objectFit: 'fill',
-              mixBlendMode: 'lighten',
-              opacity: crackOpacity,
-              clipPath: `circle(${Math.max(0.5, clipR)}px at ${clipCX}px ${clipCY}px)`,
-              pointerEvents: 'none',
-            }} />
-          )}
-
-          <div
-            className="hero-scroll-hint hero-scroll-hint--in-globe"
-            style={{
-              opacity: Math.max(0, 1 - progress * 8),
-              fontFamily: F,
-            }}
-          >
-            Swipe up to continue.
-          </div>
+          <nav class="section-nav section-nav-wide contact-section-nav" aria-label="Contact section navigation">
+            <a href="#about">← About</a><a href="#home">Home ↑</a>
+          </nav>
         </div>
-      )}
+      </section>
+    </main>
 
-      {/* ── Brand wordmark ──
-          Two-line treatment. The primary wordmark stays large and centered;
-          a smaller secondary line identifies the principal.
-          Both lines share the same opacity transition tied to scroll progress,
-          so they fade out together as the globe zooms in. */}
-      <div className="hero-wordmark" style={{
-        opacity: Math.max(0, 1 - progress * 5),
-        fontFamily: F,
-      }}>
-        <div className="hero-wordmark__primary">Networks &amp; Nodes</div>
-        <div className="hero-wordmark__secondary">business systems, websites, and automation</div>
+    <footer class="site-footer">
+      <div>
+        <a class="brand footer-brand" href="#home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>Networks <b>&amp;</b> Nodes</span></a>
+        <p>Business systems, websites, and automation that connect.</p>
       </div>
-
-      {/* ── Crack % ── */}
-      {crackScroll > 0.02 && phase === 'zoom' && (
-        <div className="hero-crack-progress" style={{
-          opacity: Math.min(1, crackScroll * 5) * Math.max(0, 1 - (progress - 0.88) * 8),
-        }}>{Math.round(crackScroll * 100)}%</div>
-      )}
-
-      {/* ── Nav cards ── */}
-      <NavCards
-        visible={phase === 'content'}
-        onSelect={id => (id ? setActive(id) : handleBack())}
-        onBackToGrid={() => setActive(null)}
-        active={active}
-      />
-    </div>
-    </>
-  );
-}
-
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-</script>
-</body>
+      <nav aria-label="Footer">
+        <a href="#services">Services</a><a href="#work">Featured Builds</a><a href="#about">About</a><a href="#contact">Contact</a>
+      </nav>
+      <p>© <span data-year>2026</span> Networks &amp; Nodes</p>
+    </footer>
+  </body>
 </html>

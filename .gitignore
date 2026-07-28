@@ -1,5 +1,5 @@
 # .gitignore
 .env
 .node_modules
-./test-pages-bad
-./test-pages-new
+/node_modules
+/dist
