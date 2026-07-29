@@ -1,0 +1,2431 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0f172a" />
+    <title>What We Build — Networks &amp; Nodes</title>
+    <meta
+      name="description"
+      content="An interactive Networks & Nodes service selector for U.S. market adaptation, connected systems, product 3D, and practical AI."
+    />
+    <style>
+      :root {
+        color-scheme: dark;
+        --navy: #0f172a;
+        --navy-deep: #0b1220;
+        --navy-soft: #111827;
+        --paper: #f8fafc;
+        --paper-deep: #f1f5f9;
+        --ink: #0f172a;
+        --muted: #475569;
+        --cyan: #22d3ee;
+        --emerald: #34d399;
+        --blue: #60a5fa;
+        --coral: #f87171;
+        --gold: #c9ae7a;
+        --gold-hot: #dcc9a0;
+        --key-top: #252b31;
+        --key-face: #11161b;
+        --key-edge: #080b0e;
+        --tray: #1f2937;
+        --line: rgba(255, 255, 255, 0.14);
+        --gradient-main: linear-gradient(135deg, var(--cyan) 0%, var(--emerald) 50%, var(--blue) 100%);
+        --shadow: 0 30px 70px rgba(2, 6, 23, 0.42);
+        --radius: clamp(20px, 2.8vw, 42px);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-width: 320px;
+        margin: 0;
+        overflow-x: hidden;
+        background:
+          radial-gradient(circle at 10% 12%, rgba(34, 211, 238, 0.1), transparent 26rem),
+          radial-gradient(circle at 88% 30%, rgba(52, 211, 153, 0.07), transparent 30rem),
+          linear-gradient(145deg, var(--navy-soft), var(--navy) 38%, var(--navy-deep));
+        color: var(--paper);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      button {
+        color: inherit;
+      }
+
+      .skip-link {
+        position: fixed;
+        z-index: 100;
+        top: 12px;
+        left: 12px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: var(--paper);
+        color: var(--ink);
+        transform: translateY(-150%);
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      .switchboard {
+        width: min(1480px, calc(100% - clamp(20px, 5vw, 80px)));
+        min-height: 100vh;
+        margin: 0 auto;
+        padding: clamp(30px, 5vw, 72px) 0 clamp(50px, 7vw, 100px);
+      }
+
+      .section-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 28px;
+        margin-bottom: clamp(22px, 3vw, 36px);
+      }
+
+      .section-heading p {
+        margin: 0;
+        color: var(--cyan);
+        font-size: clamp(0.76rem, 1.4vw, 1.02rem);
+        font-weight: 800;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      .section-heading .status {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: rgba(245, 241, 232, 0.66);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--emerald);
+        box-shadow: 0 0 14px rgba(52, 211, 153, 0.8);
+      }
+
+      .system-shell {
+        position: relative;
+        isolation: isolate;
+      }
+
+      .system-shell::before {
+        position: absolute;
+        z-index: -2;
+        inset: -4% -7% -3%;
+        border-radius: 46% 54% 41% 59% / 28% 35% 65% 72%;
+        background:
+          radial-gradient(ellipse at 17% 20%, rgba(34, 211, 238, 0.16), transparent 38%),
+          radial-gradient(ellipse at 82% 38%, rgba(96, 165, 250, 0.13), transparent 42%),
+          radial-gradient(ellipse at 48% 88%, rgba(52, 211, 153, 0.11), transparent 36%);
+        content: "";
+        filter: blur(34px);
+        animation: field-drift 14s ease-in-out infinite alternate;
+      }
+
+      .system-shell::after {
+        position: absolute;
+        z-index: -1;
+        top: 8%;
+        left: 8%;
+        width: 83%;
+        height: 63%;
+        border: 1px solid rgba(34, 211, 238, 0.11);
+        border-right-color: rgba(52, 211, 153, 0.16);
+        border-bottom-color: rgba(96, 165, 250, 0.13);
+        border-radius: 50%;
+        content: "";
+        pointer-events: none;
+        transform: rotate(-5deg);
+      }
+
+      .display-panel,
+      .service-panel {
+        overflow: hidden;
+        border: 1px solid rgba(148, 163, 184, 0.12);
+        background:
+          radial-gradient(ellipse at 12% 6%, rgba(34, 211, 238, 0.1), transparent 33%),
+          radial-gradient(ellipse at 92% 45%, rgba(96, 165, 250, 0.09), transparent 38%),
+          linear-gradient(160deg, rgba(17, 24, 39, 0.88), rgba(11, 18, 32, 0.94));
+        color: var(--paper);
+        box-shadow: 0 28px 72px rgba(2, 6, 23, 0.25);
+        backdrop-filter: blur(16px);
+      }
+
+      .display-panel {
+        min-height: clamp(440px, 55vw, 690px);
+        border-radius: clamp(28px, 6vw, 88px) clamp(28px, 6vw, 88px) 36px 36px;
+      }
+
+      .display-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 58px;
+        padding: 0 clamp(20px, 3vw, 42px);
+        border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+        background: rgba(15, 23, 42, 0.24);
+      }
+
+      .display-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #cbd5e1;
+        font-size: 0.73rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .display-label::before {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--cyan);
+        box-shadow: 0 0 12px rgba(34, 211, 238, 0.62);
+        content: "";
+      }
+
+      .display-topbar output {
+        color: #94a3b8;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.69rem;
+        letter-spacing: 0.12em;
+      }
+
+      .display-stage {
+        min-height: calc(clamp(440px, 55vw, 690px) - 58px);
+        padding: clamp(24px, 4vw, 58px);
+        background:
+          radial-gradient(ellipse at 35% 58%, rgba(34, 211, 238, 0.045), transparent 36%),
+          radial-gradient(ellipse at 76% 24%, rgba(52, 211, 153, 0.04), transparent 30%);
+      }
+
+      .demo {
+        min-height: 100%;
+        animation: demo-in 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      }
+
+      .demo[hidden] {
+        display: none;
+      }
+
+      .demo-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+        gap: 24px;
+        margin-bottom: clamp(30px, 5vw, 58px);
+      }
+
+      .demo-kicker {
+        margin: 0 0 10px;
+        color: var(--cyan);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      .demo h2 {
+        max-width: 920px;
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2rem, 5vw, 4.8rem);
+        font-weight: 500;
+        letter-spacing: -0.045em;
+        line-height: 0.98;
+      }
+
+      .micro-control,
+      .mode-button,
+      .language-button,
+      .product-button,
+      .input-button,
+      .node-button {
+        border: 1px solid rgba(148, 163, 184, 0.22);
+        background: rgba(15, 23, 42, 0.38);
+        color: #cbd5e1;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+      }
+
+      .micro-control {
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-size: 0.67rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .micro-control:hover,
+      .micro-control:focus-visible,
+      .mode-button:hover,
+      .mode-button:focus-visible,
+      .language-button:hover,
+      .language-button:focus-visible,
+      .product-button:hover,
+      .product-button:focus-visible,
+      .input-button:hover,
+      .input-button:focus-visible {
+        border-color: #0891b2;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.2);
+      }
+
+      .transformer {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(240px, 0.75fr);
+        gap: clamp(24px, 4vw, 56px);
+        align-items: stretch;
+      }
+
+      .phrase-card {
+        position: relative;
+        isolation: isolate;
+        display: grid;
+        min-height: 244px;
+        align-content: space-between;
+        padding: clamp(24px, 4vw, 48px);
+        border: 0;
+        border-radius: 45% 55% 38% 62% / 20% 26% 74% 80%;
+        background: transparent;
+      }
+
+      .phrase-card::before {
+        position: absolute;
+        z-index: -1;
+        inset: -8% -4% -6% -7%;
+        border-radius: inherit;
+        background:
+          radial-gradient(ellipse at 28% 45%, rgba(34, 211, 238, 0.13), transparent 56%),
+          radial-gradient(ellipse at 72% 62%, rgba(201, 174, 122, 0.1), transparent 54%);
+        content: "";
+        filter: blur(3px);
+      }
+
+      .phrase-label {
+        display: flex;
+        justify-content: space-between;
+        color: #94a3b8;
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      .phrase {
+        display: block;
+        margin: 30px 0;
+        background: linear-gradient(95deg, #f8fafc 5%, var(--cyan) 54%, var(--gold));
+        background-clip: text;
+        color: transparent;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2.7rem, 7vw, 6.6rem);
+        font-weight: 600;
+        letter-spacing: -0.065em;
+        line-height: 0.9;
+      }
+
+      .phrase-note {
+        max-width: 58ch;
+        margin: 0;
+        color: #cbd5e1;
+        font-size: clamp(0.86rem, 1.5vw, 1rem);
+        line-height: 1.6;
+      }
+
+      .transform-controls {
+        display: grid;
+        align-content: start;
+        gap: 24px;
+        padding-top: 5px;
+      }
+
+      .control-group p {
+        margin: 0 0 10px;
+        color: #94a3b8;
+        font-size: 0.67rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .segmented,
+      .language-row,
+      .product-row,
+      .input-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .mode-button,
+      .language-button,
+      .product-button,
+      .input-button {
+        padding: 10px 13px;
+        border-radius: 999px;
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .mode-button[aria-pressed="true"],
+      .language-button[aria-pressed="true"],
+      .product-button[aria-pressed="true"],
+      .input-button[aria-pressed="true"] {
+        border-color: rgba(34, 211, 238, 0.7);
+        background: linear-gradient(135deg, rgba(34, 211, 238, 0.18), rgba(96, 165, 250, 0.12));
+        color: #f1f5f9;
+        box-shadow:
+          inset 0 0 0 1px rgba(34, 211, 238, 0.08),
+          0 8px 24px rgba(2, 6, 23, 0.2);
+      }
+
+      .pathway {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(6, minmax(104px, 1fr));
+        gap: clamp(10px, 1.7vw, 24px);
+        align-items: center;
+      }
+
+      .pathway::before {
+        position: absolute;
+        z-index: 0;
+        top: 50%;
+        right: 4%;
+        left: 4%;
+        height: 3px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--cyan), var(--emerald), var(--blue));
+        content: "";
+        opacity: 0.48;
+        transform: translateY(-50%);
+      }
+
+      .node-button {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        min-height: 148px;
+        padding: 18px 15px;
+        border-radius: 42% 58% 46% 54% / 52% 44% 56% 48%;
+        text-align: left;
+        transition:
+          transform 180ms ease,
+          background-color 180ms ease,
+          box-shadow 180ms ease;
+      }
+
+      .node-button:hover,
+      .node-button:focus-visible,
+      .node-button.is-current {
+        border-color: #0891b2;
+        outline: none;
+        background: rgba(34, 211, 238, 0.1);
+        box-shadow:
+          0 15px 34px rgba(2, 6, 23, 0.26),
+          inset 0 0 28px rgba(34, 211, 238, 0.05);
+        transform: translateY(-5px);
+      }
+
+      .node-button.is-passed {
+        border-color: rgba(5, 150, 105, 0.38);
+        background: rgba(52, 211, 153, 0.09);
+      }
+
+      .node-index {
+        color: var(--cyan);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.68rem;
+      }
+
+      .node-button strong {
+        align-self: end;
+        font-size: clamp(0.78rem, 1.3vw, 0.98rem);
+        line-height: 1.25;
+      }
+
+      .node-button small {
+        color: #94a3b8;
+        font-size: 0.68rem;
+      }
+
+      .pathway-detail {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 18px;
+        align-items: center;
+        margin-top: 38px;
+        padding: 18px 20px;
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.32);
+        backdrop-filter: blur(10px);
+      }
+
+      .pathway-detail span {
+        min-width: 84px;
+        color: var(--cyan);
+        font-size: 0.66rem;
+        font-weight: 900;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .pathway-detail p {
+        margin: 0;
+        color: #cbd5e1;
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      .xy-chart {
+        position: relative;
+        min-height: clamp(320px, 34vw, 410px);
+        margin: 4px 12px 0 34px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.32);
+        border-left: 1px solid rgba(148, 163, 184, 0.32);
+        background-image:
+          linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+        background-size: 12.5% 25%;
+      }
+
+      .xy-chart::before {
+        position: absolute;
+        bottom: -5px;
+        left: -5px;
+        width: 9px;
+        height: 9px;
+        border-right: 1px solid #94a3b8;
+        border-bottom: 1px solid #94a3b8;
+        content: "";
+        transform: rotate(45deg);
+      }
+
+      .xy-chart::after {
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        width: 9px;
+        height: 9px;
+        border-top: 1px solid #94a3b8;
+        border-left: 1px solid #94a3b8;
+        content: "";
+        transform: rotate(45deg);
+      }
+
+      .axis-label {
+        position: absolute;
+        color: #64748b;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.61rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .axis-label-x {
+        right: 0;
+        bottom: -25px;
+      }
+
+      .axis-label-y {
+        top: 0;
+        left: -28px;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+      }
+
+      .plot-line {
+        position: absolute;
+        z-index: 1;
+        left: var(--line-x);
+        top: var(--line-y);
+        width: var(--line-width);
+        height: 2px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--cyan), var(--emerald));
+        box-shadow: 0 0 12px rgba(34, 211, 238, 0.22);
+        opacity: 0.58;
+        pointer-events: none;
+        transform: rotate(var(--line-angle));
+        transform-origin: left center;
+      }
+
+      .plot-node {
+        position: absolute;
+        z-index: 2;
+        left: var(--point-x);
+        top: var(--point-y);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: max-content;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: #cbd5e1;
+        cursor: pointer;
+        text-align: left;
+        transform: translate(-11px, -50%);
+      }
+
+      .plot-node::before {
+        flex: 0 0 auto;
+        width: 17px;
+        height: 17px;
+        border: 3px solid #0f172a;
+        border-radius: 50%;
+        background: #64748b;
+        box-shadow:
+          0 0 0 1px rgba(148, 163, 184, 0.58),
+          0 0 0 7px rgba(148, 163, 184, 0.06);
+        content: "";
+        transition:
+          background-color 180ms ease,
+          box-shadow 180ms ease,
+          transform 180ms ease;
+      }
+
+      .plot-node-copy {
+        display: grid;
+        gap: 2px;
+        padding: 7px 10px;
+        border-radius: 12px;
+        background: rgba(11, 18, 32, 0.64);
+        backdrop-filter: blur(8px);
+      }
+
+      .plot-node strong {
+        font-size: clamp(0.7rem, 1.05vw, 0.84rem);
+        line-height: 1.2;
+      }
+
+      .plot-node small {
+        color: #94a3b8;
+        font-size: 0.59rem;
+        letter-spacing: 0.04em;
+      }
+
+      .plot-node.is-passed::before {
+        background: var(--emerald);
+        box-shadow:
+          0 0 0 1px rgba(52, 211, 153, 0.7),
+          0 0 16px rgba(52, 211, 153, 0.32);
+      }
+
+      .plot-node:hover::before,
+      .plot-node:focus-visible::before,
+      .plot-node.is-current::before {
+        background: var(--gold);
+        box-shadow:
+          0 0 0 2px rgba(201, 174, 122, 0.6),
+          0 0 0 9px rgba(201, 174, 122, 0.11),
+          0 0 24px rgba(201, 174, 122, 0.48);
+        transform: scale(1.2);
+      }
+
+      .plot-node:hover .plot-node-copy,
+      .plot-node:focus-visible .plot-node-copy,
+      .plot-node.is-current .plot-node-copy {
+        color: #fff;
+        background: rgba(30, 41, 59, 0.92);
+      }
+
+      .plot-node:focus-visible {
+        border-radius: 14px;
+        outline: 2px solid var(--cyan);
+        outline-offset: 5px;
+      }
+
+      .plot-node[data-node="4"],
+      .plot-node[data-node="5"] {
+        transform: translate(calc(-100% + 11px), -50%);
+      }
+
+      .product-viewer {
+        display: grid;
+        grid-template-columns: minmax(120px, 0.38fr) minmax(260px, 1fr) minmax(120px, 0.38fr);
+        gap: clamp(16px, 4vw, 50px);
+        align-items: center;
+      }
+
+      .product-side {
+        color: #94a3b8;
+        text-align: center;
+      }
+
+      .product-side .product-silhouette {
+        opacity: 0.42;
+        transform: scale(0.65);
+      }
+
+      .product-side small {
+        display: block;
+        margin-top: -12px;
+        font-size: 0.66rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .product-main {
+        display: grid;
+        justify-items: center;
+        min-height: 280px;
+      }
+
+      .product-silhouette {
+        position: relative;
+        width: clamp(150px, 21vw, 260px);
+        aspect-ratio: 0.82;
+        filter: drop-shadow(0 28px 20px rgba(19, 22, 28, 0.22));
+        transform: perspective(800px) rotateY(var(--rotation, -8deg));
+        transition: transform 280ms ease;
+      }
+
+      .product-silhouette::before {
+        position: absolute;
+        inset: 13% 12% 10%;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 40% 40% 20% 20% / 18% 18% 12% 12%;
+        background:
+          linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.65) 44%, transparent 58%),
+          linear-gradient(145deg, var(--product-light, #546a7b), var(--product-color, #17222e) 65%);
+        box-shadow:
+          inset 0 -18px 40px rgba(0, 0, 0, 0.3),
+          inset 0 2px 8px rgba(255, 255, 255, 0.5);
+        content: "";
+        clip-path: polygon(24% 0, 43% 8%, 57% 8%, 76% 0, 100% 24%, 81% 37%, 78% 100%, 22% 100%, 19% 37%, 0 24%);
+      }
+
+      .product-silhouette::after {
+        position: absolute;
+        top: 15%;
+        left: 50%;
+        width: 24%;
+        aspect-ratio: 1;
+        border: 5px solid rgba(5, 12, 19, 0.48);
+        border-top-color: transparent;
+        border-radius: 50%;
+        content: "";
+        transform: translateX(-50%);
+      }
+
+      .product-meta {
+        margin-top: -8px;
+        text-align: center;
+      }
+
+      .product-meta strong {
+        display: block;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(1.4rem, 3vw, 2.2rem);
+        font-weight: 500;
+      }
+
+      .product-meta span {
+        color: #94a3b8;
+        font-size: 0.72rem;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+
+      .rotate-control {
+        display: grid;
+        grid-template-columns: auto minmax(160px, 340px) auto;
+        gap: 14px;
+        align-items: center;
+        justify-content: center;
+        margin: 28px auto 22px;
+        color: #94a3b8;
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+
+      .rotate-control input {
+        width: 100%;
+        accent-color: #0891b2;
+        cursor: ew-resize;
+      }
+
+      .product-row {
+        justify-content: center;
+      }
+
+      .product-arrow {
+        display: grid;
+        gap: 8px;
+        place-items: center;
+        min-width: 92px;
+        padding: 16px 10px;
+        border: 0;
+        border-radius: 50%;
+        background: transparent;
+        color: #94a3b8;
+        cursor: pointer;
+      }
+
+      .product-arrow span {
+        display: grid;
+        width: clamp(54px, 7vw, 78px);
+        aspect-ratio: 1;
+        place-items: center;
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 50%;
+        background: rgba(15, 23, 42, 0.28);
+        color: #e5e7eb;
+        font-size: clamp(1.5rem, 3vw, 2.3rem);
+        transition:
+          border-color 180ms ease,
+          background-color 180ms ease,
+          transform 180ms ease;
+      }
+
+      .product-arrow small {
+        max-width: 90px;
+        font-size: 0.61rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        line-height: 1.25;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .product-arrow:hover span,
+      .product-arrow:focus-visible span {
+        border-color: var(--cyan);
+        background: rgba(34, 211, 238, 0.1);
+        transform: scale(1.06);
+      }
+
+      .product-arrow:focus-visible {
+        outline: 2px solid var(--cyan);
+        outline-offset: 3px;
+      }
+
+      .product-object {
+        --rotation: -8deg;
+        position: relative;
+        width: clamp(190px, 27vw, 330px);
+        aspect-ratio: 1;
+        cursor: grab;
+        filter: drop-shadow(0 30px 24px rgba(2, 6, 23, 0.42));
+        outline: none;
+        touch-action: none;
+        transform: perspective(900px) rotateY(var(--rotation)) rotateX(-2deg);
+        transform-style: preserve-3d;
+        transition: transform 120ms ease-out;
+        user-select: none;
+      }
+
+      .product-object.is-dragging {
+        cursor: grabbing;
+        transition: none;
+      }
+
+      .product-object:focus-visible {
+        border-radius: 50%;
+        outline: 2px solid var(--cyan);
+        outline-offset: 8px;
+      }
+
+      .product-object::before,
+      .product-object::after,
+      .product-object span {
+        position: absolute;
+        content: "";
+      }
+
+      .product-object[data-product="shirt"]::before {
+        inset: 11% 13% 8%;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: 40% 40% 20% 20% / 18% 18% 12% 12%;
+        background:
+          linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.28) 44%, transparent 58%),
+          linear-gradient(145deg, var(--product-light), var(--product-color) 65%);
+        box-shadow: inset 0 -18px 40px rgba(0, 0, 0, 0.32);
+        clip-path: polygon(24% 0, 43% 8%, 57% 8%, 76% 0, 100% 24%, 81% 37%, 78% 100%, 22% 100%, 19% 37%, 0 24%);
+      }
+
+      .product-object[data-product="shirt"]::after {
+        top: 14%;
+        left: 50%;
+        width: 22%;
+        aspect-ratio: 1;
+        border: 5px solid rgba(5, 12, 19, 0.48);
+        border-top-color: transparent;
+        border-radius: 50%;
+        transform: translateX(-50%);
+      }
+
+      .product-object[data-product="eyewear"]::before {
+        inset: 27% 4%;
+        background:
+          radial-gradient(circle at 27% 50%, rgba(96, 165, 250, 0.18) 0 23%, var(--product-color) 24% 28%, transparent 29%),
+          radial-gradient(circle at 73% 50%, rgba(96, 165, 250, 0.18) 0 23%, var(--product-color) 24% 28%, transparent 29%);
+      }
+
+      .product-object[data-product="eyewear"]::after {
+        top: 49%;
+        right: 40%;
+        left: 40%;
+        height: 5px;
+        border-radius: 999px;
+        background: var(--product-light);
+        box-shadow:
+          -104px -22px 0 -1px var(--product-color),
+          104px -22px 0 -1px var(--product-color);
+      }
+
+      .product-object[data-product="footwear"]::before {
+        inset: 20% 3% 22%;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: 45% 60% 24% 30%;
+        background:
+          repeating-linear-gradient(115deg, transparent 0 18px, rgba(255, 255, 255, 0.08) 19px 21px),
+          linear-gradient(145deg, var(--product-light), var(--product-color) 68%);
+        box-shadow: inset 0 -26px 20px rgba(0, 0, 0, 0.24);
+        clip-path: polygon(4% 52%, 23% 45%, 36% 10%, 53% 20%, 66% 55%, 94% 68%, 100% 88%, 94% 100%, 12% 100%, 0 84%);
+      }
+
+      .product-object[data-product="footwear"]::after {
+        right: 5%;
+        bottom: 21%;
+        left: 5%;
+        height: 12px;
+        border-radius: 40% 60% 35% 30%;
+        background: var(--product-light);
+        box-shadow: 0 6px 12px rgba(2, 6, 23, 0.36);
+      }
+
+      .product-object[data-product="watch"]::before {
+        top: 2%;
+        bottom: 2%;
+        left: 38%;
+        width: 24%;
+        border-radius: 32px;
+        background:
+          repeating-linear-gradient(0deg, transparent 0 12%, rgba(255, 255, 255, 0.12) 13% 15%),
+          linear-gradient(90deg, var(--product-color), var(--product-light), var(--product-color));
+        box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.3);
+      }
+
+      .product-object[data-product="watch"]::after {
+        top: 50%;
+        left: 50%;
+        width: 47%;
+        aspect-ratio: 1;
+        border: 10px solid var(--product-light);
+        border-radius: 50%;
+        background:
+          radial-gradient(circle, var(--gold) 0 3%, transparent 4%),
+          conic-gradient(from 0deg, #111827, #334155, #111827);
+        box-shadow:
+          inset 0 0 0 5px #0b1220,
+          0 18px 30px rgba(2, 6, 23, 0.4);
+        transform: translate(-50%, -50%);
+      }
+
+      .product-object[data-product="jewelry"]::before {
+        inset: 12%;
+        border: 13px double var(--product-light);
+        border-radius: 50%;
+        background: transparent;
+        box-shadow:
+          inset 0 0 18px rgba(255, 255, 255, 0.13),
+          0 0 22px rgba(198, 201, 204, 0.22);
+        transform: rotateX(58deg) rotateZ(-12deg);
+      }
+
+      .product-object[data-product="jewelry"]::after {
+        top: 33%;
+        left: 50%;
+        width: 17%;
+        aspect-ratio: 1;
+        border: 4px solid var(--product-color);
+        border-radius: 50% 50% 52% 48%;
+        background: linear-gradient(145deg, #f8fafc, var(--product-light));
+        box-shadow: 0 0 22px rgba(226, 232, 240, 0.34);
+        clip-path: polygon(50% 0, 90% 32%, 76% 88%, 50% 100%, 24% 88%, 10% 32%);
+        transform: translateX(-50%);
+      }
+
+      .product-drag-hint {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 14px 0 0;
+        color: #94a3b8;
+        font-size: 0.66rem;
+        font-weight: 800;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+
+      .product-drag-hint::before,
+      .product-drag-hint::after {
+        color: var(--cyan);
+        content: "↔";
+      }
+
+      .product-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 18px;
+      }
+
+      .product-dot {
+        width: 7px;
+        height: 7px;
+        border: 0;
+        border-radius: 50%;
+        background: #475569;
+        padding: 0;
+        pointer-events: none;
+      }
+
+      .product-dot.is-active {
+        width: 24px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--cyan), var(--emerald));
+      }
+
+      .ai-layout {
+        display: grid;
+        grid-template-columns: minmax(230px, 0.72fr) minmax(0, 1.28fr);
+        gap: clamp(24px, 5vw, 64px);
+      }
+
+      .message-card {
+        position: relative;
+        isolation: isolate;
+        padding: clamp(22px, 3vw, 36px);
+        border: 0;
+        border-radius: 48% 52% 42% 58% / 26% 32% 68% 74%;
+        background: transparent;
+        color: var(--paper);
+        box-shadow: none;
+      }
+
+      .message-card::before {
+        position: absolute;
+        z-index: -1;
+        inset: -8% -5%;
+        border: 1px solid rgba(34, 211, 238, 0.16);
+        border-radius: inherit;
+        background:
+          radial-gradient(ellipse at 35% 40%, rgba(34, 211, 238, 0.11), transparent 55%),
+          rgba(15, 23, 42, 0.22);
+        content: "";
+      }
+
+      .message-card span {
+        color: var(--cyan);
+        font-size: 0.67rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .message-card blockquote {
+        margin: 28px 0 42px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+        line-height: 1.35;
+      }
+
+      .message-card small {
+        color: #94a3b8;
+      }
+
+      .ai-flow {
+        display: grid;
+        gap: 9px;
+      }
+
+      .ai-step {
+        display: grid;
+        grid-template-columns: 34px minmax(0, 1fr) auto;
+        gap: 14px;
+        align-items: center;
+        min-height: 48px;
+        padding: 10px 15px;
+        border: 0;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+        border-radius: 0;
+        background: transparent;
+      }
+
+      .ai-step b {
+        display: grid;
+        width: 28px;
+        height: 28px;
+        place-items: center;
+        border-radius: 50%;
+        background: rgba(148, 163, 184, 0.14);
+        color: #cbd5e1;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.66rem;
+      }
+
+      .ai-step strong {
+        font-size: clamp(0.78rem, 1.4vw, 0.92rem);
+      }
+
+      .ai-step small {
+        color: #94a3b8;
+        font-size: 0.65rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .ai-step.is-human {
+        border-color: rgba(5, 150, 105, 0.4);
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(52, 211, 153, 0.12), transparent);
+      }
+
+      .ai-step.is-human b {
+        background: var(--emerald);
+        color: #052e2b;
+      }
+
+      .ai-step.is-current {
+        border-color: #0891b2;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(34, 211, 238, 0.13), transparent);
+        box-shadow: 0 10px 24px rgba(84, 58, 0, 0.12);
+      }
+
+      .ai-step.is-current b {
+        background: var(--cyan);
+        color: #083344;
+        box-shadow: 0 0 14px rgba(34, 211, 238, 0.5);
+      }
+
+      .input-row {
+        margin-top: 20px;
+      }
+
+      .ai-choice-layout {
+        display: grid;
+        grid-template-columns: minmax(230px, 0.72fr) minmax(0, 1.28fr);
+        gap: clamp(24px, 5vw, 64px);
+        align-items: center;
+      }
+
+      .ai-choice-grid {
+        display: grid;
+        gap: 10px;
+      }
+
+      .ai-choice {
+        display: grid;
+        grid-template-columns: 36px 1fr auto;
+        gap: 14px;
+        align-items: center;
+        min-height: 58px;
+        padding: 10px 16px;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.28);
+        color: #cbd5e1;
+        cursor: pointer;
+        text-align: left;
+      }
+
+      .ai-choice b {
+        color: #64748b;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.65rem;
+      }
+
+      .ai-choice strong {
+        font-size: 0.88rem;
+      }
+
+      .ai-choice i {
+        color: #64748b;
+        font-style: normal;
+        font-size: 1.2rem;
+      }
+
+      .ai-choice:hover,
+      .ai-choice:focus-visible,
+      .ai-choice[aria-pressed="true"] {
+        border-color: rgba(34, 211, 238, 0.56);
+        outline: none;
+        background: linear-gradient(90deg, rgba(34, 211, 238, 0.13), rgba(52, 211, 153, 0.04));
+        color: #fff;
+      }
+
+      .ai-choice[aria-pressed="true"] b,
+      .ai-choice[aria-pressed="true"] i {
+        color: var(--cyan);
+      }
+
+      .ai-concept {
+        position: relative;
+        min-height: 265px;
+        padding: clamp(28px, 5vw, 54px);
+        border: 1px solid rgba(148, 163, 184, 0.13);
+        border-radius: 44% 56% 47% 53% / 28% 34% 66% 72%;
+        background:
+          radial-gradient(ellipse at 25% 18%, rgba(34, 211, 238, 0.12), transparent 40%),
+          radial-gradient(ellipse at 82% 76%, rgba(52, 211, 153, 0.09), transparent 42%),
+          rgba(15, 23, 42, 0.18);
+      }
+
+      .ai-concept .draft-label {
+        display: inline-flex;
+        padding: 7px 11px;
+        border: 1px solid rgba(248, 113, 113, 0.34);
+        border-radius: 999px;
+        color: var(--coral);
+        font-size: 0.6rem;
+        font-weight: 800;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .ai-concept h3 {
+        max-width: 520px;
+        margin: 24px 0 14px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(1.7rem, 3.4vw, 3rem);
+        font-weight: 500;
+        letter-spacing: -0.035em;
+        line-height: 1;
+      }
+
+      .ai-concept p {
+        max-width: 56ch;
+        margin: 0;
+        color: #cbd5e1;
+        font-size: clamp(0.88rem, 1.4vw, 1rem);
+        line-height: 1.6;
+      }
+
+      .ai-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 24px;
+      }
+
+      .ai-tags span {
+        padding: 7px 10px;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.1);
+        color: #94a3b8;
+        font-size: 0.61rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .keyboard-zone {
+        position: relative;
+        z-index: 5;
+        margin: -14px clamp(18px, 4vw, 68px);
+        padding: clamp(18px, 2.6vw, 30px) clamp(16px, 3.8vw, 50px);
+        border: 0;
+        border-radius: 50%;
+        background:
+          radial-gradient(ellipse at center, rgba(51, 65, 85, 0.56), rgba(15, 23, 42, 0.1) 66%, transparent 74%);
+        box-shadow: none;
+      }
+
+      .keyboard-zone::before {
+        position: absolute;
+        z-index: -1;
+        inset: 20% -2% 8%;
+        border-radius: 50%;
+        background: linear-gradient(90deg, rgba(34, 211, 238, 0.09), rgba(52, 211, 153, 0.07), rgba(96, 165, 250, 0.1));
+        content: "";
+        filter: blur(24px);
+      }
+
+      .keyboard-zone::after {
+        position: absolute;
+        z-index: -1;
+        right: 2%;
+        bottom: 11%;
+        left: 2%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(201, 174, 122, 0.36), transparent);
+        content: "";
+      }
+
+      .key-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: clamp(10px, 2vw, 28px);
+      }
+
+      .service-key {
+        position: relative;
+        min-width: 0;
+        min-height: clamp(122px, 14vw, 178px);
+        padding: 0 7px 10px;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        perspective: 500px;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .service-key::after {
+        position: absolute;
+        right: 8%;
+        bottom: 0;
+        left: 8%;
+        height: 39%;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 6px 6px 11px 11px;
+        background: linear-gradient(#262c32, #090d11 74%);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.19),
+          0 9px 11px rgba(0, 0, 0, 0.42);
+        content: "";
+      }
+
+      .key-switch {
+        position: absolute;
+        z-index: 2;
+        right: 17%;
+        bottom: 24%;
+        left: 17%;
+        height: 33%;
+        border: 1px solid rgba(255, 255, 255, 0.38);
+        background:
+          repeating-linear-gradient(90deg, transparent 0 12%, rgba(255, 255, 255, 0.24) 12% 17%),
+          rgba(194, 202, 207, 0.28);
+        box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.18);
+        transition:
+          background-color 150ms ease,
+          box-shadow 150ms ease;
+      }
+
+      .key-cap {
+        position: absolute;
+        z-index: 3;
+        top: 2px;
+        right: 11%;
+        bottom: 34%;
+        left: 11%;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto 1fr auto;
+        gap: 4px;
+        padding: clamp(10px, 1.5vw, 17px);
+        overflow: hidden;
+        border: 1px solid #4a5057;
+        border-radius: 9px 9px 13px 13px;
+        background:
+          linear-gradient(145deg, rgba(255, 255, 255, 0.13), transparent 34%),
+          linear-gradient(175deg, var(--key-top), var(--key-face) 74%);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.2),
+          inset 0 -8px 15px rgba(0, 0, 0, 0.45),
+          0 12px 0 var(--key-edge),
+          0 16px 18px rgba(0, 0, 0, 0.42);
+        text-align: left;
+        transform: rotateX(5deg) translateY(0);
+        transform-origin: bottom;
+        transition:
+          transform 140ms cubic-bezier(0.2, 0.8, 0.2, 1),
+          box-shadow 140ms cubic-bezier(0.2, 0.8, 0.2, 1),
+          border-color 140ms ease;
+      }
+
+      .key-function {
+        color: #e5e7eb;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: clamp(0.76rem, 1.25vw, 1rem);
+        font-weight: 800;
+      }
+
+      .key-indicator {
+        width: 8px;
+        height: 8px;
+        margin-top: 2px;
+        border-radius: 50%;
+        background: #4a5051;
+        box-shadow: inset 0 1px 2px #111;
+      }
+
+      .key-symbol {
+        align-self: center;
+        color: #e5e7eb;
+        font-size: clamp(1.05rem, 2vw, 1.6rem);
+        line-height: 1;
+      }
+
+      .key-name {
+        grid-column: 1 / -1;
+        align-self: end;
+        color: #e5e7eb;
+        font-size: clamp(0.54rem, 0.9vw, 0.7rem);
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        line-height: 1.12;
+        text-transform: uppercase;
+      }
+
+      .service-key:hover .key-cap,
+      .service-key:focus-visible .key-cap {
+        border-color: rgba(201, 174, 122, 0.78);
+      }
+
+      .service-key:focus-visible {
+        border-radius: 12px;
+        outline: 3px solid var(--cyan);
+        outline-offset: 5px;
+      }
+
+      .service-key[aria-selected="true"] .key-cap {
+        border-color: #9d8658;
+        box-shadow:
+          inset 0 1px 0 rgba(220, 201, 160, 0.28),
+          inset 0 -8px 20px rgba(70, 55, 25, 0.5),
+          0 4px 0 #110d05,
+          0 8px 18px rgba(0, 0, 0, 0.52),
+          0 0 30px rgba(201, 174, 122, 0.28);
+        transform: rotateX(2deg) translateY(8px);
+      }
+
+      .service-key[aria-selected="true"] .key-switch {
+        background-color: rgba(201, 174, 122, 0.76);
+        box-shadow:
+          inset 0 0 10px #f0dfc4,
+          0 0 24px rgba(201, 174, 122, 0.82);
+      }
+
+      .service-key[aria-selected="true"] .key-indicator {
+        background: var(--gold-hot);
+        box-shadow:
+          0 0 7px #f0dfc4,
+          0 0 16px var(--gold);
+      }
+
+      .service-key[aria-selected="true"] .key-function,
+      .service-key[aria-selected="true"] .key-symbol,
+      .service-key[aria-selected="true"] .key-name {
+        color: var(--gold-hot);
+      }
+
+      .service-panel {
+        min-height: 275px;
+        padding: clamp(72px, 8vw, 108px) clamp(24px, 7vw, 102px) clamp(38px, 5vw, 68px);
+        border-radius: 36px 36px clamp(28px, 8vw, 110px) clamp(28px, 8vw, 110px);
+        background:
+          radial-gradient(ellipse at 72% 62%, rgba(52, 211, 153, 0.09), transparent 39%),
+          radial-gradient(ellipse at 12% 90%, rgba(96, 165, 250, 0.08), transparent 32%),
+          linear-gradient(170deg, rgba(11, 18, 32, 0.9), rgba(17, 24, 39, 0.82));
+      }
+
+      .service-content {
+        display: grid;
+        grid-template-columns: minmax(140px, 0.34fr) minmax(0, 1.4fr);
+        gap: clamp(22px, 5vw, 80px);
+        align-items: start;
+        animation: service-in 340ms ease both;
+      }
+
+      .channel-label {
+        margin: 5px 0 0;
+        color: #94a3b8;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        line-height: 1.55;
+        text-transform: uppercase;
+      }
+
+      .channel-label b {
+        display: block;
+        margin-top: 10px;
+        color: var(--coral);
+        font-size: 0.64rem;
+      }
+
+      .service-copy .category {
+        margin: 0 0 12px;
+        color: #9d8658;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .service-copy h3 {
+        max-width: 900px;
+        margin: 0 0 18px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(1.8rem, 4vw, 3.5rem);
+        font-weight: 500;
+        letter-spacing: -0.04em;
+        line-height: 1;
+      }
+
+      .service-copy p {
+        max-width: 780px;
+        margin: 0;
+        color: #cbd5e1;
+        font-size: clamp(0.94rem, 1.5vw, 1.08rem);
+        line-height: 1.65;
+      }
+
+      .prototype-note {
+        margin: 24px 0 0;
+        color: rgba(245, 241, 232, 0.54);
+        font-size: 0.71rem;
+        line-height: 1.6;
+        text-align: center;
+      }
+
+      @keyframes field-drift {
+        from {
+          opacity: 0.78;
+          transform: translate3d(-1%, -1%, 0) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translate3d(1.5%, 1%, 0) scale(1.03);
+        }
+      }
+
+      @keyframes demo-in {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes service-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @media (max-width: 980px) {
+        .display-panel {
+          min-height: 580px;
+        }
+
+        .display-stage {
+          min-height: 522px;
+        }
+
+        .transformer,
+        .ai-layout,
+        .ai-choice-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .pathway {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .pathway::before {
+          display: none;
+        }
+
+        .node-button {
+          min-height: 116px;
+        }
+
+        .product-viewer {
+          grid-template-columns: minmax(72px, 0.3fr) 1fr minmax(72px, 0.3fr);
+        }
+
+        .service-key {
+          min-height: 135px;
+        }
+
+        .key-cap {
+          right: 7%;
+          left: 7%;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .switchboard {
+          width: min(100% - 20px, 620px);
+          padding-top: 24px;
+        }
+
+        .section-heading {
+          align-items: start;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .display-panel {
+          min-height: 650px;
+        }
+
+        .display-topbar {
+          padding: 0 18px;
+        }
+
+        .display-topbar output {
+          display: none;
+        }
+
+        .display-stage {
+          min-height: 592px;
+          padding: 28px 20px 40px;
+        }
+
+        .demo-header {
+          grid-template-columns: 1fr;
+          gap: 14px;
+          margin-bottom: 30px;
+        }
+
+        .demo-header .micro-control {
+          justify-self: start;
+        }
+
+        .transformer {
+          gap: 22px;
+        }
+
+        .phrase-card {
+          min-height: 216px;
+          border-radius: 20px;
+        }
+
+        .pathway {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .node-button {
+          min-height: 104px;
+        }
+
+        .pathway-detail {
+          grid-template-columns: 1fr;
+          gap: 5px;
+          margin-top: 22px;
+        }
+
+        .xy-chart {
+          min-height: 390px;
+          margin-right: 2px;
+          margin-left: 25px;
+        }
+
+        .plot-node-copy {
+          max-width: 112px;
+          padding: 6px 8px;
+        }
+
+        .plot-node strong {
+          font-size: 0.66rem;
+        }
+
+        .plot-node small {
+          display: none;
+        }
+
+        .product-viewer {
+          grid-template-columns: 58px minmax(0, 1fr) 58px;
+          gap: 5px;
+        }
+
+        .product-arrow {
+          min-width: 0;
+          padding: 8px 0;
+        }
+
+        .product-arrow span {
+          width: 48px;
+        }
+
+        .product-arrow small {
+          display: none;
+        }
+
+        .product-main {
+          min-height: 240px;
+        }
+
+        .product-object {
+          width: min(58vw, 260px);
+        }
+
+        .ai-concept {
+          min-height: 230px;
+          border-radius: 28% 72% 32% 68% / 18% 25% 75% 82%;
+        }
+
+        .ai-layout {
+          gap: 18px;
+        }
+
+        .message-card blockquote {
+          margin: 18px 0 26px;
+        }
+
+        .keyboard-zone {
+          margin: -12px 12px;
+          padding: 18px 14px 20px;
+        }
+
+        .key-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 15px 10px;
+        }
+
+        .service-key {
+          min-height: 127px;
+        }
+
+        .key-name {
+          font-size: 0.61rem;
+        }
+
+        .service-panel {
+          padding: 68px 24px 38px;
+        }
+
+        .service-content {
+          grid-template-columns: 1fr;
+          gap: 18px;
+        }
+
+        .channel-label b {
+          display: inline;
+          margin: 0 0 0 8px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+
+        .service-key[aria-selected="true"] .key-cap {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#system-selector">Skip to system selector</a>
+
+    <main class="switchboard" id="system-selector">
+      <header class="section-heading">
+        <p>What We Build / System Selector</p>
+        <span class="status"><i class="status-dot" aria-hidden="true"></i> Interface online</span>
+      </header>
+
+      <section class="system-shell" aria-labelledby="active-service-title">
+        <div class="display-panel">
+          <div class="display-topbar">
+            <span class="display-label" id="display-label">Market adaptation preview</span>
+            <output id="display-output">CH 01 · READY</output>
+          </div>
+
+          <div class="display-stage" aria-live="polite">
+            <section class="demo" data-demo="f1" aria-label="U.S. market language demonstration">
+              <header class="demo-header">
+                <div>
+                  <p class="demo-kicker">Language / market adaptation</p>
+                  <h2>Shape the message for the market.</h2>
+                </div>
+                <button class="micro-control" type="button" data-cycle-copy>Cycle example</button>
+              </header>
+
+              <div class="transformer">
+                <div class="phrase-card">
+                  <div class="phrase-label">
+                    <span id="phrase-state">Texte original · Français</span>
+                    <span id="phrase-count">01 / 03</span>
+                  </div>
+                  <strong class="phrase" id="market-phrase">Bonjour.</strong>
+                  <p class="phrase-note" id="phrase-note">
+                    Le message original conserve le ton, le rythme et l’intention de la marque.
+                  </p>
+                </div>
+
+                <div class="transform-controls">
+                  <div class="control-group">
+                    <p>Message state</p>
+                    <div class="segmented" role="group" aria-label="Choose message state">
+                      <button class="mode-button" type="button" data-copy-mode="original" aria-pressed="true">
+                        Original
+                      </button>
+                      <button class="mode-button" type="button" data-copy-mode="translated" aria-pressed="false">
+                        Traduction
+                      </button>
+                      <button class="mode-button" type="button" data-copy-mode="market" aria-pressed="false">
+                        Version U.S.
+                      </button>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <p>Source market</p>
+                    <div class="language-row" role="group" aria-label="Choose source language">
+                      <button class="language-button" type="button" data-language="fr" aria-pressed="true">FR</button>
+                      <button class="language-button" type="button" data-language="es" aria-pressed="false">ES</button>
+                      <button class="language-button" type="button" data-language="de" aria-pressed="false">DE</button>
+                      <button class="language-button" type="button" data-language="uk" aria-pressed="false">UK</button>
+                      <button class="language-button" type="button" data-language="ar" aria-pressed="false">AR</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="demo" data-demo="f2" aria-label="Connected systems workflow demonstration" hidden>
+              <header class="demo-header">
+                <div>
+                  <p class="demo-kicker">Connected operating pathway</p>
+                  <h2>Watch one inquiry move through the business.</h2>
+                </div>
+                <button class="micro-control" type="button" data-run-path>Run pathway</button>
+              </header>
+
+              <div class="xy-chart" aria-label="Customer inquiry workflow plotted by progress and connected value">
+                <span class="axis-label axis-label-x">Journey progress →</span>
+                <span class="axis-label axis-label-y">Connected value →</span>
+                <i class="plot-line" style="--line-x: 7%; --line-y: 80%; --line-width: 19%; --line-angle: -31deg"></i>
+                <i class="plot-line" style="--line-x: 24%; --line-y: 65%; --line-width: 18%; --line-angle: 14deg"></i>
+                <i class="plot-line" style="--line-x: 40%; --line-y: 70%; --line-width: 22%; --line-angle: -42deg"></i>
+                <i class="plot-line" style="--line-x: 57%; --line-y: 43%; --line-width: 18%; --line-angle: 13deg"></i>
+                <i class="plot-line" style="--line-x: 73%; --line-y: 49%; --line-width: 23%; --line-angle: -43deg"></i>
+
+                <button class="plot-node" type="button" data-node="0" style="--point-x: 7%; --point-y: 80%">
+                  <span class="plot-node-copy"><strong>Customer inquiry</strong><small>New request</small></span>
+                </button>
+                <button class="plot-node" type="button" data-node="1" style="--point-x: 24%; --point-y: 65%">
+                  <span class="plot-node-copy"><strong>Website form</strong><small>Source captured</small></span>
+                </button>
+                <button class="plot-node" type="button" data-node="2" style="--point-x: 40%; --point-y: 70%">
+                  <span class="plot-node-copy"><strong>Qualification</strong><small>Fit checked</small></span>
+                </button>
+                <button class="plot-node" type="button" data-node="3" style="--point-x: 57%; --point-y: 43%">
+                  <span class="plot-node-copy"><strong>CRM routing</strong><small>Owner assigned</small></span>
+                </button>
+                <button class="plot-node" type="button" data-node="4" style="--point-x: 73%; --point-y: 49%">
+                  <span class="plot-node-copy"><strong>Team action</strong><small>Task created</small></span>
+                </button>
+                <button class="plot-node" type="button" data-node="5" style="--point-x: 94%; --point-y: 19%">
+                  <span class="plot-node-copy"><strong>Follow-up</strong><small>Result reported</small></span>
+                </button>
+              </div>
+              <div class="pathway-detail">
+                <span id="node-status">Select a node</span>
+                <p id="node-detail">Explore each handoff or run the complete pathway from inquiry to reporting.</p>
+              </div>
+            </section>
+
+            <section class="demo" data-demo="f3" aria-label="Interactive product demonstration" hidden>
+              <header class="demo-header">
+                <div>
+                  <p class="demo-kicker">Interactive product viewer</p>
+                  <h2>Put the product in the customer’s hands.</h2>
+                </div>
+                <button class="micro-control" type="button" data-reset-product>Reset view</button>
+              </header>
+
+              <div class="product-viewer">
+                <button class="product-arrow" type="button" data-product-step="-1" aria-label="Show previous product">
+                  <span aria-hidden="true">←</span>
+                  <small id="previous-product-name">Footwear</small>
+                </button>
+                <div class="product-main">
+                  <div
+                    class="product-object"
+                    id="product-object"
+                    data-product="shirt"
+                    role="img"
+                    tabindex="0"
+                    aria-label="Studio shirt. Drag left or right to rotate."
+                  >
+                    <span aria-hidden="true"></span>
+                  </div>
+                  <div class="product-meta">
+                    <strong id="product-name">Studio shirt</strong>
+                    <span id="product-material">Heavy cotton · Midnight</span>
+                  </div>
+                </div>
+                <button class="product-arrow" type="button" data-product-step="1" aria-label="Show next product">
+                  <span aria-hidden="true">→</span>
+                  <small id="next-product-name">Watch</small>
+                </button>
+              </div>
+              <p class="product-drag-hint">Click and drag the object to rotate</p>
+              <div class="product-dots" aria-label="Product 3 of 5">
+                <i class="product-dot"></i>
+                <i class="product-dot"></i>
+                <i class="product-dot is-active"></i>
+                <i class="product-dot"></i>
+                <i class="product-dot"></i>
+              </div>
+            </section>
+
+            <section class="demo" data-demo="f4" aria-label="Practical AI workflow demonstration" hidden>
+              <header class="demo-header">
+                <div>
+                  <p class="demo-kicker">Practical AI directions</p>
+                  <h2>Choose where AI should help.</h2>
+                </div>
+              </header>
+
+              <div class="ai-choice-layout">
+                <div class="ai-choice-grid" role="group" aria-label="Choose an AI service direction">
+                  <button class="ai-choice" type="button" data-ai-choice="chatbots" aria-pressed="true">
+                    <b>01</b><strong>Chatbots</strong><i aria-hidden="true">↗</i>
+                  </button>
+                  <button class="ai-choice" type="button" data-ai-choice="analytics" aria-pressed="false">
+                    <b>02</b><strong>Data Analytics</strong><i aria-hidden="true">↗</i>
+                  </button>
+                  <button class="ai-choice" type="button" data-ai-choice="training" aria-pressed="false">
+                    <b>03</b><strong>Training</strong><i aria-hidden="true">↗</i>
+                  </button>
+                  <button class="ai-choice" type="button" data-ai-choice="custom" aria-pressed="false">
+                    <b>04</b><strong>Custom</strong><i aria-hidden="true">↗</i>
+                  </button>
+                </div>
+                <article class="ai-concept" aria-live="polite">
+                  <span class="draft-label">Working direction</span>
+                  <h3 id="ai-concept-title">Make routine conversations more useful.</h3>
+                  <p id="ai-concept-copy">
+                    Guide customers to relevant answers, collect useful context, and hand complex conversations to
+                    the right person.
+                  </p>
+                  <div class="ai-tags" id="ai-concept-tags">
+                    <span>Customer support</span><span>Qualification</span><span>Human handoff</span>
+                  </div>
+                </article>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <div class="keyboard-zone">
+          <div class="key-grid" role="tablist" aria-label="Choose a Networks & Nodes service">
+            <button
+              class="service-key"
+              id="key-f1"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="service-explanation"
+              data-service="f1"
+            >
+              <span class="key-switch" aria-hidden="true"></span>
+              <span class="key-cap">
+                <span class="key-function">F1</span><i class="key-indicator" aria-hidden="true"></i>
+                <span class="key-symbol" aria-hidden="true">◎</span>
+                <span class="key-name">U.S. Market</span>
+              </span>
+            </button>
+            <button
+              class="service-key"
+              id="key-f2"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="service-explanation"
+              data-service="f2"
+              tabindex="-1"
+            >
+              <span class="key-switch" aria-hidden="true"></span>
+              <span class="key-cap">
+                <span class="key-function">F2</span><i class="key-indicator" aria-hidden="true"></i>
+                <span class="key-symbol" aria-hidden="true">⌁</span>
+                <span class="key-name">Connect Systems</span>
+              </span>
+            </button>
+            <button
+              class="service-key"
+              id="key-f3"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="service-explanation"
+              data-service="f3"
+              tabindex="-1"
+            >
+              <span class="key-switch" aria-hidden="true"></span>
+              <span class="key-cap">
+                <span class="key-function">F3</span><i class="key-indicator" aria-hidden="true"></i>
+                <span class="key-symbol" aria-hidden="true">◇</span>
+                <span class="key-name">Product 3D</span>
+              </span>
+            </button>
+            <button
+              class="service-key"
+              id="key-f4"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="service-explanation"
+              data-service="f4"
+              tabindex="-1"
+            >
+              <span class="key-switch" aria-hidden="true"></span>
+              <span class="key-cap">
+                <span class="key-function">F4</span><i class="key-indicator" aria-hidden="true"></i>
+                <span class="key-symbol" aria-hidden="true">✦</span>
+                <span class="key-name">Practical AI</span>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div class="service-panel" id="service-explanation" role="tabpanel" aria-labelledby="key-f1">
+          <div class="service-content" id="service-content">
+            <p class="channel-label">
+              Channel <span id="channel-number">01</span>
+              <b>Active</b>
+            </p>
+            <div class="service-copy">
+              <p class="category" id="service-category">U.S. Market</p>
+              <h3 id="active-service-title">Adapt your website for an American audience.</h3>
+              <p id="service-description">
+                Reshape the message, structure, and customer journey so the website feels intentional in the U.S.
+                market—not merely translated.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <p class="prototype-note">Choose a key or use F1–F4 on your keyboard. The active key stays pressed while both panels update.</p>
+    </main>
+
+    <script>
+      const services = {
+        f1: {
+          channel: "01",
+          label: "Market adaptation preview",
+          category: "U.S. Market",
+          title: "Adapt your website for an American audience.",
+          description:
+            "Reshape the message, structure, and customer journey so the website feels intentional in the U.S. market—not merely translated.",
+        },
+        f2: {
+          channel: "02",
+          label: "Connected pathway preview",
+          category: "Connected Operations",
+          title: "Connect the tools and people behind the business.",
+          description:
+            "Turn inquiries, routing, follow-up, team ownership, and reporting into one dependable operating pathway.",
+        },
+        f3: {
+          channel: "03",
+          label: "Product exploration preview",
+          category: "Interactive Products",
+          title: "Make physical products explorable.",
+          description:
+            "Create interactive product experiences that customers can expand, rotate, inspect, and configure.",
+        },
+        f4: {
+          channel: "04",
+          label: "Human-reviewed workflow preview",
+          category: "Practical AI",
+          title: "Apply AI where it removes useful work.",
+          description:
+            "Design controlled workflows for classification, extraction, knowledge retrieval, drafting, and reporting—with human review where it matters.",
+        },
+      };
+
+      const keys = [...document.querySelectorAll("[data-service]")];
+      const demos = [...document.querySelectorAll("[data-demo]")];
+      const servicePanel = document.querySelector("#service-explanation");
+      const serviceContent = document.querySelector("#service-content");
+      const displayLabel = document.querySelector("#display-label");
+      const displayOutput = document.querySelector("#display-output");
+      const channelNumber = document.querySelector("#channel-number");
+      const category = document.querySelector("#service-category");
+      const serviceTitle = document.querySelector("#active-service-title");
+      const serviceDescription = document.querySelector("#service-description");
+
+      function selectService(id, moveFocus = false) {
+        const service = services[id];
+        if (!service) return;
+
+        keys.forEach((key) => {
+          const selected = key.dataset.service === id;
+          key.setAttribute("aria-selected", String(selected));
+          key.tabIndex = selected ? 0 : -1;
+          if (selected && moveFocus) key.focus();
+        });
+
+        demos.forEach((demo) => {
+          demo.hidden = demo.dataset.demo !== id;
+          if (!demo.hidden) {
+            demo.getAnimations().forEach((animation) => animation.cancel());
+            demo.style.animation = "none";
+            requestAnimationFrame(() => {
+              demo.style.animation = "";
+            });
+          }
+        });
+
+        serviceContent.style.animation = "none";
+        displayLabel.textContent = service.label;
+        displayOutput.textContent = `CH ${service.channel} · READY`;
+        channelNumber.textContent = service.channel;
+        category.textContent = service.category;
+        serviceTitle.textContent = service.title;
+        serviceDescription.textContent = service.description;
+        servicePanel.setAttribute("aria-labelledby", `key-${id}`);
+
+        requestAnimationFrame(() => {
+          serviceContent.style.animation = "";
+        });
+      }
+
+      keys.forEach((key, index) => {
+        key.addEventListener("click", () => selectService(key.dataset.service));
+        key.addEventListener("keydown", (event) => {
+          let nextIndex = index;
+          if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (index + 1) % keys.length;
+          if (event.key === "ArrowLeft" || event.key === "ArrowUp")
+            nextIndex = (index - 1 + keys.length) % keys.length;
+          if (event.key === "Home") nextIndex = 0;
+          if (event.key === "End") nextIndex = keys.length - 1;
+          if (nextIndex !== index) {
+            event.preventDefault();
+            selectService(keys[nextIndex].dataset.service, true);
+          }
+        });
+      });
+
+      window.addEventListener("keydown", (event) => {
+        if (/^F[1-4]$/.test(event.key)) {
+          event.preventDefault();
+          selectService(event.key.toLowerCase(), true);
+        }
+      });
+
+      const marketCopy = {
+        fr: {
+          language: "French",
+          modes: { original: "Original", translated: "Traduction", market: "Version U.S." },
+          original: [
+            "Bonjour.",
+            "Texte original · Français",
+            "Le message original conserve le ton, le rythme et l’intention de la marque.",
+          ],
+          translated: ["Good day.", "Literal translation · English", "Accurate language, but still carrying the rhythm and conventions of the source."],
+          market: ["Let’s get started.", "U.S. market ready", "A clearer, action-led opening shaped around how the intended audience evaluates and moves."],
+        },
+        es: {
+          language: "Spanish",
+          modes: { original: "Original", translated: "Traducción", market: "Versión EE.UU." },
+          original: [
+            "Empecemos.",
+            "Texto original · Español",
+            "El mensaje original conserva el tono, el ritmo y la intención de la marca.",
+          ],
+          translated: ["Let us begin.", "Literal translation · English", "The meaning arrives, but the phrasing still feels translated rather than intentionally written."],
+          market: ["Start your project.", "U.S. market ready", "A specific next step replaces a general invitation and makes the customer journey easier to enter."],
+        },
+        de: {
+          language: "German",
+          modes: { original: "Original", translated: "Übersetzung", market: "U.S.-Fassung" },
+          original: [
+            "Zuverlässig gebaut.",
+            "Originaltext · Deutsch",
+            "Die Originalbotschaft bewahrt den Ton, den Rhythmus und die Absicht der Marke.",
+          ],
+          translated: ["Reliably built.", "Literal translation · English", "The claim is correct, but it lacks context for a new audience choosing among unfamiliar providers."],
+          market: ["Built to keep business moving.", "U.S. market ready", "The promise becomes concrete by connecting reliability to the customer’s operating outcome."],
+        },
+        uk: {
+          language: "British English",
+          modes: { original: "Original", translated: "U.S. wording", market: "Market ready" },
+          original: ["Request a quotation.", "Original · UK English", "Familiar English, with a call to action shaped by a different market convention."],
+          translated: ["Request an estimate.", "Literal localisation · U.S. English", "Vocabulary changes, while the broader customer journey remains untouched."],
+          market: ["Get a clear project estimate.", "U.S. market ready", "The action now sets an expectation for what the customer receives and reduces uncertainty."],
+        },
+        ar: {
+          language: "Arabic",
+          modes: { original: "الأصلي", translated: "الترجمة", market: "النسخة الأمريكية" },
+          original: [
+            "لنبدأ.",
+            "النص الأصلي · العربية",
+            "تحافظ الرسالة الأصلية على نبرة العلامة التجارية وإيقاعها وهدفها.",
+          ],
+          translated: ["Let’s begin.", "Literal translation · English", "The phrase is readable, but not yet connected to a useful decision or next step."],
+          market: ["See your next step.", "U.S. market ready", "The adapted line leads with customer progress and supports the surrounding conversion path."],
+        },
+      };
+
+      let selectedLanguage = "fr";
+      let selectedCopyMode = "original";
+      const copyModes = ["original", "translated", "market"];
+      const marketPhrase = document.querySelector("#market-phrase");
+      const phraseState = document.querySelector("#phrase-state");
+      const phraseCount = document.querySelector("#phrase-count");
+      const phraseNote = document.querySelector("#phrase-note");
+
+      function updateMarketCopy() {
+        const language = marketCopy[selectedLanguage];
+        const content = language[selectedCopyMode];
+        const modeIndex = copyModes.indexOf(selectedCopyMode);
+        const useRtl = selectedLanguage === "ar" && selectedCopyMode === "original";
+        marketPhrase.textContent = content[0];
+        phraseState.textContent = content[1];
+        phraseCount.textContent = `0${modeIndex + 1} / 03`;
+        phraseNote.textContent = content[2];
+        marketPhrase.dir = useRtl ? "rtl" : "ltr";
+        phraseState.dir = useRtl ? "rtl" : "ltr";
+        phraseNote.dir = useRtl ? "rtl" : "ltr";
+        document.querySelectorAll("[data-copy-mode]").forEach((button) => {
+          button.textContent = language.modes[button.dataset.copyMode];
+          button.setAttribute("aria-pressed", String(button.dataset.copyMode === selectedCopyMode));
+        });
+        document.querySelectorAll("[data-language]").forEach((button) => {
+          button.setAttribute("aria-pressed", String(button.dataset.language === selectedLanguage));
+        });
+      }
+
+      document.querySelectorAll("[data-copy-mode]").forEach((button) => {
+        button.addEventListener("click", () => {
+          selectedCopyMode = button.dataset.copyMode;
+          updateMarketCopy();
+        });
+      });
+
+      document.querySelectorAll("[data-language]").forEach((button) => {
+        button.addEventListener("click", () => {
+          selectedLanguage = button.dataset.language;
+          updateMarketCopy();
+        });
+      });
+
+      document.querySelector("[data-cycle-copy]").addEventListener("click", () => {
+        selectedCopyMode = copyModes[(copyModes.indexOf(selectedCopyMode) + 1) % copyModes.length];
+        updateMarketCopy();
+      });
+
+      const nodeDetails = [
+        ["Inquiry received", "A customer asks for a 40-unit event order through the website."],
+        ["Source captured", "The website records campaign, page, product, and consent data with the request."],
+        ["Fit checked", "Rules confirm order size, timing, location, and the services needed."],
+        ["Owner assigned", "The CRM routes the qualified request to the correct team member with context intact."],
+        ["Task created", "A due date, quote task, and internal notification are created automatically."],
+        ["Loop closed", "The customer receives follow-up and the result appears in the operating report."],
+      ];
+      const nodeButtons = [...document.querySelectorAll("[data-node]")];
+      const nodeStatus = document.querySelector("#node-status");
+      const nodeDetail = document.querySelector("#node-detail");
+      let pathTimer;
+
+      function showNode(index) {
+        nodeButtons.forEach((node, nodeIndex) => {
+          node.classList.toggle("is-current", nodeIndex === index);
+          node.classList.toggle("is-passed", nodeIndex < index);
+        });
+        nodeStatus.textContent = nodeDetails[index][0];
+        nodeDetail.textContent = nodeDetails[index][1];
+      }
+
+      nodeButtons.forEach((node, index) => node.addEventListener("click", () => showNode(index)));
+
+      document.querySelector("[data-run-path]").addEventListener("click", (event) => {
+        clearInterval(pathTimer);
+        let index = 0;
+        event.currentTarget.textContent = "Running…";
+        showNode(index);
+        pathTimer = setInterval(() => {
+          index += 1;
+          if (index >= nodeButtons.length) {
+            clearInterval(pathTimer);
+            event.currentTarget.textContent = "Run again";
+            return;
+          }
+          showNode(index);
+        }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 80 : 540);
+      });
+
+      const products = [
+        { id: "eyewear", name: "Field eyewear", material: "Acetate · Smoke", color: "#253d47", light: "#8ca6ad" },
+        { id: "footwear", name: "Transit runner", material: "Mesh · Stone", color: "#4f554f", light: "#afb6a9" },
+        { id: "shirt", name: "Studio shirt", material: "Heavy cotton · Midnight", color: "#17222e", light: "#546a7b" },
+        { id: "watch", name: "Interval watch", material: "Steel · Graphite", color: "#34383d", light: "#a5acb0" },
+        { id: "jewelry", name: "Contour chain", material: "Silver · Brushed", color: "#777b80", light: "#c6c9cc" },
+      ];
+      const productObject = document.querySelector("#product-object");
+      const productName = document.querySelector("#product-name");
+      const productMaterial = document.querySelector("#product-material");
+      const previousProductName = document.querySelector("#previous-product-name");
+      const nextProductName = document.querySelector("#next-product-name");
+      const productDots = [...document.querySelectorAll(".product-dot")];
+      const productDotGroup = document.querySelector(".product-dots");
+      let currentProductIndex = 2;
+      let productRotation = -8;
+      let dragStartX = 0;
+      let dragStartRotation = 0;
+      let productDragging = false;
+
+      function setProductRotation(value) {
+        productRotation = value;
+        productObject.style.setProperty("--rotation", `${productRotation}deg`);
+      }
+
+      function updateProduct(index) {
+        currentProductIndex = (index + products.length) % products.length;
+        const product = products[currentProductIndex];
+        const previous = products[(currentProductIndex - 1 + products.length) % products.length];
+        const next = products[(currentProductIndex + 1) % products.length];
+        productName.textContent = product.name;
+        productMaterial.textContent = product.material;
+        previousProductName.textContent = previous.name;
+        nextProductName.textContent = next.name;
+        productObject.dataset.product = product.id;
+        productObject.style.setProperty("--product-color", product.color);
+        productObject.style.setProperty("--product-light", product.light);
+        productObject.setAttribute("aria-label", `${product.name}. Drag left or right to rotate.`);
+        productDots.forEach((dot, dotIndex) => dot.classList.toggle("is-active", dotIndex === currentProductIndex));
+        productDotGroup.setAttribute("aria-label", `Product ${currentProductIndex + 1} of ${products.length}`);
+        setProductRotation(-8);
+      }
+
+      document.querySelectorAll("[data-product-step]").forEach((button) => {
+        button.addEventListener("click", () => updateProduct(currentProductIndex + Number(button.dataset.productStep)));
+      });
+
+      productObject.addEventListener("pointerdown", (event) => {
+        productDragging = true;
+        dragStartX = event.clientX;
+        dragStartRotation = productRotation;
+        productObject.classList.add("is-dragging");
+        productObject.setPointerCapture(event.pointerId);
+      });
+
+      productObject.addEventListener("pointermove", (event) => {
+        if (!productDragging) return;
+        setProductRotation(dragStartRotation + (event.clientX - dragStartX) * 0.72);
+      });
+
+      function finishProductDrag(event) {
+        if (!productDragging) return;
+        productDragging = false;
+        productObject.classList.remove("is-dragging");
+        if (productObject.hasPointerCapture(event.pointerId)) productObject.releasePointerCapture(event.pointerId);
+      }
+
+      productObject.addEventListener("pointerup", finishProductDrag);
+      productObject.addEventListener("pointercancel", finishProductDrag);
+      productObject.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+        event.preventDefault();
+        setProductRotation(productRotation + (event.key === "ArrowRight" ? 15 : -15));
+      });
+
+      document.querySelector("[data-reset-product]").addEventListener("click", () => {
+        setProductRotation(-8);
+      });
+      updateProduct(currentProductIndex);
+
+      const aiConcepts = {
+        chatbots: {
+          title: "Make routine conversations more useful.",
+          copy: "Guide customers to relevant answers, collect useful context, and hand complex conversations to the right person.",
+          tags: ["Customer support", "Qualification", "Human handoff"],
+        },
+        analytics: {
+          title: "Turn operating data into clearer decisions.",
+          copy: "Find patterns, surface changes, and produce recurring summaries without asking the team to rebuild the same report.",
+          tags: ["Trend analysis", "Alerts", "Reporting"],
+        },
+        training: {
+          title: "Help teams learn inside the work.",
+          copy: "Make approved knowledge easier to search, practice, and apply while preserving the process your business actually follows.",
+          tags: ["Knowledge access", "Practice", "Process support"],
+        },
+        custom: {
+          title: "Design around the task generic tools miss.",
+          copy: "Shape a controlled AI workflow around a specific system, decision, or repeated task—with human review where it matters.",
+          tags: ["Custom workflow", "Integrations", "Human review"],
+        },
+      };
+      const aiChoiceButtons = [...document.querySelectorAll("[data-ai-choice]")];
+      const aiConceptTitle = document.querySelector("#ai-concept-title");
+      const aiConceptCopy = document.querySelector("#ai-concept-copy");
+      const aiConceptTags = document.querySelector("#ai-concept-tags");
+
+      function updateAiChoice(id) {
+        const concept = aiConcepts[id];
+        if (!concept) return;
+        aiChoiceButtons.forEach((button) => {
+          button.setAttribute("aria-pressed", String(button.dataset.aiChoice === id));
+        });
+        aiConceptTitle.textContent = concept.title;
+        aiConceptCopy.textContent = concept.copy;
+        aiConceptTags.replaceChildren(
+          ...concept.tags.map((tag) => {
+            const tagElement = document.createElement("span");
+            tagElement.textContent = tag;
+            return tagElement;
+          }),
+        );
+      }
+
+      aiChoiceButtons.forEach((button) => {
+        button.addEventListener("click", () => updateAiChoice(button.dataset.aiChoice));
+      });
+    </script>
+  </body>
+</html>
