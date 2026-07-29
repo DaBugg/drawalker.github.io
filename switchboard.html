@@ -83,9 +83,8 @@
 
       .switchboard {
         width: min(1480px, calc(100% - clamp(20px, 5vw, 80px)));
-        min-height: 100vh;
         margin: 0 auto;
-        padding: clamp(30px, 5vw, 72px) 0 clamp(50px, 7vw, 100px);
+        padding: clamp(20px, 3vw, 42px) 0 0;
       }
 
       .section-heading {
@@ -93,7 +92,7 @@
         align-items: end;
         justify-content: space-between;
         gap: 28px;
-        margin-bottom: clamp(22px, 3vw, 36px);
+        margin-bottom: clamp(14px, 2vw, 22px);
       }
 
       .section-heading p {
@@ -173,50 +172,11 @@
       }
 
       .display-panel {
-        min-height: clamp(440px, 55vw, 690px);
-        border-radius: clamp(28px, 6vw, 88px) clamp(28px, 6vw, 88px) 36px 36px;
-      }
-
-      .display-topbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        min-height: 58px;
-        padding: 0 clamp(20px, 3vw, 42px);
-        border-bottom: 1px solid rgba(148, 163, 184, 0.12);
-        background: rgba(15, 23, 42, 0.24);
-      }
-
-      .display-label {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: #cbd5e1;
-        font-size: 0.73rem;
-        font-weight: 800;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-      }
-
-      .display-label::before {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: var(--cyan);
-        box-shadow: 0 0 12px rgba(34, 211, 238, 0.62);
-        content: "";
-      }
-
-      .display-topbar output {
-        color: #94a3b8;
-        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-        font-size: 0.69rem;
-        letter-spacing: 0.12em;
+        border-radius: clamp(24px, 4vw, 48px) clamp(24px, 4vw, 48px) 30px 30px;
       }
 
       .display-stage {
-        min-height: calc(clamp(440px, 55vw, 690px) - 58px);
-        padding: clamp(24px, 4vw, 58px);
+        padding: clamp(22px, 3.5vw, 46px);
         background:
           radial-gradient(ellipse at 35% 58%, rgba(34, 211, 238, 0.045), transparent 36%),
           radial-gradient(ellipse at 76% 24%, rgba(52, 211, 153, 0.04), transparent 30%);
@@ -236,7 +196,7 @@
         grid-template-columns: minmax(0, 1fr) auto;
         align-items: start;
         gap: 24px;
-        margin-bottom: clamp(30px, 5vw, 58px);
+        margin-bottom: clamp(22px, 3vw, 36px);
       }
 
       .demo-kicker {
@@ -262,8 +222,7 @@
       .mode-button,
       .language-button,
       .product-button,
-      .input-button,
-      .node-button {
+      .input-button {
         border: 1px solid rgba(148, 163, 184, 0.22);
         background: rgba(15, 23, 42, 0.38);
         color: #cbd5e1;
@@ -406,76 +365,6 @@
           0 8px 24px rgba(2, 6, 23, 0.2);
       }
 
-      .pathway {
-        position: relative;
-        display: grid;
-        grid-template-columns: repeat(6, minmax(104px, 1fr));
-        gap: clamp(10px, 1.7vw, 24px);
-        align-items: center;
-      }
-
-      .pathway::before {
-        position: absolute;
-        z-index: 0;
-        top: 50%;
-        right: 4%;
-        left: 4%;
-        height: 3px;
-        border-radius: 999px;
-        background: linear-gradient(90deg, var(--cyan), var(--emerald), var(--blue));
-        content: "";
-        opacity: 0.48;
-        transform: translateY(-50%);
-      }
-
-      .node-button {
-        position: relative;
-        z-index: 1;
-        display: grid;
-        min-height: 148px;
-        padding: 18px 15px;
-        border-radius: 42% 58% 46% 54% / 52% 44% 56% 48%;
-        text-align: left;
-        transition:
-          transform 180ms ease,
-          background-color 180ms ease,
-          box-shadow 180ms ease;
-      }
-
-      .node-button:hover,
-      .node-button:focus-visible,
-      .node-button.is-current {
-        border-color: #0891b2;
-        outline: none;
-        background: rgba(34, 211, 238, 0.1);
-        box-shadow:
-          0 15px 34px rgba(2, 6, 23, 0.26),
-          inset 0 0 28px rgba(34, 211, 238, 0.05);
-        transform: translateY(-5px);
-      }
-
-      .node-button.is-passed {
-        border-color: rgba(5, 150, 105, 0.38);
-        background: rgba(52, 211, 153, 0.09);
-      }
-
-      .node-index {
-        color: var(--cyan);
-        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-        font-size: 0.68rem;
-      }
-
-      .node-button strong {
-        align-self: end;
-        font-size: clamp(0.78rem, 1.3vw, 0.98rem);
-        line-height: 1.25;
-      }
-
-      .node-button small {
-        color: #94a3b8;
-        font-size: 0.68rem;
-      }
-
       .pathway-detail {
         display: grid;
         grid-template-columns: auto 1fr;
@@ -505,169 +394,815 @@
         line-height: 1.5;
       }
 
-      .xy-chart {
+      .systems-chart {
         position: relative;
-        min-height: clamp(320px, 34vw, 410px);
-        margin: 4px 12px 0 34px;
-        border-bottom: 1px solid rgba(148, 163, 184, 0.32);
-        border-left: 1px solid rgba(148, 163, 184, 0.32);
-        background-image:
-          linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
-        background-size: 12.5% 25%;
+        min-height: clamp(510px, 47vw, 590px);
+        margin-top: 4px;
+        overflow: hidden;
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        border-radius: clamp(22px, 3vw, 36px);
+        background:
+          radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.08), transparent 24rem),
+          linear-gradient(rgba(148, 163, 184, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(148, 163, 184, 0.045) 1px, transparent 1px),
+          rgba(8, 15, 28, 0.34);
+        background-size: auto, 100% 48px, 48px 100%, auto;
       }
 
-      .xy-chart::before {
-        position: absolute;
-        bottom: -5px;
-        left: -5px;
-        width: 9px;
-        height: 9px;
-        border-right: 1px solid #94a3b8;
-        border-bottom: 1px solid #94a3b8;
-        content: "";
-        transform: rotate(45deg);
-      }
-
-      .xy-chart::after {
-        position: absolute;
-        top: -5px;
-        left: -5px;
-        width: 9px;
-        height: 9px;
-        border-top: 1px solid #94a3b8;
-        border-left: 1px solid #94a3b8;
-        content: "";
-        transform: rotate(45deg);
-      }
-
-      .axis-label {
-        position: absolute;
-        color: #64748b;
-        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-        font-size: 0.61rem;
-        font-weight: 800;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-      }
-
-      .axis-label-x {
-        right: 0;
-        bottom: -25px;
-      }
-
-      .axis-label-y {
-        top: 0;
-        left: -28px;
-        writing-mode: vertical-rl;
-        transform: rotate(180deg);
-      }
-
-      .plot-line {
+      .system-spine {
         position: absolute;
         z-index: 1;
-        left: var(--line-x);
-        top: var(--line-y);
-        width: var(--line-width);
-        height: 2px;
+        top: 9%;
+        bottom: 9%;
+        left: 50%;
+        width: 2px;
         border-radius: 999px;
-        background: linear-gradient(90deg, var(--cyan), var(--emerald));
-        box-shadow: 0 0 12px rgba(34, 211, 238, 0.22);
-        opacity: 0.58;
+        overflow: hidden;
+        background: linear-gradient(var(--cyan), var(--emerald), var(--blue));
+        box-shadow: 0 0 18px rgba(34, 211, 238, 0.25);
+        opacity: 0.68;
         pointer-events: none;
-        transform: rotate(var(--line-angle));
-        transform-origin: left center;
+        transform: translateX(-50%);
       }
 
-      .plot-node {
+      .system-spine::after {
         position: absolute;
-        z-index: 2;
-        left: var(--point-x);
-        top: var(--point-y);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        min-width: max-content;
-        padding: 0;
-        border: 0;
-        background: transparent;
-        color: #cbd5e1;
-        cursor: pointer;
-        text-align: left;
-        transform: translate(-11px, -50%);
+        right: -4px;
+        left: -4px;
+        height: 18%;
+        border-radius: 999px;
+        background: #f8fafc;
+        box-shadow:
+          0 0 10px rgba(248, 250, 252, 0.9),
+          0 0 22px rgba(34, 211, 238, 0.8);
+        content: "";
+        animation: system-signal 3.8s ease-in-out infinite;
       }
 
-      .plot-node::before {
-        flex: 0 0 auto;
-        width: 17px;
-        height: 17px;
+      .system-node {
+        position: absolute;
+        z-index: 4;
+        top: var(--node-y);
+        left: 50%;
+        width: 21px;
+        height: 21px;
+        padding: 0;
         border: 3px solid #0f172a;
         border-radius: 50%;
         background: #64748b;
+        color: #cbd5e1;
         box-shadow:
-          0 0 0 1px rgba(148, 163, 184, 0.58),
-          0 0 0 7px rgba(148, 163, 184, 0.06);
-        content: "";
+          0 0 0 1px rgba(148, 163, 184, 0.62),
+          0 0 0 8px rgba(148, 163, 184, 0.06);
+        cursor: pointer;
+        transform: translate(-50%, -50%);
         transition:
           background-color 180ms ease,
           box-shadow 180ms ease,
           transform 180ms ease;
       }
 
-      .plot-node-copy {
+      .system-node-copy {
+        position: absolute;
+        top: 50%;
         display: grid;
+        width: clamp(136px, 18vw, 220px);
         gap: 2px;
-        padding: 7px 10px;
+        padding: 9px 11px;
+        border: 1px solid rgba(148, 163, 184, 0.12);
         border-radius: 12px;
-        background: rgba(11, 18, 32, 0.64);
+        background: rgba(11, 18, 32, 0.78);
         backdrop-filter: blur(8px);
+        pointer-events: none;
+        transform: translateY(-50%);
       }
 
-      .plot-node strong {
-        font-size: clamp(0.7rem, 1.05vw, 0.84rem);
+      .system-node-copy strong {
+        color: #e5e7eb;
+        font-size: clamp(0.7rem, 1.05vw, 0.86rem);
         line-height: 1.2;
       }
 
-      .plot-node small {
+      .system-node-copy small {
         color: #94a3b8;
         font-size: 0.59rem;
         letter-spacing: 0.04em;
       }
 
-      .plot-node.is-passed::before {
+      .system-node.label-left .system-node-copy {
+        right: 37px;
+        text-align: right;
+      }
+
+      .system-node.label-right .system-node-copy {
+        left: 37px;
+        text-align: left;
+      }
+
+      .system-node.is-passed {
         background: var(--emerald);
         box-shadow:
           0 0 0 1px rgba(52, 211, 153, 0.7),
-          0 0 16px rgba(52, 211, 153, 0.32);
+          0 0 16px rgba(52, 211, 153, 0.36);
       }
 
-      .plot-node:hover::before,
-      .plot-node:focus-visible::before,
-      .plot-node.is-current::before {
+      .system-node:hover,
+      .system-node:focus-visible,
+      .system-node.is-current {
         background: var(--gold);
         box-shadow:
           0 0 0 2px rgba(201, 174, 122, 0.6),
           0 0 0 9px rgba(201, 174, 122, 0.11),
           0 0 24px rgba(201, 174, 122, 0.48);
-        transform: scale(1.2);
+        transform: translate(-50%, -50%) scale(1.18);
       }
 
-      .plot-node:hover .plot-node-copy,
-      .plot-node:focus-visible .plot-node-copy,
-      .plot-node.is-current .plot-node-copy {
+      .system-node:hover .system-node-copy,
+      .system-node:focus-visible .system-node-copy,
+      .system-node.is-current .system-node-copy {
         color: #fff;
-        background: rgba(30, 41, 59, 0.92);
+        border-color: rgba(201, 174, 122, 0.38);
+        background: rgba(30, 41, 59, 0.96);
       }
 
-      .plot-node:focus-visible {
-        border-radius: 14px;
+      .system-node:focus-visible {
         outline: 2px solid var(--cyan);
-        outline-offset: 5px;
+        outline-offset: 9px;
       }
 
-      .plot-node[data-node="4"],
-      .plot-node[data-node="5"] {
-        transform: translate(calc(-100% + 11px), -50%);
+      .system-visual {
+        position: absolute;
+        z-index: 3;
+        top: var(--node-y);
+        left: 50%;
+        width: clamp(230px, 29vw, 390px);
+        min-height: 154px;
+        padding: clamp(14px, 1.8vw, 20px);
+        overflow: hidden;
+        border: 1px solid rgba(34, 211, 238, 0.28);
+        border-radius: 22px;
+        background:
+          linear-gradient(145deg, rgba(30, 41, 59, 0.98), rgba(9, 16, 29, 0.98));
+        box-shadow:
+          0 24px 60px rgba(2, 6, 23, 0.45),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        transform: translateY(-50%);
+        animation: system-visual-in 220ms ease-out both;
+      }
+
+      .system-visual.visual-right {
+        transform: translate(42px, -50%);
+      }
+
+      .system-visual.visual-left {
+        transform: translate(calc(-100% - 42px), -50%);
+      }
+
+      .system-visual[hidden] {
+        display: none;
+      }
+
+      .system-visual header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .system-visual header strong {
+        font-size: 0.68rem;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .system-visual header span {
+        color: var(--cyan);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.58rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .funnel-preview {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 86px;
+        gap: 16px;
+        align-items: center;
+        min-height: 104px;
+      }
+
+      .lead-field {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 148px;
+        padding: 0;
+        overflow: hidden;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        border-radius: 14px;
+        background: linear-gradient(145deg, rgba(12, 20, 36, 0.98), rgba(18, 31, 51, 0.8));
+        color: inherit;
+        cursor: crosshair;
+        touch-action: none;
+      }
+
+      .lead-field canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+
+      .lead-field-hint {
+        position: absolute;
+        right: 12px;
+        bottom: 10px;
+        color: rgba(203, 213, 225, 0.52);
+        font-size: 0.5rem;
+        font-weight: 800;
+        letter-spacing: 0.09em;
+        pointer-events: none;
+        text-transform: uppercase;
+        transition: color 180ms ease;
+      }
+
+      .lead-field-hint::before {
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        margin-right: 6px;
+        border-radius: 50%;
+        background: var(--cyan);
+        box-shadow: 0 0 9px rgba(34, 211, 238, 0.62);
+        content: "";
+        vertical-align: 1px;
+      }
+
+      .lead-field:hover .lead-field-hint,
+      .lead-field:focus-visible .lead-field-hint,
+      .lead-field[aria-pressed="true"] .lead-field-hint {
+        color: rgba(226, 232, 240, 0.84);
+      }
+
+      .lead-field:focus-visible {
+        outline: 2px solid var(--cyan);
+        outline-offset: 2px;
+      }
+
+      .lead-filter-label {
+        position: absolute;
+        top: 10px;
+        left: 12px;
+        color: rgba(148, 163, 184, 0.68);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.5rem;
+        letter-spacing: 0.08em;
+        pointer-events: none;
+        text-transform: uppercase;
+      }
+
+      .funnel-metrics {
+        display: grid;
+        gap: 10px;
+      }
+
+      .funnel-metrics span {
+        color: #94a3b8;
+        font-size: 0.6rem;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+      }
+
+      .funnel-metrics strong {
+        display: block;
+        color: #f8fafc;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1.35rem;
+        font-weight: 500;
+        letter-spacing: -0.03em;
+      }
+
+      .forms-preview {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .form-card {
+        display: grid;
+        min-height: 92px;
+        padding: 10px;
+        border: 1px solid rgba(148, 163, 184, 0.15);
+        border-radius: 13px;
+        background: rgba(15, 23, 42, 0.64);
+      }
+
+      .form-card b {
+        color: var(--cyan);
+        font-size: 0.58rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .form-card strong {
+        align-self: end;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1rem;
+        font-weight: 500;
+      }
+
+      .form-card small {
+        color: #94a3b8;
+        font-size: 0.55rem;
+      }
+
+      .form-card:nth-child(2) {
+        border-color: rgba(52, 211, 153, 0.34);
+        animation: form-card-pulse 3s ease-in-out infinite;
+      }
+
+      .response-preview {
+        display: grid;
+        gap: 8px;
+      }
+
+      .response-message {
+        width: 82%;
+        padding: 9px 11px;
+        border: 1px solid rgba(148, 163, 184, 0.14);
+        border-radius: 12px 12px 12px 3px;
+        background: rgba(15, 23, 42, 0.72);
+        color: #cbd5e1;
+        font-size: 0.65rem;
+        opacity: 0.48;
+        animation: response-message 3.6s ease-in-out infinite;
+        animation-delay: var(--message-delay);
+      }
+
+      .response-message:nth-child(even) {
+        justify-self: end;
+        border-color: rgba(34, 211, 238, 0.24);
+        border-radius: 12px 12px 3px;
+      }
+
+      .channel-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 7px;
+      }
+
+      .channel-chip {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        min-height: 42px;
+        padding: 8px 10px;
+        border: 1px solid rgba(148, 163, 184, 0.14);
+        border-radius: 12px;
+        background: rgba(15, 23, 42, 0.58);
+        color: #cbd5e1;
+        font-size: 0.62rem;
+        font-weight: 800;
+      }
+
+      .channel-chip i {
+        display: grid;
+        width: 24px;
+        height: 24px;
+        place-items: center;
+        border-radius: 8px;
+        background: rgba(34, 211, 238, 0.09);
+        color: var(--cyan);
+        font-size: 0.65rem;
+        font-style: normal;
+      }
+
+      .channel-chip:last-child {
+        grid-column: 1 / -1;
+      }
+
+      .crm-stages {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
+        margin-bottom: 10px;
+      }
+
+      .crm-stage {
+        min-width: 0;
+        padding: 7px 4px;
+        border: 1px solid rgba(148, 163, 184, 0.14);
+        border-radius: 9px;
+        background: rgba(15, 23, 42, 0.54);
+        color: #94a3b8;
+        cursor: pointer;
+        font-size: 0.54rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .crm-stage[aria-pressed="true"],
+      .crm-stage:hover,
+      .crm-stage:focus-visible {
+        border-color: rgba(52, 211, 153, 0.48);
+        outline: none;
+        background: rgba(52, 211, 153, 0.1);
+        color: #d1fae5;
+      }
+
+      .crm-track {
+        position: relative;
+        min-height: 66px;
+        border-radius: 13px;
+        background:
+          linear-gradient(90deg, transparent 24.7%, rgba(148, 163, 184, 0.1) 25%, transparent 25.3%, transparent 49.7%, rgba(148, 163, 184, 0.1) 50%, transparent 50.3%, transparent 74.7%, rgba(148, 163, 184, 0.1) 75%, transparent 75.3%),
+          rgba(8, 15, 28, 0.58);
+      }
+
+      .crm-card {
+        position: absolute;
+        top: 8px;
+        left: 0;
+        width: 25%;
+        padding: 0 5px;
+        transform: translateX(calc(var(--crm-position, 0) * 100%));
+        transition: transform 260ms ease;
+      }
+
+      .crm-card div {
+        min-height: 50px;
+        padding: 8px;
+        border: 1px solid rgba(201, 174, 122, 0.35);
+        border-radius: 10px;
+        background: #111b2e;
+        box-shadow: 0 10px 24px rgba(2, 6, 23, 0.34);
+      }
+
+      .crm-card strong,
+      .crm-card small {
+        display: block;
+      }
+
+      .crm-card strong {
+        color: #f8fafc;
+        font-size: 0.61rem;
+      }
+
+      .crm-card small {
+        color: #94a3b8;
+        font-size: 0.52rem;
+      }
+
+      .systems-chart {
+        min-height: 0;
+        padding: clamp(12px, 1.6vw, 20px);
+      }
+
+      .system-node-row {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: clamp(7px, 1.1vw, 14px);
+      }
+
+      .system-node-row::before {
+        position: absolute;
+        z-index: 0;
+        top: 20px;
+        right: 8%;
+        left: 8%;
+        height: 1px;
+        background: linear-gradient(90deg, var(--cyan), var(--emerald), var(--blue));
+        box-shadow: 0 0 12px rgba(34, 211, 238, 0.18);
+        content: "";
+        opacity: 0.54;
+      }
+
+      .system-node-row .system-node {
+        position: relative;
+        z-index: 1;
+        top: auto;
+        left: auto;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        width: auto;
+        height: auto;
+        min-width: 0;
+        min-height: 92px;
+        padding: 13px 12px 12px;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 14px;
+        background: rgba(9, 16, 29, 0.76);
+        box-shadow: none;
+        color: #cbd5e1;
+        text-align: left;
+        transform: none;
+      }
+
+      .system-node-row .system-node::before {
+        width: 12px;
+        height: 12px;
+        margin-bottom: 14px;
+        border: 2px solid #0f172a;
+        border-radius: 50%;
+        background: #64748b;
+        box-shadow:
+          0 0 0 1px rgba(148, 163, 184, 0.62),
+          0 0 0 5px rgba(148, 163, 184, 0.06);
+        content: "";
+        transition:
+          background-color 180ms ease,
+          box-shadow 180ms ease;
+      }
+
+      .system-node-row .system-node-copy {
+        position: static;
+        display: grid;
+        width: auto;
+        gap: 2px;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        backdrop-filter: none;
+        text-align: left;
+        transform: none;
+      }
+
+      .system-node-row .system-node.is-passed {
+        border-color: rgba(52, 211, 153, 0.28);
+        background: rgba(52, 211, 153, 0.07);
+        box-shadow: none;
+      }
+
+      .system-node-row .system-node.is-passed::before {
+        background: var(--emerald);
+        box-shadow: 0 0 12px rgba(52, 211, 153, 0.5);
+      }
+
+      .system-node-row .system-node:hover,
+      .system-node-row .system-node:focus-visible,
+      .system-node-row .system-node.is-current {
+        border-color: rgba(201, 174, 122, 0.38);
+        background: rgba(30, 41, 59, 0.96);
+        box-shadow: 0 12px 28px rgba(2, 6, 23, 0.26);
+        transform: translateY(-2px);
+      }
+
+      .system-node-row .system-node:hover::before,
+      .system-node-row .system-node:focus-visible::before,
+      .system-node-row .system-node.is-current::before {
+        background: var(--gold);
+        box-shadow:
+          0 0 0 3px rgba(201, 174, 122, 0.11),
+          0 0 14px rgba(201, 174, 122, 0.52);
+      }
+
+      .system-node-row .system-node:hover .system-node-copy,
+      .system-node-row .system-node:focus-visible .system-node-copy,
+      .system-node-row .system-node.is-current .system-node-copy {
+        background: transparent;
+      }
+
+      .system-node-row .system-node:focus-visible {
+        outline: 2px solid var(--cyan);
+        outline-offset: 3px;
+      }
+
+      .system-preview-stage {
+        min-height: 180px;
+        margin-top: clamp(10px, 1.4vw, 16px);
+      }
+
+      .system-preview-stage .system-visual {
+        position: static;
+        width: 100%;
+        min-height: 180px;
+        transform: none;
+      }
+
+      .funnel-preview {
+        grid-template-columns: minmax(0, 1fr) minmax(110px, 0.35fr);
+        min-height: 116px;
+      }
+
+      .app-carousel-shell {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        gap: 8px;
+        align-items: stretch;
+      }
+
+      .app-carousel {
+        display: grid;
+        grid-auto-columns: minmax(112px, 0.7fr);
+        grid-auto-flow: column;
+        gap: 8px;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        padding: 1px 1px 8px;
+        scrollbar-color: rgba(34, 211, 238, 0.38) transparent;
+        scrollbar-width: thin;
+        scroll-snap-type: inline mandatory;
+      }
+
+      .app-tile {
+        display: grid;
+        min-height: 104px;
+        padding: 12px;
+        border: 1px solid rgba(148, 163, 184, 0.14);
+        border-radius: 14px;
+        background: rgba(15, 23, 42, 0.58);
+        color: #cbd5e1;
+        font-size: 0.66rem;
+        font-weight: 800;
+        scroll-snap-align: start;
+      }
+
+      .app-tile i {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        place-items: center;
+        border: 1px solid rgba(34, 211, 238, 0.18);
+        border-radius: 12px;
+        background: rgba(34, 211, 238, 0.09);
+        color: var(--cyan);
+        font-size: 0.76rem;
+        font-style: normal;
+      }
+
+      .app-tile span {
+        align-self: end;
+      }
+
+      .app-carousel-control {
+        width: 38px;
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        border-radius: 12px;
+        background: rgba(15, 23, 42, 0.62);
+        color: #cbd5e1;
+        cursor: pointer;
+      }
+
+      .app-carousel-control:hover,
+      .app-carousel-control:focus-visible {
+        border-color: var(--cyan);
+        outline: none;
+        background: rgba(34, 211, 238, 0.09);
+      }
+
+      .crm-pipeline {
+        padding: 12px;
+        border: 1px solid rgba(148, 163, 184, 0.14);
+        border-radius: 16px;
+        background: rgba(8, 15, 28, 0.5);
+        transition:
+          border-color 220ms ease,
+          box-shadow 220ms ease;
+      }
+
+      .crm-pipeline.is-complete {
+        border-color: rgba(52, 211, 153, 0.72);
+        box-shadow:
+          0 0 0 1px rgba(52, 211, 153, 0.14),
+          0 0 28px rgba(52, 211, 153, 0.3),
+          inset 0 0 26px rgba(52, 211, 153, 0.06);
+      }
+
+      .crm-record {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 12px;
+      }
+
+      .crm-record strong,
+      .crm-record small {
+        display: block;
+      }
+
+      .crm-record strong {
+        color: #f8fafc;
+        font-size: 0.72rem;
+      }
+
+      .crm-record small {
+        color: #94a3b8;
+        font-size: 0.58rem;
+      }
+
+      .crm-pipeline .crm-stages {
+        gap: 7px;
+        margin-bottom: 0;
+      }
+
+      .crm-pipeline .crm-stage {
+        position: relative;
+        display: grid;
+        min-width: 0;
+        min-height: 64px;
+        padding: 9px 6px 7px;
+        border: 1px solid rgba(148, 163, 184, 0.14);
+        border-radius: 11px;
+        background: transparent;
+        color: #94a3b8;
+      }
+
+      .crm-pipeline .crm-stage::before {
+        display: grid;
+        width: 26px;
+        height: 26px;
+        margin: 0 auto 7px;
+        place-items: center;
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 7px;
+        background: transparent;
+        color: #0b1220;
+        content: "";
+        transition:
+          border-color 220ms ease,
+          background-color 220ms ease,
+          box-shadow 220ms ease;
+      }
+
+      .crm-pipeline .crm-stage[data-state="current"] {
+        border-color: rgba(201, 174, 122, 0.42);
+        color: #e7dcc4;
+      }
+
+      .crm-pipeline .crm-stage[data-state="filled"]::before {
+        border-color: rgba(201, 174, 122, 0.72);
+        background: var(--gold);
+        box-shadow: 0 0 15px rgba(201, 174, 122, 0.24);
+      }
+
+      .crm-pipeline .crm-stage[data-state="complete"] {
+        border-color: rgba(52, 211, 153, 0.48);
+        color: #d1fae5;
+      }
+
+      .crm-pipeline .crm-stage[data-state="complete"]::before {
+        border-color: var(--emerald);
+        background: var(--emerald);
+        box-shadow: 0 0 18px rgba(52, 211, 153, 0.56);
+        content: "✓";
+      }
+
+      .crm-pipeline .crm-stage:hover,
+      .crm-pipeline .crm-stage:focus-visible {
+        border-color: rgba(34, 211, 238, 0.52);
+        outline: none;
+        background: rgba(34, 211, 238, 0.06);
+      }
+
+      @keyframes system-signal {
+        from {
+          transform: translateY(-120%);
+        }
+        to {
+          transform: translateY(570%);
+        }
+      }
+
+      @keyframes system-visual-in {
+        from {
+          opacity: 0;
+          filter: blur(4px);
+        }
+        to {
+          opacity: 1;
+          filter: blur(0);
+        }
+      }
+
+      @keyframes form-card-pulse {
+        0%,
+        100% {
+          box-shadow: none;
+        }
+        50% {
+          box-shadow: 0 0 22px rgba(52, 211, 153, 0.12);
+        }
+      }
+
+      @keyframes response-message {
+        0%,
+        18%,
+        100% {
+          opacity: 0.42;
+          transform: translateY(4px);
+        }
+        30%,
+        70% {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       .product-viewer {
@@ -1449,9 +1984,8 @@
       }
 
       .service-panel {
-        min-height: 275px;
-        padding: clamp(72px, 8vw, 108px) clamp(24px, 7vw, 102px) clamp(38px, 5vw, 68px);
-        border-radius: 36px 36px clamp(28px, 8vw, 110px) clamp(28px, 8vw, 110px);
+        padding: clamp(52px, 5.5vw, 76px) clamp(24px, 7vw, 102px) clamp(24px, 3vw, 38px);
+        border-radius: 32px 32px clamp(24px, 5vw, 64px) clamp(24px, 5vw, 64px);
         background:
           radial-gradient(ellipse at 72% 62%, rgba(52, 211, 153, 0.09), transparent 39%),
           radial-gradient(ellipse at 12% 90%, rgba(96, 165, 250, 0.08), transparent 32%),
@@ -1512,7 +2046,8 @@
       }
 
       .prototype-note {
-        margin: 24px 0 0;
+        margin: 10px 0 0;
+        padding-bottom: 0;
         color: rgba(245, 241, 232, 0.54);
         font-size: 0.71rem;
         line-height: 1.6;
@@ -1551,30 +2086,10 @@
       }
 
       @media (max-width: 980px) {
-        .display-panel {
-          min-height: 580px;
-        }
-
-        .display-stage {
-          min-height: 522px;
-        }
-
         .transformer,
         .ai-layout,
         .ai-choice-layout {
           grid-template-columns: 1fr;
-        }
-
-        .pathway {
-          grid-template-columns: repeat(3, 1fr);
-        }
-
-        .pathway::before {
-          display: none;
-        }
-
-        .node-button {
-          min-height: 116px;
         }
 
         .product-viewer {
@@ -1594,7 +2109,7 @@
       @media (max-width: 700px) {
         .switchboard {
           width: min(100% - 20px, 620px);
-          padding-top: 24px;
+          padding-top: 18px;
         }
 
         .section-heading {
@@ -1603,21 +2118,8 @@
           gap: 10px;
         }
 
-        .display-panel {
-          min-height: 650px;
-        }
-
-        .display-topbar {
-          padding: 0 18px;
-        }
-
-        .display-topbar output {
-          display: none;
-        }
-
         .display-stage {
-          min-height: 592px;
-          padding: 28px 20px 40px;
+          padding: 24px 18px 28px;
         }
 
         .demo-header {
@@ -1639,37 +2141,39 @@
           border-radius: 20px;
         }
 
-        .pathway {
-          grid-template-columns: repeat(2, 1fr);
+        .systems-chart {
+          min-height: 0;
+          border-radius: 20px;
         }
 
-        .node-button {
-          min-height: 104px;
+        .system-node-row {
+          display: flex;
+          overflow-x: auto;
+          overscroll-behavior-inline: contain;
+          padding: 2px 1px 10px;
+          scrollbar-color: rgba(34, 211, 238, 0.38) transparent;
+          scrollbar-width: thin;
+          scroll-snap-type: inline mandatory;
+        }
+
+        .system-node-row::before {
+          display: none;
+        }
+
+        .system-node-row .system-node {
+          flex: 0 0 min(68vw, 220px);
+          scroll-snap-align: start;
+        }
+
+        .system-preview-stage {
+          display: none;
         }
 
         .pathway-detail {
           grid-template-columns: 1fr;
           gap: 5px;
           margin-top: 22px;
-        }
-
-        .xy-chart {
-          min-height: 390px;
-          margin-right: 2px;
-          margin-left: 25px;
-        }
-
-        .plot-node-copy {
-          max-width: 112px;
-          padding: 6px 8px;
-        }
-
-        .plot-node strong {
-          font-size: 0.66rem;
-        }
-
-        .plot-node small {
-          display: none;
+          border-radius: 22px;
         }
 
         .product-viewer {
@@ -1730,7 +2234,7 @@
         }
 
         .service-panel {
-          padding: 68px 24px 38px;
+          padding: 52px 22px 24px;
         }
 
         .service-content {
@@ -1775,11 +2279,6 @@
 
       <section class="system-shell" aria-labelledby="active-service-title">
         <div class="display-panel">
-          <div class="display-topbar">
-            <span class="display-label" id="display-label">Market adaptation preview</span>
-            <output id="display-output">CH 01 · READY</output>
-          </div>
-
           <div class="display-stage" aria-live="polite">
             <section class="demo" data-demo="f1" aria-label="U.S. market language demonstration">
               <header class="demo-header">
@@ -1834,43 +2333,180 @@
             <section class="demo" data-demo="f2" aria-label="Connected systems workflow demonstration" hidden>
               <header class="demo-header">
                 <div>
-                  <p class="demo-kicker">Connected operating pathway</p>
-                  <h2>Watch one inquiry move through the business.</h2>
+                  <p class="demo-kicker">Five connected business systems</p>
+                  <h2>Choose a node. See what it does.</h2>
                 </div>
-                <button class="micro-control" type="button" data-run-path>Run pathway</button>
+                <button class="micro-control" type="button" data-run-path>Run sequence</button>
               </header>
 
-              <div class="xy-chart" aria-label="Customer inquiry workflow plotted by progress and connected value">
-                <span class="axis-label axis-label-x">Journey progress →</span>
-                <span class="axis-label axis-label-y">Connected value →</span>
-                <i class="plot-line" style="--line-x: 7%; --line-y: 80%; --line-width: 19%; --line-angle: -31deg"></i>
-                <i class="plot-line" style="--line-x: 24%; --line-y: 65%; --line-width: 18%; --line-angle: 14deg"></i>
-                <i class="plot-line" style="--line-x: 40%; --line-y: 70%; --line-width: 22%; --line-angle: -42deg"></i>
-                <i class="plot-line" style="--line-x: 57%; --line-y: 43%; --line-width: 18%; --line-angle: 13deg"></i>
-                <i class="plot-line" style="--line-x: 73%; --line-y: 49%; --line-width: 23%; --line-angle: -43deg"></i>
+              <div class="systems-chart" aria-label="Five connected business systems">
+                <div class="system-node-row" role="group" aria-label="Choose a connected system">
+                  <button
+                    class="system-node is-current"
+                    type="button"
+                    data-node="0"
+                    aria-pressed="true"
+                    aria-controls="system-visual-0 node-detail"
+                  >
+                    <span class="system-node-copy">
+                      <strong>Lead Generator</strong><small>Filter demand</small>
+                    </span>
+                  </button>
+                  <button
+                    class="system-node"
+                    type="button"
+                    data-node="1"
+                    aria-pressed="false"
+                    aria-controls="system-visual-1 node-detail"
+                  >
+                    <span class="system-node-copy">
+                      <strong>Website Forms</strong><small>Calendar · forms · subscriptions</small>
+                    </span>
+                  </button>
+                  <button
+                    class="system-node"
+                    type="button"
+                    data-node="2"
+                    aria-pressed="false"
+                    aria-controls="system-visual-2 node-detail"
+                  >
+                    <span class="system-node-copy">
+                      <strong>Automated Response</strong><small>Follow-up · outreach</small>
+                    </span>
+                  </button>
+                  <button
+                    class="system-node"
+                    type="button"
+                    data-node="3"
+                    aria-pressed="false"
+                    aria-controls="system-visual-3 node-detail"
+                  >
+                    <span class="system-node-copy">
+                      <strong>Ads / Marketing</strong><small>Search · social · video</small>
+                    </span>
+                  </button>
+                  <button
+                    class="system-node"
+                    type="button"
+                    data-node="4"
+                    aria-pressed="false"
+                    aria-controls="system-visual-4 node-detail"
+                  >
+                    <span class="system-node-copy">
+                      <strong>CRM</strong><small>Contacts · owners · stages</small>
+                    </span>
+                  </button>
+                </div>
 
-                <button class="plot-node" type="button" data-node="0" style="--point-x: 7%; --point-y: 80%">
-                  <span class="plot-node-copy"><strong>Customer inquiry</strong><small>New request</small></span>
-                </button>
-                <button class="plot-node" type="button" data-node="1" style="--point-x: 24%; --point-y: 65%">
-                  <span class="plot-node-copy"><strong>Website form</strong><small>Source captured</small></span>
-                </button>
-                <button class="plot-node" type="button" data-node="2" style="--point-x: 40%; --point-y: 70%">
-                  <span class="plot-node-copy"><strong>Qualification</strong><small>Fit checked</small></span>
-                </button>
-                <button class="plot-node" type="button" data-node="3" style="--point-x: 57%; --point-y: 43%">
-                  <span class="plot-node-copy"><strong>CRM routing</strong><small>Owner assigned</small></span>
-                </button>
-                <button class="plot-node" type="button" data-node="4" style="--point-x: 73%; --point-y: 49%">
-                  <span class="plot-node-copy"><strong>Team action</strong><small>Task created</small></span>
-                </button>
-                <button class="plot-node" type="button" data-node="5" style="--point-x: 94%; --point-y: 19%">
-                  <span class="plot-node-copy"><strong>Follow-up</strong><small>Result reported</small></span>
-                </button>
+                <div class="system-preview-stage">
+                  <article
+                    class="system-visual"
+                    id="system-visual-0"
+                    data-node-visual="0"
+                    aria-label="Interactive lead qualification field"
+                  >
+                    <header><strong>Inbound signal field</strong><span>Move to filter</span></header>
+                    <div class="funnel-preview">
+                      <button
+                        class="lead-field"
+                        type="button"
+                        aria-label="Interactive lead filter. Move through the field to push general signals aside while qualified green leads stay in place."
+                        aria-pressed="false"
+                      >
+                        <canvas aria-hidden="true"></canvas>
+                        <span class="lead-filter-label" aria-hidden="true">Unsorted inbound leads</span>
+                        <span class="lead-field-hint" aria-hidden="true">Move through signals</span>
+                      </button>
+                      <div class="funnel-metrics">
+                        <span><strong>42</strong>Signals in</span>
+                        <span><strong>7</strong>Best-fit leads</span>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article
+                    class="system-visual"
+                    id="system-visual-1"
+                    data-node-visual="1"
+                    aria-label="Website form, calendar, and subscription examples"
+                    hidden
+                  >
+                    <header><strong>Structured requests</strong><span>Source captured</span></header>
+                    <div class="forms-preview">
+                      <div class="form-card"><b>Calendar</b><strong>Tue 14</strong><small>2:00 PM booked</small></div>
+                      <div class="form-card"><b>Form fill</b><strong>8 / 8</strong><small>Details complete</small></div>
+                      <div class="form-card"><b>Subscribe</b><strong>Joined</strong><small>Consent recorded</small></div>
+                    </div>
+                  </article>
+
+                  <article
+                    class="system-visual"
+                    id="system-visual-2"
+                    data-node-visual="2"
+                    aria-label="Automated response and follow-up sequence"
+                    hidden
+                  >
+                    <header><strong>Response sequence</strong><span>Human handoff ready</span></header>
+                    <div class="response-preview">
+                      <div class="response-message" style="--message-delay: -0.1s">Request received. Here is what happens next.</div>
+                      <div class="response-message" style="--message-delay: -1.2s">Would Wednesday at 2:00 PM work?</div>
+                      <div class="response-message" style="--message-delay: -2.4s">Owner notified with the full context.</div>
+                    </div>
+                  </article>
+
+                  <article
+                    class="system-visual"
+                    id="system-visual-3"
+                    data-node-visual="3"
+                    aria-label="Scrollable marketing application placeholders"
+                    hidden
+                  >
+                    <header><strong>Channel carousel</strong><span>Drag or use arrows</span></header>
+                    <div class="app-carousel-shell">
+                      <button class="app-carousel-control" type="button" data-app-scroll="-1" aria-label="Scroll marketing apps left">←</button>
+                      <div class="app-carousel" id="marketing-app-carousel" tabindex="0" aria-label="Marketing application placeholders">
+                        <div class="app-tile"><i>G</i><span>Google SEO</span></div>
+                        <div class="app-tile"><i>in</i><span>LinkedIn</span></div>
+                        <div class="app-tile"><i>▶</i><span>YouTube</span></div>
+                        <div class="app-tile"><i>◎</i><span>Instagram</span></div>
+                        <div class="app-tile"><i>M</i><span>Meta</span></div>
+                        <div class="app-tile"><i>♪</i><span>TikTok</span></div>
+                        <div class="app-tile"><i>@</i><span>Email</span></div>
+                        <div class="app-tile"><i>↗</i><span>Analytics</span></div>
+                      </div>
+                      <button class="app-carousel-control" type="button" data-app-scroll="1" aria-label="Scroll marketing apps right">→</button>
+                    </div>
+                  </article>
+
+                  <article
+                    class="system-visual"
+                    id="system-visual-4"
+                    data-node-visual="4"
+                    aria-label="Interactive customer relationship pipeline"
+                    hidden
+                  >
+                    <header><strong>Opportunity pipeline</strong><span id="crm-stage-status">New lead</span></header>
+                    <div class="crm-pipeline" id="crm-pipeline">
+                      <div class="crm-record">
+                        <div><strong>Acme Studio</strong><small>Website systems review</small></div>
+                        <small>Opportunity 0142</small>
+                      </div>
+                      <div class="crm-stages" role="group" aria-label="Move opportunity to a CRM stage">
+                        <button class="crm-stage" type="button" data-crm-stage="0" data-state="current" aria-pressed="true">New</button>
+                        <button class="crm-stage" type="button" data-crm-stage="1" data-state="empty" aria-pressed="false">Qualified</button>
+                        <button class="crm-stage" type="button" data-crm-stage="2" data-state="empty" aria-pressed="false">Proposal</button>
+                        <button class="crm-stage" type="button" data-crm-stage="3" data-state="empty" aria-pressed="false">Won</button>
+                      </div>
+                    </div>
+                </article>
+                </div>
               </div>
-              <div class="pathway-detail">
-                <span id="node-status">Select a node</span>
-                <p id="node-detail">Explore each handoff or run the complete pathway from inquiry to reporting.</p>
+              <div class="pathway-detail" aria-live="polite">
+                <span id="node-status">Lead Generator</span>
+                <p id="node-detail">
+                  Prospects enter through campaigns, referrals, and content. A lightweight funnel filters noise and
+                  surfaces the few leads worth attention.
+                </p>
               </div>
             </section>
 
@@ -2063,11 +2699,11 @@
         },
         f2: {
           channel: "02",
-          label: "Connected pathway preview",
+          label: "Connected systems preview",
           category: "Connected Operations",
           title: "Connect the tools and people behind the business.",
           description:
-            "Turn inquiries, routing, follow-up, team ownership, and reporting into one dependable operating pathway.",
+            "Connect lead generation, website forms, follow-up, marketing, and CRM activity into one dependable operating system.",
         },
         f3: {
           channel: "03",
@@ -2091,8 +2727,6 @@
       const demos = [...document.querySelectorAll("[data-demo]")];
       const servicePanel = document.querySelector("#service-explanation");
       const serviceContent = document.querySelector("#service-content");
-      const displayLabel = document.querySelector("#display-label");
-      const displayOutput = document.querySelector("#display-output");
       const channelNumber = document.querySelector("#channel-number");
       const category = document.querySelector("#service-category");
       const serviceTitle = document.querySelector("#active-service-title");
@@ -2121,8 +2755,6 @@
         });
 
         serviceContent.style.animation = "none";
-        displayLabel.textContent = service.label;
-        displayOutput.textContent = `CH ${service.channel} · READY`;
         channelNumber.textContent = service.channel;
         category.textContent = service.category;
         serviceTitle.textContent = service.title;
@@ -2259,15 +2891,218 @@
         updateMarketCopy();
       });
 
+      const leadField = document.querySelector(".lead-field");
+      const leadCanvas = leadField?.querySelector("canvas");
+      const leadContext = leadCanvas?.getContext("2d");
+
+      if (leadField && leadCanvas && leadContext) {
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const sourceSignals = [];
+        const qualifiedSignals = [
+          [0.14, 0.31],
+          [0.28, 0.72],
+          [0.41, 0.43],
+          [0.54, 0.68],
+          [0.67, 0.29],
+          [0.78, 0.57],
+          [0.89, 0.76],
+        ];
+        const filter = {
+          x: 0,
+          y: 0,
+          targetX: 0,
+          targetY: 0,
+          radius: 0,
+          targetRadius: 0,
+          active: false,
+        };
+        let leadWidth = 0;
+        let leadHeight = 0;
+        let leadFrame = 0;
+
+        function signalRandom(index, salt) {
+          const value = Math.sin(index * 91.731 + salt * 17.153) * 43758.5453;
+          return value - Math.floor(value);
+        }
+
+        function buildSignalField() {
+          const signalCount = leadWidth < 520 ? 140 : 235;
+          sourceSignals.length = 0;
+          for (let index = 0; index < signalCount; index += 1) {
+            sourceSignals.push({
+              x: signalRandom(index, 1) * leadWidth,
+              y: signalRandom(index, 2) * leadHeight,
+              size: 0.75 + signalRandom(index, 3) * 1.25,
+              spread: signalRandom(index, 4) * 9,
+              angle: signalRandom(index, 5) * Math.PI * 2,
+            });
+          }
+        }
+
+        function sizeLeadCanvas() {
+          const bounds = leadField.getBoundingClientRect();
+          if (!bounds.width || !bounds.height) return;
+          const scale = Math.min(window.devicePixelRatio || 1, 1.5);
+          leadWidth = bounds.width;
+          leadHeight = bounds.height;
+          leadCanvas.width = Math.round(leadWidth * scale);
+          leadCanvas.height = Math.round(leadHeight * scale);
+          leadContext.setTransform(scale, 0, 0, scale, 0, 0);
+          filter.x = filter.targetX = leadWidth * 0.5;
+          filter.y = filter.targetY = leadHeight * 0.5;
+          buildSignalField();
+          drawLeadField();
+        }
+
+        function drawLeadField() {
+          leadContext.clearRect(0, 0, leadWidth, leadHeight);
+          const influence = filter.radius;
+
+          sourceSignals.forEach((signal) => {
+            const deltaX = signal.x - filter.x;
+            const deltaY = signal.y - filter.y;
+            const distance = Math.hypot(deltaX, deltaY);
+            const inside = influence > 2 && distance < influence;
+            let drawX = signal.x;
+            let drawY = signal.y;
+
+            if (inside) {
+              const angle = distance < 0.01 ? signal.angle : Math.atan2(deltaY, deltaX);
+              const edge = influence + signal.spread;
+              drawX = filter.x + Math.cos(angle) * edge;
+              drawY = filter.y + Math.sin(angle) * edge;
+              leadContext.fillStyle = `hsla(${194 + signalRandom(Math.round(signal.x), 8) * 48}, 92%, 62%, 0.92)`;
+            } else {
+              leadContext.fillStyle = "rgba(203, 201, 177, 0.55)";
+            }
+
+            leadContext.beginPath();
+            leadContext.arc(drawX, drawY, signal.size, 0, Math.PI * 2);
+            leadContext.fill();
+          });
+
+          if (influence > 8) {
+            qualifiedSignals.forEach(([xRatio, yRatio]) => {
+              const x = xRatio * leadWidth;
+              const y = yRatio * leadHeight;
+              if (Math.hypot(x - filter.x, y - filter.y) > influence - 7) return;
+              leadContext.shadowColor = "rgba(52, 211, 153, 0.9)";
+              leadContext.shadowBlur = 9;
+              leadContext.fillStyle = "#4ade80";
+              leadContext.beginPath();
+              leadContext.arc(x, y, 2.6, 0, Math.PI * 2);
+              leadContext.fill();
+              leadContext.shadowBlur = 0;
+            });
+          }
+        }
+
+        function animateLeadField() {
+          const easing = reduceMotion ? 1 : 0.16;
+          filter.x += (filter.targetX - filter.x) * easing;
+          filter.y += (filter.targetY - filter.y) * easing;
+          filter.radius += (filter.targetRadius - filter.radius) * easing;
+          drawLeadField();
+
+          const moving =
+            Math.abs(filter.targetX - filter.x) > 0.2 ||
+            Math.abs(filter.targetY - filter.y) > 0.2 ||
+            Math.abs(filter.targetRadius - filter.radius) > 0.2;
+          if (moving) {
+            leadFrame = requestAnimationFrame(animateLeadField);
+          } else {
+            leadFrame = 0;
+          }
+        }
+
+        function requestLeadFrame() {
+          if (!leadFrame) leadFrame = requestAnimationFrame(animateLeadField);
+        }
+
+        function setFilterPosition(event) {
+          const bounds = leadField.getBoundingClientRect();
+          filter.targetX = Math.max(0, Math.min(bounds.width, event.clientX - bounds.left));
+          filter.targetY = Math.max(0, Math.min(bounds.height, event.clientY - bounds.top));
+          requestLeadFrame();
+        }
+
+        function openLeadFilter() {
+          filter.active = true;
+          filter.targetRadius = Math.min(82, leadWidth * 0.18);
+          leadField.setAttribute("aria-pressed", "true");
+          requestLeadFrame();
+        }
+
+        function closeLeadFilter() {
+          filter.active = false;
+          filter.targetRadius = 0;
+          leadField.setAttribute("aria-pressed", "false");
+          requestLeadFrame();
+        }
+
+        leadField.addEventListener("pointerenter", (event) => {
+          setFilterPosition(event);
+          openLeadFilter();
+        });
+        leadField.addEventListener("pointermove", (event) => {
+          setFilterPosition(event);
+          openLeadFilter();
+        });
+        leadField.addEventListener("pointerleave", closeLeadFilter);
+        leadField.addEventListener("focus", () => {
+          filter.targetX = leadWidth * 0.5;
+          filter.targetY = leadHeight * 0.5;
+          openLeadFilter();
+        });
+        leadField.addEventListener("blur", closeLeadFilter);
+        leadField.addEventListener("click", openLeadFilter);
+        leadField.addEventListener("keydown", (event) => {
+          const amount = event.shiftKey ? 24 : 12;
+          if (event.key === "Escape") {
+            closeLeadFilter();
+          } else if (event.key === "ArrowLeft") {
+            filter.targetX = Math.max(0, filter.targetX - amount);
+          } else if (event.key === "ArrowRight") {
+            filter.targetX = Math.min(leadWidth, filter.targetX + amount);
+          } else if (event.key === "ArrowUp") {
+            filter.targetY = Math.max(0, filter.targetY - amount);
+          } else if (event.key === "ArrowDown") {
+            filter.targetY = Math.min(leadHeight, filter.targetY + amount);
+          } else {
+            return;
+          }
+          event.preventDefault();
+          openLeadFilter();
+        });
+
+        new ResizeObserver(sizeLeadCanvas).observe(leadField);
+        sizeLeadCanvas();
+      }
+
       const nodeDetails = [
-        ["Inquiry received", "A customer asks for a 40-unit event order through the website."],
-        ["Source captured", "The website records campaign, page, product, and consent data with the request."],
-        ["Fit checked", "Rules confirm order size, timing, location, and the services needed."],
-        ["Owner assigned", "The CRM routes the qualified request to the correct team member with context intact."],
-        ["Task created", "A due date, quote task, and internal notification are created automatically."],
-        ["Loop closed", "The customer receives follow-up and the result appears in the operating report."],
+        [
+          "Lead Generator",
+          "Prospects enter through campaigns, referrals, and content. A lightweight funnel filters noise and surfaces the few leads worth attention.",
+        ],
+        [
+          "Website Forms",
+          "Calendars, contact forms, and subscription requests capture consistent details and create the next action automatically.",
+        ],
+        [
+          "Automated Response",
+          "Send a useful acknowledgment immediately, follow up on schedule, and hand outreach to a person when context matters.",
+        ],
+        [
+          "Ads / Marketing",
+          "Bring Google SEO, LinkedIn, YouTube, and social campaigns into one view so the source and result stay connected.",
+        ],
+        [
+          "CRM",
+          "Keep contacts, owners, stages, notes, and next actions in one shared pipeline instead of scattered inboxes.",
+        ],
       ];
       const nodeButtons = [...document.querySelectorAll("[data-node]")];
+      const nodeVisuals = [...document.querySelectorAll("[data-node-visual]")];
       const nodeStatus = document.querySelector("#node-status");
       const nodeDetail = document.querySelector("#node-detail");
       let pathTimer;
@@ -2276,6 +3111,10 @@
         nodeButtons.forEach((node, nodeIndex) => {
           node.classList.toggle("is-current", nodeIndex === index);
           node.classList.toggle("is-passed", nodeIndex < index);
+          node.setAttribute("aria-pressed", String(nodeIndex === index));
+        });
+        nodeVisuals.forEach((visual, visualIndex) => {
+          visual.hidden = visualIndex !== index;
         });
         nodeStatus.textContent = nodeDetails[index][0];
         nodeDetail.textContent = nodeDetails[index][1];
@@ -2292,11 +3131,46 @@
           index += 1;
           if (index >= nodeButtons.length) {
             clearInterval(pathTimer);
-            event.currentTarget.textContent = "Run again";
+            event.currentTarget.textContent = "Run sequence again";
             return;
           }
           showNode(index);
         }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 80 : 540);
+      });
+
+      const crmStages = [...document.querySelectorAll("[data-crm-stage]")];
+      const crmPipeline = document.querySelector("#crm-pipeline");
+      const crmStageStatus = document.querySelector("#crm-stage-status");
+      const crmStageLabels = ["New lead", "Fit confirmed", "Proposal sent", "Customer won"];
+
+      crmStages.forEach((stage, index) => {
+        stage.addEventListener("click", () => {
+          crmStages.forEach((option, optionIndex) => {
+            option.setAttribute("aria-pressed", String(optionIndex === index));
+            option.dataset.state =
+              index === crmStages.length - 1
+                ? optionIndex < index
+                  ? "filled"
+                  : "complete"
+                : optionIndex < index
+                  ? "filled"
+                  : optionIndex === index
+                    ? "current"
+                    : "empty";
+          });
+          crmPipeline.classList.toggle("is-complete", index === crmStages.length - 1);
+          crmStageStatus.textContent = crmStageLabels[index];
+        });
+      });
+
+      const marketingAppCarousel = document.querySelector("#marketing-app-carousel");
+      document.querySelectorAll("[data-app-scroll]").forEach((button) => {
+        button.addEventListener("click", () => {
+          marketingAppCarousel.scrollBy({
+            left: Number(button.dataset.appScroll) * Math.min(420, marketingAppCarousel.clientWidth * 0.78),
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+          });
+        });
       });
 
       const products = [
@@ -2426,6 +3300,22 @@
       aiChoiceButtons.forEach((button) => {
         button.addEventListener("click", () => updateAiChoice(button.dataset.aiChoice));
       });
+
+      const reportSwitchboardHeight = () => {
+        window.parent.postMessage(
+          {
+            type: "networks-nodes-switchboard-height",
+            height: document.documentElement.scrollHeight,
+          },
+          window.location.origin,
+        );
+      };
+
+      const switchboardResizeObserver = new ResizeObserver(reportSwitchboardHeight);
+      switchboardResizeObserver.observe(document.body);
+      window.addEventListener("load", reportSwitchboardHeight);
+      window.addEventListener("resize", reportSwitchboardHeight);
+      reportSwitchboardHeight();
     </script>
   </body>
 </html>
