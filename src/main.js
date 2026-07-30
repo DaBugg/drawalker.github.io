@@ -2,14 +2,14 @@ import "../js/form-security.js";
 
 const videos = [
   {
+    src: "https://player.mux.com/Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc?autoplay=1&muted=1&loop=1&controls=0",
+    label: "Immersive experiences",
+    caption: "Movie-quality websites that draw customers in and make every interaction feel memorable.",
+  },
+  {
     src: "https://player.mux.com/r7u3dBYrfwLMb00YwhKgil6t6ao3Vn00fJq2N12H58FM8?autoplay=1&muted=1&loop=1&controls=0",
     label: "Brand systems",
     caption: "Clear digital experiences that make complex services easier to understand.",
-  },
-  {
-    src: "https://player.mux.com/EbDl00U8531qaMnSoynVZI01V02ydAyIqeHzGKVlqn1s4U?autoplay=1&muted=1&loop=1&controls=0",
-    label: "Connected operations",
-    caption: "Customer-facing work and the operating systems behind it, designed together.",
   },
   {
     src: "https://player.mux.com/FghhBbV00fPiIiubZGEC00vCec02LmQdg00fZy9NVX00MnA8?autoplay=1&muted=1&loop=1&controls=0",
