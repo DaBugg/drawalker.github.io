@@ -9,6 +9,10 @@
       name="description"
       content="An interactive Networks & Nodes service selector for U.S. market adaptation, connected systems, product 3D, and practical AI."
     />
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js"
+    ></script>
     <style>
       :root {
         color-scheme: dark;
@@ -1401,6 +1405,28 @@
         outline-offset: 8px;
       }
 
+      .product-model {
+        width: clamp(260px, 38vw, 480px);
+        height: clamp(260px, 32vw, 390px);
+        border-radius: 26px;
+        background:
+          radial-gradient(circle at 50% 58%, rgba(34, 211, 238, 0.1), transparent 48%),
+          rgba(15, 23, 42, 0.18);
+        filter: drop-shadow(0 30px 24px rgba(2, 6, 23, 0.34));
+        outline: none;
+        --progress-bar-color: var(--cyan);
+        --progress-bar-height: 3px;
+      }
+
+      .product-model:focus-visible {
+        outline: 2px solid var(--cyan);
+        outline-offset: 5px;
+      }
+
+      .product-model::part(default-progress-bar) {
+        border-radius: 999px;
+      }
+
       .product-object::before,
       .product-object::after,
       .product-object span {
@@ -2569,6 +2595,25 @@
                   >
                     <span aria-hidden="true"></span>
                   </div>
+                  <model-viewer
+                    class="product-model"
+                    id="shoe-model"
+                    data-model-src="/images/Meshy_AI_Black_Toe_Air_Jordan__0730220630_texture.glb"
+                    alt="Interactive 3D model of a black, red, and white high-top sneaker"
+                    camera-controls
+                    auto-rotate
+                    rotation-per-second="16deg"
+                    camera-orbit="35deg 72deg auto"
+                    interaction-prompt="auto"
+                    interaction-prompt-threshold="1200"
+                    environment-image="neutral"
+                    tone-mapping="neutral"
+                    exposure="1.05"
+                    shadow-intensity="1.2"
+                    shadow-softness="0.8"
+                    touch-action="pan-y"
+                    hidden
+                  ></model-viewer>
                   <div class="product-meta">
                     <strong id="product-name">Studio shirt</strong>
                     <span id="product-material">Heavy cotton · Midnight</span>
@@ -2579,11 +2624,11 @@
                   <small id="next-product-name">Watch</small>
                 </button>
               </div>
-              <p class="product-drag-hint">Click and drag the object to rotate</p>
-              <div class="product-dots" aria-label="Product 3 of 5">
-                <i class="product-dot"></i>
+              <p class="product-drag-hint" id="product-drag-hint">Click and drag the object to rotate</p>
+              <div class="product-dots" aria-label="Product 2 of 5">
                 <i class="product-dot"></i>
                 <i class="product-dot is-active"></i>
+                <i class="product-dot"></i>
                 <i class="product-dot"></i>
                 <i class="product-dot"></i>
               </div>
@@ -2794,6 +2839,7 @@
         serviceTitle.textContent = service.title;
         serviceDescription.textContent = service.description;
         servicePanel.setAttribute("aria-labelledby", `key-${id}`);
+        if (id === "f3") loadShoeModel();
 
         requestAnimationFrame(() => {
           serviceContent.style.animation = "";
@@ -3209,19 +3255,21 @@
 
       const products = [
         { id: "eyewear", name: "Field eyewear", material: "Acetate · Smoke", color: "#253d47", light: "#8ca6ad" },
-        { id: "footwear", name: "Transit runner", material: "Mesh · Stone", color: "#4f554f", light: "#afb6a9" },
+        { id: "footwear", name: "Black Toe high-top", material: "Leather · Red / black / white", color: "#4f554f", light: "#afb6a9" },
         { id: "shirt", name: "Studio shirt", material: "Heavy cotton · Midnight", color: "#17222e", light: "#546a7b" },
         { id: "watch", name: "Interval watch", material: "Steel · Graphite", color: "#34383d", light: "#a5acb0" },
         { id: "jewelry", name: "Contour chain", material: "Silver · Brushed", color: "#777b80", light: "#c6c9cc" },
       ];
       const productObject = document.querySelector("#product-object");
+      const shoeModel = document.querySelector("#shoe-model");
       const productName = document.querySelector("#product-name");
       const productMaterial = document.querySelector("#product-material");
+      const productDragHint = document.querySelector("#product-drag-hint");
       const previousProductName = document.querySelector("#previous-product-name");
       const nextProductName = document.querySelector("#next-product-name");
       const productDots = [...document.querySelectorAll(".product-dot")];
       const productDotGroup = document.querySelector(".product-dots");
-      let currentProductIndex = 2;
+      let currentProductIndex = 1;
       let productRotation = -8;
       let dragStartX = 0;
       let dragStartRotation = 0;
@@ -3230,6 +3278,12 @@
       function setProductRotation(value) {
         productRotation = value;
         productObject.style.setProperty("--rotation", `${productRotation}deg`);
+      }
+
+      function loadShoeModel() {
+        if (!shoeModel.hasAttribute("src")) {
+          shoeModel.setAttribute("src", shoeModel.dataset.modelSrc);
+        }
       }
 
       function updateProduct(index) {
@@ -3245,6 +3299,13 @@
         productObject.style.setProperty("--product-color", product.color);
         productObject.style.setProperty("--product-light", product.light);
         productObject.setAttribute("aria-label", `${product.name}. Drag left or right to rotate.`);
+        const showingShoe = product.id === "footwear";
+        productObject.hidden = showingShoe;
+        shoeModel.hidden = !showingShoe;
+        productDragHint.textContent = showingShoe
+          ? "Drag to rotate · pinch or scroll to zoom"
+          : "Click and drag the object to rotate";
+        if (showingShoe && !document.querySelector('[data-demo="f3"]').hidden) loadShoeModel();
         productDots.forEach((dot, dotIndex) => dot.classList.toggle("is-active", dotIndex === currentProductIndex));
         productDotGroup.setAttribute("aria-label", `Product ${currentProductIndex + 1} of ${products.length}`);
         setProductRotation(-8);
@@ -3283,7 +3344,13 @@
       });
 
       document.querySelector("[data-reset-product]").addEventListener("click", () => {
-        setProductRotation(-8);
+        if (products[currentProductIndex].id === "footwear") {
+          shoeModel.cameraOrbit = "35deg 72deg auto";
+          shoeModel.resetTurntableRotation?.();
+          shoeModel.jumpCameraToGoal?.();
+        } else {
+          setProductRotation(-8);
+        }
       });
       updateProduct(currentProductIndex);
 
