@@ -1216,8 +1216,47 @@
       }
 
       .product-viewer {
+        position: relative;
         display: grid;
+        width: 100%;
         place-items: center;
+      }
+
+      .product-nav {
+        position: absolute;
+        z-index: 2;
+        top: 43%;
+        display: grid;
+        width: clamp(44px, 6vw, 62px);
+        aspect-ratio: 1;
+        place-items: center;
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        border-radius: 50%;
+        background: rgba(15, 23, 42, 0.76);
+        color: #e5e7eb;
+        cursor: pointer;
+        font-size: clamp(1.25rem, 2.5vw, 1.8rem);
+        transform: translateY(-50%);
+        transition:
+          border-color 180ms ease,
+          background-color 180ms ease,
+          transform 180ms ease;
+      }
+
+      .product-nav[data-product-step="-1"] {
+        left: 0;
+      }
+
+      .product-nav[data-product-step="1"] {
+        right: 0;
+      }
+
+      .product-nav:hover,
+      .product-nav:focus-visible {
+        border-color: var(--cyan);
+        outline: none;
+        background: rgba(34, 211, 238, 0.12);
+        transform: translateY(-50%) scale(1.06);
       }
 
       .product-main {
@@ -1268,23 +1307,19 @@
         border-radius: 999px;
       }
 
-      .product-drag-hint {
+      .product-rotation-cue {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: 28px;
         margin: 14px 0 0;
-        color: #94a3b8;
-        font-size: 0.66rem;
-        font-weight: 800;
-        letter-spacing: 0.09em;
-        text-transform: uppercase;
+        color: var(--cyan);
       }
 
-      .product-drag-hint::before,
-      .product-drag-hint::after {
-        color: var(--cyan);
-        content: "↔";
+      .product-rotation-cue span {
+        font-size: 1.55rem;
+        line-height: 1;
+        opacity: 0.9;
       }
 
       .ai-layout {
@@ -1822,10 +1857,6 @@
           grid-template-columns: 1fr;
         }
 
-        .product-viewer {
-          grid-template-columns: minmax(72px, 0.3fr) 1fr minmax(72px, 0.3fr);
-        }
-
         .service-key {
           min-height: 135px;
         }
@@ -1913,6 +1944,11 @@
         .product-model {
           width: min(82vw, 420px);
           height: min(76vw, 360px);
+        }
+
+        .product-nav {
+          top: 41%;
+          width: 44px;
         }
 
         .ai-concept {
@@ -2260,11 +2296,18 @@
               </header>
 
               <div class="product-viewer">
+                <button
+                  class="product-nav"
+                  type="button"
+                  data-product-step="-1"
+                  aria-label="Show previous product: Grey quadrotor"
+                >
+                  <span aria-hidden="true">←</span>
+                </button>
                 <div class="product-main">
                   <model-viewer
                     class="product-model"
-                    id="shoe-model"
-                    data-model-src="/images/Chicago_AirJordan1_Compressed-v1.glb"
+                    id="product-model"
                     alt="Interactive 3D model of a red, white, and black high-top sneaker"
                     camera-controls
                     auto-rotate
@@ -2280,12 +2323,23 @@
                     touch-action="pan-y"
                   ></model-viewer>
                   <div class="product-meta">
-                    <strong>Chicago high-top</strong>
-                    <span>Leather · Red / white / black</span>
+                    <strong id="product-name">Chicago high-top</strong>
+                    <span id="product-material">Leather · Red / white / black</span>
                   </div>
                 </div>
+                <button
+                  class="product-nav"
+                  type="button"
+                  data-product-step="1"
+                  aria-label="Show next product: Grey quadrotor"
+                >
+                  <span aria-hidden="true">→</span>
+                </button>
               </div>
-              <p class="product-drag-hint">Drag to rotate · pinch or scroll to zoom</p>
+              <div class="product-rotation-cue" role="img" aria-label="Drag the product left or right to rotate">
+                <span aria-hidden="true">⟲</span>
+                <span aria-hidden="true">⟳</span>
+              </div>
             </section>
 
             <section class="demo" data-demo="f4" aria-label="Practical AI workflow demonstration" hidden>
@@ -2493,7 +2547,7 @@
         serviceTitle.textContent = service.title;
         serviceDescription.textContent = service.description;
         servicePanel.setAttribute("aria-labelledby", `key-${id}`);
-        if (id === "f3") loadShoeModel();
+        if (id === "f3") loadCurrentProductModel();
 
         requestAnimationFrame(() => {
           serviceContent.style.animation = "";
@@ -2907,19 +2961,61 @@
         });
       });
 
-      const shoeModel = document.querySelector("#shoe-model");
+      const productModels = [
+        {
+          src: "/images/Chicago_AirJordan1_Compressed-v1.glb",
+          name: "Chicago high-top",
+          material: "Leather · Red / white / black",
+          alt: "Interactive 3D model of a red, white, and black high-top sneaker",
+        },
+        {
+          src: "/images/Grey_Quadrotor_basic_unclassified-v1.glb",
+          name: "Grey quadrotor",
+          material: "Aerial platform · Graphite",
+          alt: "Interactive 3D model of a grey quadrotor",
+        },
+      ];
+      const productModel = document.querySelector("#product-model");
+      const productName = document.querySelector("#product-name");
+      const productMaterial = document.querySelector("#product-material");
+      const previousProductButton = document.querySelector('[data-product-step="-1"]');
+      const nextProductButton = document.querySelector('[data-product-step="1"]');
+      let currentProductIndex = 0;
 
-      function loadShoeModel() {
-        if (!shoeModel.hasAttribute("src")) {
-          shoeModel.setAttribute("src", shoeModel.dataset.modelSrc);
+      function resetProductView() {
+        productModel.cameraOrbit = "35deg 72deg auto";
+        productModel.resetTurntableRotation?.();
+        productModel.jumpCameraToGoal?.();
+      }
+
+      function renderProduct(index) {
+        currentProductIndex = (index + productModels.length) % productModels.length;
+        const product = productModels[currentProductIndex];
+        const otherProduct = productModels[(currentProductIndex + 1) % productModels.length];
+
+        productName.textContent = product.name;
+        productMaterial.textContent = product.material;
+        productModel.alt = product.alt;
+        previousProductButton.setAttribute("aria-label", `Show previous product: ${otherProduct.name}`);
+        nextProductButton.setAttribute("aria-label", `Show next product: ${otherProduct.name}`);
+
+        if (productModel.getAttribute("src") !== product.src) {
+          productModel.setAttribute("src", product.src);
         }
       }
 
-      document.querySelector("[data-reset-product]").addEventListener("click", () => {
-        shoeModel.cameraOrbit = "35deg 72deg auto";
-        shoeModel.resetTurntableRotation?.();
-        shoeModel.jumpCameraToGoal?.();
+      function loadCurrentProductModel() {
+        if (!productModel.hasAttribute("src")) renderProduct(currentProductIndex);
+      }
+
+      document.querySelectorAll("[data-product-step]").forEach((button) => {
+        button.addEventListener("click", () => {
+          renderProduct(currentProductIndex + Number(button.dataset.productStep));
+        });
       });
+
+      productModel.addEventListener("load", resetProductView);
+      document.querySelector("[data-reset-product]").addEventListener("click", resetProductView);
 
       const aiConcepts = {
         chatbots: {
