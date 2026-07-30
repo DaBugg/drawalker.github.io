@@ -2,22 +2,22 @@ import "../js/form-security.js";
 
 const videos = [
   {
-    src: "https://player.mux.com/Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc?autoplay=1&muted=1&loop=1&controls=0",
+    src: "https://player.mux.com/Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
     label: "Immersive experiences",
     caption: "Movie-quality websites that draw customers in and make every interaction feel memorable.",
   },
   {
-    src: "https://player.mux.com/r7u3dBYrfwLMb00YwhKgil6t6ao3Vn00fJq2N12H58FM8?autoplay=1&muted=1&loop=1&controls=0",
+    src: "https://player.mux.com/r7u3dBYrfwLMb00YwhKgil6t6ao3Vn00fJq2N12H58FM8?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
     label: "Brand systems",
     caption: "Clear digital experiences that make complex services easier to understand.",
   },
   {
-    src: "https://player.mux.com/FghhBbV00fPiIiubZGEC00vCec02LmQdg00fZy9NVX00MnA8?autoplay=1&muted=1&loop=1&controls=0",
+    src: "https://player.mux.com/FghhBbV00fPiIiubZGEC00vCec02LmQdg00fZy9NVX00MnA8?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
     label: "Useful automation",
     caption: "Practical automation that reduces handoffs without adding unnecessary complexity.",
   },
   {
-    src: "https://player.mux.com/bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM?autoplay=1&muted=1&loop=1&controls=0",
+    src: "https://player.mux.com/bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
     label: "Measured outcomes",
     caption: "Reporting that helps teams see what is working and decide what comes next.",
   },
