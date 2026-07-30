@@ -460,15 +460,13 @@ h2 em {
   line-height: 1;
 }
 
-.project-meta,
-.process-list > li > span {
+.project-meta {
   color: var(--cyan);
   font-size: 0.68rem;
   letter-spacing: 0.15em;
 }
 
-.project h3,
-.process-list h3 {
+.project h3 {
   margin-bottom: 0.6rem;
   font-family: var(--serif);
   font-size: clamp(1.6rem, 2.5vw, 2.3rem);
@@ -556,98 +554,54 @@ h2 em {
   background: var(--gold);
 }
 
-.process {
+.about {
   position: relative;
   display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
-  gap: 8vw;
+  grid-template-columns: 0.65fr 1.2fr 0.75fr;
+  gap: 5vw;
+  min-height: clamp(560px, 48vw, 720px);
+  border-top: 1px solid var(--line);
   isolation: isolate;
   overflow: clip;
 }
 
-.process-atlas-rail {
+.about > :not(.about-atlas-rail) {
+  position: relative;
+  z-index: 1;
+}
+
+.about-atlas-rail {
   position: absolute;
   z-index: 0;
-  top: clamp(4rem, 7vw, 7rem);
-  bottom: clamp(4rem, 7vw, 7rem);
-  left: 24%;
-  width: 27%;
+  top: clamp(5rem, 8vw, 8rem);
+  bottom: clamp(5rem, 8vw, 8rem);
+  left: 4vw;
+  width: 18%;
   background-image: url("/test-pages-new/atlas.jpeg");
   background-repeat: no-repeat;
   background-position: center top;
-  background-size: clamp(140px, 15vw, 220px) auto;
+  background-size: clamp(130px, 13vw, 190px) auto;
   filter: invert(1) contrast(1.08);
   mix-blend-mode: screen;
-  opacity: 0.14;
+  opacity: 0.16;
   pointer-events: none;
 }
 
 @supports (animation-timeline: view()) {
-  .process-atlas-rail {
-    animation: atlas-process-travel linear both;
+  .about-atlas-rail {
+    animation: atlas-about-travel linear both;
     animation-range: entry 8% exit 92%;
     animation-timeline: view(block);
   }
 }
 
-@keyframes atlas-process-travel {
+@keyframes atlas-about-travel {
   from {
     background-position: center top;
   }
   to {
     background-position: center bottom;
   }
-}
-
-.process-intro {
-  position: sticky;
-  z-index: 1;
-  top: 3rem;
-  align-self: start;
-}
-
-.process-intro h2 {
-  font-size: clamp(2.7rem, 4.5vw, 4.5rem);
-}
-
-.process-intro > p:last-child {
-  max-width: 500px;
-  margin-top: 2rem;
-  color: var(--muted);
-}
-
-.process-list {
-  position: relative;
-  z-index: 1;
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--line);
-  list-style: none;
-}
-
-.process-list li {
-  display: grid;
-  grid-template-columns: 60px 1fr;
-  gap: 1.5rem;
-  padding: 2.3rem 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.process-list h3 {
-  font-size: 2rem;
-}
-
-.process-list p {
-  max-width: 520px;
-  margin-bottom: 0;
-  color: var(--muted);
-}
-
-.about {
-  display: grid;
-  grid-template-columns: 0.65fr 1.2fr 0.75fr;
-  gap: 5vw;
-  border-top: 1px solid var(--line);
 }
 
 .about blockquote {
@@ -864,7 +818,7 @@ textarea:focus {
     scroll-behavior: auto;
   }
 
-  .process-atlas-rail {
+  .about-atlas-rail {
     animation: none;
     background-position: center;
   }
@@ -924,7 +878,6 @@ textarea:focus {
 
   .hero,
   .section-heading,
-  .process,
   .about,
   .contact {
     grid-template-columns: 1fr;
@@ -941,12 +894,8 @@ textarea:focus {
     border-top: 1px solid var(--line);
   }
 
-  .process-intro {
-    position: static;
-  }
-
-  .process-atlas-rail {
-    top: 12rem;
+  .about-atlas-rail {
+    top: 4rem;
     right: -2rem;
     bottom: 3rem;
     left: auto;
@@ -956,7 +905,7 @@ textarea:focus {
     opacity: 0.1;
   }
 
-  @keyframes atlas-process-travel {
+  @keyframes atlas-about-travel {
     from {
       background-position: right top;
     }
@@ -967,6 +916,7 @@ textarea:focus {
 
   .about {
     gap: 2.5rem;
+    min-height: 760px;
   }
 
   .project {
@@ -1093,12 +1043,8 @@ textarea:focus {
     font-size: 0.9rem;
   }
 
-  .process-list li {
-    grid-template-columns: 38px 1fr;
-  }
-
-  .process-atlas-rail {
-    top: 17rem;
+  .about-atlas-rail {
+    top: 3rem;
     right: -1rem;
     bottom: 2rem;
     width: 44vw;
