@@ -1036,6 +1036,13 @@
         font-style: normal;
       }
 
+      .app-tile i img {
+        display: block;
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+      }
+
       .app-tile span {
         align-self: end;
       }
@@ -2458,19 +2465,46 @@
                     class="system-visual"
                     id="system-visual-3"
                     data-node-visual="3"
-                    aria-label="Scrollable marketing application placeholders"
+                    aria-label="Scrollable marketing applications"
                     hidden
                   >
                     <header><strong>Channel carousel</strong><span>Drag or use arrows</span></header>
                     <div class="app-carousel-shell">
                       <button class="app-carousel-control" type="button" data-app-scroll="-1" aria-label="Scroll marketing apps left">←</button>
-                      <div class="app-carousel" id="marketing-app-carousel" tabindex="0" aria-label="Marketing application placeholders">
-                        <div class="app-tile"><i>G</i><span>Google SEO</span></div>
-                        <div class="app-tile"><i>in</i><span>LinkedIn</span></div>
-                        <div class="app-tile"><i>▶</i><span>YouTube</span></div>
-                        <div class="app-tile"><i>◎</i><span>Instagram</span></div>
-                        <div class="app-tile"><i>M</i><span>Meta</span></div>
-                        <div class="app-tile"><i>♪</i><span>TikTok</span></div>
+                      <div class="app-carousel" id="marketing-app-carousel" tabindex="0" aria-label="Marketing applications">
+                        <div class="app-tile">
+                          <i><img src="/images/google.svg" alt="" aria-hidden="true" /></i><span>Google</span>
+                        </div>
+                        <div class="app-tile">
+                          <i><img src="/images/google-business-profile.svg" alt="" aria-hidden="true" /></i><span>Business Profile</span>
+                        </div>
+                        <div class="app-tile">
+                          <i><img src="/images/google-search-console.svg" alt="" aria-hidden="true" /></i><span>Search Console</span>
+                        </div>
+                        <div class="app-tile">
+                          <i><img src="/images/meta.svg" alt="" aria-hidden="true" /></i><span>Meta</span>
+                        </div>
+                        <div class="app-tile">
+                          <i><img src="/images/instagram.svg" alt="" aria-hidden="true" /></i><span>Instagram</span>
+                        </div>
+                        <div class="app-tile">
+                          <i><img src="/images/linkedin.svg" alt="" aria-hidden="true" /></i><span>LinkedIn</span>
+                        </div>
+                        <div class="app-tile">
+                          <i><img src="/images/youtube.svg" alt="" aria-hidden="true" /></i><span>YouTube</span>
+                        </div>
+                        <div class="app-tile">
+                          <i><img src="/images/tiktok.svg" alt="" aria-hidden="true" /></i><span>TikTok</span>
+                        </div>
+                        <div class="app-tile">
+                          <i><img src="/images/x.svg" alt="" aria-hidden="true" /></i><span>X</span>
+                        </div>
+                        <div class="app-tile">
+                          <i><img src="/images/figma.svg" alt="" aria-hidden="true" /></i><span>Figma</span>
+                        </div>
+                        <div class="app-tile">
+                          <i><img src="/images/canva.svg" alt="" aria-hidden="true" /></i><span>Canva</span>
+                        </div>
                         <div class="app-tile"><i>@</i><span>Email</span></div>
                         <div class="app-tile"><i>↗</i><span>Analytics</span></div>
                       </div>

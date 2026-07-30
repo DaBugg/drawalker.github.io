@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cp switchboard.html dist/switchboard.html",
+    "build": "vite build && cp switchboard.html dist/switchboard.html && mkdir -p dist/images && cp images/*.svg dist/images/",
     "preview": "vite preview",
     "test": "node --test tests/*.test.cjs"
   },
