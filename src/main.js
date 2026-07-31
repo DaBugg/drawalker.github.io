@@ -16,8 +16,8 @@ const videos = [
     caption: "Rebranding and translating international websites for modern U.S. audiences.",
   },
   {
-    src: "https://player.mux.com/r7u3dBYrfwLMb00YwhKgil6t6ao3Vn00fJq2N12H58FM8?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
-    poster: "https://image.mux.com/r7u3dBYrfwLMb00YwhKgil6t6ao3Vn00fJq2N12H58FM8/thumbnail.webp?width=1200&time=0",
+    src: "https://player.mux.com/bmUEq0015EGNUVijLFRpphb007VWlqrbFp8rS9iJGJPGM?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
+    poster: "https://image.mux.com/bmUEq0015EGNUVijLFRpphb007VWlqrbFp8rS9iJGJPGM/thumbnail.webp?width=1200&time=0",
     label: "Brand systems",
     caption: "Clear digital experiences that make complex services easier to understand.",
   },
