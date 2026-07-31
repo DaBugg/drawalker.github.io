@@ -4,15 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0f172a" />
-    <title>What We Build — Networks &amp; Nodes</title>
+    <title>Web Design, Automation, CRM &amp; Digital Systems — Networks &amp; Nodes</title>
     <meta
       name="description"
-      content="An interactive Networks & Nodes service selector for U.S. market adaptation, connected systems, product 3D, and practical AI."
+      content="An interactive Networks &amp; Nodes service selector for U.S. market adaptation, connected systems, product 3D, and practical AI."
     />
-    <script
-      type="module"
-      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js"
-    ></script>
     <style>
       :root {
         color-scheme: dark;
@@ -99,7 +95,7 @@
         margin-bottom: clamp(14px, 2vw, 22px);
       }
 
-      .section-heading p {
+      .section-heading h1 {
         margin: 0;
         color: var(--cyan);
         font-size: clamp(0.76rem, 1.4vw, 1.02rem);
@@ -117,6 +113,50 @@
         font-weight: 700;
         letter-spacing: 0.12em;
         text-transform: uppercase;
+      }
+
+      .switchboard-intro {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 28px;
+        align-items: center;
+        margin: 0 0 clamp(22px, 3vw, 36px);
+        padding: clamp(18px, 2.6vw, 30px);
+        border: 1px solid rgba(148, 163, 184, 0.14);
+        background: rgba(15, 23, 42, 0.52);
+      }
+
+      .switchboard-intro p {
+        max-width: 980px;
+        margin: 0;
+        color: #cbd5e1;
+        font-size: clamp(0.92rem, 1.5vw, 1.08rem);
+        line-height: 1.7;
+      }
+
+      .switchboard-intro a,
+      .service-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 10px 14px;
+        border: 1px solid rgba(201, 174, 122, 0.68);
+        color: var(--paper);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .switchboard-intro a:hover,
+      .switchboard-intro a:focus-visible,
+      .service-cta:hover,
+      .service-cta:focus-visible {
+        border-color: var(--cyan);
+        outline: none;
+        background: rgba(34, 211, 238, 0.1);
       }
 
       .status-dot {
@@ -1810,6 +1850,28 @@
         line-height: 1.65;
       }
 
+      .service-copy .service-outcome {
+        display: grid;
+        gap: 5px;
+        margin-top: 20px;
+        padding-top: 18px;
+        border-top: 1px solid rgba(148, 163, 184, 0.18);
+        color: #cbd5e1;
+        font-size: 0.88rem;
+      }
+
+      .service-outcome strong {
+        color: var(--emerald);
+        font-size: 0.66rem;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .service-cta {
+        width: max-content;
+        margin-top: 20px;
+      }
+
       .prototype-note {
         margin: 10px 0 0;
         padding-bottom: 0;
@@ -1877,6 +1939,16 @@
           align-items: start;
           flex-direction: column;
           gap: 10px;
+        }
+
+        .switchboard-intro {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+
+        .switchboard-intro a,
+        .service-cta {
+          width: 100%;
         }
 
         .display-stage {
@@ -2022,9 +2094,17 @@
 
     <main class="switchboard" id="system-selector">
       <header class="section-heading">
-        <p>What We Build / System Selector</p>
+        <h1>What We Build / System Selector</h1>
         <span class="status"><i class="status-dot" aria-hidden="true"></i> Interface online</span>
       </header>
+
+      <div class="switchboard-intro">
+        <p>
+          Explore how Networks &amp; Nodes connects websites, acquisition, customer communication, automation, CRM,
+          interactive products, and practical AI.
+        </p>
+        <a href="/#contact" target="_top">Start a project <span aria-hidden="true">↗</span></a>
+      </div>
 
       <section class="system-shell" aria-labelledby="active-service-title">
         <div class="display-panel">
@@ -2466,12 +2546,19 @@
                 Reshape the message, structure, and customer journey so the website feels intentional in the U.S.
                 market—not merely translated.
               </p>
+              <p class="service-outcome">
+                <strong>What changes</strong>
+                <span id="service-outcome">Customers understand the offer, trust the brand, and know what to do next.</span>
+              </p>
+              <a class="service-cta" href="/#contact" target="_top">Discuss this capability <span aria-hidden="true">↗</span></a>
             </div>
           </div>
         </div>
       </section>
 
-      <p class="prototype-note">Choose a key or use F1–F4 on your keyboard. The active key stays pressed while both panels update.</p>
+      <p class="prototype-note">
+        Tap or select a service to update both panels. Desktop visitors can also use F1–F4 or the arrow keys.
+      </p>
     </main>
 
     <script>
@@ -2483,6 +2570,7 @@
           title: "Adapt your website for an American audience.",
           description:
             "Reshape the message, structure, and customer journey so the website feels intentional in the U.S. market—not merely translated.",
+          outcome: "Customers understand the offer, trust the brand, and know what to do next.",
         },
         f2: {
           channel: "02",
@@ -2491,6 +2579,7 @@
           title: "Connect the tools and people behind the business.",
           description:
             "Connect lead generation, website forms, follow-up, marketing, and CRM activity into one dependable operating system.",
+          outcome: "Leads move forward with less manual chasing, fewer lost handoffs, and clearer ownership.",
         },
         f3: {
           channel: "03",
@@ -2499,6 +2588,7 @@
           title: "Make physical products explorable.",
           description:
             "Create interactive product experiences that customers can expand, rotate, inspect, and configure.",
+          outcome: "Customers can understand products online with more confidence before they inquire or buy.",
         },
         f4: {
           channel: "04",
@@ -2507,6 +2597,7 @@
           title: "Apply AI where it removes useful work.",
           description:
             "Design controlled workflows for classification, extraction, knowledge retrieval, drafting, and reporting—with human review where it matters.",
+          outcome: "Teams spend less time repeating routine work while keeping people in control of important decisions.",
         },
       };
 
@@ -2518,6 +2609,7 @@
       const category = document.querySelector("#service-category");
       const serviceTitle = document.querySelector("#active-service-title");
       const serviceDescription = document.querySelector("#service-description");
+      const serviceOutcome = document.querySelector("#service-outcome");
 
       function selectService(id, moveFocus = false) {
         const service = services[id];
@@ -2546,6 +2638,7 @@
         category.textContent = service.category;
         serviceTitle.textContent = service.title;
         serviceDescription.textContent = service.description;
+        serviceOutcome.textContent = service.outcome;
         servicePanel.setAttribute("aria-labelledby", `key-${id}`);
         if (id === "f3") loadCurrentProductModel();
 
@@ -2993,6 +3086,21 @@
       const previousProductButton = document.querySelector('[data-product-step="-1"]');
       const nextProductButton = document.querySelector('[data-product-step="1"]');
       let currentProductIndex = 0;
+      let modelViewerPromise = null;
+
+      function loadModelViewer() {
+        if (customElements.get("model-viewer")) return Promise.resolve();
+        if (modelViewerPromise) return modelViewerPromise;
+        modelViewerPromise = new Promise((resolve, reject) => {
+          const script = document.createElement("script");
+          script.type = "module";
+          script.src = "https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js";
+          script.onload = () => customElements.whenDefined("model-viewer").then(resolve);
+          script.onerror = () => reject(new Error("The interactive 3D viewer could not be loaded."));
+          document.head.appendChild(script);
+        });
+        return modelViewerPromise;
+      }
 
       function resetProductView() {
         productModel.cameraOrbit = "35deg 72deg auto";
@@ -3019,8 +3127,13 @@
         }
       }
 
-      function loadCurrentProductModel() {
-        if (!productModel.hasAttribute("src")) renderProduct(currentProductIndex);
+      async function loadCurrentProductModel() {
+        try {
+          await loadModelViewer();
+          if (!productModel.hasAttribute("src")) renderProduct(currentProductIndex);
+        } catch {
+          productMaterial.textContent = "Interactive preview unavailable. Please try again.";
+        }
       }
 
       document.querySelectorAll("[data-product-step]").forEach((button) => {

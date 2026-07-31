@@ -3,21 +3,25 @@ import "../js/form-security.js";
 const videos = [
   {
     src: "https://player.mux.com/Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
+    poster: "https://image.mux.com/Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc/thumbnail.webp?width=1200&time=0",
     label: "Immersive experiences",
     caption: "Movie-quality websites that draw customers in and make every interaction feel memorable.",
   },
   {
     src: "https://player.mux.com/3hfzhGk1IQHb2kZwv01YlNYA6olGBfF70000SqZXQ702ozo?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
+    poster: "https://image.mux.com/3hfzhGk1IQHb2kZwv01YlNYA6olGBfF70000SqZXQ702ozo/thumbnail.webp?width=1200&time=0",
     label: "U.S. market readiness",
     caption: "Rebranding and translating international websites for modern U.S. audiences.",
   },
   {
     src: "https://player.mux.com/r7u3dBYrfwLMb00YwhKgil6t6ao3Vn00fJq2N12H58FM8?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
+    poster: "https://image.mux.com/r7u3dBYrfwLMb00YwhKgil6t6ao3Vn00fJq2N12H58FM8/thumbnail.webp?width=1200&time=0",
     label: "Brand systems",
     caption: "Clear digital experiences that make complex services easier to understand.",
   },
   {
     src: "https://player.mux.com/bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
+    poster: "https://image.mux.com/bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM/thumbnail.webp?width=1200&time=0",
     label: "Measured outcomes",
     caption: "Reporting that helps teams see what is working and decide what comes next.",
   },
@@ -29,7 +33,9 @@ function initializeCarousel() {
   const carousel = document.querySelector("[data-video-carousel]");
   if (!carousel) return;
 
+  const stage = carousel.querySelector(".video-stage");
   const frame = carousel.querySelector("[data-video-frame]");
+  const poster = carousel.querySelector("[data-video-poster]");
   const count = carousel.querySelector("[data-video-count]");
   const indexLabel = carousel.querySelector("[data-video-index]");
   const title = carousel.querySelector("[data-video-label]");
@@ -43,12 +49,43 @@ function initializeCarousel() {
   let activeIndex = 0;
   let autoRotate = !reduceMotion;
   let isHovering = false;
+  let isInViewport = false;
+  let mediaReady = false;
   let timer = null;
+
+  const playerSrc = (video) => {
+    if (!reduceMotion) return video.src;
+    const url = new URL(video.src);
+    url.searchParams.delete("autoplay");
+    url.searchParams.set("loop", "false");
+    url.searchParams.set("controls", "true");
+    url.searchParams.set("preload", "metadata");
+    return url.toString();
+  };
+
+  const deactivateMedia = () => {
+    if (frame.dataset.activeSrc) frame.src = "about:blank";
+    delete frame.dataset.activeSrc;
+    frame.hidden = true;
+    poster.hidden = false;
+    stage.classList.remove("is-playing");
+  };
+
+  const activateMedia = () => {
+    if (!mediaReady || !isInViewport || document.hidden) return;
+    const src = playerSrc(videos[activeIndex]);
+    if (frame.dataset.activeSrc === src) return;
+    stage.classList.remove("is-playing");
+    poster.hidden = false;
+    frame.hidden = false;
+    frame.dataset.activeSrc = src;
+    frame.src = src;
+  };
 
   const render = () => {
     const activeVideo = videos[activeIndex];
-    frame.src = activeVideo.src;
     frame.title = `${activeVideo.label} video`;
+    poster.src = activeVideo.poster;
     count.textContent = `${formatIndex(activeIndex)} / ${String(videos.length).padStart(2, "0")}`;
     indexLabel.textContent = formatIndex(activeIndex);
     title.textContent = activeVideo.label;
@@ -63,6 +100,9 @@ function initializeCarousel() {
         button.removeAttribute("aria-current");
       }
     });
+
+    if (frame.dataset.activeSrc !== playerSrc(activeVideo)) deactivateMedia();
+    activateMedia();
   };
 
   const updatePlaybackButton = () => {
@@ -81,7 +121,7 @@ function initializeCarousel() {
 
   const startTimer = () => {
     stopTimer();
-    if (!autoRotate || isHovering) return;
+    if (!autoRotate || isHovering || !mediaReady || !isInViewport || document.hidden) return;
     timer = window.setInterval(() => {
       activeIndex = (activeIndex + 1) % videos.length;
       render();
@@ -91,6 +131,7 @@ function initializeCarousel() {
   const selectVideo = (index) => {
     activeIndex = index;
     autoRotate = false;
+    mediaReady = true;
     render();
     updatePlaybackButton();
     startTimer();
@@ -109,6 +150,7 @@ function initializeCarousel() {
   });
 
   playback.addEventListener("click", () => {
+    if (reduceMotion) return;
     autoRotate = !autoRotate;
     updatePlaybackButton();
     startTimer();
@@ -125,12 +167,58 @@ function initializeCarousel() {
   });
 
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) stopTimer();
-    else startTimer();
+    if (document.hidden) {
+      stopTimer();
+      deactivateMedia();
+    } else {
+      activateMedia();
+      startTimer();
+    }
   });
 
+  frame.addEventListener("load", () => {
+    if (!frame.dataset.activeSrc) return;
+    stage.classList.add("is-playing");
+    poster.hidden = true;
+  });
+
+  const beginMedia = () => {
+    mediaReady = true;
+    activateMedia();
+    startTimer();
+  };
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isInViewport = entry.isIntersecting;
+        if (!isInViewport) {
+          stopTimer();
+          deactivateMedia();
+          return;
+        }
+        if (mediaReady) {
+          activateMedia();
+          startTimer();
+          return;
+        }
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(beginMedia, { timeout: 1200 });
+        } else {
+          window.setTimeout(beginMedia, 250);
+        }
+      },
+      { rootMargin: "200px 0px", threshold: 0.05 },
+    );
+    observer.observe(carousel);
+  } else {
+    isInViewport = true;
+    window.setTimeout(beginMedia, 250);
+  }
+
+  playback.hidden = reduceMotion;
   updatePlaybackButton();
-  startTimer();
+  render();
 }
 
 function initializeSwitchboard() {
@@ -177,7 +265,7 @@ function initializeMobileMenu() {
   });
 }
 
-async function initializeContactForm() {
+function initializeContactForm() {
   const form = document.querySelector("[data-contact-form]");
   const status = document.querySelector("[data-form-status]");
   const success = document.querySelector("[data-form-success]");
@@ -185,12 +273,36 @@ async function initializeContactForm() {
   if (!form || !status || !success) return;
 
   let turnstileWidget = null;
-  if (window.siteTurnstile && turnstileSlot) {
-    try {
-      turnstileWidget = await window.siteTurnstile.render(turnstileSlot, { theme: "light" });
-    } catch {
-      turnstileWidget = null;
-    }
+  let turnstilePromise = null;
+
+  const initializeTurnstile = () => {
+    if (!window.siteTurnstile || !turnstileSlot) return Promise.resolve(null);
+    if (turnstilePromise) return turnstilePromise;
+    turnstilePromise = window.siteTurnstile
+      .render(turnstileSlot, { theme: "light" })
+      .then((widget) => {
+        turnstileWidget = widget;
+        return widget;
+      })
+      .catch(() => {
+        turnstileWidget = null;
+        return null;
+      });
+    return turnstilePromise;
+  };
+
+  form.addEventListener("focusin", initializeTurnstile, { once: true });
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        initializeTurnstile();
+        observer.disconnect();
+      },
+      { rootMargin: "500px 0px" },
+    );
+    observer.observe(form);
   }
 
   form.addEventListener("submit", async (event) => {
@@ -201,6 +313,8 @@ async function initializeContactForm() {
       form.reportValidity();
       return;
     }
+
+    await initializeTurnstile();
 
     const button = form.querySelector('button[type="submit"]');
     const originalText = button.querySelector("span").textContent;

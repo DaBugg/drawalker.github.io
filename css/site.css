@@ -278,12 +278,26 @@ h2 em {
   overflow: hidden;
 }
 
-.video-stage iframe {
+.video-stage iframe,
+.video-poster {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+}
+
+.video-stage iframe {
   border: 0;
+}
+
+.video-poster {
+  object-fit: cover;
+  transition: opacity 180ms ease;
+}
+
+.video-stage.is-playing .video-poster {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .video-vignette {
@@ -428,6 +442,70 @@ h2 em {
   scroll-margin-top: 1rem;
 }
 
+.capability-intro {
+  padding: clamp(5rem, 8vw, 8rem) 4vw clamp(3.5rem, 6vw, 6rem);
+}
+
+.capability-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: 6vw;
+  align-items: end;
+}
+
+.capability-heading h2 {
+  max-width: 920px;
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(2.8rem, 5.2vw, 5.2rem);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.capability-heading > p {
+  max-width: 520px;
+  margin: 0;
+  color: var(--muted);
+}
+
+.capability-rail {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: clamp(3rem, 5vw, 5rem) 0 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+  list-style: none;
+}
+
+.capability-rail li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-height: 130px;
+  padding: 1.35rem;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.capability-rail strong {
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.capability-rail span {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.switchboard-frame-shell {
+  border-top: 1px solid var(--line);
+}
+
 .switchboard-embed {
   display: block;
   width: 100%;
@@ -554,6 +632,71 @@ h2 em {
   background: var(--gold);
 }
 
+.process {
+  border-top: 1px solid var(--line);
+  background: var(--navy);
+}
+
+.process-heading {
+  align-items: start;
+}
+
+.process-heading > p {
+  max-width: 500px;
+  margin: 2.4rem 0 0;
+  color: var(--muted);
+}
+
+.process-rail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: clamp(3.5rem, 6vw, 6rem) 0 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+  list-style: none;
+  counter-reset: none;
+}
+
+.process-rail li {
+  display: flex;
+  flex-direction: column;
+  min-height: 310px;
+  padding: clamp(1.3rem, 2.5vw, 2.2rem);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.process-rail li > span {
+  margin-bottom: auto;
+  color: var(--cyan);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.process-rail h3 {
+  margin: 3rem 0 0.8rem;
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  font-weight: 400;
+}
+
+.process-rail p {
+  margin-bottom: 1.5rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.process-rail small {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  color: var(--gold);
+  font-size: 0.69rem;
+}
+
 .about {
   position: relative;
   display: grid;
@@ -650,6 +793,34 @@ h2 em {
   padding-top: 1.2rem;
   border-top: 1px solid var(--paper-dark);
   font-size: 0.78rem;
+}
+
+.contact-callout {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 1.5rem;
+  padding: 1.2rem;
+  border: 1px solid #bcb4a6;
+}
+
+.contact-callout strong {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+}
+
+.contact-callout > span {
+  color: #535964;
+  font-size: 0.75rem;
+}
+
+.contact-callout a {
+  width: max-content;
+  margin-top: 0.5rem;
+  padding-bottom: 0.12rem;
+  border-bottom: 1px solid #7f776b;
+  font-size: 0.78rem;
+  font-weight: 700;
 }
 
 .email-link {
@@ -878,6 +1049,7 @@ textarea:focus {
 
   .hero,
   .section-heading,
+  .capability-heading,
   .about,
   .contact {
     grid-template-columns: 1fr;
@@ -925,6 +1097,14 @@ textarea:focus {
 
   .project-result {
     display: none;
+  }
+
+  .capability-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .process-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .site-footer {
@@ -1018,6 +1198,27 @@ textarea:focus {
     padding: 5.2rem 1.15rem;
   }
 
+  .capability-intro {
+    padding: 5.2rem 1.15rem 3.5rem;
+  }
+
+  .capability-heading {
+    gap: 1.5rem;
+  }
+
+  .capability-heading h2 {
+    font-size: clamp(2.75rem, 13vw, 4rem);
+  }
+
+  .capability-rail {
+    grid-template-columns: 1fr;
+    margin-top: 3.5rem;
+  }
+
+  .capability-rail li {
+    min-height: 0;
+  }
+
   .section h2,
   .contact h2 {
     font-size: clamp(2.75rem, 13vw, 4rem);
@@ -1041,6 +1242,15 @@ textarea:focus {
 
   .project-title p {
     font-size: 0.9rem;
+  }
+
+  .process-rail {
+    grid-template-columns: 1fr;
+    margin-top: 3.5rem;
+  }
+
+  .process-rail li {
+    min-height: 255px;
   }
 
   .about-atlas-rail {
