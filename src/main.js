@@ -1,5 +1,7 @@
 import "../js/form-security.js";
 
+document.documentElement.classList.add("motion-ready");
+
 const videos = [
   {
     src: "https://player.mux.com/Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
@@ -51,7 +53,25 @@ function initializeCarousel() {
   let isHovering = false;
   let isInViewport = false;
   let mediaReady = false;
+  let hasRendered = false;
   let timer = null;
+
+  const animateVideoCopy = () => {
+    if (reduceMotion || !hasRendered || typeof title.animate !== "function") return;
+    [count, indexLabel, title, caption].forEach((element, index) => {
+      element.animate(
+        [
+          { opacity: 0, transform: "translateY(14px)" },
+          { opacity: 1, transform: "translateY(0)" },
+        ],
+        {
+          duration: 520,
+          delay: index * 42,
+          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+        },
+      );
+    });
+  };
 
   const playerSrc = (video) => {
     if (!reduceMotion) return video.src;
@@ -90,6 +110,7 @@ function initializeCarousel() {
     indexLabel.textContent = formatIndex(activeIndex);
     title.textContent = activeVideo.label;
     caption.textContent = activeVideo.caption;
+    animateVideoCopy();
 
     selectors.forEach((button, index) => {
       const selected = index === activeIndex;
@@ -103,6 +124,7 @@ function initializeCarousel() {
 
     if (frame.dataset.activeSrc !== playerSrc(activeVideo)) deactivateMedia();
     activateMedia();
+    hasRendered = true;
   };
 
   const updatePlaybackButton = () => {
@@ -219,6 +241,103 @@ function initializeCarousel() {
   playback.hidden = reduceMotion;
   updatePlaybackButton();
   render();
+}
+
+function splitRevealText(element) {
+  if (element.dataset.revealPrepared === "true") return;
+
+  const label = element.textContent.trim().replace(/\s+/g, " ");
+  const words = label.split(" ");
+  element.textContent = "";
+  element.setAttribute("aria-label", label);
+  element.dataset.revealPrepared = "true";
+
+  words.forEach((word, index) => {
+    const mask = document.createElement("span");
+    const text = document.createElement("span");
+    mask.className = "reveal-word";
+    text.className = "reveal-word-inner";
+    text.textContent = word;
+    text.setAttribute("aria-hidden", "true");
+    text.style.setProperty("--word-index", String(index));
+    mask.append(text);
+    element.append(mask);
+
+    if (index < words.length - 1) element.append(document.createTextNode(" "));
+  });
+}
+
+function initializeScrollReveals() {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const textTargets = document.querySelectorAll(
+    ".capability-heading h2, .work-heading h2, .process-heading h2, .contact h2",
+  );
+
+  textTargets.forEach((element) => {
+    element.dataset.reveal = "words";
+    splitRevealText(element);
+  });
+
+  const revealGroups = [
+    [".capability-heading > p, .work-heading > p, .process-heading > p", 0],
+    [".project", 0],
+    [".process-rail li", 75],
+    [".about-label, .about blockquote, .about-copy", 90],
+    [".contact-intro, .contact-form-shell", 110],
+  ];
+
+  revealGroups.forEach(([selector, stagger]) => {
+    document.querySelectorAll(selector).forEach((element, index) => {
+      element.dataset.reveal = "rise";
+      element.style.setProperty("--reveal-delay", `${index * stagger}ms`);
+    });
+  });
+
+  const targets = [...document.querySelectorAll("[data-reveal]")];
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    targets.forEach((element) => element.classList.add("is-in-view"));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-in-view");
+        observer.unobserve(entry.target);
+      });
+    },
+    { rootMargin: "0px 0px -10%", threshold: 0.12 },
+  );
+
+  targets.forEach((element) => observer.observe(element));
+}
+
+function initializeScrollProgress() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const progress = document.createElement("div");
+  progress.className = "scroll-progress";
+  progress.setAttribute("aria-hidden", "true");
+  document.body.append(progress);
+
+  let ticking = false;
+  const update = () => {
+    const available = document.documentElement.scrollHeight - window.innerHeight;
+    const amount = available > 0 ? Math.min(1, Math.max(0, window.scrollY / available)) : 0;
+    progress.style.transform = `scaleX(${amount})`;
+    ticking = false;
+  };
+
+  const requestUpdate = () => {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(update);
+  };
+
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate);
+  update();
 }
 
 function initializeSwitchboard() {
@@ -358,3 +477,5 @@ initializeCarousel();
 initializeSwitchboard();
 initializeMobileMenu();
 initializeContactForm();
+initializeScrollReveals();
+initializeScrollProgress();
