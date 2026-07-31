@@ -62,7 +62,8 @@ test("homepage and switchboard form one combined capabilities section", () => {
   const homepage = read("index.html");
   const switchboard = read("switchboard.html");
 
-  assert.match(homepage, /Connected capabilities/);
+  assert.doesNotMatch(homepage, /Connected capabilities/i);
+  assert.doesNotMatch(switchboard, /Connected capabilities/i);
   assert.match(homepage, /<h2 id="services-title">What we build\.<\/h2>/);
   assert.match(homepage, /Select a system to see what it does/);
   assert.doesNotMatch(homepage, /capability-rail/);
@@ -83,8 +84,15 @@ test("switchboard exposes six connected capability states with proof and outcome
   assert.match(html, /What it can include/);
   assert.match(html, /View related work/);
   assert.match(html, /Less manual handoff\. Faster response\. Better visibility\./);
-  assert.match(html, /shortcutServices = \["website", "automation", "software", "growth", "market", "experience"\]/);
+  assert.match(html, /shortcutServices = \["experience", "website", "growth", "market", "software", "automation"\]/);
+  assert.deepEqual(
+    [...html.matchAll(/data-service="([^"]+)"/g)].map((match) => match[1]),
+    ["experience", "website", "growth", "market", "software", "automation"],
+  );
   assert.match(html, /\.prototype-note\s*\{\s*display: none;/);
+  assert.doesNotMatch(html.match(/data-demo="automation"[\s\S]*?data-demo="software"/)?.[0] || "", /Ads \/ Marketing/);
+  assert.match(html.match(/data-demo="growth"[\s\S]*?data-demo="experience"/)?.[0] || "", /id="marketing-app-carousel"/);
+  assert.match(html, /font-size: clamp\(0\.47rem, 0\.68vw, 0\.6rem\)/);
 });
 
 test("rich media is progressively initialized", () => {

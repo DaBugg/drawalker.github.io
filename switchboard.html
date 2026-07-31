@@ -928,7 +928,7 @@
       .system-node-row {
         position: relative;
         display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: clamp(7px, 1.1vw, 14px);
       }
 
@@ -1124,6 +1124,34 @@
         border-color: var(--cyan);
         outline: none;
         background: rgba(34, 211, 238, 0.09);
+      }
+
+      .growth-channels {
+        margin-top: clamp(14px, 2vw, 22px);
+        padding: clamp(14px, 2vw, 20px);
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        border-radius: clamp(18px, 2.4vw, 28px);
+        background: rgba(8, 15, 28, 0.5);
+      }
+
+      .growth-channels > header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 14px;
+        margin-bottom: 12px;
+      }
+
+      .growth-channels > header strong {
+        color: #f8fafc;
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .growth-channels > header span {
+        color: #94a3b8;
+        font-size: 0.64rem;
       }
 
       .crm-pipeline {
@@ -1962,10 +1990,10 @@
         grid-column: 1 / -1;
         align-self: end;
         color: #e5e7eb;
-        font-size: clamp(0.54rem, 0.9vw, 0.7rem);
+        font-size: clamp(0.47rem, 0.68vw, 0.6rem);
         font-weight: 800;
-        letter-spacing: 0.08em;
-        line-height: 1.12;
+        letter-spacing: 0.05em;
+        line-height: 1.15;
         text-transform: uppercase;
       }
 
@@ -2341,6 +2369,12 @@
           padding: 20px;
         }
 
+        .growth-channels > header {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 4px;
+        }
+
         .flow-step {
           min-height: 72px;
           text-align: left;
@@ -2401,18 +2435,17 @@
     </style>
   </head>
   <body>
-    <a class="skip-link" href="#capability-network">Skip to connected capabilities</a>
+    <a class="skip-link" href="#capability-network">Skip to what we build</a>
 
     <main class="switchboard" id="capability-network">
       <div class="switchboard-heading">
         <header class="section-heading">
           <div>
-            <p>Connected capabilities</p>
             <h1>What we build.</h1>
           </div>
           <span class="status">
             <i class="status-dot" aria-hidden="true"></i>
-            System <span id="system-count">01 / 06</span>
+            System <span id="system-count">02 / 06</span>
           </span>
         </header>
 
@@ -2514,7 +2547,7 @@
                 <button class="micro-control" type="button" data-run-path>Run sequence</button>
               </header>
 
-              <div class="systems-chart" aria-label="Five connected business systems">
+              <div class="systems-chart" aria-label="Four connected business systems">
                 <div class="system-node-row" role="group" aria-label="Choose a connected system">
                   <button
                     class="system-node is-current"
@@ -2555,17 +2588,6 @@
                     data-node="3"
                     aria-pressed="false"
                     aria-controls="system-visual-3 node-detail"
-                  >
-                    <span class="system-node-copy">
-                      <strong>Ads / Marketing</strong><small>Search · social · video</small>
-                    </span>
-                  </button>
-                  <button
-                    class="system-node"
-                    type="button"
-                    data-node="4"
-                    aria-pressed="false"
-                    aria-controls="system-visual-4 node-detail"
                   >
                     <span class="system-node-copy">
                       <strong>CRM</strong><small>Contacts · owners · stages</small>
@@ -2633,57 +2655,6 @@
                     class="system-visual"
                     id="system-visual-3"
                     data-node-visual="3"
-                    aria-label="Scrollable marketing applications"
-                    hidden
-                  >
-                    <header><strong>Channel carousel</strong><span>Drag or use arrows</span></header>
-                    <div class="app-carousel-shell">
-                      <button class="app-carousel-control" type="button" data-app-scroll="-1" aria-label="Scroll marketing apps left">←</button>
-                      <div class="app-carousel" id="marketing-app-carousel" tabindex="0" aria-label="Marketing applications">
-                        <div class="app-tile">
-                          <i><img src="/images/google.svg" alt="" aria-hidden="true" /></i><span>Google</span>
-                        </div>
-                        <div class="app-tile">
-                          <i><img src="/images/google-business-profile.svg" alt="" aria-hidden="true" /></i><span>Business Profile</span>
-                        </div>
-                        <div class="app-tile">
-                          <i><img src="/images/google-search-console.svg" alt="" aria-hidden="true" /></i><span>Search Console</span>
-                        </div>
-                        <div class="app-tile">
-                          <i><img src="/images/meta.svg" alt="" aria-hidden="true" /></i><span>Meta</span>
-                        </div>
-                        <div class="app-tile">
-                          <i><img src="/images/instagram.svg" alt="" aria-hidden="true" /></i><span>Instagram</span>
-                        </div>
-                        <div class="app-tile">
-                          <i><img src="/images/linkedin.svg" alt="" aria-hidden="true" /></i><span>LinkedIn</span>
-                        </div>
-                        <div class="app-tile">
-                          <i><img src="/images/youtube.svg" alt="" aria-hidden="true" /></i><span>YouTube</span>
-                        </div>
-                        <div class="app-tile">
-                          <i><img src="/images/tiktok.svg" alt="" aria-hidden="true" /></i><span>TikTok</span>
-                        </div>
-                        <div class="app-tile">
-                          <i><img src="/images/x.svg" alt="" aria-hidden="true" /></i><span>X</span>
-                        </div>
-                        <div class="app-tile">
-                          <i><img src="/images/figma.svg" alt="" aria-hidden="true" /></i><span>Figma</span>
-                        </div>
-                        <div class="app-tile">
-                          <i><img src="/images/canva.svg" alt="" aria-hidden="true" /></i><span>Canva</span>
-                        </div>
-                        <div class="app-tile"><i>@</i><span>Email</span></div>
-                        <div class="app-tile"><i>↗</i><span>Analytics</span></div>
-                      </div>
-                      <button class="app-carousel-control" type="button" data-app-scroll="1" aria-label="Scroll marketing apps right">→</button>
-                    </div>
-                  </article>
-
-                  <article
-                    class="system-visual"
-                    id="system-visual-4"
-                    data-node-visual="4"
                     aria-label="Interactive customer relationship pipeline"
                     hidden
                   >
@@ -2768,6 +2739,51 @@
                   <span>06</span><strong>Follow-up</strong><small>Respond while intent is active</small>
                 </div>
               </div>
+
+              <div class="growth-channels" aria-label="Growth channels">
+                <header><strong>Connected growth channels</strong><span>Drag or use arrows</span></header>
+                <div class="app-carousel-shell">
+                  <button class="app-carousel-control" type="button" data-app-scroll="-1" aria-label="Scroll growth channels left">←</button>
+                  <div class="app-carousel" id="marketing-app-carousel" tabindex="0" aria-label="Growth and marketing applications">
+                    <div class="app-tile">
+                      <i><img src="/images/google.svg" alt="" aria-hidden="true" /></i><span>Google</span>
+                    </div>
+                    <div class="app-tile">
+                      <i><img src="/images/google-business-profile.svg" alt="" aria-hidden="true" /></i><span>Business Profile</span>
+                    </div>
+                    <div class="app-tile">
+                      <i><img src="/images/google-search-console.svg" alt="" aria-hidden="true" /></i><span>Search Console</span>
+                    </div>
+                    <div class="app-tile">
+                      <i><img src="/images/meta.svg" alt="" aria-hidden="true" /></i><span>Meta</span>
+                    </div>
+                    <div class="app-tile">
+                      <i><img src="/images/instagram.svg" alt="" aria-hidden="true" /></i><span>Instagram</span>
+                    </div>
+                    <div class="app-tile">
+                      <i><img src="/images/linkedin.svg" alt="" aria-hidden="true" /></i><span>LinkedIn</span>
+                    </div>
+                    <div class="app-tile">
+                      <i><img src="/images/youtube.svg" alt="" aria-hidden="true" /></i><span>YouTube</span>
+                    </div>
+                    <div class="app-tile">
+                      <i><img src="/images/tiktok.svg" alt="" aria-hidden="true" /></i><span>TikTok</span>
+                    </div>
+                    <div class="app-tile">
+                      <i><img src="/images/x.svg" alt="" aria-hidden="true" /></i><span>X</span>
+                    </div>
+                    <div class="app-tile">
+                      <i><img src="/images/figma.svg" alt="" aria-hidden="true" /></i><span>Figma</span>
+                    </div>
+                    <div class="app-tile">
+                      <i><img src="/images/canva.svg" alt="" aria-hidden="true" /></i><span>Canva</span>
+                    </div>
+                    <div class="app-tile"><i>@</i><span>Email</span></div>
+                    <div class="app-tile"><i>↗</i><span>Analytics</span></div>
+                  </div>
+                  <button class="app-carousel-control" type="button" data-app-scroll="1" aria-label="Scroll growth channels right">→</button>
+                </div>
+              </div>
             </section>
 
             <section class="demo" data-demo="experience" aria-label="Interactive product demonstration" hidden>
@@ -2833,6 +2849,23 @@
           <div class="key-grid" role="tablist" aria-label="Choose a Networks & Nodes service">
             <button
               class="service-key"
+              id="key-experience"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="service-explanation"
+              data-service="experience"
+              tabindex="-1"
+            >
+              <span class="key-switch" aria-hidden="true"></span>
+              <span class="key-cap">
+                <span class="key-function">1</span><i class="key-indicator" aria-hidden="true"></i>
+                <span class="key-symbol" aria-hidden="true">◇</span>
+                <span class="key-name">Digital Experiences</span>
+              </span>
+            </button>
+            <button
+              class="service-key"
               id="key-website"
               type="button"
               role="tab"
@@ -2842,43 +2875,9 @@
             >
               <span class="key-switch" aria-hidden="true"></span>
               <span class="key-cap">
-                <span class="key-function">1</span><i class="key-indicator" aria-hidden="true"></i>
+                <span class="key-function">2</span><i class="key-indicator" aria-hidden="true"></i>
                 <span class="key-symbol" aria-hidden="true">◫</span>
                 <span class="key-name">Websites</span>
-              </span>
-            </button>
-            <button
-              class="service-key"
-              id="key-automation"
-              type="button"
-              role="tab"
-              aria-selected="false"
-              aria-controls="service-explanation"
-              data-service="automation"
-              tabindex="-1"
-            >
-              <span class="key-switch" aria-hidden="true"></span>
-              <span class="key-cap">
-                <span class="key-function">2</span><i class="key-indicator" aria-hidden="true"></i>
-                <span class="key-symbol" aria-hidden="true">⌁</span>
-                <span class="key-name">Automation</span>
-              </span>
-            </button>
-            <button
-              class="service-key"
-              id="key-software"
-              type="button"
-              role="tab"
-              aria-selected="false"
-              aria-controls="service-explanation"
-              data-service="software"
-              tabindex="-1"
-            >
-              <span class="key-switch" aria-hidden="true"></span>
-              <span class="key-cap">
-                <span class="key-function">3</span><i class="key-indicator" aria-hidden="true"></i>
-                <span class="key-symbol" aria-hidden="true">▦</span>
-                <span class="key-name">Software / CRM</span>
               </span>
             </button>
             <button
@@ -2893,7 +2892,7 @@
             >
               <span class="key-switch" aria-hidden="true"></span>
               <span class="key-cap">
-                <span class="key-function">4</span><i class="key-indicator" aria-hidden="true"></i>
+                <span class="key-function">3</span><i class="key-indicator" aria-hidden="true"></i>
                 <span class="key-symbol" aria-hidden="true">↗</span>
                 <span class="key-name">Growth</span>
               </span>
@@ -2910,26 +2909,43 @@
             >
               <span class="key-switch" aria-hidden="true"></span>
               <span class="key-cap">
-                <span class="key-function">5</span><i class="key-indicator" aria-hidden="true"></i>
+                <span class="key-function">4</span><i class="key-indicator" aria-hidden="true"></i>
                 <span class="key-symbol" aria-hidden="true">◎</span>
                 <span class="key-name">U.S. Market</span>
               </span>
             </button>
             <button
               class="service-key"
-              id="key-experience"
+              id="key-software"
               type="button"
               role="tab"
               aria-selected="false"
               aria-controls="service-explanation"
-              data-service="experience"
+              data-service="software"
+              tabindex="-1"
+            >
+              <span class="key-switch" aria-hidden="true"></span>
+              <span class="key-cap">
+                <span class="key-function">5</span><i class="key-indicator" aria-hidden="true"></i>
+                <span class="key-symbol" aria-hidden="true">▦</span>
+                <span class="key-name">Software / CRM</span>
+              </span>
+            </button>
+            <button
+              class="service-key"
+              id="key-automation"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="service-explanation"
+              data-service="automation"
               tabindex="-1"
             >
               <span class="key-switch" aria-hidden="true"></span>
               <span class="key-cap">
                 <span class="key-function">6</span><i class="key-indicator" aria-hidden="true"></i>
-                <span class="key-symbol" aria-hidden="true">◇</span>
-                <span class="key-name">Digital Experiences</span>
+                <span class="key-symbol" aria-hidden="true">⌁</span>
+                <span class="key-name">Automation</span>
               </span>
             </button>
           </div>
@@ -2938,7 +2954,7 @@
         <div class="service-panel" id="service-explanation" role="tabpanel" aria-labelledby="key-website">
           <div class="service-content" id="service-content">
             <p class="channel-label">
-              System <span id="channel-number">01</span>
+              System <span id="channel-number">02</span>
               <b>Active</b>
             </p>
             <div class="service-copy">
@@ -2974,7 +2990,7 @@
     <script>
       const services = {
         website: {
-          channel: "01",
+          channel: "02",
           label: "Website customer journey",
           category: "Websites",
           title: "Turn the website into a useful customer journey.",
@@ -2984,7 +3000,7 @@
           outcome: "More people understand the offer and reach the right next step.",
         },
         automation: {
-          channel: "02",
+          channel: "06",
           label: "Automation workflow",
           category: "Automation",
           title: "Remove repetitive operational work.",
@@ -2994,7 +3010,7 @@
           outcome: "Less manual handoff. Faster response. Better visibility.",
         },
         software: {
-          channel: "03",
+          channel: "05",
           label: "Software and CRM workspace",
           category: "Software / CRM",
           title: "Give the team one place to see and act.",
@@ -3004,7 +3020,7 @@
           outcome: "Shared context, clearer ownership, and fewer decisions trapped in scattered tools.",
         },
         growth: {
-          channel: "04",
+          channel: "03",
           label: "Growth and lead generation workflow",
           category: "Growth",
           title: "Connect demand to a useful response.",
@@ -3014,7 +3030,7 @@
           outcome: "Marketing activity becomes a visible path from attention to qualified opportunity.",
         },
         market: {
-          channel: "05",
+          channel: "04",
           label: "U.S. market adaptation",
           category: "U.S. Market",
           title: "Adapt the brand for an American audience.",
@@ -3024,7 +3040,7 @@
           outcome: "Customers understand the offer, trust the brand, and know what to do next.",
         },
         experience: {
-          channel: "06",
+          channel: "01",
           label: "Digital experience preview",
           category: "Digital Experiences",
           title: "Make products and brands explorable.",
@@ -3107,7 +3123,7 @@
         });
       });
 
-      const shortcutServices = ["website", "automation", "software", "growth", "market", "experience"];
+      const shortcutServices = ["experience", "website", "growth", "market", "software", "automation"];
       window.addEventListener("keydown", (event) => {
         if (event.metaKey || event.ctrlKey || event.altKey) return;
         if (event.target.matches("input, textarea, select")) return;
@@ -3418,10 +3434,6 @@
         [
           "Automated Response",
           "Send a useful acknowledgment immediately, follow up on schedule, and hand outreach to a person when context matters.",
-        ],
-        [
-          "Ads / Marketing",
-          "Bring Google SEO, LinkedIn, YouTube, and social campaigns into one view so the source and result stay connected.",
         ],
         [
           "CRM",

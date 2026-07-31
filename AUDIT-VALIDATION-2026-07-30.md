@@ -14,14 +14,14 @@
   - Primary CTA is now **Start a project**.
   - **View selected work** remains the secondary action.
 - `CONTENT-003`
-  - The homepage and switchboard now form one combined **Connected Capabilities / What we build** section.
+  - The homepage and switchboard now form one combined **What we build** section.
   - The duplicate standalone six-card capability rail was removed.
 - `PROOF-004` first implementation step
   - Transportation Solutions & Lighting now has an owned internal case-study route.
   - The client website is a secondary link.
   - The existing dispatch result is explicitly labeled as a reported outcome; no new metric was invented.
 - `SWITCH-005`
-  - Expanded the selector to six customer-facing nodes: Websites, Automation, Software/CRM, Growth, U.S. Market, and Digital Experiences.
+  - Expanded the selector to six customer-facing nodes: Digital Experiences, Websites, Growth, U.S. Market, Software/CRM, and Automation.
   - Added connected workflow demonstrations for Website, Automation, Software/CRM, and Growth.
   - Preserved the interactive U.S.-market adaptation and Product 3D demonstrations.
   - Added a business outcome and project CTA to every service state.
@@ -63,7 +63,7 @@
 
 | Artifact | Raw | Gzip |
 |---|---:|---:|
-| Homepage HTML | 16.59 kB | 4.74 kB |
+| Homepage HTML | 16.53 kB | 4.72 kB |
 | Homepage JavaScript | 8.26 kB | 3.28 kB |
 | Shared site CSS | 16.12 kB | 4.38 kB |
 | TS&L case-study HTML | 6.97 kB | 2.24 kB |
