@@ -12,9 +12,9 @@ const videos = [
     caption: "Clear digital experiences that make complex services easier to understand.",
   },
   {
-    src: "https://player.mux.com/FghhBbV00fPiIiubZGEC00vCec02LmQdg00fZy9NVX00MnA8?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
-    label: "Useful automation",
-    caption: "Practical automation that reduces handoffs without adding unnecessary complexity.",
+    src: "https://player.mux.com/3hfzhGk1IQHb2kZwv01YlNYA6olGBfF70000SqZXQ702ozo?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
+    label: "U.S. market readiness",
+    caption: "Rebranding and translating international websites for modern U.S. audiences.",
   },
   {
     src: "https://player.mux.com/bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
