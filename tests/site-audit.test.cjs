@@ -12,7 +12,7 @@ test("homepage exposes the approved commercial vocabulary in semantic HTML", () 
   assert.match(html, /Web Design · Software · Automation · Growth/);
   assert.match(html, /custom software/i);
   assert.match(html, /CRM/i);
-  assert.match(html, /Lead generation &amp; marketing/i);
+  assert.match(html, /lead-generation/i);
   assert.match(html, /U\.S\.-market adaptation/i);
   assert.equal((html.match(/<h1\b/g) || []).length, 1);
 });
@@ -58,15 +58,33 @@ test("the flagship project uses an owned case-study route", () => {
   assert.match(sitemap, /work\/transportation-solutions-lighting\.html/);
 });
 
-test("switchboard explains the system, outcomes, touch controls, and project action", () => {
-  const html = read("switchboard.html");
+test("homepage and switchboard form one combined capabilities section", () => {
+  const homepage = read("index.html");
+  const switchboard = read("switchboard.html");
 
-  assert.equal((html.match(/<h1\b/g) || []).length, 1);
-  assert.match(html, /Explore how Networks &amp; Nodes connects websites/);
-  assert.match(html, /What changes/);
-  assert.match(html, /Tap or select a service/);
-  assert.match(html, /Discuss this capability/);
-  assert.match(html, /outcome:/);
+  assert.match(homepage, /Connected capabilities/);
+  assert.match(homepage, /<h2 id="services-title">What we build\.<\/h2>/);
+  assert.match(homepage, /Select a system to see what it does/);
+  assert.doesNotMatch(homepage, /capability-rail/);
+  assert.equal((switchboard.match(/<h1\b/g) || []).length, 1);
+  assert.doesNotMatch(switchboard, /System Selector/i);
+});
+
+test("switchboard exposes six connected capability states with proof and outcomes", () => {
+  const html = read("switchboard.html");
+  const capabilities = ["website", "automation", "software", "growth", "market", "experience"];
+
+  for (const capability of capabilities) {
+    assert.match(html, new RegExp(`data-service="${capability}"`));
+    assert.match(html, new RegExp(`data-demo="${capability}"`));
+  }
+  assert.equal((html.match(/data-service="/g) || []).length, 6);
+  assert.equal((html.match(/<section class="demo" data-demo="/g) || []).length, 6);
+  assert.match(html, /What it can include/);
+  assert.match(html, /View related work/);
+  assert.match(html, /Less manual handoff\. Faster response\. Better visibility\./);
+  assert.match(html, /shortcutServices = \["website", "automation", "software", "growth", "market", "experience"\]/);
+  assert.match(html, /\.prototype-note\s*\{\s*display: none;/);
 });
 
 test("rich media is progressively initialized", () => {

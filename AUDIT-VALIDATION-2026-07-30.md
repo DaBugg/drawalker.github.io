@@ -14,15 +14,19 @@
   - Primary CTA is now **Start a project**.
   - **View selected work** remains the secondary action.
 - `CONTENT-003`
-  - Six commercial capabilities are present in semantic homepage HTML before the switchboard.
+  - The homepage and switchboard now form one combined **Connected Capabilities / What we build** section.
+  - The duplicate standalone six-card capability rail was removed.
 - `PROOF-004` first implementation step
   - Transportation Solutions & Lighting now has an owned internal case-study route.
   - The client website is a secondary link.
   - The existing dispatch result is explicitly labeled as a reported outcome; no new metric was invented.
 - `SWITCH-005`
-  - Added orientation copy before the active module.
+  - Expanded the selector to six customer-facing nodes: Websites, Automation, Software/CRM, Growth, U.S. Market, and Digital Experiences.
+  - Added connected workflow demonstrations for Website, Automation, Software/CRM, and Growth.
+  - Preserved the interactive U.S.-market adaptation and Product 3D demonstrations.
   - Added a business outcome and project CTA to every service state.
-  - Touch-first instructions are now universal; F-key language is secondary.
+  - Desktop supports numbered 1–6 shortcuts and arrow-key navigation.
+  - Phone uses a vertical capability list, one active system at a time, and no keyboard instruction.
   - Existing real-button, focus, arrow-key, Home/End, Enter/Space, and tab semantics are preserved.
 - `CONV-006`
   - Contact choices now include website, automation/AI, custom software/CRM, marketing/lead generation, U.S.-market adaptation, and an unsure option.
@@ -46,7 +50,7 @@
 ## Automated validation
 
 - Production build: pass
-- Node audit tests: 8/8 pass
+- Node audit tests: 9/9 pass
 - Homepage route: HTTP 200
 - Switchboard route: HTTP 200
 - TS&L case-study route: HTTP 200
@@ -59,9 +63,9 @@
 
 | Artifact | Raw | Gzip |
 |---|---:|---:|
-| Homepage HTML | 17.41 kB | 4.93 kB |
+| Homepage HTML | 16.59 kB | 4.74 kB |
 | Homepage JavaScript | 8.26 kB | 3.28 kB |
-| Shared site CSS | 16.82 kB | 4.47 kB |
+| Shared site CSS | 16.12 kB | 4.38 kB |
 | TS&L case-study HTML | 6.97 kB | 2.24 kB |
 | Case-study CSS | 2.75 kB | 0.92 kB |
 

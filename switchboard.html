@@ -7,8 +7,11 @@
     <title>Web Design, Automation, CRM &amp; Digital Systems — Networks &amp; Nodes</title>
     <meta
       name="description"
-      content="An interactive Networks &amp; Nodes service selector for U.S. market adaptation, connected systems, product 3D, and practical AI."
+      content="Explore Networks &amp; Nodes capabilities across websites, automation, custom software and CRM, growth, U.S.-market adaptation, and digital experiences."
     />
+    <script>
+      if (window.self !== window.top) document.documentElement.classList.add("is-embedded");
+    </script>
     <style>
       :root {
         color-scheme: dark;
@@ -95,13 +98,22 @@
         margin-bottom: clamp(14px, 2vw, 22px);
       }
 
-      .section-heading h1 {
-        margin: 0;
+      .section-heading p {
+        margin: 0 0 8px;
         color: var(--cyan);
-        font-size: clamp(0.76rem, 1.4vw, 1.02rem);
+        font-size: 0.7rem;
         font-weight: 800;
         letter-spacing: 0.15em;
         text-transform: uppercase;
+      }
+
+      .section-heading h1 {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2.4rem, 5vw, 5rem);
+        font-weight: 500;
+        letter-spacing: -0.045em;
+        line-height: 0.98;
       }
 
       .section-heading .status {
@@ -124,6 +136,14 @@
         padding: clamp(18px, 2.6vw, 30px);
         border: 1px solid rgba(148, 163, 184, 0.14);
         background: rgba(15, 23, 42, 0.52);
+      }
+
+      .is-embedded .switchboard-heading {
+        display: none;
+      }
+
+      .is-embedded .switchboard {
+        padding-top: 0;
       }
 
       .switchboard-intro p {
@@ -1597,6 +1617,209 @@
         text-transform: uppercase;
       }
 
+      .capability-flow {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: clamp(18px, 2.4vw, 34px);
+        align-items: center;
+        min-height: 280px;
+        padding: clamp(24px, 5vw, 64px);
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        border-radius: clamp(22px, 3vw, 36px);
+        background:
+          linear-gradient(rgba(148, 163, 184, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(148, 163, 184, 0.045) 1px, transparent 1px),
+          rgba(8, 15, 28, 0.34);
+        background-size: 48px 48px;
+      }
+
+      .flow-step {
+        position: relative;
+        display: grid;
+        min-height: 112px;
+        align-content: center;
+        gap: 8px;
+        padding: 16px 12px;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 16px;
+        background: rgba(15, 23, 42, 0.82);
+        text-align: center;
+      }
+
+      .flow-step:not(:last-child)::after {
+        position: absolute;
+        top: 50%;
+        left: calc(100% + 1px);
+        width: clamp(18px, 2.4vw, 34px);
+        height: 1px;
+        background: linear-gradient(90deg, var(--cyan), var(--emerald));
+        content: "";
+        transform: translateY(-50%);
+      }
+
+      .flow-step:not(:last-child)::before {
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        left: calc(100% + clamp(7px, 1.1vw, 15px));
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #f8fafc;
+        box-shadow: 0 0 12px var(--cyan);
+        content: "";
+        transform: translateY(-50%);
+        animation: flow-signal 2.8s ease-in-out infinite;
+        animation-delay: var(--flow-delay, 0s);
+      }
+
+      .flow-step span {
+        color: var(--cyan);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.62rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+      }
+
+      .flow-step strong {
+        color: #f8fafc;
+        font-size: clamp(0.72rem, 1vw, 0.88rem);
+        line-height: 1.2;
+      }
+
+      .flow-step small {
+        color: #94a3b8;
+        font-size: 0.58rem;
+        line-height: 1.35;
+      }
+
+      .software-board {
+        display: grid;
+        grid-template-columns: minmax(220px, 0.65fr) minmax(0, 1.35fr);
+        gap: clamp(20px, 4vw, 50px);
+        min-height: 300px;
+        padding: clamp(24px, 4vw, 54px);
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        border-radius: clamp(22px, 3vw, 36px);
+        background: rgba(8, 15, 28, 0.42);
+      }
+
+      .software-metrics {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .software-metrics div {
+        display: grid;
+        align-content: end;
+        min-height: 108px;
+        padding: 14px;
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        border-radius: 15px;
+        background: rgba(15, 23, 42, 0.68);
+      }
+
+      .software-metrics strong {
+        color: var(--gold-hot);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1.5rem;
+        font-weight: 500;
+      }
+
+      .software-metrics span {
+        color: #94a3b8;
+        font-size: 0.62rem;
+        text-transform: uppercase;
+      }
+
+      .software-pipeline {
+        display: grid;
+        align-content: center;
+        gap: 12px;
+      }
+
+      .software-pipeline p {
+        margin: 0;
+        color: #94a3b8;
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .software-pipeline ol {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .software-pipeline li {
+        position: relative;
+        padding: 13px 7px;
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        background: rgba(15, 23, 42, 0.58);
+        color: #cbd5e1;
+        font-size: 0.62rem;
+        text-align: center;
+      }
+
+      .software-pipeline li + li {
+        border-left: 0;
+      }
+
+      .software-pipeline li:last-child {
+        border-color: rgba(52, 211, 153, 0.5);
+        color: #d1fae5;
+      }
+
+      .service-detail-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(240px, 0.65fr);
+        gap: clamp(20px, 4vw, 50px);
+        margin-top: 22px;
+      }
+
+      .service-includes-label {
+        margin: 0 0 10px;
+        color: var(--emerald);
+        font-size: 0.66rem;
+        font-weight: 800;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .service-includes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .service-includes li {
+        padding: 7px 10px;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 999px;
+        color: #cbd5e1;
+        font-size: 0.67rem;
+      }
+
+      @keyframes flow-signal {
+        0%,
+        100% {
+          opacity: 0.35;
+          transform: translate(-6px, -50%);
+        }
+        50% {
+          opacity: 1;
+          transform: translate(6px, -50%);
+        }
+      }
+
       .keyboard-zone {
         position: relative;
         z-index: 5;
@@ -1632,14 +1855,14 @@
 
       .key-grid {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: clamp(10px, 2vw, 28px);
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: clamp(8px, 1.4vw, 20px);
       }
 
       .service-key {
         position: relative;
         min-width: 0;
-        min-height: clamp(122px, 14vw, 178px);
+        min-height: clamp(108px, 11vw, 148px);
         padding: 0 7px 10px;
         border: 0;
         background: transparent;
@@ -1915,7 +2138,9 @@
       @media (max-width: 980px) {
         .transformer,
         .ai-layout,
-        .ai-choice-layout {
+        .ai-choice-layout,
+        .software-board,
+        .service-detail-grid {
           grid-template-columns: 1fr;
         }
 
@@ -1933,6 +2158,24 @@
         .switchboard {
           width: min(100% - 20px, 620px);
           padding-top: 18px;
+        }
+
+        .system-shell {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .keyboard-zone {
+          order: -1;
+          margin: 0 0 14px;
+          padding: 0;
+          border-radius: 0;
+          background: none;
+        }
+
+        .keyboard-zone::before,
+        .keyboard-zone::after {
+          display: none;
         }
 
         .section-heading {
@@ -2036,22 +2279,45 @@
           margin: 18px 0 26px;
         }
 
-        .keyboard-zone {
-          margin: -12px 12px;
-          padding: 18px 14px 20px;
-        }
-
         .key-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 15px 10px;
+          grid-template-columns: 1fr;
+          gap: 9px;
         }
 
         .service-key {
-          min-height: 127px;
+          min-height: 62px;
+          padding: 0;
+        }
+
+        .service-key::after,
+        .key-switch,
+        .key-function,
+        .key-indicator,
+        .key-symbol {
+          display: none;
+        }
+
+        .key-cap {
+          position: relative;
+          inset: auto;
+          display: flex;
+          min-height: 58px;
+          align-items: center;
+          padding: 14px 16px;
+          border-radius: 12px;
+          box-shadow: none;
+          transform: none;
+        }
+
+        .service-key[aria-selected="true"] .key-cap {
+          box-shadow:
+            inset 4px 0 0 var(--gold),
+            0 8px 24px rgba(2, 6, 23, 0.28);
+          transform: none;
         }
 
         .key-name {
-          font-size: 0.61rem;
+          font-size: 0.72rem;
         }
 
         .service-panel {
@@ -2066,6 +2332,51 @@
         .channel-label b {
           display: inline;
           margin: 0 0 0 8px;
+        }
+
+        .capability-flow {
+          grid-template-columns: 1fr;
+          gap: 14px;
+          min-height: 0;
+          padding: 20px;
+        }
+
+        .flow-step {
+          min-height: 72px;
+          text-align: left;
+        }
+
+        .flow-step:not(:last-child)::after {
+          top: 100%;
+          left: 50%;
+          width: 1px;
+          height: 14px;
+          background: linear-gradient(var(--cyan), var(--emerald));
+          transform: none;
+        }
+
+        .flow-step:not(:last-child)::before {
+          top: calc(100% + 4px);
+          left: 50%;
+          transform: translateX(-50%);
+          animation: none;
+        }
+
+        .software-metrics {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .software-pipeline ol {
+          grid-template-columns: 1fr;
+        }
+
+        .software-pipeline li + li {
+          border-top: 0;
+          border-left: 1px solid rgba(148, 163, 184, 0.16);
+        }
+
+        .prototype-note {
+          display: none;
         }
       }
 
@@ -2090,26 +2401,61 @@
     </style>
   </head>
   <body>
-    <a class="skip-link" href="#system-selector">Skip to system selector</a>
+    <a class="skip-link" href="#capability-network">Skip to connected capabilities</a>
 
-    <main class="switchboard" id="system-selector">
-      <header class="section-heading">
-        <h1>What We Build / System Selector</h1>
-        <span class="status"><i class="status-dot" aria-hidden="true"></i> Interface online</span>
-      </header>
+    <main class="switchboard" id="capability-network">
+      <div class="switchboard-heading">
+        <header class="section-heading">
+          <div>
+            <p>Connected capabilities</p>
+            <h1>What we build.</h1>
+          </div>
+          <span class="status">
+            <i class="status-dot" aria-hidden="true"></i>
+            System <span id="system-count">01 / 06</span>
+          </span>
+        </header>
 
-      <div class="switchboard-intro">
-        <p>
-          Explore how Networks &amp; Nodes connects websites, acquisition, customer communication, automation, CRM,
-          interactive products, and practical AI.
-        </p>
-        <a href="/#contact" target="_top">Start a project <span aria-hidden="true">↗</span></a>
+        <div class="switchboard-intro">
+          <p>Select a system to see what it does, how it works, and where it connects to the rest of the business.</p>
+          <a href="/#contact" target="_top">Start a project <span aria-hidden="true">↗</span></a>
+        </div>
       </div>
 
       <section class="system-shell" aria-labelledby="active-service-title">
         <div class="display-panel">
           <div class="display-stage" aria-live="polite">
-            <section class="demo" data-demo="f1" aria-label="U.S. market language demonstration">
+            <section class="demo" data-demo="website" aria-label="Website customer journey demonstration">
+              <header class="demo-header">
+                <div>
+                  <p class="demo-kicker">Website system</p>
+                  <h2>Turn attention into a clear next step.</h2>
+                </div>
+              </header>
+
+              <div class="capability-flow" aria-label="Website customer journey">
+                <div class="flow-step" style="--flow-delay: -0.2s">
+                  <span>01</span><strong>Traffic</strong><small>Search · campaigns · referrals</small>
+                </div>
+                <div class="flow-step" style="--flow-delay: -0.6s">
+                  <span>02</span><strong>Website</strong><small>Clear offer and positioning</small>
+                </div>
+                <div class="flow-step" style="--flow-delay: -1s">
+                  <span>03</span><strong>Experience</strong><small>Useful content and proof</small>
+                </div>
+                <div class="flow-step" style="--flow-delay: -1.4s">
+                  <span>04</span><strong>CTA</strong><small>A specific next action</small>
+                </div>
+                <div class="flow-step" style="--flow-delay: -1.8s">
+                  <span>05</span><strong>Booking</strong><small>Forms · calendar · inquiry</small>
+                </div>
+                <div class="flow-step" style="--flow-delay: -2.2s">
+                  <span>06</span><strong>CRM</strong><small>Context reaches the team</small>
+                </div>
+              </div>
+            </section>
+
+            <section class="demo" data-demo="market" aria-label="U.S. market language demonstration" hidden>
               <header class="demo-header">
                 <div>
                   <p class="demo-kicker">Language / market adaptation</p>
@@ -2159,11 +2505,11 @@
               </div>
             </section>
 
-            <section class="demo" data-demo="f2" aria-label="Connected systems workflow demonstration" hidden>
+            <section class="demo" data-demo="automation" aria-label="Automation workflow demonstration" hidden>
               <header class="demo-header">
                 <div>
-                  <p class="demo-kicker">Five connected business systems</p>
-                  <h2>Choose a node. See what it does.</h2>
+                  <p class="demo-kicker">Automation system</p>
+                  <h2>Remove repetitive operational work.</h2>
                 </div>
                 <button class="micro-control" type="button" data-run-path>Run sequence</button>
               </header>
@@ -2366,7 +2712,65 @@
               </div>
             </section>
 
-            <section class="demo" data-demo="f3" aria-label="Interactive product demonstration" hidden>
+            <section class="demo" data-demo="software" aria-label="Custom software and CRM demonstration" hidden>
+              <header class="demo-header">
+                <div>
+                  <p class="demo-kicker">Software / CRM system</p>
+                  <h2>Give the team one place to see and act.</h2>
+                </div>
+              </header>
+
+              <div class="software-board">
+                <div class="software-metrics" aria-label="Example software dashboard metrics">
+                  <div><strong>42</strong><span>Open records</span></div>
+                  <div><strong>7</strong><span>Next actions</span></div>
+                  <div><strong>3.2h</strong><span>Response time</span></div>
+                  <div><strong>86%</strong><span>Complete data</span></div>
+                </div>
+                <div class="software-pipeline">
+                  <p>Shared customer pipeline</p>
+                  <ol>
+                    <li>Sources</li>
+                    <li>Qualified</li>
+                    <li>Pipeline</li>
+                    <li>Owner</li>
+                    <li>Reporting</li>
+                  </ol>
+                </div>
+              </div>
+            </section>
+
+            <section class="demo" data-demo="growth" aria-label="Growth and lead generation demonstration" hidden>
+              <header class="demo-header">
+                <div>
+                  <p class="demo-kicker">Growth system</p>
+                  <h2>Connect demand to a useful response.</h2>
+                </div>
+              </header>
+
+              <div class="capability-flow" aria-label="Growth and lead generation workflow">
+                <div class="flow-step" style="--flow-delay: -0.2s">
+                  <span>01</span><strong>Ads</strong><small>Search · paid · social</small>
+                </div>
+                <div class="flow-step" style="--flow-delay: -0.6s">
+                  <span>02</span><strong>Landing page</strong><small>Message matched to intent</small>
+                </div>
+                <div class="flow-step" style="--flow-delay: -1s">
+                  <span>03</span><strong>Form</strong><small>Capture useful context</small>
+                </div>
+                <div class="flow-step" style="--flow-delay: -1.4s">
+                  <span>04</span><strong>Qualification</strong><small>Filter for fit</small>
+                </div>
+                <div class="flow-step" style="--flow-delay: -1.8s">
+                  <span>05</span><strong>CRM</strong><small>Assign and track</small>
+                </div>
+                <div class="flow-step" style="--flow-delay: -2.2s">
+                  <span>06</span><strong>Follow-up</strong><small>Respond while intent is active</small>
+                </div>
+              </div>
+            </section>
+
+            <section class="demo" data-demo="experience" aria-label="Interactive product demonstration" hidden>
               <header class="demo-header">
                 <div>
                   <p class="demo-kicker">Interactive product viewer</p>
@@ -2422,42 +2826,6 @@
               </div>
             </section>
 
-            <section class="demo" data-demo="f4" aria-label="Practical AI workflow demonstration" hidden>
-              <header class="demo-header">
-                <div>
-                  <p class="demo-kicker">Practical AI directions</p>
-                  <h2>Choose where AI should help.</h2>
-                </div>
-              </header>
-
-              <div class="ai-choice-layout">
-                <div class="ai-choice-grid" role="group" aria-label="Choose an AI service direction">
-                  <button class="ai-choice" type="button" data-ai-choice="chatbots" aria-pressed="true">
-                    <b>01</b><strong>Chatbots</strong><i aria-hidden="true">↗</i>
-                  </button>
-                  <button class="ai-choice" type="button" data-ai-choice="analytics" aria-pressed="false">
-                    <b>02</b><strong>Data Analytics</strong><i aria-hidden="true">↗</i>
-                  </button>
-                  <button class="ai-choice" type="button" data-ai-choice="training" aria-pressed="false">
-                    <b>03</b><strong>Training</strong><i aria-hidden="true">↗</i>
-                  </button>
-                  <button class="ai-choice" type="button" data-ai-choice="custom" aria-pressed="false">
-                    <b>04</b><strong>Custom</strong><i aria-hidden="true">↗</i>
-                  </button>
-                </div>
-                <article class="ai-concept" aria-live="polite">
-                  <span class="draft-label">Working direction</span>
-                  <h3 id="ai-concept-title">Make routine conversations more useful.</h3>
-                  <p id="ai-concept-copy">
-                    Guide customers to relevant answers, collect useful context, and hand complex conversations to
-                    the right person.
-                  </p>
-                  <div class="ai-tags" id="ai-concept-tags">
-                    <span>Customer support</span><span>Qualification</span><span>Human handoff</span>
-                  </div>
-                </article>
-              </div>
-            </section>
           </div>
         </div>
 
@@ -2465,139 +2833,205 @@
           <div class="key-grid" role="tablist" aria-label="Choose a Networks & Nodes service">
             <button
               class="service-key"
-              id="key-f1"
+              id="key-website"
               type="button"
               role="tab"
               aria-selected="true"
               aria-controls="service-explanation"
-              data-service="f1"
+              data-service="website"
             >
               <span class="key-switch" aria-hidden="true"></span>
               <span class="key-cap">
-                <span class="key-function">F1</span><i class="key-indicator" aria-hidden="true"></i>
+                <span class="key-function">1</span><i class="key-indicator" aria-hidden="true"></i>
+                <span class="key-symbol" aria-hidden="true">◫</span>
+                <span class="key-name">Websites</span>
+              </span>
+            </button>
+            <button
+              class="service-key"
+              id="key-automation"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="service-explanation"
+              data-service="automation"
+              tabindex="-1"
+            >
+              <span class="key-switch" aria-hidden="true"></span>
+              <span class="key-cap">
+                <span class="key-function">2</span><i class="key-indicator" aria-hidden="true"></i>
+                <span class="key-symbol" aria-hidden="true">⌁</span>
+                <span class="key-name">Automation</span>
+              </span>
+            </button>
+            <button
+              class="service-key"
+              id="key-software"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="service-explanation"
+              data-service="software"
+              tabindex="-1"
+            >
+              <span class="key-switch" aria-hidden="true"></span>
+              <span class="key-cap">
+                <span class="key-function">3</span><i class="key-indicator" aria-hidden="true"></i>
+                <span class="key-symbol" aria-hidden="true">▦</span>
+                <span class="key-name">Software / CRM</span>
+              </span>
+            </button>
+            <button
+              class="service-key"
+              id="key-growth"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="service-explanation"
+              data-service="growth"
+              tabindex="-1"
+            >
+              <span class="key-switch" aria-hidden="true"></span>
+              <span class="key-cap">
+                <span class="key-function">4</span><i class="key-indicator" aria-hidden="true"></i>
+                <span class="key-symbol" aria-hidden="true">↗</span>
+                <span class="key-name">Growth</span>
+              </span>
+            </button>
+            <button
+              class="service-key"
+              id="key-market"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="service-explanation"
+              data-service="market"
+              tabindex="-1"
+            >
+              <span class="key-switch" aria-hidden="true"></span>
+              <span class="key-cap">
+                <span class="key-function">5</span><i class="key-indicator" aria-hidden="true"></i>
                 <span class="key-symbol" aria-hidden="true">◎</span>
                 <span class="key-name">U.S. Market</span>
               </span>
             </button>
             <button
               class="service-key"
-              id="key-f2"
+              id="key-experience"
               type="button"
               role="tab"
               aria-selected="false"
               aria-controls="service-explanation"
-              data-service="f2"
+              data-service="experience"
               tabindex="-1"
             >
               <span class="key-switch" aria-hidden="true"></span>
               <span class="key-cap">
-                <span class="key-function">F2</span><i class="key-indicator" aria-hidden="true"></i>
-                <span class="key-symbol" aria-hidden="true">⌁</span>
-                <span class="key-name">Connect Systems</span>
-              </span>
-            </button>
-            <button
-              class="service-key"
-              id="key-f3"
-              type="button"
-              role="tab"
-              aria-selected="false"
-              aria-controls="service-explanation"
-              data-service="f3"
-              tabindex="-1"
-            >
-              <span class="key-switch" aria-hidden="true"></span>
-              <span class="key-cap">
-                <span class="key-function">F3</span><i class="key-indicator" aria-hidden="true"></i>
+                <span class="key-function">6</span><i class="key-indicator" aria-hidden="true"></i>
                 <span class="key-symbol" aria-hidden="true">◇</span>
-                <span class="key-name">Product 3D</span>
-              </span>
-            </button>
-            <button
-              class="service-key"
-              id="key-f4"
-              type="button"
-              role="tab"
-              aria-selected="false"
-              aria-controls="service-explanation"
-              data-service="f4"
-              tabindex="-1"
-            >
-              <span class="key-switch" aria-hidden="true"></span>
-              <span class="key-cap">
-                <span class="key-function">F4</span><i class="key-indicator" aria-hidden="true"></i>
-                <span class="key-symbol" aria-hidden="true">✦</span>
-                <span class="key-name">Practical AI</span>
+                <span class="key-name">Digital Experiences</span>
               </span>
             </button>
           </div>
         </div>
 
-        <div class="service-panel" id="service-explanation" role="tabpanel" aria-labelledby="key-f1">
+        <div class="service-panel" id="service-explanation" role="tabpanel" aria-labelledby="key-website">
           <div class="service-content" id="service-content">
             <p class="channel-label">
-              Channel <span id="channel-number">01</span>
+              System <span id="channel-number">01</span>
               <b>Active</b>
             </p>
             <div class="service-copy">
-              <p class="category" id="service-category">U.S. Market</p>
-              <h3 id="active-service-title">Adapt your website for an American audience.</h3>
+              <p class="category" id="service-category">Websites</p>
+              <h3 id="active-service-title">Turn the website into a useful customer journey.</h3>
               <p id="service-description">
-                Reshape the message, structure, and customer journey so the website feels intentional in the U.S.
-                market—not merely translated.
+                Design and build a clear digital experience that explains the offer, earns trust, captures intent,
+                and moves useful context into the systems behind the business.
               </p>
-              <p class="service-outcome">
-                <strong>What changes</strong>
-                <span id="service-outcome">Customers understand the offer, trust the brand, and know what to do next.</span>
-              </p>
-              <a class="service-cta" href="/#contact" target="_top">Discuss this capability <span aria-hidden="true">↗</span></a>
+              <div class="service-detail-grid">
+                <div>
+                  <p class="service-includes-label">What it can include</p>
+                  <ul class="service-includes" id="service-includes">
+                    <li>Web design</li><li>Development</li><li>Customer journeys</li><li>Forms</li><li>Booking</li>
+                  </ul>
+                </div>
+                <p class="service-outcome">
+                  <strong>Outcome</strong>
+                  <span id="service-outcome">More people understand the offer and reach the right next step.</span>
+                </p>
+              </div>
+              <a class="service-cta" href="/#work" target="_top">View related work <span aria-hidden="true">↗</span></a>
             </div>
           </div>
         </div>
       </section>
 
       <p class="prototype-note">
-        Tap or select a service to update both panels. Desktop visitors can also use F1–F4 or the arrow keys.
+        Select a node, use the arrow keys, or press 1–6.
       </p>
     </main>
 
     <script>
       const services = {
-        f1: {
+        website: {
           channel: "01",
-          label: "Market adaptation preview",
-          category: "U.S. Market",
-          title: "Adapt your website for an American audience.",
+          label: "Website customer journey",
+          category: "Websites",
+          title: "Turn the website into a useful customer journey.",
           description:
-            "Reshape the message, structure, and customer journey so the website feels intentional in the U.S. market—not merely translated.",
+            "Design and build a clear digital experience that explains the offer, earns trust, captures intent, and moves useful context into the systems behind the business.",
+          includes: ["Web design", "Development", "Customer journeys", "Forms", "Booking"],
+          outcome: "More people understand the offer and reach the right next step.",
+        },
+        automation: {
+          channel: "02",
+          label: "Automation workflow",
+          category: "Automation",
+          title: "Remove repetitive operational work.",
+          description:
+            "Connect tools, information, and people so routine work moves automatically while important decisions stay visible to the right owner.",
+          includes: ["Workflow automation", "AI", "Lead routing", "CRM integration", "Reporting", "Notifications", "Follow-up"],
+          outcome: "Less manual handoff. Faster response. Better visibility.",
+        },
+        software: {
+          channel: "03",
+          label: "Software and CRM workspace",
+          category: "Software / CRM",
+          title: "Give the team one place to see and act.",
+          description:
+            "Build custom applications, dashboards, CRM workflows, and internal tools around the way the business actually operates.",
+          includes: ["Custom applications", "Dashboards", "CRM", "Internal tools", "Data", "Integrations"],
+          outcome: "Shared context, clearer ownership, and fewer decisions trapped in scattered tools.",
+        },
+        growth: {
+          channel: "04",
+          label: "Growth and lead generation workflow",
+          category: "Growth",
+          title: "Connect demand to a useful response.",
+          description:
+            "Connect lead generation, SEO, paid media, social, and content to landing pages, qualification, CRM ownership, and timely follow-up.",
+          includes: ["Lead generation", "SEO", "Paid media", "Social", "Content", "Analytics"],
+          outcome: "Marketing activity becomes a visible path from attention to qualified opportunity.",
+        },
+        market: {
+          channel: "05",
+          label: "U.S. market adaptation",
+          category: "U.S. Market",
+          title: "Adapt the brand for an American audience.",
+          description:
+            "Reshape language, positioning, structure, and the customer journey so the website feels intentional in the U.S. market—not merely translated.",
+          includes: ["Translation", "Localization", "Positioning", "U.S. messaging", "Customer experience"],
           outcome: "Customers understand the offer, trust the brand, and know what to do next.",
         },
-        f2: {
-          channel: "02",
-          label: "Connected systems preview",
-          category: "Connected Operations",
-          title: "Connect the tools and people behind the business.",
+        experience: {
+          channel: "06",
+          label: "Digital experience preview",
+          category: "Digital Experiences",
+          title: "Make products and brands explorable.",
           description:
-            "Connect lead generation, website forms, follow-up, marketing, and CRM activity into one dependable operating system.",
-          outcome: "Leads move forward with less manual chasing, fewer lost handoffs, and clearer ownership.",
-        },
-        f3: {
-          channel: "03",
-          label: "Product exploration preview",
-          category: "Interactive Products",
-          title: "Make physical products explorable.",
-          description:
-            "Create interactive product experiences that customers can expand, rotate, inspect, and configure.",
-          outcome: "Customers can understand products online with more confidence before they inquire or buy.",
-        },
-        f4: {
-          channel: "04",
-          label: "Human-reviewed workflow preview",
-          category: "Practical AI",
-          title: "Apply AI where it removes useful work.",
-          description:
-            "Design controlled workflows for classification, extraction, knowledge retrieval, drafting, and reporting—with human review where it matters.",
-          outcome: "Teams spend less time repeating routine work while keeping people in control of important decisions.",
+            "Create interactive product experiences and visual systems for ecommerce, campaigns, launches, and digital brand storytelling.",
+          includes: ["3D", "Motion", "Photography", "Video", "Interactive products"],
+          outcome: "Customers can understand, remember, and engage with the product before they inquire or buy.",
         },
       };
 
@@ -2610,6 +3044,8 @@
       const serviceTitle = document.querySelector("#active-service-title");
       const serviceDescription = document.querySelector("#service-description");
       const serviceOutcome = document.querySelector("#service-outcome");
+      const serviceIncludes = document.querySelector("#service-includes");
+      const systemCount = document.querySelector("#system-count");
 
       function selectService(id, moveFocus = false) {
         const service = services[id];
@@ -2639,8 +3075,16 @@
         serviceTitle.textContent = service.title;
         serviceDescription.textContent = service.description;
         serviceOutcome.textContent = service.outcome;
+        systemCount.textContent = `${service.channel} / 06`;
+        serviceIncludes.replaceChildren(
+          ...service.includes.map((item) => {
+            const listItem = document.createElement("li");
+            listItem.textContent = item;
+            return listItem;
+          }),
+        );
         servicePanel.setAttribute("aria-labelledby", `key-${id}`);
-        if (id === "f3") loadCurrentProductModel();
+        if (id === "experience") loadCurrentProductModel();
 
         requestAnimationFrame(() => {
           serviceContent.style.animation = "";
@@ -2663,11 +3107,13 @@
         });
       });
 
+      const shortcutServices = ["website", "automation", "software", "growth", "market", "experience"];
       window.addEventListener("keydown", (event) => {
-        if (/^F[1-4]$/.test(event.key)) {
-          event.preventDefault();
-          selectService(event.key.toLowerCase(), true);
-        }
+        if (event.metaKey || event.ctrlKey || event.altKey) return;
+        if (event.target.matches("input, textarea, select")) return;
+        if (!/^[1-6]$/.test(event.key)) return;
+        event.preventDefault();
+        selectService(shortcutServices[Number(event.key) - 1], true);
       });
 
       const marketCopy = {
@@ -3091,7 +3537,7 @@
       };
       let productModels = createProductModels();
       const productModel = document.querySelector("#product-model");
-      const productDemo = document.querySelector('[data-demo="f3"]');
+      const productDemo = document.querySelector('[data-demo="experience"]');
       const productName = document.querySelector("#product-name");
       const productMaterial = document.querySelector("#product-material");
       const previousProductButton = document.querySelector('[data-product-step="-1"]');
@@ -3181,54 +3627,6 @@
 
       productModel.addEventListener("load", resetProductView);
       document.querySelector("[data-reset-product]").addEventListener("click", resetProductView);
-
-      const aiConcepts = {
-        chatbots: {
-          title: "Make routine conversations more useful.",
-          copy: "Guide customers to relevant answers, collect useful context, and hand complex conversations to the right person.",
-          tags: ["Customer support", "Qualification", "Human handoff"],
-        },
-        analytics: {
-          title: "Turn operating data into clearer decisions.",
-          copy: "Find patterns, surface changes, and produce recurring summaries without asking the team to rebuild the same report.",
-          tags: ["Trend analysis", "Alerts", "Reporting"],
-        },
-        training: {
-          title: "Help teams learn inside the work.",
-          copy: "Make approved knowledge easier to search, practice, and apply while preserving the process your business actually follows.",
-          tags: ["Knowledge access", "Practice", "Process support"],
-        },
-        custom: {
-          title: "Design around the task generic tools miss.",
-          copy: "Shape a controlled AI workflow around a specific system, decision, or repeated task—with human review where it matters.",
-          tags: ["Custom workflow", "Integrations", "Human review"],
-        },
-      };
-      const aiChoiceButtons = [...document.querySelectorAll("[data-ai-choice]")];
-      const aiConceptTitle = document.querySelector("#ai-concept-title");
-      const aiConceptCopy = document.querySelector("#ai-concept-copy");
-      const aiConceptTags = document.querySelector("#ai-concept-tags");
-
-      function updateAiChoice(id) {
-        const concept = aiConcepts[id];
-        if (!concept) return;
-        aiChoiceButtons.forEach((button) => {
-          button.setAttribute("aria-pressed", String(button.dataset.aiChoice === id));
-        });
-        aiConceptTitle.textContent = concept.title;
-        aiConceptCopy.textContent = concept.copy;
-        aiConceptTags.replaceChildren(
-          ...concept.tags.map((tag) => {
-            const tagElement = document.createElement("span");
-            tagElement.textContent = tag;
-            return tagElement;
-          }),
-        );
-      }
-
-      aiChoiceButtons.forEach((button) => {
-        button.addEventListener("click", () => updateAiChoice(button.dataset.aiChoice));
-      });
 
       const reportSwitchboardHeight = () => {
         window.parent.postMessage(
