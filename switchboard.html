@@ -3054,33 +3054,44 @@
         });
       });
 
-      const productModels = [
-        {
-          src: "/images/Stock-shirt-compressed-v1.glb",
-          name: "Clothing and Accessories",
-          material: "Interactive Designs",
-          alt: "Interactive 3D model showcasing clothing and accessories",
-        },
-        {
-          src: "/images/Chicago_Air_Jordan1_Compress-v1.glb",
-          name: "Shoes",
-          material: "Interactive Designs",
-          alt: "Interactive 3D model showcasing shoes",
-        },
-        {
-          src: "/images/Building_Under_Cons_Compress-v1.glb",
-          name: "Construction and Modeling",
-          material: "Helping construction firms model and rebrand for the digital environment",
-          alt: "Interactive 3D model of a building under construction",
-        },
-        {
+      const mobileProductQuery = window.matchMedia("(max-width: 700px)");
+      const createProductModels = () => {
+        const models = [
+          {
+            src: "/images/Stock-shirt-compressed-v1.glb",
+            name: "Clothing and Accessories",
+            material: "Interactive Designs",
+            alt: "Interactive 3D model showcasing clothing and accessories",
+          },
+          {
+            src: "/images/Chicago_Air_Jordan1_Compress-v1.glb",
+            name: "Shoes",
+            material: "Interactive Designs",
+            alt: "Interactive 3D model showcasing shoes",
+          },
+        ];
+
+        if (!mobileProductQuery.matches) {
+          models.push({
+            src: "/images/Building_Under_Cons_Compress-v1.glb",
+            name: "Construction and Modeling",
+            material: "Helping construction firms model and rebrand for the digital environment",
+            alt: "Interactive 3D model of a building under construction",
+          });
+        }
+
+        models.push({
           src: "/images/Midnight_Sentinel_Compress-v1.glb",
           name: "Quadcopter",
           material: "Products and electronics sold in the U.S. market",
           alt: "Interactive 3D model of a quadcopter",
-        },
-      ];
+        });
+
+        return models;
+      };
+      let productModels = createProductModels();
       const productModel = document.querySelector("#product-model");
+      const productDemo = document.querySelector('[data-demo="f3"]');
       const productName = document.querySelector("#product-name");
       const productMaterial = document.querySelector("#product-material");
       const previousProductButton = document.querySelector('[data-product-step="-1"]');
@@ -3108,7 +3119,7 @@
         productModel.jumpCameraToGoal?.();
       }
 
-      function renderProduct(index) {
+      function renderProduct(index, loadModel = true) {
         currentProductIndex = (index + productModels.length) % productModels.length;
         const product = productModels[currentProductIndex];
         const previousProduct = productModels[
@@ -3122,9 +3133,35 @@
         previousProductButton.setAttribute("aria-label", `Show previous product: ${previousProduct.name}`);
         nextProductButton.setAttribute("aria-label", `Show next product: ${nextProduct.name}`);
 
-        if (productModel.getAttribute("src") !== product.src) {
+        if (loadModel && productModel.getAttribute("src") !== product.src) {
           productModel.setAttribute("src", product.src);
         }
+      }
+
+      function refreshProductModels() {
+        const currentSrc = productModel.getAttribute("src");
+        productModels = createProductModels();
+
+        if (!currentSrc) {
+          currentProductIndex = 0;
+          return;
+        }
+
+        const nextIndex = productModels.findIndex((product) => product.src === currentSrc);
+        if (nextIndex >= 0) {
+          renderProduct(nextIndex);
+          return;
+        }
+
+        productModel.removeAttribute("src");
+        currentProductIndex = 0;
+        renderProduct(0, !productDemo.hidden);
+      }
+
+      if (mobileProductQuery.addEventListener) {
+        mobileProductQuery.addEventListener("change", refreshProductModels);
+      } else {
+        mobileProductQuery.addListener(refreshProductModels);
       }
 
       async function loadCurrentProductModel() {

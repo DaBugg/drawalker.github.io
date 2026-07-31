@@ -37,6 +37,7 @@
   - Manual carousel interaction disables auto-rotation.
   - Reduced-motion mode disables auto-rotation and loads paused players with controls.
   - The switchboard’s 3D runtime and model are intent-loaded only after Product 3D is selected.
+  - The 39 MB construction model is excluded from the mobile carousel and explicitly unloaded if the viewport changes to mobile while it is active.
 - Process preservation
   - Restored **Review → Define → Build → Improve** with a tangible artifact for each stage.
 - Turnstile lifecycle
@@ -45,7 +46,7 @@
 ## Automated validation
 
 - Production build: pass
-- Node audit tests: 7/7 pass
+- Node audit tests: 8/8 pass
 - Homepage route: HTTP 200
 - Switchboard route: HTTP 200
 - TS&L case-study route: HTTP 200

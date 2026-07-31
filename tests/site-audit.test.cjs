@@ -87,6 +87,15 @@ test("rich media is progressively initialized", () => {
   assert.match(switchboard, /function loadModelViewer/);
 });
 
+test("the construction model is excluded and unloaded on mobile", () => {
+  const switchboard = read("switchboard.html");
+
+  assert.match(switchboard, /mobileProductQuery = window\.matchMedia\("\(max-width: 700px\)"\)/);
+  assert.match(switchboard, /if \(!mobileProductQuery\.matches\)/);
+  assert.match(switchboard, /productModel\.removeAttribute\("src"\)/);
+  assert.match(switchboard, /renderProduct\(0, !productDemo\.hidden\)/);
+});
+
 test("hero carousel keeps the approved video order", () => {
   const main = read("src/main.js");
   const immersive = main.indexOf('label: "Immersive experiences"');
