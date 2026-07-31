@@ -7,14 +7,14 @@ const videos = [
     caption: "Movie-quality websites that draw customers in and make every interaction feel memorable.",
   },
   {
-    src: "https://player.mux.com/r7u3dBYrfwLMb00YwhKgil6t6ao3Vn00fJq2N12H58FM8?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
-    label: "Brand systems",
-    caption: "Clear digital experiences that make complex services easier to understand.",
-  },
-  {
     src: "https://player.mux.com/3hfzhGk1IQHb2kZwv01YlNYA6olGBfF70000SqZXQ702ozo?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
     label: "U.S. market readiness",
     caption: "Rebranding and translating international websites for modern U.S. audiences.",
+  },
+  {
+    src: "https://player.mux.com/r7u3dBYrfwLMb00YwhKgil6t6ao3Vn00fJq2N12H58FM8?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
+    label: "Brand systems",
+    caption: "Clear digital experiences that make complex services easier to understand.",
   },
   {
     src: "https://player.mux.com/bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
