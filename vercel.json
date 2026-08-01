@@ -1,0 +1,24 @@
+{
+  "redirects": [
+    {
+      "source": "/images/Chicago_Air_Jordan1_Compress-v1.glb",
+      "destination": "https://assets.networksandnodes.org/Chicago_Air_Jordan1_Compress-v1.glb",
+      "permanent": true
+    },
+    {
+      "source": "/images/Building_Under_Cons_Compress-v1.glb",
+      "destination": "https://assets.networksandnodes.org/Building_Under_Cons_Compress-v1.glb",
+      "permanent": true
+    },
+    {
+      "source": "/images/Midnight_Sentinel_Compress-v1.glb",
+      "destination": "https://assets.networksandnodes.org/Midnight_Sentinel_Compress-v1.glb",
+      "permanent": true
+    },
+    {
+      "source": "/images/Stock-shirt-compressed-v1.glb",
+      "destination": "https://assets.networksandnodes.org/Stock-shirt-compressed-v1.glb",
+      "permanent": true
+    }
+  ]
+}

@@ -169,10 +169,12 @@ test("large 3D assets and the available carousel videos use the public R2 CDN", 
   const main = read("src/main.js");
   const helper = read("src/asset-url.js");
   const switchboard = read("switchboard.html");
+  const vercel = read("vercel.json");
 
   assert.match(helper, /import\.meta\.env\.VITE_ASSET_URL/);
   assert.match(helper, /https:\/\/assets\.networksandnodes\.org/);
   assert.match(homepage, /data-video-native/);
+  assert.match(homepage, /src="\/switchboard\.html\?v=20260801-r2-models"/);
 
   for (const asset of [
     "Immersive-designs.MP4",
@@ -190,6 +192,7 @@ test("large 3D assets and the available carousel videos use the public R2 CDN", 
   ]) {
     assert.match(switchboard, new RegExp(`assetUrl\\("${asset.replace(".", "\\.")}\\"\\)`));
     assert.doesNotMatch(switchboard, new RegExp(`/images/${asset.replace(".", "\\.")}`));
+    assert.match(vercel, new RegExp(`https://assets\\.networksandnodes\\.org/${asset.replace(".", "\\.")}`));
   }
 
   assert.match(main, /type: "mux"[\s\S]*label: "Measured outcomes"/);
