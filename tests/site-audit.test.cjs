@@ -193,6 +193,7 @@ test("large 3D assets and the available carousel videos use the public R2 CDN", 
   }
 
   assert.match(main, /type: "mux"[\s\S]*label: "Measured outcomes"/);
+  assert.doesNotMatch(switchboard, /interaction-cursor|cursor-demonstration/);
 });
 
 test("hero carousel keeps the approved video order", () => {
