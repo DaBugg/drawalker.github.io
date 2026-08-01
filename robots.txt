@@ -1,4 +1,16 @@
+User-agent: Googlebot
+Disallow:
+
+User-agent: Twitterbot
+Disallow:
+
+User-agent: facebookexternalhit
+Disallow:
+
+User-agent: LinkedInBot
+Disallow:
+
 User-agent: *
-Allow: /
+Disallow: /
 
 Sitemap: https://www.networksandnodes.org/sitemap.xml
