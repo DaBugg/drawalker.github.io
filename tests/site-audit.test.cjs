@@ -111,6 +111,20 @@ test("switchboard exposes six connected capability states with proof and outcome
   assert.match(html, /font-size: clamp\(0\.47rem, 0\.68vw, 0\.6rem\)/);
 });
 
+test("switchboard opens on Digital Experiences", () => {
+  const html = read("switchboard.html");
+  const experienceDemo = html.match(/<section class="demo" data-demo="experience"[^>]*>/)?.[0] || "";
+  const websiteDemo = html.match(/<section class="demo" data-demo="website"[^>]*>/)?.[0] || "";
+  const experienceKey = html.match(/<button[\s\S]*?data-service="experience"[\s\S]*?<\/button>/)?.[0] || "";
+
+  assert.doesNotMatch(experienceDemo, /\shidden/);
+  assert.match(websiteDemo, /\shidden/);
+  assert.match(experienceKey, /aria-selected="true"/);
+  assert.match(html, /id="system-count">01 \/ 06</);
+  assert.match(html, /aria-labelledby="key-experience"/);
+  assert.match(html, /selectService\("experience"\)/);
+});
+
 test("rich media is progressively initialized", () => {
   const homepage = read("index.html");
   const main = read("src/main.js");

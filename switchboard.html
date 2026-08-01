@@ -2445,7 +2445,7 @@
           </div>
           <span class="status">
             <i class="status-dot" aria-hidden="true"></i>
-            System <span id="system-count">02 / 06</span>
+            System <span id="system-count">01 / 06</span>
           </span>
         </header>
 
@@ -2458,7 +2458,7 @@
       <section class="system-shell" aria-labelledby="active-service-title">
         <div class="display-panel">
           <div class="display-stage" aria-live="polite">
-            <section class="demo" data-demo="website" aria-label="Website customer journey demonstration">
+            <section class="demo" data-demo="website" aria-label="Website customer journey demonstration" hidden>
               <header class="demo-header">
                 <div>
                   <p class="demo-kicker">Website system</p>
@@ -2786,7 +2786,7 @@
               </div>
             </section>
 
-            <section class="demo" data-demo="experience" aria-label="Interactive product demonstration" hidden>
+            <section class="demo" data-demo="experience" aria-label="Interactive product demonstration">
               <header class="demo-header">
                 <div>
                   <p class="demo-kicker">Interactive product viewer</p>
@@ -2852,10 +2852,9 @@
               id="key-experience"
               type="button"
               role="tab"
-              aria-selected="false"
+              aria-selected="true"
               aria-controls="service-explanation"
               data-service="experience"
-              tabindex="-1"
             >
               <span class="key-switch" aria-hidden="true"></span>
               <span class="key-cap">
@@ -2869,9 +2868,10 @@
               id="key-website"
               type="button"
               role="tab"
-              aria-selected="true"
+              aria-selected="false"
               aria-controls="service-explanation"
               data-service="website"
+              tabindex="-1"
             >
               <span class="key-switch" aria-hidden="true"></span>
               <span class="key-cap">
@@ -2951,29 +2951,29 @@
           </div>
         </div>
 
-        <div class="service-panel" id="service-explanation" role="tabpanel" aria-labelledby="key-website">
+        <div class="service-panel" id="service-explanation" role="tabpanel" aria-labelledby="key-experience">
           <div class="service-content" id="service-content">
             <p class="channel-label">
-              System <span id="channel-number">02</span>
+              System <span id="channel-number">01</span>
               <b>Active</b>
             </p>
             <div class="service-copy">
-              <p class="category" id="service-category">Websites</p>
-              <h3 id="active-service-title">Turn the website into a useful customer journey.</h3>
+              <p class="category" id="service-category">Digital Experiences</p>
+              <h3 id="active-service-title">Make products and brands explorable.</h3>
               <p id="service-description">
-                Design and build a clear digital experience that explains the offer, earns trust, captures intent,
-                and moves useful context into the systems behind the business.
+                Create interactive product experiences and visual systems for ecommerce, campaigns, launches, and
+                digital brand storytelling.
               </p>
               <div class="service-detail-grid">
                 <div>
                   <p class="service-includes-label">What it can include</p>
                   <ul class="service-includes" id="service-includes">
-                    <li>Web design</li><li>Development</li><li>Customer journeys</li><li>Forms</li><li>Booking</li>
+                    <li>3D</li><li>Motion</li><li>Photography</li><li>Video</li><li>Interactive products</li>
                   </ul>
                 </div>
                 <p class="service-outcome">
                   <strong>Outcome</strong>
-                  <span id="service-outcome">More people understand the offer and reach the right next step.</span>
+                  <span id="service-outcome">Customers can understand, remember, and engage with the product before they inquire or buy.</span>
                 </p>
               </div>
               <a class="service-cta" href="/#work" target="_top">View related work <span aria-hidden="true">↗</span></a>
@@ -3639,6 +3639,7 @@
 
       productModel.addEventListener("load", resetProductView);
       document.querySelector("[data-reset-product]").addEventListener("click", resetProductView);
+      selectService("experience");
 
       const reportSwitchboardHeight = () => {
         window.parent.postMessage(
