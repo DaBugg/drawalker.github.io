@@ -1735,12 +1735,7 @@
         display: grid;
         aspect-ratio: 1;
         place-items: center;
-        border: 1px solid rgba(14, 116, 144, 0.17);
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.58);
-        color: #0e7490;
-        font-size: clamp(1.4rem, 4vw, 2.8rem);
-        font-weight: 300;
+        background: radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.68), transparent 58%);
       }
 
       .landing-product model-viewer {
@@ -1749,24 +1744,37 @@
         width: 118%;
         height: 118%;
         outline: none;
+        cursor: grab;
         --progress-bar-color: #0e7490;
         --progress-bar-height: 2px;
       }
 
-      .landing-product::before,
-      .landing-product::after {
-        position: absolute;
-        border: 1px solid rgba(14, 116, 144, 0.18);
-        border-radius: 50%;
-        content: "";
+      .landing-product model-viewer:active {
+        cursor: grabbing;
+      }
+
+      .landing-product model-viewer:focus-visible {
+        border-radius: 16px;
+        outline: 2px solid #0e7490;
+        outline-offset: 3px;
       }
 
       .landing-product::before {
-        inset: 14%;
-      }
-
-      .landing-product::after {
-        inset: 28%;
+        position: absolute;
+        z-index: 0;
+        bottom: 8%;
+        left: 50%;
+        width: 82%;
+        height: 16%;
+        border: 1px solid rgba(14, 116, 144, 0.14);
+        border-radius: 50%;
+        background: radial-gradient(ellipse, rgba(14, 116, 144, 0.17), rgba(255, 255, 255, 0.18) 58%, transparent 74%);
+        box-shadow:
+          0 14px 20px rgba(15, 23, 42, 0.14),
+          inset 0 1px rgba(255, 255, 255, 0.74);
+        content: "";
+        transform: translateX(-50%);
+        pointer-events: none;
       }
 
       .product-model:focus-visible {
@@ -3390,14 +3398,18 @@
                         <model-viewer
                           id="website-product-model"
                           alt="Rotating 3D model of a shirt inside a product landing page"
+                          camera-controls
                           auto-rotate
                           rotation-per-second="14deg"
                           camera-orbit="25deg 72deg auto"
+                          interaction-prompt="auto"
+                          interaction-prompt-threshold="1200"
                           environment-image="neutral"
                           tone-mapping="neutral"
                           exposure="1.05"
                           shadow-intensity="1"
                           shadow-softness="0.9"
+                          touch-action="pan-y"
                         ></model-viewer>
                       </div>
                     </div>
@@ -4192,12 +4204,18 @@
         return modelViewerPromise;
       }
 
+      function applyModelReset(model, cameraOrbit) {
+        model.cameraOrbit = cameraOrbit;
+        model.resetTurntableRotation?.();
+        model.jumpCameraToGoal?.();
+      }
+
       function resetProductView(showFeedback = true) {
         const product = productModels[currentProductIndex];
-        if (!product?.src) return;
-        productModel.cameraOrbit = product.cameraOrbit;
-        productModel.resetTurntableRotation?.();
-        productModel.jumpCameraToGoal?.();
+        const isWebsiteScene = product?.scene === "website";
+        if (!product?.src && !isWebsiteScene) return;
+        const activeModel = isWebsiteScene ? websiteProductModel : productModel;
+        applyModelReset(activeModel, isWebsiteScene ? "25deg 72deg auto" : product.cameraOrbit);
         if (!showFeedback) return;
         resetProductButton.classList.remove("is-resetting");
         void resetProductButton.offsetWidth;
@@ -4224,8 +4242,8 @@
         productModel.hidden = !hasInteractiveModel;
         websiteReveal.hidden = product.scene !== "website";
         modelGround.hidden = !hasInteractiveModel;
-        productRotationCue.hidden = !hasInteractiveModel;
-        resetProductButton.hidden = !hasInteractiveModel;
+        productRotationCue.hidden = !(hasInteractiveModel || product.scene === "website");
+        resetProductButton.hidden = !(hasInteractiveModel || product.scene === "website");
         previousProductButton.setAttribute("aria-label", `Show previous experience: ${previousProduct.category}`);
         nextProductButton.setAttribute("aria-label", `Show next experience: ${nextProduct.category}`);
         productProgressButtons.forEach((button) => {
@@ -4322,11 +4340,15 @@
       });
 
       productModel.addEventListener("load", () => {
-        resetProductView(false);
+        const loadedProduct = productModels.find((product) => product.src === productModel.getAttribute("src"));
+        if (loadedProduct) applyModelReset(productModel, loadedProduct.cameraOrbit);
         if (currentProductIndex === 0 && !hasShownProductCursor && !reduceProductMotion) {
           hasShownProductCursor = true;
           productCursor.classList.add("is-demonstrating");
         }
+      });
+      websiteProductModel.addEventListener("load", () => {
+        applyModelReset(websiteProductModel, "25deg 72deg auto");
       });
       resetProductButton.addEventListener("click", resetProductView);
       selectService("experience");
