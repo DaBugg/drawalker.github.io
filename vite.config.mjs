@@ -9,6 +9,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(projectRoot, "index.html"),
+        switchboard: resolve(projectRoot, "switchboard.html"),
         transportationCaseStudy: resolve(
           projectRoot,
           "work/transportation-solutions-lighting.html",

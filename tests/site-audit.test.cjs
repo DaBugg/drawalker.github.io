@@ -152,6 +152,37 @@ test("the construction model is excluded and unloaded on mobile", () => {
   assert.match(switchboard, /renderProduct\(0, !productDemo\.hidden\)/);
 });
 
+test("large 3D assets and the available carousel videos use the public R2 CDN", () => {
+  const homepage = read("index.html");
+  const main = read("src/main.js");
+  const helper = read("src/asset-url.js");
+  const switchboard = read("switchboard.html");
+
+  assert.match(helper, /import\.meta\.env\.VITE_ASSET_URL/);
+  assert.match(helper, /https:\/\/assets\.networksandnodes\.org/);
+  assert.match(homepage, /data-video-native/);
+
+  for (const asset of [
+    "Immersive-designs.MP4",
+    "Language-translation.MOV",
+    "Realtor-redesign.mp4",
+  ]) {
+    assert.match(main, new RegExp(`assetUrl\\("${asset.replace(".", "\\.")}\\"\\)`));
+  }
+
+  for (const asset of [
+    "Chicago_Air_Jordan1_Compress-v1.glb",
+    "Building_Under_Cons_Compress-v1.glb",
+    "Midnight_Sentinel_Compress-v1.glb",
+    "Stock-shirt-compressed-v1.glb",
+  ]) {
+    assert.match(switchboard, new RegExp(`assetUrl\\("${asset.replace(".", "\\.")}\\"\\)`));
+    assert.doesNotMatch(switchboard, new RegExp(`/images/${asset.replace(".", "\\.")}`));
+  }
+
+  assert.match(main, /type: "mux"[\s\S]*label: "Measured outcomes"/);
+});
+
 test("hero carousel keeps the approved video order", () => {
   const main = read("src/main.js");
   const immersive = main.indexOf('label: "Immersive experiences"');

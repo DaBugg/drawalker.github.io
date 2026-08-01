@@ -435,6 +435,7 @@ h2 em {
 }
 
 .video-stage iframe,
+.video-stage video,
 .video-poster {
   position: absolute;
   inset: 0;
@@ -444,6 +445,12 @@ h2 em {
 
 .video-stage iframe {
   border: 0;
+}
+
+.video-stage video {
+  border: 0;
+  background: #04070d;
+  object-fit: cover;
 }
 
 .video-poster {

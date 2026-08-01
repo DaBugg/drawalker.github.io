@@ -1,28 +1,33 @@
 import "../js/form-security.js";
 import "../js/in-page-navigation.js";
+import { assetUrl } from "./asset-url.js";
 
 document.documentElement.classList.add("motion-ready");
 
 const videos = [
   {
-    src: "https://player.mux.com/Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
+    type: "native",
+    src: assetUrl("Immersive-designs.MP4"),
     poster: "https://image.mux.com/Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc/thumbnail.webp?width=1200&time=0",
     label: "Immersive experiences",
     caption: "Movie-quality websites that draw customers in and make every interaction feel memorable.",
   },
   {
-    src: "https://player.mux.com/3hfzhGk1IQHb2kZwv01YlNYA6olGBfF70000SqZXQ702ozo?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
+    type: "native",
+    src: assetUrl("Language-translation.MOV"),
     poster: "https://image.mux.com/3hfzhGk1IQHb2kZwv01YlNYA6olGBfF70000SqZXQ702ozo/thumbnail.webp?width=1200&time=0",
     label: "U.S. market readiness",
     caption: "Rebranding and translating international websites for modern U.S. audiences.",
   },
   {
-    src: "https://player.mux.com/bmUEq0015EGNUVijLFRpphb007VWlqrbFp8rS9iJGJPGM?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
+    type: "native",
+    src: assetUrl("Realtor-redesign.mp4"),
     poster: "https://image.mux.com/bmUEq0015EGNUVijLFRpphb007VWlqrbFp8rS9iJGJPGM/thumbnail.webp?width=1200&time=0",
     label: "Brand systems",
     caption: "Clear digital experiences that make complex services easier to understand.",
   },
   {
+    type: "mux",
     src: "https://player.mux.com/bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
     poster: "https://image.mux.com/bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM/thumbnail.webp?width=1200&time=0",
     label: "Measured outcomes",
@@ -38,6 +43,7 @@ function initializeCarousel() {
 
   const stage = carousel.querySelector(".video-stage");
   const frame = carousel.querySelector("[data-video-frame]");
+  const nativeVideo = carousel.querySelector("[data-video-native]");
   const poster = carousel.querySelector("[data-video-poster]");
   const count = carousel.querySelector("[data-video-count]");
   const indexLabel = carousel.querySelector("[data-video-index]");
@@ -75,7 +81,7 @@ function initializeCarousel() {
   };
 
   const playerSrc = (video) => {
-    if (!reduceMotion) return video.src;
+    if (video.type !== "mux" || !reduceMotion) return video.src;
     const url = new URL(video.src);
     url.searchParams.delete("autoplay");
     url.searchParams.set("loop", "false");
@@ -88,6 +94,14 @@ function initializeCarousel() {
     if (frame.dataset.activeSrc) frame.src = "about:blank";
     delete frame.dataset.activeSrc;
     frame.hidden = true;
+
+    if (nativeVideo.dataset.activeSrc) {
+      nativeVideo.pause();
+      nativeVideo.removeAttribute("src");
+      nativeVideo.load();
+    }
+    delete nativeVideo.dataset.activeSrc;
+    nativeVideo.hidden = true;
     poster.hidden = false;
     stage.classList.remove("is-playing");
   };
@@ -95,9 +109,26 @@ function initializeCarousel() {
   const activateMedia = () => {
     if (!mediaReady || !isInViewport || document.hidden) return;
     const src = playerSrc(videos[activeIndex]);
-    if (frame.dataset.activeSrc === src) return;
+    const activeVideo = videos[activeIndex];
+    const mediaElement = activeVideo.type === "native" ? nativeVideo : frame;
+    if (mediaElement.dataset.activeSrc === src) return;
     stage.classList.remove("is-playing");
     poster.hidden = false;
+
+    if (activeVideo.type === "native") {
+      nativeVideo.hidden = false;
+      nativeVideo.dataset.activeSrc = src;
+      nativeVideo.title = `${activeVideo.label} video`;
+      nativeVideo.poster = activeVideo.poster;
+      nativeVideo.controls = reduceMotion;
+      nativeVideo.loop = !reduceMotion;
+      nativeVideo.preload = "metadata";
+      nativeVideo.src = src;
+      nativeVideo.load();
+      if (!reduceMotion) nativeVideo.play().catch(() => {});
+      return;
+    }
+
     frame.hidden = false;
     frame.dataset.activeSrc = src;
     frame.src = src;
@@ -106,6 +137,7 @@ function initializeCarousel() {
   const render = () => {
     const activeVideo = videos[activeIndex];
     frame.title = `${activeVideo.label} video`;
+    nativeVideo.title = `${activeVideo.label} video`;
     poster.src = activeVideo.poster;
     count.textContent = `${formatIndex(activeIndex)} / ${String(videos.length).padStart(2, "0")}`;
     indexLabel.textContent = formatIndex(activeIndex);
@@ -123,7 +155,8 @@ function initializeCarousel() {
       }
     });
 
-    if (frame.dataset.activeSrc !== playerSrc(activeVideo)) deactivateMedia();
+    const mediaElement = activeVideo.type === "native" ? nativeVideo : frame;
+    if (mediaElement.dataset.activeSrc !== playerSrc(activeVideo)) deactivateMedia();
     activateMedia();
     hasRendered = true;
   };
@@ -203,6 +236,17 @@ function initializeCarousel() {
     if (!frame.dataset.activeSrc) return;
     stage.classList.add("is-playing");
     poster.hidden = true;
+  });
+
+  nativeVideo.addEventListener("loadeddata", () => {
+    if (!nativeVideo.dataset.activeSrc) return;
+    stage.classList.add("is-playing");
+    poster.hidden = true;
+  });
+
+  nativeVideo.addEventListener("error", () => {
+    stage.classList.remove("is-playing");
+    poster.hidden = false;
   });
 
   const beginMedia = () => {

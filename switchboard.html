@@ -3591,7 +3591,9 @@
       </p>
     </main>
 
-    <script>
+    <script type="module">
+      import { assetUrl } from "/src/asset-url.js";
+
       const services = {
         website: {
           channel: "02",
@@ -4121,7 +4123,7 @@
         const models = [
           {
             scene: "product",
-            src: "/images/Chicago_Air_Jordan1_Compress-v1.glb",
+            src: assetUrl("Chicago_Air_Jordan1_Compress-v1.glb"),
             category: "Product visualization",
             name: "Inspect every product detail.",
             material: "Let customers rotate a shoe, examine materials, and understand the product from every angle.",
@@ -4131,7 +4133,7 @@
         ];
         const architecture = {
           scene: "architecture",
-          src: "/images/Building_Under_Cons_Compress-v1.glb",
+          src: assetUrl("Building_Under_Cons_Compress-v1.glb"),
           category: "Architectural visualization",
           name: "See the space before it is built.",
           material: "Explore scale, structure, and construction detail in a navigable building model.",
@@ -4146,7 +4148,7 @@
         models.push(
           {
             scene: "technology",
-            src: "/images/Midnight_Sentinel_Compress-v1.glb",
+            src: assetUrl("Midnight_Sentinel_Compress-v1.glb"),
             category: "Interactive technology",
             name: "Make complex technology tangible.",
             material: "Reveal form, components, and product behavior through a responsive drone experience.",
@@ -4180,7 +4182,7 @@
       const productRotationCue = document.querySelector(".product-rotation-cue");
       const productCursor = document.querySelector(".interaction-cursor");
       const resetProductButton = document.querySelector("[data-reset-product]");
-      const productProgressButtons = [...document.querySelectorAll("[data-product-select]")];
+      const productProgressButtons = [...document.querySelectorAll("[data-product-scene]")];
       const previousProductButton = document.querySelector('[data-product-step="-1"]');
       const nextProductButton = document.querySelector('[data-product-step="1"]');
       const reduceProductMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -4241,6 +4243,7 @@
         productModel.alt = product.alt;
         productModel.hidden = !hasInteractiveModel;
         websiteReveal.hidden = product.scene !== "website";
+        if (product.scene === "website") websiteProductModel.hidden = false;
         modelGround.hidden = !hasInteractiveModel;
         productRotationCue.hidden = !(hasInteractiveModel || product.scene === "website");
         resetProductButton.hidden = !(hasInteractiveModel || product.scene === "website");
@@ -4263,7 +4266,7 @@
         }
 
         if (product.scene === "website" && !websiteProductModel.hasAttribute("src")) {
-          websiteProductModel.setAttribute("src", "/images/Stock-shirt-compressed-v1.glb");
+          websiteProductModel.setAttribute("src", assetUrl("Stock-shirt-compressed-v1.glb"));
         }
 
         if (!reduceProductMotion && typeof productMeta.animate === "function") {
@@ -4347,8 +4350,17 @@
           productCursor.classList.add("is-demonstrating");
         }
       });
+      productModel.addEventListener("error", () => {
+        productModel.hidden = true;
+        modelGround.hidden = true;
+        productMaterial.textContent = "The interactive model is temporarily unavailable.";
+      });
       websiteProductModel.addEventListener("load", () => {
         applyModelReset(websiteProductModel, "25deg 72deg auto");
+      });
+      websiteProductModel.addEventListener("error", () => {
+        websiteProductModel.hidden = true;
+        productMaterial.textContent = "The interactive model is temporarily unavailable.";
       });
       resetProductButton.addEventListener("click", resetProductView);
       selectService("experience");
