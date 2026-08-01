@@ -123,6 +123,18 @@ test("switchboard opens on Digital Experiences", () => {
   assert.match(html, /id="system-count">01 \/ 06</);
   assert.match(html, /aria-labelledby="key-experience"/);
   assert.match(html, /selectService\("experience"\)/);
+  assert.match(html, /servicePanel\.hidden = id === "experience"/);
+});
+
+test("mobile growth prioritizes connected channels over the full funnel", () => {
+  const html = read("switchboard.html");
+
+  assert.match(html, /class="capability-flow growth-flow"/);
+  assert.match(html, /class="growth-mobile-summary"/);
+  assert.match(html, /Search \+ social/);
+  assert.match(html, /Message matched to intent/);
+  assert.match(html, /Form qualification/);
+  assert.match(html, /\.growth-demo-header,[\s\S]*?\.growth-flow\s*\{\s*display: none;/);
 });
 
 test("rich media is progressively initialized", () => {

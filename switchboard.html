@@ -1154,6 +1154,10 @@
         font-size: 0.64rem;
       }
 
+      .growth-mobile-summary {
+        display: none;
+      }
+
       .crm-pipeline {
         padding: 12px;
         border: 1px solid rgba(148, 163, 184, 0.14);
@@ -2551,6 +2555,10 @@
           linear-gradient(170deg, rgba(11, 18, 32, 0.9), rgba(17, 24, 39, 0.82));
       }
 
+      .service-panel[hidden] {
+        display: none;
+      }
+
       .service-content {
         display: grid;
         grid-template-columns: minmax(140px, 0.34fr) minmax(0, 1.4fr);
@@ -2930,6 +2938,34 @@
           gap: 4px;
         }
 
+        .growth-demo-header,
+        .growth-flow {
+          display: none;
+        }
+
+        .growth-channels {
+          margin-top: 0;
+        }
+
+        .growth-mobile-summary {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 7px;
+          margin: 0 0 16px;
+          padding: 0;
+          list-style: none;
+        }
+
+        .growth-mobile-summary li {
+          padding: 7px 9px;
+          border: 1px solid rgba(34, 211, 238, 0.18);
+          border-radius: 999px;
+          background: rgba(34, 211, 238, 0.06);
+          color: #cbd5e1;
+          font-size: 0.65rem;
+          line-height: 1.2;
+        }
+
         .flow-step {
           min-height: 72px;
           text-align: left;
@@ -3271,14 +3307,14 @@
             </section>
 
             <section class="demo" data-demo="growth" aria-label="Growth and lead generation demonstration" hidden>
-              <header class="demo-header">
+              <header class="demo-header growth-demo-header">
                 <div>
                   <p class="demo-kicker">Growth system</p>
                   <h2>Connect demand to a useful response.</h2>
                 </div>
               </header>
 
-              <div class="capability-flow" aria-label="Growth and lead generation workflow">
+              <div class="capability-flow growth-flow" aria-label="Growth and lead generation workflow">
                 <div class="flow-step" style="--flow-delay: -0.2s">
                   <span>01</span><strong>Ads</strong><small>Search · paid · social</small>
                 </div>
@@ -3300,6 +3336,12 @@
               </div>
 
               <div class="growth-channels" aria-label="Growth channels">
+                <ul class="growth-mobile-summary" aria-label="How growth channels connect">
+                  <li>Search + social</li>
+                  <li>Message matched to intent</li>
+                  <li>Form qualification</li>
+                  <li>CRM follow-up</li>
+                </ul>
                 <header><strong>Connected growth channels</strong><span>Drag or use arrows</span></header>
                 <div class="app-carousel-shell">
                   <button class="app-carousel-control" type="button" data-app-scroll="-1" aria-label="Scroll growth channels left">←</button>
@@ -3555,7 +3597,7 @@
           </div>
         </div>
 
-        <div class="service-panel" id="service-explanation" role="tabpanel" aria-labelledby="key-experience">
+        <div class="service-panel" id="service-explanation" role="tabpanel" aria-labelledby="key-experience" hidden>
           <div class="service-content" id="service-content">
             <p class="channel-label">
               System <span id="channel-number">01</span>
@@ -3672,6 +3714,8 @@
       function selectService(id, moveFocus = false) {
         const service = services[id];
         if (!service) return;
+
+        servicePanel.hidden = id === "experience";
 
         keys.forEach((key) => {
           const selected = key.dataset.service === id;
