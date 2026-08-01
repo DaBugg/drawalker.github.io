@@ -1,4 +1,5 @@
 import "../js/form-security.js";
+import "../js/in-page-navigation.js";
 
 document.documentElement.classList.add("motion-ready");
 

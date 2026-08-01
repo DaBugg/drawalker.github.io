@@ -52,10 +52,26 @@ test("the flagship project uses an owned case-study route", () => {
   const sitemap = read("sitemap.xml");
 
   assert.match(homepage, /href="\/work\/transportation-solutions-lighting\.html"/);
+  assert.match(homepage, /href="\/work\/transportation-solutions-lighting\.html"[\s\S]*?target="_blank"/);
   assert.equal((caseStudy.match(/<h1\b/g) || []).length, 1);
   assert.match(caseStudy, /Reported outcome/);
   assert.match(caseStudy, /Visit the client website/);
   assert.match(sitemap, /work\/transportation-solutions-lighting\.html/);
+});
+
+test("section navigation preserves the canonical URL and case studies preserve the portfolio tab", () => {
+  const homepage = read("index.html");
+  const caseStudy = read("work/transportation-solutions-lighting.html");
+  const navigation = read("js/in-page-navigation.js");
+  const homepageHeader = homepage.match(/<header class="site-header">[\s\S]*?<\/header>/)?.[0] || "";
+  const caseStudyHeader = caseStudy.match(/<header class="site-header">[\s\S]*?<\/header>/)?.[0] || "";
+
+  assert.doesNotMatch(homepageHeader, /href="#[^"]+"/);
+  assert.doesNotMatch(caseStudyHeader, /href="\/?#[^"]+"/);
+  assert.match(homepage, /data-scroll-target="work"/);
+  assert.match(navigation, /event\.preventDefault\(\)/);
+  assert.match(homepage, /codelink\.live\/waitlist"[\s\S]*?target="_blank"[\s\S]*?rel="noopener noreferrer"/);
+  assert.match(caseStudy, /www\.tsandl\.us\/" target="_blank" rel="noopener noreferrer"/);
 });
 
 test("homepage and switchboard form one combined capabilities section", () => {
