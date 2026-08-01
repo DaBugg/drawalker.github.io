@@ -1310,6 +1310,19 @@
         place-items: center;
       }
 
+      .experience-secondary {
+        max-width: 680px;
+        margin: 16px 0 0;
+        color: #94a3b8;
+        font-size: clamp(0.92rem, 1.4vw, 1.08rem);
+        line-height: 1.6;
+      }
+
+      .experience-secondary strong {
+        color: #e2e8f0;
+        font-weight: 600;
+      }
+
       .product-nav {
         position: absolute;
         z-index: 2;
@@ -1347,33 +1360,98 @@
         transform: translateY(-50%) scale(1.06);
       }
 
+      .product-nav span {
+        transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      .product-nav[data-product-step="-1"]:hover span,
+      .product-nav[data-product-step="-1"]:focus-visible span {
+        transform: translateX(-4px);
+      }
+
+      .product-nav[data-product-step="1"]:hover span,
+      .product-nav[data-product-step="1"]:focus-visible span {
+        transform: translateX(4px);
+      }
+
+      [data-reset-product].is-resetting {
+        animation: reset-feedback 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
       .product-main {
+        position: relative;
         display: grid;
+        overflow: hidden;
+        grid-template-columns: minmax(0, 1fr) minmax(220px, 0.46fr);
+        gap: clamp(20px, 3vw, 40px);
+        align-items: center;
         justify-items: center;
         width: 100%;
-        min-height: 280px;
+        min-height: 430px;
+        padding: clamp(22px, 3vw, 38px);
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        border-radius: clamp(22px, 3vw, 34px);
+        background: rgba(8, 15, 28, 0.56);
+        box-shadow:
+          inset 0 0 90px rgba(2, 6, 23, 0.48),
+          0 26px 65px rgba(2, 6, 23, 0.18);
+        transition:
+          border-color 240ms ease,
+          background 240ms ease;
+        isolation: isolate;
       }
 
       .product-meta {
-        margin-top: -8px;
-        text-align: center;
+        position: relative;
+        z-index: 2;
+        justify-self: stretch;
+        text-align: left;
+      }
+
+      .product-category-line {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 18px;
+        color: var(--cyan);
+        font-size: clamp(0.78rem, 1.1vw, 0.9rem);
+        font-weight: 800;
+        letter-spacing: 0.065em;
+        text-transform: uppercase;
+      }
+
+      .product-category-line span:last-child {
+        color: #64748b;
       }
 
       .product-meta strong {
         display: block;
         font-family: Georgia, "Times New Roman", serif;
-        font-size: clamp(1.4rem, 3vw, 2.2rem);
+        color: #f8fafc;
+        font-size: clamp(1.65rem, 3.2vw, 2.8rem);
         font-weight: 500;
+        letter-spacing: -0.035em;
+        line-height: 1.02;
       }
 
       .product-meta span {
+        display: block;
+      }
+
+      .product-meta > span {
+        max-width: 34ch;
+        margin-top: 14px;
         color: #94a3b8;
-        font-size: 0.72rem;
-        letter-spacing: 0.09em;
-        text-transform: uppercase;
+        font-size: clamp(0.82rem, 1.05vw, 0.92rem);
+        line-height: 1.65;
       }
 
       .product-model {
+        position: relative;
+        z-index: 1;
+        grid-column: 1;
+        grid-row: 1;
         width: clamp(260px, 38vw, 480px);
         height: clamp(260px, 32vw, 390px);
         border-radius: 26px;
@@ -1384,6 +1462,338 @@
         outline: none;
         --progress-bar-color: var(--cyan);
         --progress-bar-height: 3px;
+      }
+
+      .product-model[hidden],
+      .website-reveal[hidden],
+      .product-rotation-cue[hidden] {
+        display: none;
+      }
+
+      .product-main::before,
+      .product-main::after {
+        position: absolute;
+        z-index: -1;
+        content: "";
+        pointer-events: none;
+      }
+
+      .product-main::before {
+        top: 50%;
+        left: 31%;
+        width: min(44vw, 520px);
+        aspect-ratio: 1;
+        border: 1px solid rgba(34, 211, 238, 0.12);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .product-main::after {
+        inset: 0;
+        background:
+          repeating-radial-gradient(circle at 20% 30%, transparent 0 3px, rgba(255, 255, 255, 0.014) 4px 5px),
+          radial-gradient(circle at 30% 52%, rgba(34, 211, 238, 0.1), transparent 34%),
+          radial-gradient(ellipse at center, transparent 40%, rgba(2, 6, 23, 0.38) 100%);
+        opacity: 0.78;
+      }
+
+      .model-ground {
+        position: absolute;
+        z-index: 0;
+        bottom: 15%;
+        left: 31%;
+        width: min(34vw, 400px);
+        height: 44px;
+        border: 1px solid rgba(34, 211, 238, 0.12);
+        border-radius: 50%;
+        background: radial-gradient(ellipse, rgba(34, 211, 238, 0.12), rgba(15, 23, 42, 0.04) 58%, transparent 72%);
+        box-shadow:
+          0 16px 28px rgba(2, 6, 23, 0.34),
+          inset 0 1px rgba(255, 255, 255, 0.04);
+        transform: translateX(-50%);
+        pointer-events: none;
+      }
+
+      .model-ground[hidden] {
+        display: none;
+      }
+
+      .scan-transition {
+        position: absolute;
+        z-index: 6;
+        inset: 0 auto 0 -18%;
+        width: 12%;
+        background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.18), rgba(103, 232, 249, 0.72), transparent);
+        box-shadow: 12px 0 40px rgba(34, 211, 238, 0.2);
+        opacity: 0;
+        pointer-events: none;
+        transform: skewX(-10deg);
+      }
+
+      .product-main.is-transitioning .scan-transition {
+        animation: scene-scan 620ms cubic-bezier(0.45, 0, 0.2, 1);
+      }
+
+      .interaction-cursor {
+        position: absolute;
+        z-index: 5;
+        top: 68%;
+        left: 53%;
+        width: 18px;
+        height: 24px;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .interaction-cursor::before {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.72);
+        border-radius: 12px 12px 12px 2px;
+        background: rgba(15, 23, 42, 0.72);
+        box-shadow: 0 5px 18px rgba(2, 6, 23, 0.5);
+        content: "";
+        transform: rotate(-28deg);
+      }
+
+      .interaction-cursor.is-demonstrating {
+        animation: cursor-demonstration 3.4s cubic-bezier(0.22, 1, 0.36, 1) 700ms 1 both;
+      }
+
+      [data-experience-scene="architecture"] .product-main {
+        border-color: rgba(201, 174, 122, 0.27);
+        background:
+          linear-gradient(rgba(201, 174, 122, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(201, 174, 122, 0.045) 1px, transparent 1px),
+          rgba(8, 15, 28, 0.66);
+        background-size: 28px 28px;
+      }
+
+      [data-experience-scene="architecture"] .product-main::before {
+        width: min(40vw, 480px);
+        border-color: rgba(201, 174, 122, 0.23);
+        border-radius: 0;
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+
+      [data-experience-scene="architecture"] .product-main::after {
+        background:
+          repeating-radial-gradient(circle at 20% 30%, transparent 0 3px, rgba(255, 255, 255, 0.014) 4px 5px),
+          linear-gradient(135deg, rgba(201, 174, 122, 0.08), transparent 46%),
+          radial-gradient(ellipse at center, transparent 40%, rgba(2, 6, 23, 0.42) 100%);
+      }
+
+      [data-experience-scene="architecture"] .product-category-line {
+        color: var(--gold);
+      }
+
+      [data-experience-scene="technology"] .product-main {
+        border-color: rgba(96, 165, 250, 0.27);
+        background: radial-gradient(circle at 31% 52%, rgba(96, 165, 250, 0.12), transparent 42%), #08101e;
+      }
+
+      [data-experience-scene="technology"] .product-main::before {
+        width: min(41vw, 500px);
+        border: 1px dashed rgba(96, 165, 250, 0.34);
+        box-shadow:
+          0 0 0 42px rgba(96, 165, 250, 0.025),
+          0 0 0 43px rgba(96, 165, 250, 0.12);
+      }
+
+      [data-experience-scene="technology"] .product-main::after {
+        background:
+          repeating-radial-gradient(circle at 20% 30%, transparent 0 3px, rgba(255, 255, 255, 0.014) 4px 5px),
+          linear-gradient(90deg, transparent 30%, rgba(96, 165, 250, 0.14) 30.1%, transparent 30.3%),
+          linear-gradient(transparent 52%, rgba(96, 165, 250, 0.14) 52.1%, transparent 52.3%),
+          radial-gradient(ellipse at center, transparent 40%, rgba(2, 6, 23, 0.42) 100%);
+      }
+
+      [data-experience-scene="technology"] .product-category-line {
+        color: var(--blue);
+      }
+
+      [data-experience-scene="website"] .product-main {
+        grid-template-columns: minmax(0, 1.25fr) minmax(210px, 0.5fr);
+        border-color: rgba(52, 211, 153, 0.25);
+        background: linear-gradient(145deg, rgba(52, 211, 153, 0.07), transparent 42%), #08101e;
+      }
+
+      [data-experience-scene="website"] .product-main::before {
+        top: 14%;
+        left: 10%;
+        width: 46%;
+        aspect-ratio: 1.7;
+        border-color: rgba(52, 211, 153, 0.15);
+        border-radius: 24px;
+        transform: none;
+      }
+
+      [data-experience-scene="website"] .product-main::after {
+        background:
+          repeating-radial-gradient(circle at 20% 30%, transparent 0 3px, rgba(255, 255, 255, 0.014) 4px 5px),
+          radial-gradient(circle at 24% 44%, rgba(52, 211, 153, 0.11), transparent 36%),
+          radial-gradient(ellipse at center, transparent 42%, rgba(2, 6, 23, 0.38) 100%);
+      }
+
+      [data-experience-scene="website"] .product-category-line {
+        color: var(--emerald);
+      }
+
+      .website-reveal {
+        position: relative;
+        z-index: 1;
+        grid-column: 1;
+        grid-row: 1;
+        overflow: hidden;
+        width: min(100%, 650px);
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 18px;
+        background: #eef2f6;
+        box-shadow: 0 30px 60px rgba(2, 6, 23, 0.45);
+        color: #0f172a;
+      }
+
+      .browser-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        min-height: 34px;
+        padding: 0 12px;
+        border-bottom: 1px solid #d8dee8;
+        background: #fff;
+      }
+
+      .browser-toolbar i {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #94a3b8;
+      }
+
+      .browser-toolbar span {
+        margin-left: 10px;
+        color: #64748b;
+        font-size: 0.55rem;
+        letter-spacing: 0.04em;
+      }
+
+      .landing-page-reveal {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(140px, 0.72fr);
+        gap: 18px;
+        align-items: center;
+        min-height: 290px;
+        padding: clamp(24px, 4vw, 46px);
+        background:
+          radial-gradient(circle at 82% 44%, rgba(14, 116, 144, 0.15), transparent 28%),
+          linear-gradient(145deg, #f8fafc, #e2e8f0);
+      }
+
+      .landing-page-reveal small {
+        color: #0e7490;
+        font-size: 0.55rem;
+        font-weight: 800;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      .landing-page-reveal strong {
+        display: block;
+        max-width: 10ch;
+        margin-top: 11px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(1.65rem, 3.3vw, 3.1rem);
+        font-weight: 500;
+        letter-spacing: -0.05em;
+        line-height: 0.92;
+      }
+
+      .landing-page-reveal p {
+        max-width: 30ch;
+        margin: 14px 0 0;
+        color: #475569;
+        font-size: 0.64rem;
+        line-height: 1.55;
+      }
+
+      .landing-page-cta {
+        display: inline-flex;
+        margin-top: 18px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: #0f172a;
+        color: #f8fafc;
+        font-size: 0.55rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .landing-product {
+        position: relative;
+        display: grid;
+        aspect-ratio: 1;
+        place-items: center;
+        border: 1px solid rgba(14, 116, 144, 0.17);
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.58);
+        color: #0e7490;
+        font-size: clamp(1.4rem, 4vw, 2.8rem);
+        font-weight: 300;
+      }
+
+      .landing-product::before,
+      .landing-product::after {
+        position: absolute;
+        border: 1px solid rgba(14, 116, 144, 0.18);
+        border-radius: 50%;
+        content: "";
+      }
+
+      .landing-product::before {
+        inset: 14%;
+      }
+
+      .landing-product::after {
+        inset: 28%;
+      }
+
+      .architecture-fallback {
+        position: relative;
+        z-index: 1;
+        grid-column: 1;
+        grid-row: 1;
+        display: flex;
+        width: min(72%, 360px);
+        min-height: 300px;
+        align-items: end;
+        justify-content: center;
+        gap: 12px;
+        padding: 40px 20px 0;
+        border-bottom: 1px solid rgba(201, 174, 122, 0.36);
+      }
+
+      .architecture-fallback[hidden] {
+        display: none;
+      }
+
+      .architecture-fallback span {
+        width: 24%;
+        border: 1px solid rgba(201, 174, 122, 0.48);
+        background: linear-gradient(90deg, transparent 48%, rgba(201, 174, 122, 0.18) 49%, rgba(201, 174, 122, 0.18) 51%, transparent 52%);
+      }
+
+      .architecture-fallback span:nth-child(1) {
+        height: 48%;
+      }
+
+      .architecture-fallback span:nth-child(2) {
+        height: 92%;
+      }
+
+      .architecture-fallback span:nth-child(3) {
+        height: 68%;
       }
 
       .product-model:focus-visible {
@@ -1408,6 +1818,114 @@
         font-size: 1.55rem;
         line-height: 1;
         opacity: 0.9;
+      }
+
+      .experience-progress {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+        width: min(760px, calc(100% - 112px));
+        margin: 20px auto 0;
+      }
+
+      .experience-progress button {
+        display: grid;
+        gap: 8px;
+        padding: 8px 2px;
+        border: 0;
+        background: transparent;
+        color: #64748b;
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.67rem;
+        text-align: left;
+        transition: color 180ms ease;
+      }
+
+      .experience-progress button::before {
+        width: 100%;
+        height: 2px;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.2);
+        content: "";
+        transition:
+          background-color 220ms ease,
+          box-shadow 220ms ease,
+          transform 220ms ease;
+        transform-origin: left;
+      }
+
+      .experience-progress button[aria-current="step"] {
+        color: #e2e8f0;
+      }
+
+      .experience-progress button[aria-current="step"]::before {
+        background: var(--cyan);
+        box-shadow: 0 0 12px rgba(34, 211, 238, 0.5);
+        animation: progress-active 420ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .experience-progress button:hover,
+      .experience-progress button:focus-visible {
+        outline: none;
+        color: #f8fafc;
+      }
+
+      .experience-progress button:focus-visible::before {
+        box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.2);
+      }
+
+      @keyframes reset-feedback {
+        50% {
+          border-color: var(--cyan);
+          background: rgba(34, 211, 238, 0.16);
+          box-shadow: 0 0 0 5px rgba(34, 211, 238, 0.08);
+          transform: rotate(-2deg) scale(0.97);
+        }
+      }
+
+      @keyframes scene-scan {
+        0% {
+          left: -18%;
+          opacity: 0;
+        }
+        18%,
+        78% {
+          opacity: 1;
+        }
+        100% {
+          left: 112%;
+          opacity: 0;
+        }
+      }
+
+      @keyframes cursor-demonstration {
+        0%,
+        12% {
+          opacity: 0;
+          transform: translate(0, 0) scale(0.85);
+        }
+        24%,
+        72% {
+          opacity: 0.9;
+        }
+        52% {
+          opacity: 0.9;
+          transform: translate(-92px, -42px) scale(0.92);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-92px, -42px) scale(0.92);
+        }
+      }
+
+      @keyframes progress-active {
+        from {
+          transform: scaleX(0);
+        }
+        to {
+          transform: scaleX(1);
+        }
       }
 
       .ai-layout {
@@ -2281,12 +2799,69 @@
         }
 
         .product-main {
-          min-height: 240px;
+          grid-template-columns: 1fr;
+          gap: 20px;
+          min-height: 420px;
+          padding: 22px 18px 26px;
         }
 
         .product-model {
+          grid-column: 1;
           width: min(82vw, 420px);
           height: min(76vw, 360px);
+        }
+
+        .product-meta {
+          grid-column: 1;
+          width: 100%;
+        }
+
+        .product-main::before {
+          top: 34%;
+          left: 50%;
+          width: min(76vw, 360px);
+        }
+
+        [data-experience-scene="website"] .product-main {
+          grid-template-columns: 1fr;
+        }
+
+        [data-experience-scene="website"] .product-main::before {
+          top: 7%;
+          left: 6%;
+          width: 88%;
+        }
+
+        .website-reveal {
+          grid-column: 1;
+          width: 100%;
+        }
+
+        .landing-page-reveal {
+          min-height: 250px;
+          padding: 24px;
+        }
+
+        .landing-page-reveal p {
+          display: none;
+        }
+
+        .architecture-fallback {
+          grid-column: 1;
+          min-height: 260px;
+        }
+
+        .model-ground {
+          bottom: 39%;
+          left: 50%;
+          width: min(68vw, 330px);
+        }
+
+        .experience-progress {
+          grid-template-columns: repeat(4, minmax(92px, 1fr));
+          width: 100%;
+          overflow-x: auto;
+          padding-bottom: 6px;
         }
 
         .product-nav {
@@ -2430,6 +3005,10 @@
 
         .service-key[aria-selected="true"] .key-cap {
           transform: none;
+        }
+
+        .interaction-cursor {
+          display: none;
         }
       }
     </style>
@@ -2789,8 +3368,9 @@
             <section class="demo" data-demo="experience" aria-label="Interactive product demonstration">
               <header class="demo-header">
                 <div>
-                  <p class="demo-kicker">Interactive product viewer</p>
-                  <h2>Put the product in the customer’s hands.</h2>
+                  <p class="demo-kicker">Interactive 3D experiences for modern websites.</p>
+                  <h2>Let customers explore the product before they buy.</h2>
+                  <p class="experience-secondary"><strong>Put the product in the customer’s hands.</strong> Make its scale, details, and value clear in the website itself.</p>
                 </div>
                 <button class="micro-control" type="button" data-reset-product>Reset view</button>
               </header>
@@ -2800,15 +3380,16 @@
                   class="product-nav"
                   type="button"
                   data-product-step="-1"
-                  aria-label="Show previous product: Quadcopter"
+                  aria-label="Show previous experience: Website experience"
                 >
                   <span aria-hidden="true">←</span>
                 </button>
-                <div class="product-main">
+                <div class="product-main" id="experience-stage">
+                  <div class="model-ground" aria-hidden="true"></div>
                   <model-viewer
                     class="product-model"
                     id="product-model"
-                    alt="Interactive 3D model showcasing clothing and accessories"
+                    alt="Interactive 3D product visualization of a shoe"
                     camera-controls
                     auto-rotate
                     rotation-per-second="16deg"
@@ -2822,16 +3403,39 @@
                     shadow-softness="0.8"
                     touch-action="pan-y"
                   ></model-viewer>
-                  <div class="product-meta">
-                    <strong id="product-name">Clothing and Accessories</strong>
-                    <span id="product-material">Interactive Designs</span>
+                  <div class="architecture-fallback" id="architecture-fallback" role="img" aria-label="Technical building model preview" hidden>
+                    <span></span><span></span><span></span>
                   </div>
+                  <div class="website-reveal" id="website-reveal" role="img" aria-label="Modern product landing page shown inside a browser" hidden>
+                    <div class="browser-toolbar" aria-hidden="true">
+                      <i></i><i></i><i></i><span>product.example / explore</span>
+                    </div>
+                    <div class="landing-page-reveal">
+                      <div>
+                        <small>New release / 01</small>
+                        <strong>Designed to be explored.</strong>
+                        <p>Product storytelling, motion, and interaction become one focused buying experience.</p>
+                        <span class="landing-page-cta">Explore product →</span>
+                      </div>
+                      <div class="landing-product" aria-hidden="true">3D</div>
+                    </div>
+                  </div>
+                  <div class="product-meta">
+                    <div class="product-category-line">
+                      <span id="product-category">Product visualization</span>
+                      <span id="product-index">01 / 04</span>
+                    </div>
+                    <strong id="product-name">Inspect every product detail.</strong>
+                    <span id="product-material">Let customers rotate a shoe, examine materials, and understand the product from every angle.</span>
+                  </div>
+                  <span class="interaction-cursor" aria-hidden="true"></span>
+                  <span class="scan-transition" aria-hidden="true"></span>
                 </div>
                 <button
                   class="product-nav"
                   type="button"
                   data-product-step="1"
-                  aria-label="Show next product: Shoes"
+                  aria-label="Show next experience: Architectural visualization"
                 >
                   <span aria-hidden="true">→</span>
                 </button>
@@ -2839,6 +3443,12 @@
               <div class="product-rotation-cue" role="img" aria-label="Drag the product left or right to rotate">
                 <span aria-hidden="true">⟲</span>
                 <span aria-hidden="true">⟳</span>
+              </div>
+              <div class="experience-progress" aria-label="Experience scenes">
+                <button type="button" data-product-select="0" aria-current="step">Product</button>
+                <button type="button" data-product-select="1">Architecture</button>
+                <button type="button" data-product-select="2">Technology</button>
+                <button type="button" data-product-select="3">Website</button>
               </div>
             </section>
 
@@ -3514,48 +4124,74 @@
 
       const mobileProductQuery = window.matchMedia("(max-width: 700px)");
       const createProductModels = () => {
-        const models = [
-          {
-            src: "/images/Stock-shirt-compressed-v1.glb",
-            name: "Clothing and Accessories",
-            material: "Interactive Designs",
-            alt: "Interactive 3D model showcasing clothing and accessories",
-          },
-          {
-            src: "/images/Chicago_Air_Jordan1_Compress-v1.glb",
-            name: "Shoes",
-            material: "Interactive Designs",
-            alt: "Interactive 3D model showcasing shoes",
-          },
-        ];
+        const architecture = {
+          scene: "architecture",
+          src: "",
+          category: "Architectural visualization",
+          name: "See the space before it is built.",
+          material: "Explore scale, structure, and construction detail in a navigable building model.",
+          alt: "Interactive 3D architectural model of a building under construction",
+          cameraOrbit: "28deg 68deg auto",
+        };
 
         if (!mobileProductQuery.matches) {
-          models.push({
-            src: "/images/Building_Under_Cons_Compress-v1.glb",
-            name: "Construction and Modeling",
-            material: "Helping construction firms model and rebrand for the digital environment",
-            alt: "Interactive 3D model of a building under construction",
-          });
+          architecture.src = "/images/Building_Under_Cons_Compress-v1.glb";
         }
 
-        models.push({
-          src: "/images/Midnight_Sentinel_Compress-v1.glb",
-          name: "Quadcopter",
-          material: "Products and electronics sold in the U.S. market",
-          alt: "Interactive 3D model of a quadcopter",
-        });
-
-        return models;
+        return [
+          {
+            scene: "product",
+            src: "/images/Chicago_Air_Jordan1_Compress-v1.glb",
+            category: "Product visualization",
+            name: "Inspect every product detail.",
+            material: "Let customers rotate a shoe, examine materials, and understand the product from every angle.",
+            alt: "Interactive 3D product visualization of a shoe",
+            cameraOrbit: "35deg 72deg auto",
+          },
+          architecture,
+          {
+            scene: "technology",
+            src: "/images/Midnight_Sentinel_Compress-v1.glb",
+            category: "Interactive technology",
+            name: "Make complex technology tangible.",
+            material: "Reveal form, components, and product behavior through a responsive drone experience.",
+            alt: "Interactive 3D technology visualization of a quadcopter drone",
+            cameraOrbit: "40deg 66deg auto",
+          },
+          {
+            scene: "website",
+            src: "",
+            category: "Website experience",
+            name: "Turn product exploration into action.",
+            material: "Bring the model, story, and next step together in a focused product landing page.",
+            alt: "Modern product landing page shown inside a browser",
+          },
+        ];
       };
       let productModels = createProductModels();
       const productModel = document.querySelector("#product-model");
       const productDemo = document.querySelector('[data-demo="experience"]');
+      const experienceStage = document.querySelector("#experience-stage");
+      const productCategory = document.querySelector("#product-category");
+      const productIndex = document.querySelector("#product-index");
       const productName = document.querySelector("#product-name");
       const productMaterial = document.querySelector("#product-material");
+      const productMeta = document.querySelector(".product-meta");
+      const websiteReveal = document.querySelector("#website-reveal");
+      const architectureFallback = document.querySelector("#architecture-fallback");
+      const modelGround = document.querySelector(".model-ground");
+      const productRotationCue = document.querySelector(".product-rotation-cue");
+      const productCursor = document.querySelector(".interaction-cursor");
+      const resetProductButton = document.querySelector("[data-reset-product]");
+      const productProgressButtons = [...document.querySelectorAll("[data-product-select]")];
       const previousProductButton = document.querySelector('[data-product-step="-1"]');
       const nextProductButton = document.querySelector('[data-product-step="1"]');
+      const reduceProductMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       let currentProductIndex = 0;
       let modelViewerPromise = null;
+      let transitionTimer = null;
+      let transitionCleanupTimer = null;
+      let hasShownProductCursor = false;
 
       function loadModelViewer() {
         if (customElements.get("model-viewer")) return Promise.resolve();
@@ -3571,10 +4207,17 @@
         return modelViewerPromise;
       }
 
-      function resetProductView() {
-        productModel.cameraOrbit = "35deg 72deg auto";
+      function resetProductView(showFeedback = true) {
+        const product = productModels[currentProductIndex];
+        if (!product?.src) return;
+        productModel.cameraOrbit = product.cameraOrbit;
         productModel.resetTurntableRotation?.();
         productModel.jumpCameraToGoal?.();
+        if (!showFeedback) return;
+        resetProductButton.classList.remove("is-resetting");
+        void resetProductButton.offsetWidth;
+        resetProductButton.classList.add("is-resetting");
+        window.setTimeout(() => resetProductButton.classList.remove("is-resetting"), 560);
       }
 
       function renderProduct(index, loadModel = true) {
@@ -3584,36 +4227,79 @@
           (currentProductIndex - 1 + productModels.length) % productModels.length
         ];
         const nextProduct = productModels[(currentProductIndex + 1) % productModels.length];
+        const hasInteractiveModel = Boolean(product.src);
+        const showArchitectureFallback = product.scene === "architecture" && !product.src;
 
+        productDemo.dataset.experienceScene = product.scene;
+        productCategory.textContent = product.category;
+        productIndex.textContent = `${String(currentProductIndex + 1).padStart(2, "0")} / 04`;
         productName.textContent = product.name;
         productMaterial.textContent = product.material;
         productModel.alt = product.alt;
-        previousProductButton.setAttribute("aria-label", `Show previous product: ${previousProduct.name}`);
-        nextProductButton.setAttribute("aria-label", `Show next product: ${nextProduct.name}`);
+        productModel.hidden = !hasInteractiveModel;
+        websiteReveal.hidden = product.scene !== "website";
+        architectureFallback.hidden = !showArchitectureFallback;
+        modelGround.hidden = !(hasInteractiveModel || showArchitectureFallback);
+        productRotationCue.hidden = !hasInteractiveModel;
+        resetProductButton.hidden = !hasInteractiveModel;
+        previousProductButton.setAttribute("aria-label", `Show previous experience: ${previousProduct.category}`);
+        nextProductButton.setAttribute("aria-label", `Show next experience: ${nextProduct.category}`);
+        productProgressButtons.forEach((button, buttonIndex) => {
+          if (buttonIndex === currentProductIndex) {
+            button.setAttribute("aria-current", "step");
+          } else {
+            button.removeAttribute("aria-current");
+          }
+        });
 
-        if (loadModel && productModel.getAttribute("src") !== product.src) {
+        if (!hasInteractiveModel) {
+          productModel.removeAttribute("src");
+        } else if (loadModel && productModel.getAttribute("src") !== product.src) {
           productModel.setAttribute("src", product.src);
+        }
+
+        if (!reduceProductMotion && typeof productMeta.animate === "function") {
+          productMeta.animate(
+            [
+              { opacity: 0, transform: "translateY(16px)" },
+              { opacity: 1, transform: "translateY(0)" },
+            ],
+            { duration: 440, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
+          );
         }
       }
 
-      function refreshProductModels() {
-        const currentSrc = productModel.getAttribute("src");
-        productModels = createProductModels();
-
-        if (!currentSrc) {
-          currentProductIndex = 0;
+      function changeProduct(index) {
+        if (reduceProductMotion) {
+          renderProduct(index);
           return;
         }
 
-        const nextIndex = productModels.findIndex((product) => product.src === currentSrc);
-        if (nextIndex >= 0) {
-          renderProduct(nextIndex);
+        window.clearTimeout(transitionTimer);
+        window.clearTimeout(transitionCleanupTimer);
+        experienceStage.classList.remove("is-transitioning");
+        void experienceStage.offsetWidth;
+        experienceStage.classList.add("is-transitioning");
+        transitionTimer = window.setTimeout(() => renderProduct(index), 250);
+        transitionCleanupTimer = window.setTimeout(() => {
+          experienceStage.classList.remove("is-transitioning");
+        }, 650);
+      }
+
+      function refreshProductModels() {
+        const currentScene = productModels[currentProductIndex]?.scene;
+        productModels = createProductModels();
+        const nextIndex = productModels.findIndex((product) => product.scene === currentScene);
+
+        if (nextIndex < 0) {
+          productModel.removeAttribute("src");
+          currentProductIndex = 0;
+          renderProduct(0, !productDemo.hidden);
           return;
         }
 
         productModel.removeAttribute("src");
-        currentProductIndex = 0;
-        renderProduct(0, !productDemo.hidden);
+        renderProduct(nextIndex, !productDemo.hidden);
       }
 
       if (mobileProductQuery.addEventListener) {
@@ -3624,8 +4310,9 @@
 
       async function loadCurrentProductModel() {
         try {
-          await loadModelViewer();
-          if (!productModel.hasAttribute("src")) renderProduct(currentProductIndex);
+          const product = productModels[currentProductIndex];
+          if (product.src) await loadModelViewer();
+          renderProduct(currentProductIndex);
         } catch {
           productMaterial.textContent = "Interactive preview unavailable. Please try again.";
         }
@@ -3633,12 +4320,22 @@
 
       document.querySelectorAll("[data-product-step]").forEach((button) => {
         button.addEventListener("click", () => {
-          renderProduct(currentProductIndex + Number(button.dataset.productStep));
+          changeProduct(currentProductIndex + Number(button.dataset.productStep));
         });
       });
 
-      productModel.addEventListener("load", resetProductView);
-      document.querySelector("[data-reset-product]").addEventListener("click", resetProductView);
+      productProgressButtons.forEach((button) => {
+        button.addEventListener("click", () => changeProduct(Number(button.dataset.productSelect)));
+      });
+
+      productModel.addEventListener("load", () => {
+        resetProductView(false);
+        if (currentProductIndex === 0 && !hasShownProductCursor && !reduceProductMotion) {
+          hasShownProductCursor = true;
+          productCursor.classList.add("is-demonstrating");
+        }
+      });
+      resetProductButton.addEventListener("click", resetProductView);
       selectService("experience");
 
       const reportSwitchboardHeight = () => {
