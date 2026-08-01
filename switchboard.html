@@ -1743,6 +1743,16 @@
         font-weight: 300;
       }
 
+      .landing-product model-viewer {
+        position: relative;
+        z-index: 1;
+        width: 118%;
+        height: 118%;
+        outline: none;
+        --progress-bar-color: #0e7490;
+        --progress-bar-height: 2px;
+      }
+
       .landing-product::before,
       .landing-product::after {
         position: absolute;
@@ -1757,43 +1767,6 @@
 
       .landing-product::after {
         inset: 28%;
-      }
-
-      .architecture-fallback {
-        position: relative;
-        z-index: 1;
-        grid-column: 1;
-        grid-row: 1;
-        display: flex;
-        width: min(72%, 360px);
-        min-height: 300px;
-        align-items: end;
-        justify-content: center;
-        gap: 12px;
-        padding: 40px 20px 0;
-        border-bottom: 1px solid rgba(201, 174, 122, 0.36);
-      }
-
-      .architecture-fallback[hidden] {
-        display: none;
-      }
-
-      .architecture-fallback span {
-        width: 24%;
-        border: 1px solid rgba(201, 174, 122, 0.48);
-        background: linear-gradient(90deg, transparent 48%, rgba(201, 174, 122, 0.18) 49%, rgba(201, 174, 122, 0.18) 51%, transparent 52%);
-      }
-
-      .architecture-fallback span:nth-child(1) {
-        height: 48%;
-      }
-
-      .architecture-fallback span:nth-child(2) {
-        height: 92%;
-      }
-
-      .architecture-fallback span:nth-child(3) {
-        height: 68%;
       }
 
       .product-model:focus-visible {
@@ -1822,7 +1795,7 @@
 
       .experience-progress {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(var(--experience-count, 4), minmax(0, 1fr));
         gap: 8px;
         width: min(760px, calc(100% - 112px));
         margin: 20px auto 0;
@@ -1840,6 +1813,10 @@
         font-size: 0.67rem;
         text-align: left;
         transition: color 180ms ease;
+      }
+
+      .experience-progress button[hidden] {
+        display: none;
       }
 
       .experience-progress button::before {
@@ -2846,11 +2823,6 @@
           display: none;
         }
 
-        .architecture-fallback {
-          grid-column: 1;
-          min-height: 260px;
-        }
-
         .model-ground {
           bottom: 39%;
           left: 50%;
@@ -2858,7 +2830,7 @@
         }
 
         .experience-progress {
-          grid-template-columns: repeat(4, minmax(92px, 1fr));
+          grid-template-columns: repeat(var(--experience-count, 3), minmax(92px, 1fr));
           width: 100%;
           overflow-x: auto;
           padding-bottom: 6px;
@@ -3403,9 +3375,6 @@
                     shadow-softness="0.8"
                     touch-action="pan-y"
                   ></model-viewer>
-                  <div class="architecture-fallback" id="architecture-fallback" role="img" aria-label="Technical building model preview" hidden>
-                    <span></span><span></span><span></span>
-                  </div>
                   <div class="website-reveal" id="website-reveal" role="img" aria-label="Modern product landing page shown inside a browser" hidden>
                     <div class="browser-toolbar" aria-hidden="true">
                       <i></i><i></i><i></i><span>product.example / explore</span>
@@ -3417,7 +3386,20 @@
                         <p>Product storytelling, motion, and interaction become one focused buying experience.</p>
                         <span class="landing-page-cta">Explore product →</span>
                       </div>
-                      <div class="landing-product" aria-hidden="true">3D</div>
+                      <div class="landing-product">
+                        <model-viewer
+                          id="website-product-model"
+                          alt="Rotating 3D model of a shirt inside a product landing page"
+                          auto-rotate
+                          rotation-per-second="14deg"
+                          camera-orbit="25deg 72deg auto"
+                          environment-image="neutral"
+                          tone-mapping="neutral"
+                          exposure="1.05"
+                          shadow-intensity="1"
+                          shadow-softness="0.9"
+                        ></model-viewer>
+                      </div>
                     </div>
                   </div>
                   <div class="product-meta">
@@ -3445,10 +3427,10 @@
                 <span aria-hidden="true">⟳</span>
               </div>
               <div class="experience-progress" aria-label="Experience scenes">
-                <button type="button" data-product-select="0" aria-current="step">Product</button>
-                <button type="button" data-product-select="1">Architecture</button>
-                <button type="button" data-product-select="2">Technology</button>
-                <button type="button" data-product-select="3">Website</button>
+                <button type="button" data-product-scene="product" aria-current="step">Product</button>
+                <button type="button" data-product-scene="architecture">Architecture</button>
+                <button type="button" data-product-scene="technology">Technology</button>
+                <button type="button" data-product-scene="website">Website</button>
               </div>
             </section>
 
@@ -4124,21 +4106,7 @@
 
       const mobileProductQuery = window.matchMedia("(max-width: 700px)");
       const createProductModels = () => {
-        const architecture = {
-          scene: "architecture",
-          src: "",
-          category: "Architectural visualization",
-          name: "See the space before it is built.",
-          material: "Explore scale, structure, and construction detail in a navigable building model.",
-          alt: "Interactive 3D architectural model of a building under construction",
-          cameraOrbit: "28deg 68deg auto",
-        };
-
-        if (!mobileProductQuery.matches) {
-          architecture.src = "/images/Building_Under_Cons_Compress-v1.glb";
-        }
-
-        return [
+        const models = [
           {
             scene: "product",
             src: "/images/Chicago_Air_Jordan1_Compress-v1.glb",
@@ -4148,7 +4116,22 @@
             alt: "Interactive 3D product visualization of a shoe",
             cameraOrbit: "35deg 72deg auto",
           },
-          architecture,
+        ];
+        const architecture = {
+          scene: "architecture",
+          src: "/images/Building_Under_Cons_Compress-v1.glb",
+          category: "Architectural visualization",
+          name: "See the space before it is built.",
+          material: "Explore scale, structure, and construction detail in a navigable building model.",
+          alt: "Interactive 3D architectural model of a building under construction",
+          cameraOrbit: "28deg 68deg auto",
+        };
+
+        if (!mobileProductQuery.matches) {
+          models.push(architecture);
+        }
+
+        models.push(
           {
             scene: "technology",
             src: "/images/Midnight_Sentinel_Compress-v1.glb",
@@ -4166,7 +4149,9 @@
             material: "Bring the model, story, and next step together in a focused product landing page.",
             alt: "Modern product landing page shown inside a browser",
           },
-        ];
+        );
+
+        return models;
       };
       let productModels = createProductModels();
       const productModel = document.querySelector("#product-model");
@@ -4177,8 +4162,8 @@
       const productName = document.querySelector("#product-name");
       const productMaterial = document.querySelector("#product-material");
       const productMeta = document.querySelector(".product-meta");
+      const websiteProductModel = document.querySelector("#website-product-model");
       const websiteReveal = document.querySelector("#website-reveal");
-      const architectureFallback = document.querySelector("#architecture-fallback");
       const modelGround = document.querySelector(".model-ground");
       const productRotationCue = document.querySelector(".product-rotation-cue");
       const productCursor = document.querySelector(".interaction-cursor");
@@ -4228,24 +4213,25 @@
         ];
         const nextProduct = productModels[(currentProductIndex + 1) % productModels.length];
         const hasInteractiveModel = Boolean(product.src);
-        const showArchitectureFallback = product.scene === "architecture" && !product.src;
 
         productDemo.dataset.experienceScene = product.scene;
+        productDemo.style.setProperty("--experience-count", productModels.length);
         productCategory.textContent = product.category;
-        productIndex.textContent = `${String(currentProductIndex + 1).padStart(2, "0")} / 04`;
+        productIndex.textContent = `${String(currentProductIndex + 1).padStart(2, "0")} / ${String(productModels.length).padStart(2, "0")}`;
         productName.textContent = product.name;
         productMaterial.textContent = product.material;
         productModel.alt = product.alt;
         productModel.hidden = !hasInteractiveModel;
         websiteReveal.hidden = product.scene !== "website";
-        architectureFallback.hidden = !showArchitectureFallback;
-        modelGround.hidden = !(hasInteractiveModel || showArchitectureFallback);
+        modelGround.hidden = !hasInteractiveModel;
         productRotationCue.hidden = !hasInteractiveModel;
         resetProductButton.hidden = !hasInteractiveModel;
         previousProductButton.setAttribute("aria-label", `Show previous experience: ${previousProduct.category}`);
         nextProductButton.setAttribute("aria-label", `Show next experience: ${nextProduct.category}`);
-        productProgressButtons.forEach((button, buttonIndex) => {
-          if (buttonIndex === currentProductIndex) {
+        productProgressButtons.forEach((button) => {
+          const sceneIsAvailable = productModels.some((item) => item.scene === button.dataset.productScene);
+          button.hidden = !sceneIsAvailable;
+          if (button.dataset.productScene === product.scene) {
             button.setAttribute("aria-current", "step");
           } else {
             button.removeAttribute("aria-current");
@@ -4256,6 +4242,10 @@
           productModel.removeAttribute("src");
         } else if (loadModel && productModel.getAttribute("src") !== product.src) {
           productModel.setAttribute("src", product.src);
+        }
+
+        if (product.scene === "website" && !websiteProductModel.hasAttribute("src")) {
+          websiteProductModel.setAttribute("src", "/images/Stock-shirt-compressed-v1.glb");
         }
 
         if (!reduceProductMotion && typeof productMeta.animate === "function") {
@@ -4325,7 +4315,10 @@
       });
 
       productProgressButtons.forEach((button) => {
-        button.addEventListener("click", () => changeProduct(Number(button.dataset.productSelect)));
+        button.addEventListener("click", () => {
+          const nextIndex = productModels.findIndex((product) => product.scene === button.dataset.productScene);
+          if (nextIndex >= 0) changeProduct(nextIndex);
+        });
       });
 
       productModel.addEventListener("load", () => {
