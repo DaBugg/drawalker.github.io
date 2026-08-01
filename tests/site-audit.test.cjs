@@ -191,4 +191,8 @@ test("hero carousel keeps the approved video order", () => {
   const measured = main.indexOf('label: "Measured outcomes"');
 
   assert.ok(immersive < market && market < brand && brand < measured);
+  assert.match(
+    main,
+    /Language-translation\.MOV"\),[\s\S]*?fit: "contain"[\s\S]*?Realtor-redesign\.mp4"\),[\s\S]*?fit: "contain"/,
+  );
 });

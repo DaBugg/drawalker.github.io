@@ -15,6 +15,7 @@ const videos = [
   {
     type: "native",
     src: assetUrl("Language-translation.MOV"),
+    fit: "contain",
     poster: "https://image.mux.com/3hfzhGk1IQHb2kZwv01YlNYA6olGBfF70000SqZXQ702ozo/thumbnail.webp?width=1200&time=0",
     label: "U.S. market readiness",
     caption: "Rebranding and translating international websites for modern U.S. audiences.",
@@ -22,6 +23,7 @@ const videos = [
   {
     type: "native",
     src: assetUrl("Realtor-redesign.mp4"),
+    fit: "contain",
     poster: "https://image.mux.com/bmUEq0015EGNUVijLFRpphb007VWlqrbFp8rS9iJGJPGM/thumbnail.webp?width=1200&time=0",
     label: "Brand systems",
     caption: "Clear digital experiences that make complex services easier to understand.",
@@ -120,6 +122,7 @@ function initializeCarousel() {
       nativeVideo.dataset.activeSrc = src;
       nativeVideo.title = `${activeVideo.label} video`;
       nativeVideo.poster = activeVideo.poster;
+      nativeVideo.style.objectFit = activeVideo.fit || "cover";
       nativeVideo.controls = reduceMotion;
       nativeVideo.loop = !reduceMotion;
       nativeVideo.preload = "metadata";
