@@ -82,7 +82,7 @@
       </details>
     </header>
 
-    <main id="main">
+    <main id="main" tabindex="-1">
       <section class="hero" id="top">
         <div class="hero-copy">
           <p class="eyebrow">Websites · Custom software · Automation · Connected workflows</p>
@@ -131,9 +131,14 @@
               class="video-poster"
               data-video-poster
               src="https://image.mux.com/Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc/thumbnail.webp?width=1200&amp;time=0"
+              srcset="https://image.mux.com/Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc/thumbnail.webp?width=640&amp;time=0 640w, https://image.mux.com/Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc/thumbnail.webp?width=960&amp;time=0 960w, https://image.mux.com/Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc/thumbnail.webp?width=1200&amp;time=0 1200w"
+              sizes="(max-width: 980px) 100vw, 50vw"
               alt=""
               decoding="async"
-              fetchpriority="low"
+              fetchpriority="high"
+              loading="eager"
+              width="1200"
+              height="675"
             />
             <video
               data-video-native
@@ -535,7 +540,7 @@
         </div>
 
         <div class="contact-form-shell">
-          <form class="contact-form" action="/api/send-quote" method="post" data-contact-form novalidate>
+          <form class="contact-form" action="/api/send-quote" method="post" data-contact-form>
             <div class="honeypot" aria-hidden="true">
               <label for="website">Leave this field empty</label>
               <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />

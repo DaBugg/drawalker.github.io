@@ -2,8 +2,6 @@ import "../js/form-security.js";
 import "../js/in-page-navigation.js";
 import { assetUrl } from "./asset-url.js";
 
-document.documentElement.classList.add("motion-ready");
-
 const videos = [
   {
     type: "native",
@@ -38,6 +36,15 @@ const videos = [
 ];
 
 const formatIndex = (index) => String(index + 1).padStart(2, "0");
+const responsivePosterSources = (source) => {
+  const url = new URL(source);
+  return [640, 960, 1200]
+    .map((width) => {
+      url.searchParams.set("width", String(width));
+      return `${url.toString()} ${width}w`;
+    })
+    .join(", ");
+};
 
 function initializeCarousel() {
   const carousel = document.querySelector("[data-video-carousel]");
@@ -142,6 +149,7 @@ function initializeCarousel() {
     frame.title = `${activeVideo.label} video`;
     nativeVideo.title = `${activeVideo.label} video`;
     poster.src = activeVideo.poster;
+    poster.srcset = responsivePosterSources(activeVideo.poster);
     count.textContent = `${formatIndex(activeIndex)} / ${String(videos.length).padStart(2, "0")}`;
     indexLabel.textContent = formatIndex(activeIndex);
     title.textContent = activeVideo.label;
@@ -272,6 +280,9 @@ function initializeCarousel() {
           startTimer();
           return;
         }
+        // Reduced-motion visitors get a stable poster until they explicitly
+        // choose a carousel item. Selecting an item still exposes controls.
+        if (reduceMotion) return;
         if ("requestIdleCallback" in window) {
           window.requestIdleCallback(beginMedia, { timeout: 1200 });
         } else {
@@ -283,7 +294,7 @@ function initializeCarousel() {
     observer.observe(carousel);
   } else {
     isInViewport = true;
-    window.setTimeout(beginMedia, 250);
+    if (!reduceMotion) window.setTimeout(beginMedia, 250);
   }
 
   playback.hidden = reduceMotion;
@@ -359,6 +370,13 @@ function initializeScrollReveals() {
   );
 
   targets.forEach((element) => observer.observe(element));
+  // Only enable the hidden pre-reveal state after every target is observed.
+  // If the observer stops delivering callbacks, the watchdog restores all
+  // content instead of leaving essential copy invisible.
+  document.documentElement.classList.add("motion-ready");
+  window.setTimeout(() => {
+    targets.forEach((element) => element.classList.add("is-in-view"));
+  }, 2500);
 }
 
 function initializeScrollProgress() {
@@ -459,6 +477,13 @@ function initializeContactForm() {
   };
 
   form.addEventListener("focusin", initializeTurnstile, { once: true });
+  form.addEventListener(
+    "invalid",
+    () => {
+      status.textContent = "Please complete the required fields before sending.";
+    },
+    true,
+  );
 
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver(
@@ -477,6 +502,8 @@ function initializeContactForm() {
     status.textContent = "";
 
     if (!form.checkValidity()) {
+      status.textContent = "Please complete the required fields before sending.";
+      form.querySelector(":invalid")?.focus();
       form.reportValidity();
       return;
     }

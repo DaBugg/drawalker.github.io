@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Interactive product experience preview</title>
+  <desc id="desc">A dark blue product viewing frame with cyan controls and a dimensional wireframe object.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07101f"/>
+      <stop offset="1" stop-color="#10233c"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="48%" r="52%">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity=".24"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="face" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d7fbff" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#4adff2" stop-opacity=".06"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" rx="56" fill="url(#bg)"/>
+  <circle cx="600" cy="380" r="360" fill="url(#glow)"/>
+  <g fill="none" stroke="#22d3ee" stroke-opacity=".18">
+    <ellipse cx="600" cy="605" rx="330" ry="76"/>
+    <ellipse cx="600" cy="605" rx="235" ry="50"/>
+    <path d="M210 158h780M210 642h780M258 112v576M942 112v576"/>
+  </g>
+  <g transform="translate(600 380)">
+    <path d="m0-230 226 130v260L0 290-226 160v-260Z" fill="url(#face)" stroke="#8cecf8" stroke-width="5"/>
+    <path d="m0-230v260l226 130M0 30-226 160M-226-100 0 30l226-130" fill="none" stroke="#8cecf8" stroke-width="5"/>
+    <path d="m0-160 164 94v188L0 216-164 122V-66Z" fill="none" stroke="#22d3ee" stroke-opacity=".7" stroke-width="3"/>
+    <circle cx="0" cy="30" r="24" fill="#22d3ee"/>
+    <circle cx="0" cy="30" r="50" fill="none" stroke="#22d3ee" stroke-opacity=".45" stroke-width="3"/>
+  </g>
+  <g fill="#d7fbff" font-family="Arial, Helvetica, sans-serif" font-size="24" letter-spacing="4">
+    <text x="72" y="82">PRODUCT VIEW / STATIC PREVIEW</text>
+  </g>
+  <g fill="none" stroke="#22d3ee" stroke-linecap="round" stroke-width="8">
+    <path d="M86 700h96m836 0h96"/>
+    <path d="m110 676-24 24 24 24m980-48 24 24-24 24"/>
+  </g>
+</svg>

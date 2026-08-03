@@ -410,3 +410,61 @@ test("hero carousel keeps the approved video order", () => {
     /Language-translation\.MOV"\),[\s\S]*?fit: "contain"[\s\S]*?Realtor-redesign\.mp4"\),[\s\S]*?fit: "contain"/,
   );
 });
+
+test("Phase 4 provides bounded, explicit 3D fallback states", () => {
+  const switchboard = read("switchboard.html");
+  const fallback = read("images/3d-experience-fallback.svg");
+  const packageJson = read("package.json");
+
+  assert.match(fallback, /width="1200" height="800" viewBox="0 0 1200 800"/);
+  assert.match(switchboard, /data-model-shell data-model-state="static"/);
+  assert.match(switchboard, /src="\/images\/3d-experience-fallback\.svg"/);
+  assert.match(switchboard, /role="status" aria-live="polite"/);
+  assert.match(switchboard, /get\("webgl"\) === "off"/);
+  assert.match(switchboard, /canvas\.getContext\("webgl2"\) \|\| canvas\.getContext\("webgl"\)/);
+  assert.match(switchboard, /timed out while loading/);
+  assert.match(switchboard, /model-viewer:not\(:defined\)\s*\{\s*display: none;/);
+  assert.equal((switchboard.match(/modelViewerPromise = new Promise/g) || []).length, 1);
+  assert.match(packageJson, /cp images\/\*\.svg/);
+});
+
+test("Phase 4 keeps reveal content visible if JavaScript or animation fails", () => {
+  const main = read("src/main.js");
+  const css = read("css/site.css");
+  const observeIndex = main.indexOf("targets.forEach((element) => observer.observe(element))");
+  const readyIndex = main.indexOf('document.documentElement.classList.add("motion-ready")');
+
+  assert.ok(observeIndex >= 0 && readyIndex > observeIndex, "motion-ready must follow observer setup");
+  assert.match(main, /window\.setTimeout\(\(\) => \{\s*targets\.forEach\(\(element\) => element\.classList\.add\("is-in-view"\)\);\s*\}, 2500\)/);
+  assert.match(css, /html\.motion-ready \[data-reveal="rise"\]/);
+  assert.doesNotMatch(css, /(?<!motion-ready )\[data-reveal="rise"\]\s*\{\s*opacity:\s*0/);
+});
+
+test("Phase 4 reduced-motion paths avoid automatic media and decorative sequencing", () => {
+  const main = read("src/main.js");
+  const switchboard = read("switchboard.html");
+
+  assert.match(main, /if \(reduceMotion\) return;[\s\S]*?requestIdleCallback/);
+  assert.match(main, /playback\.hidden = reduceMotion/);
+  assert.match(switchboard, /productModel\.removeAttribute\("auto-rotate"\)/);
+  assert.match(switchboard, /websiteProductModel\.removeAttribute\("auto-rotate"\)/);
+  assert.match(switchboard, /showNode\(nodeButtons\.length - 1\)/);
+  assert.match(switchboard, /@media \(prefers-reduced-motion: reduce\)/);
+});
+
+test("Phase 4 preserves native validation, focus targets, and stable media sizing", () => {
+  const homepage = read("index.html");
+  const main = read("src/main.js");
+  const switchboard = read("switchboard.html");
+
+  assert.match(homepage, /<main id="main" tabindex="-1">/);
+  assert.doesNotMatch(homepage, /data-contact-form novalidate/);
+  assert.match(main, /form\.querySelector\(":invalid"\)\?\.focus\(\)/);
+  assert.match(main, /form\.addEventListener\(\s*"invalid"/);
+  assert.match(main, /Please complete the required fields before sending\./);
+  assert.match(homepage, /data-video-poster[\s\S]*?loading="eager"[\s\S]*?width="1200"[\s\S]*?height="675"/);
+  assert.match(homepage, /data-video-poster[\s\S]*?srcset="[^"]+640w,[^"]+960w,[^"]+1200w"[\s\S]*?sizes="/);
+  assert.match(main, /poster\.srcset = responsivePosterSources/);
+  assert.equal((switchboard.match(/<img\b/g) || []).length, (switchboard.match(/<img\b[\s\S]*?\bwidth="/g) || []).length);
+  assert.match(switchboard, /if \("ResizeObserver" in window\)/);
+});
