@@ -9,18 +9,24 @@ const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 test("homepage exposes the approved commercial vocabulary in semantic HTML", () => {
   const html = read("index.html");
 
-  assert.match(html, /Web Design · Software · Automation · Growth/);
+  assert.match(html, /Websites · Custom software · Automation · Connected workflows/);
   assert.match(html, /custom software/i);
   assert.match(html, /CRM/i);
-  assert.match(html, /lead-generation/i);
-  assert.match(html, /U\.S\.-market adaptation/i);
+  assert.match(html, /lead generation/i);
+  assert.match(html, /U\.S\. market adaptation/i);
+  assert.match(html, /replace disconnected tools/);
+  assert.match(html, /reduce manual work/);
+  assert.match(html, /established businesses, founder-led teams/);
   assert.equal((html.match(/<h1\b/g) || []).length, 1);
 });
 
 test("homepage has clear conversion paths and complete service intents", () => {
   const html = read("index.html");
 
-  assert.match(html, />\s*Start a project\s*</);
+  assert.match(html, />\s*Request a project review\s*</);
+  assert.match(html, /href="#contact" data-scroll-target="contact"/);
+  assert.match(html, /No sales presentation\./);
+  assert.match(html, /client reported approximately 10 hours/);
   assert.match(html, /Request a discovery call/);
   for (const intent of [
     "Website / digital experience",
@@ -59,14 +65,15 @@ test("the flagship project uses an owned case-study route", () => {
   assert.match(sitemap, /work\/transportation-solutions-lighting\.html/);
 });
 
-test("section navigation preserves the canonical URL and case studies preserve the portfolio tab", () => {
+test("section navigation has real fragment fallbacks and case studies preserve the portfolio tab", () => {
   const homepage = read("index.html");
   const caseStudy = read("work/transportation-solutions-lighting.html");
   const navigation = read("js/in-page-navigation.js");
   const homepageHeader = homepage.match(/<header class="site-header">[\s\S]*?<\/header>/)?.[0] || "";
   const caseStudyHeader = caseStudy.match(/<header class="site-header">[\s\S]*?<\/header>/)?.[0] || "";
 
-  assert.doesNotMatch(homepageHeader, /href="#[^"]+"/);
+  assert.match(homepageHeader, /href="#services"/);
+  assert.match(homepageHeader, /href="#contact"/);
   assert.doesNotMatch(caseStudyHeader, /href="\/?#[^"]+"/);
   assert.match(homepage, /data-scroll-target="work"/);
   assert.match(navigation, /event\.preventDefault\(\)/);
@@ -81,10 +88,29 @@ test("homepage and switchboard form one combined capabilities section", () => {
   assert.doesNotMatch(homepage, /Connected capabilities/i);
   assert.doesNotMatch(switchboard, /Connected capabilities/i);
   assert.match(homepage, /<h2 id="services-title">What we build\.<\/h2>/);
-  assert.match(homepage, /Select a system to see what it does/);
+  assert.match(homepage, /Websites and digital experiences/);
+  assert.match(homepage, /Custom software and internal tools/);
+  assert.match(homepage, /Automation, AI, and connected workflows/);
+  assert.match(homepage, /Explore the detailed capabilities below/);
   assert.doesNotMatch(homepage, /capability-rail/);
   assert.equal((switchboard.match(/<h1\b/g) || []).length, 1);
   assert.doesNotMatch(switchboard, /System Selector/i);
+});
+
+test("Phase 1 keeps the hero compact and the project review accessible", () => {
+  const html = read("index.html");
+  const css = read("css/site.css");
+
+  assert.match(html, /<section class="contact" id="contact">/);
+  assert.match(html, /Start with the problem, not a commitment\./);
+  assert.match(html, /What happens after you submit/);
+  assert.match(html, /Send review request/);
+  assert.doesNotMatch(html, /usually within one business day/);
+  assert.match(css, /\.hero-title\s*\{[\s\S]*?max-width: min\(100%, 680px\)/);
+  assert.match(css, /\.solution-groups\s*\{[\s\S]*?grid-template-columns: repeat\(3/);
+  assert.match(css, /:where\(a, button, summary, input, textarea\):focus-visible/);
+  assert.match(css, /@media \(max-width: 980px\)/);
+  assert.match(css, /@media \(max-width: 640px\)/);
 });
 
 test("switchboard exposes six connected capability states with proof and outcomes", () => {
