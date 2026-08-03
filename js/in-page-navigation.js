@@ -1,34 +1,44 @@
-const scrollRequestKey = "networks-nodes-scroll-target";
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const scrollToSection = (targetId) => {
-  const target = document.getElementById(targetId);
-  if (!target) return false;
+const focusSection = (target) => {
+  const hadTabindex = target.hasAttribute("tabindex");
+  if (!hadTabindex) target.setAttribute("tabindex", "-1");
 
+  target.focus({ preventScroll: true });
+
+  if (!hadTabindex) {
+    target.addEventListener("blur", () => target.removeAttribute("tabindex"), { once: true });
+  }
+};
+
+const scrollToSection = (target, updateFocus = true) => {
   target.scrollIntoView({
     behavior: reduceMotion ? "auto" : "smooth",
     block: "start",
   });
-  return true;
+
+  if (updateFocus) window.requestAnimationFrame(() => focusSection(target));
 };
 
-document.querySelectorAll("[data-scroll-target]").forEach((link) => {
+document.querySelectorAll("a[data-scroll-target]").forEach((link) => {
   link.addEventListener("click", (event) => {
-    const targetId = link.dataset.scrollTarget;
-    if (!targetId) return;
-
-    if (scrollToSection(targetId)) {
-      event.preventDefault();
-      link.closest("details")?.removeAttribute("open");
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
       return;
     }
 
-    sessionStorage.setItem(scrollRequestKey, targetId);
+    const destination = new URL(link.href, window.location.href);
+    const sameDocument =
+      destination.origin === window.location.origin &&
+      destination.pathname === window.location.pathname &&
+      destination.search === window.location.search;
+    const targetId = decodeURIComponent(destination.hash.slice(1));
+    const target = sameDocument && targetId ? document.getElementById(targetId) : null;
+
+    if (!target) return;
+
+    event.preventDefault();
+    window.history.pushState(null, "", `${destination.pathname}${destination.search}${destination.hash}`);
+    link.closest("details")?.removeAttribute("open");
+    scrollToSection(target);
   });
 });
-
-const requestedTarget = sessionStorage.getItem(scrollRequestKey);
-if (requestedTarget) {
-  sessionStorage.removeItem(scrollRequestKey);
-  window.requestAnimationFrame(() => scrollToSection(requestedTarget));
-}

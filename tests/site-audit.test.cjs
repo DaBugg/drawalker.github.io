@@ -24,7 +24,7 @@ test("homepage has clear conversion paths and complete service intents", () => {
   const html = read("index.html");
 
   assert.match(html, />\s*Request a project review\s*</);
-  assert.match(html, /href="#contact" data-scroll-target="contact"/);
+  assert.match(html, /href="\/#contact" data-scroll-target="contact"/);
   assert.match(html, /No sales presentation\./);
   assert.match(html, /Transportation Solutions &amp; Lighting,[\s\S]*?approximately 10 hours per week in reported manual dispatch/);
   assert.match(html, /Request a discovery call/);
@@ -136,13 +136,125 @@ test("section navigation has real fragment fallbacks and case studies preserve t
   const homepageHeader = homepage.match(/<header class="site-header">[\s\S]*?<\/header>/)?.[0] || "";
   const caseStudyHeader = caseStudy.match(/<header class="site-header">[\s\S]*?<\/header>/)?.[0] || "";
 
-  assert.match(homepageHeader, /href="#services"/);
-  assert.match(homepageHeader, /href="#contact"/);
-  assert.doesNotMatch(caseStudyHeader, /href="\/?#[^"]+"/);
+  assert.match(homepageHeader, /href="\/#services"/);
+  assert.match(homepageHeader, /href="\/#contact"/);
+  assert.match(caseStudyHeader, /href="\/#services"/);
+  assert.match(caseStudyHeader, /href="\/#contact"/);
   assert.match(homepage, /data-scroll-target="work"/);
   assert.match(navigation, /event\.preventDefault\(\)/);
   assert.match(homepage, /codelink\.live\/waitlist"[\s\S]*?target="_blank"[\s\S]*?rel="noopener noreferrer"/);
   assert.match(caseStudy, /www\.tsandl\.us\/" target="_blank" rel="noopener noreferrer"/);
+});
+
+test("Phase 3 navigation uses durable fragment URLs with focus-safe enhancement", () => {
+  const files = [
+    "index.html",
+    "work/transportation-solutions-lighting.html",
+    "work/codelink.html",
+    "work/redeemed-hands.html",
+    "privacy.html",
+    "terms.html",
+    "404.html",
+  ];
+  const css = read("css/site.css");
+  const navigation = read("js/in-page-navigation.js");
+
+  for (const file of files) {
+    const header = read(file).match(/<header class="site-header">[\s\S]*?<\/header>/)?.[0] || "";
+    for (const target of ["services", "work", "process", "contact"]) {
+      assert.match(header, new RegExp(`href="\\/#${target}"`), `${file} missing /#${target}`);
+    }
+    assert.doesNotMatch(header, /href="\/" data-scroll-target=/, `${file} has a homepage-only navigation link`);
+  }
+
+  assert.match(css, /scroll-padding-top: 7rem/);
+  assert.match(css, /:where\(main\[id\], section\[id\]\)[\s\S]*?scroll-margin-top: 7rem/);
+  assert.match(css, /\.site-header\s*\{[\s\S]*?position: sticky/);
+  assert.match(navigation, /new URL\(link\.href, window\.location\.href\)/);
+  assert.match(navigation, /window\.history\.pushState/);
+  assert.match(navigation, /target\.focus\(\{ preventScroll: true \}\)/);
+  assert.doesNotMatch(navigation, /sessionStorage/);
+});
+
+test("Phase 3 FAQ answers all eight buying questions without invented terms", () => {
+  const homepage = read("index.html");
+  const faq = homepage.match(/<section class="section faq"[\s\S]*?<\/section>/)?.[0] || "";
+  const questions = [
+    "What kinds of businesses do you work with?",
+    "Can you improve an existing website or internal system?",
+    "Do you build more than websites?",
+    "Can you connect our website, CRM, email, reporting, or other tools?",
+    "How long does a project take?",
+    "What does a typical engagement cost?",
+    "Do you provide ongoing support?",
+    "Who owns the finished work?",
+  ];
+
+  assert.equal((faq.match(/<details>/g) || []).length, 8);
+  for (const question of questions) assert.ok(faq.includes(question), `missing FAQ question: ${question}`);
+  assert.doesNotMatch(faq, /\$\s?\d|\d[\d,]*\s+dollars?|\d+\s+(?:business\s+)?(?:days?|weeks?|months?)/i);
+  assert.match(faq, /must be defined in the proposal rather than assumed/);
+  assert.match(faq, /must be stated in the written project agreement before work begins/);
+  assert.doesNotMatch(homepage, /"@type": "FAQPage"/);
+});
+
+test("homepage has complete large-image social metadata and verified Organization schema", () => {
+  const homepage = read("index.html");
+  const socialCard = fs.readFileSync(path.join(root, "images/social-card.png"));
+  const schemaSource = homepage.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1] || "";
+  const schema = JSON.parse(schemaSource);
+
+  for (const pattern of [
+    /property="og:title"/,
+    /property="og:description"/,
+    /property="og:url" content="https:\/\/www\.networksandnodes\.org\/"/,
+    /property="og:image" content="https:\/\/www\.networksandnodes\.org\/images\/social-card\.png"/,
+    /property="og:image:width" content="1200"/,
+    /property="og:image:height" content="630"/,
+    /property="og:image:alt"/,
+    /name="twitter:card" content="summary_large_image"/,
+    /name="twitter:image"/,
+    /name="twitter:image:alt"/,
+  ]) {
+    assert.match(homepage, pattern);
+  }
+
+  assert.equal(socialCard.readUInt32BE(16), 1200);
+  assert.equal(socialCard.readUInt32BE(20), 630);
+  assert.equal(schema["@type"], "Organization");
+  assert.equal(schema.name, "Networks & Nodes");
+  assert.equal(schema.url, "https://www.networksandnodes.org/");
+  assert.equal(schema.email, "david@networksandnodes.org");
+  for (const unsupported of ["address", "areaServed", "aggregateRating", "foundingDate", "sameAs"]) {
+    assert.equal(schema[unsupported], undefined, `schema should not invent ${unsupported}`);
+  }
+});
+
+test("draft legal pages and the branded 404 are visible, cautious, and built", () => {
+  const homepage = read("index.html");
+  const privacy = read("privacy.html");
+  const terms = read("terms.html");
+  const notFound = read("404.html");
+  const viteConfig = read("vite.config.mjs");
+  const legalNotes = read("LEGAL-REVIEW-NOTES.md");
+
+  assert.match(homepage, /href="\/privacy\.html">Privacy</);
+  assert.match(homepage, /href="\/terms\.html">Terms</);
+  for (const page of [privacy, terms]) {
+    assert.match(page, /name="robots" content="noindex, follow"/);
+    assert.match(page, /requires owner confirmation and review by qualified legal counsel/);
+    assert.match(page, /It is not legal advice/);
+  }
+  assert.match(privacy, /Cloudflare Turnstile/);
+  assert.match(privacy, /configured\s+SMTP provider/);
+  assert.match(terms, /separate written agreement accepted by both parties/);
+  assert.match(notFound, /Page not found\./);
+  assert.match(notFound, /href="\/#top"/);
+  assert.match(notFound, /href="\/#work"/);
+  assert.match(notFound, /href="\/#contact"/);
+  for (const file of ["privacy.html", "terms.html", "404.html"]) assert.ok(viteConfig.includes(file));
+  assert.match(legalNotes, /ownership and licensing policy/i);
+  assert.match(legalNotes, /retention period/i);
 });
 
 test("homepage and switchboard form one combined capabilities section", () => {

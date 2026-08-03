@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Networks &amp; Nodes</title>
+  <desc id="description">Building digital systems that work.</desc>
+  <rect width="1200" height="630" fill="#070d18" />
+  <path d="M0 1H1200M0 629H1200" stroke="#273247" />
+  <path d="M790 0V630M994 0V630" stroke="#111b2e" />
+  <circle cx="790" cy="174" r="9" fill="#37c6d0" />
+  <circle cx="994" cy="456" r="9" fill="#c9ae7a" />
+  <path d="M790 174H994V456" fill="none" stroke="#273247" stroke-width="2" />
+  <g transform="translate(76 72)">
+    <rect width="58" height="58" fill="none" stroke="#c9ae7a" stroke-width="2" />
+    <text x="29" y="37" fill="#f5f2ea" font-family="Georgia, 'Times New Roman', serif" font-size="20" text-anchor="middle">N·N</text>
+    <text x="82" y="37" fill="#f5f2ea" font-family="Arial, sans-serif" font-size="17" font-weight="700" letter-spacing="3">NETWORKS &amp; NODES</text>
+  </g>
+  <text x="76" y="274" fill="#f5f2ea" font-family="Georgia, 'Times New Roman', serif" font-size="74" letter-spacing="-2">Building digital systems</text>
+  <text x="76" y="358" fill="#c9ae7a" font-family="Georgia, 'Times New Roman', serif" font-size="74" font-style="italic" letter-spacing="-2">that work.</text>
+  <text x="76" y="486" fill="#a9b2c3" font-family="Arial, sans-serif" font-size="22" letter-spacing="1">WEBSITES · CUSTOM SOFTWARE · AUTOMATION · CONNECTED WORKFLOWS</text>
+  <rect x="76" y="544" width="146" height="3" fill="#37c6d0" />
+  <rect x="222" y="544" width="86" height="3" fill="#c9ae7a" />
+</svg>
