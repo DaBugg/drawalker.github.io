@@ -14,6 +14,8 @@ export default defineConfig({
           projectRoot,
           "work/transportation-solutions-lighting.html",
         ),
+        codeLinkCaseStudy: resolve(projectRoot, "work/codelink.html"),
+        redeemedHandsCaseStudy: resolve(projectRoot, "work/redeemed-hands.html"),
       },
     },
   },

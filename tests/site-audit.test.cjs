@@ -26,7 +26,7 @@ test("homepage has clear conversion paths and complete service intents", () => {
   assert.match(html, />\s*Request a project review\s*</);
   assert.match(html, /href="#contact" data-scroll-target="contact"/);
   assert.match(html, /No sales presentation\./);
-  assert.match(html, /client reported approximately 10 hours/);
+  assert.match(html, /Transportation Solutions &amp; Lighting,[\s\S]*?approximately 10 hours per week in reported manual dispatch/);
   assert.match(html, /Request a discovery call/);
   for (const intent of [
     "Website / digital experience",
@@ -58,11 +58,75 @@ test("the flagship project uses an owned case-study route", () => {
   const sitemap = read("sitemap.xml");
 
   assert.match(homepage, /href="\/work\/transportation-solutions-lighting\.html"/);
-  assert.match(homepage, /href="\/work\/transportation-solutions-lighting\.html"[\s\S]*?target="_blank"/);
   assert.equal((caseStudy.match(/<h1\b/g) || []).length, 1);
   assert.match(caseStudy, /Reported outcome/);
+  assert.match(caseStudy, /Approximately 10 hours per week in reported manual dispatch work reduced\./);
   assert.match(caseStudy, /Visit the client website/);
   assert.match(sitemap, /work\/transportation-solutions-lighting\.html/);
+});
+
+test("Phase 2 gives every featured project consistent, defensible proof", () => {
+  const homepage = read("index.html");
+  const workSection = homepage.match(/<section class="section work"[\s\S]*?<\/section>/)?.[0] || "";
+
+  assert.equal((workSection.match(/<article class="project">/g) || []).length, 3);
+  for (const label of ["Business problem", "What we built", "Systems connected"]) {
+    assert.equal((workSection.match(new RegExp(`<dt>${label}<\\/dt>`, "g")) || []).length, 3);
+  }
+  assert.equal((workSection.match(/<dt>(?:Reported outcome|Current status)<\/dt>/g) || []).length, 3);
+  assert.match(workSection, /Approximately 10 hours per week in reported manual dispatch work reduced\./);
+  assert.doesNotMatch(workSection, /~10|MVP → market|Clearer path/);
+  assert.match(workSection, /Three featured projects showing work across strategy, design, and implementation/);
+});
+
+test("project cards lead to internal details before explicit external actions", () => {
+  const homepage = read("index.html");
+  const tsl = homepage.match(/<article class="project">[\s\S]*?<\/article>/)?.[0] || "";
+  const codeLink = homepage.match(/<article class="project">[\s\S]*?CodeLink[\s\S]*?<\/article>/)?.[0] || "";
+  const redeemed = homepage.match(/<article class="project">[\s\S]*?Redeemed Hands[\s\S]*?<\/article>/)?.[0] || "";
+
+  assert.ok(tsl.indexOf('/work/transportation-solutions-lighting.html') < tsl.indexOf('https://www.tsandl.us/'));
+  assert.ok(codeLink.indexOf('/work/codelink.html') < codeLink.indexOf('https://www.codelink.live/waitlist'));
+  assert.match(redeemed, /href="\/work\/redeemed-hands\.html"/);
+  assert.doesNotMatch(redeemed, /redeemedhands\.com/);
+  assert.match(tsl, /Visit the client website/);
+  assert.match(codeLink, /View the product page/);
+});
+
+test("all featured projects have reusable detail pages and indexed routes", () => {
+  const sitemap = read("sitemap.xml");
+  const viteConfig = read("vite.config.mjs");
+  const cases = [
+    ["work/transportation-solutions-lighting.html", "Reported project outcome"],
+    ["work/codelink.html", "Public product page available. No quantitative outcome published."],
+    ["work/redeemed-hands.html", "Completed homepage preview documented in the repository."],
+  ];
+
+  for (const [file, proof] of cases) {
+    const html = read(file);
+    assert.equal((html.match(/<h1\b/g) || []).length, 1, `${file} should have one h1`);
+    assert.match(html, /Business|Problem/i);
+    assert.ok(html.includes(proof), `${file} missing its proof/status statement`);
+    assert.ok(sitemap.includes(file), `${file} missing from sitemap`);
+    assert.ok(viteConfig.includes(file), `${file} missing from the production build inputs`);
+  }
+});
+
+test("owner proof requests stay in an internal repository checklist", () => {
+  const homepage = read("index.html");
+  const inventory = read("PROJECT-PROOF-INVENTORY.md");
+
+  for (const item of [
+    "Client approved testimonial",
+    "Baseline and after state metric",
+    "Project timeline",
+    "Public launch URL",
+    "Permission to name the client",
+  ]) {
+    assert.match(inventory, new RegExp(item));
+  }
+  assert.doesNotMatch(homepage, /Owner supplied proof checklist/);
+  assert.doesNotMatch(homepage, /Client approved testimonial|Baseline and after state metric|Permission to name the client/);
 });
 
 test("section navigation has real fragment fallbacks and case studies preserve the portfolio tab", () => {
