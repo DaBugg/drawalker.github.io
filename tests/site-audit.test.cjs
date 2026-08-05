@@ -686,7 +686,10 @@ test("switchboard service controls use grouped toggle semantics and scoped keybo
   }
   assert.doesNotMatch(html, /window\.addEventListener\("keydown"|shortcutServices/);
   assert.match(html, /\.system-node\s*\{[\s\S]*?width: 24px;[\s\S]*?height: 24px;/);
+  assert.match(html, /\.key-grid\s*\{[\s\S]*?grid-template-columns: repeat\(6, minmax\(120px, 1fr\)\);/);
   assert.match(html, /\.service-key\s*\{[\s\S]*?min-height: clamp\(108px, 11vw, 148px\);/);
+  assert.match(html, /@media \(max-width: 980px\)[\s\S]*?\.key-grid\s*\{\s*grid-template-columns: repeat\(3, minmax\(150px, 1fr\)\);/);
+  assert.match(html, /@media \(max-width: 700px\)[\s\S]*?\.key-grid\s*\{\s*grid-template-columns: 1fr;/);
   const keyNameRules = [...html.matchAll(/(?:^|\n)\s*\.key-name\s*\{([^}]*)\}/g)].map((match) => match[1]);
   assert.ok(keyNameRules.length >= 2, "desktop and mobile key-name rules must be checked");
   for (const rule of keyNameRules) {
@@ -776,10 +779,10 @@ test("rich media is progressively initialized", () => {
   const homepage = read("index.html");
   const main = read("src/main.js");
   const switchboard = read("switchboard.html");
-  const frameMarkup = homepage.match(/<iframe\s+data-video-frame[\s\S]*?<\/iframe>/)?.[0] || "";
+  const frameMarkup = homepage.match(/<mux-player\s+data-video-frame[\s\S]*?<\/mux-player>/)?.[0] || "";
   const switchboardFrame = homepage.match(/<iframe\b[^>]*data-switchboard-frame[^>]*>/i)?.[0] || "";
 
-  assert.doesNotMatch(frameMarkup, /\ssrc=/);
+  assert.doesNotMatch(frameMarkup, /\splayback-id=/);
   assert.match(homepage, /data-video-poster/);
   assert.doesNotMatch(homepage, /data-video-start|class="video-start"/);
   assert.doesNotMatch(homepage, /<video\b/i);
@@ -823,9 +826,9 @@ test("showcase videos use adaptive Mux delivery and GLBs use versioned R2 URLs",
   }
   assert.match(main, /href: "\/templates\/"/);
   assert.match(main, /poster: "\/templates\/forgeworks-industrial\/preview\.svg"/);
-  assert.match(main, /https:\/\/player\.mux\.com\/\$\{video\.playbackId\}/);
-  assert.match(main, /url\.searchParams\.set\("controls", "true"\)/);
-  assert.match(main, /url\.searchParams\.set\("preload", "none"\)/);
+  assert.match(read("index.html"), /cdn\.jsdelivr\.net\/npm\/@mux\/mux-player@3\.13\.2/);
+  assert.match(main, /frame\.setAttribute\("playback-id", activeVideo\.playbackId\)/);
+  assert.match(main, /frame\.setAttribute\("preload", "auto"\)/);
 
   const versionedModels = new Map([
     ["Chicago_Air_Jordan1_Compress-v1.glb", "471915b9bc62126c0fcdd0152bffb344"],
@@ -858,31 +861,37 @@ test("hero carousel keeps three approved videos followed by the website concepts
   );
 });
 
-test("hero videos autoplay in view while heavy Switchboard media still requires explicit interaction", () => {
+test("hero videos autoplay passively and Switchboard models load after its single outer gate", () => {
   const homepage = read("index.html");
+  const css = read("css/site.css");
   const main = read("src/main.js");
   const switchboard = read("switchboard.html");
-  const videoFrame = homepage.match(/<iframe\s+data-video-frame[\s\S]*?<\/iframe>/)?.[0] || "";
+  const videoFrame = homepage.match(/<mux-player\s+data-video-frame[\s\S]*?<\/mux-player>/)?.[0] || "";
   const switchboardFrame = homepage.match(/<iframe\b[^>]*data-switchboard-frame[^>]*>/i)?.[0] || "";
 
-  assert.equal(attributeValue(videoFrame, "src"), undefined);
+  assert.equal(attributeValue(videoFrame, "playback-id"), undefined);
+  assert.equal(attributeValue(videoFrame, "tabindex"), "-1");
   assert.equal(attributeValue(switchboardFrame, "src"), undefined);
   assert.equal(attributeValue(switchboardFrame, "data-src"), "/switchboard.html");
   assert.doesNotMatch(homepage, /data-video-start|class="video-start"/);
   assert.match(homepage, /data-switchboard-load/);
   assert.doesNotMatch(main, /start\.addEventListener|data-video-start/);
   assert.match(main, /let mediaReady = !manualPlayback/);
-  assert.match(main, /const selectVideo = \(index\) => \{\s*deactivateMedia\(\);\s*activeIndex = index;\s*mediaReady = !manualPlayback;/);
+  assert.match(main, /const selectVideo = \(index\) => \{\s*deactivateMedia\(\);\s*activeIndex = index;\s*completedPlays = 0;\s*mediaReady = !manualPlayback;/);
   assert.match(main, /navigator\.connection\?\.saveData === true/);
   assert.match(main, /const manualPlayback = reduceMotion \|\| saveData/);
-  assert.match(main, /if \(!manualPlayback\) url\.searchParams\.set\("autoplay", "muted"\)/);
+  assert.match(main, /frame\.setAttribute\("autoplay", "muted"\)/);
+  assert.match(main, /frame\.addEventListener\("ended"/);
+  assert.match(main, /completedPlays < 2/);
+  assert.match(main, /selectVideo\(\(activeIndex \+ 1\) % videos\.length\)/);
+  assert.match(css, /\.video-stage mux-player\s*\{[\s\S]*?--controls: none;[\s\S]*?pointer-events: none;[\s\S]*?user-select: none;/);
   assert.doesNotMatch(main, /requestIdleCallback|setInterval/);
 
-  assert.match(switchboard, /data-load-product-model/);
+  assert.doesNotMatch(switchboard, /data-load-product-model|loadProductButton/);
   assert.match(switchboard, /const approvedProductScenes = new Set\(\)/);
-  assert.match(switchboard, /loadProductButton\.addEventListener\("click", loadCurrentProductModel\)/);
-  assert.match(switchboard, /if \(id === "experience"\) \{\s*renderProduct\(currentProductIndex\)/);
-  assert.doesNotMatch(switchboard, /if \(id === "experience"\) loadCurrentProductModel\(\)/);
+  assert.match(switchboard, /const pendingProductScenes = new Set\(\)/);
+  assert.match(switchboard, /if \(id === "experience"\) \{\s*renderProduct\(currentProductIndex\);\s*void loadCurrentProductModel\(\)/);
+  assert.match(switchboard, /renderProduct\(index\);\s*void loadCurrentProductModel\(\)/);
   assert.match(switchboard, /const sceneIsApproved = approvedProductScenes\.has\(product\.scene\)/);
   assert.match(switchboard, /const websiteIsInteractive =[^;]+sceneIsApproved/);
   assert.match(switchboard, /if \(!websiteIsInteractive\) \{\s*cancelModelLoad\("website"\)/);
@@ -892,7 +901,6 @@ test("hero videos autoplay in view while heavy Switchboard media still requires 
   assert.match(switchboard, /const readyProductScenes = new Set\(\)/);
   assert.match(switchboard, /const productIsReady = canUseInteractiveModel && sceneIsReady/);
   assert.match(switchboard, /readyProductScenes\.add\(loadedScene\)/);
-  assert.match(switchboard, /loadProductButton\.textContent = "Interactive 3D loaded"/);
   assert.match(switchboard, /model !== activeModel \|\| requestId !== activeRequest/);
   assert.match(switchboard, /model\.removeAttribute\("src"\);\s*approvedProductScenes\.delete\(failedScene\)/);
 });
@@ -931,7 +939,7 @@ test("Phase 4 reduced-motion paths avoid automatic media and decorative sequenci
   const switchboard = read("switchboard.html");
 
   assert.match(main, /const manualPlayback = reduceMotion \|\| saveData/);
-  assert.match(main, /if \(!manualPlayback\) url\.searchParams\.set\("autoplay", "muted"\)/);
+  assert.match(main, /let mediaReady = !manualPlayback/);
   assert.doesNotMatch(main, /requestIdleCallback|setInterval/);
   assert.match(switchboard, /const saveProductData = navigator\.connection\?\.saveData === true/);
   assert.match(switchboard, /if \(reduceProductMotion \|\| saveProductData\)/);

@@ -34,7 +34,7 @@ const videos = [
     poster: "/templates/forgeworks-industrial/preview.svg",
     posterHeight: 750,
     label: "Website concepts",
-    caption: "Explore eight interactive, fictional industry concepts built to demonstrate distinct website directions—not commissioned client work.",
+    caption: "Explore a growing collection of interactive concept studies, in-progress builds, and selected project work.",
   },
 ];
 
@@ -92,16 +92,6 @@ function initializeCarousel() {
     });
   };
 
-  const playerSrc = (video) => {
-    const url = new URL(`https://player.mux.com/${video.playbackId}`);
-    url.searchParams.set("muted", "true");
-    url.searchParams.set("controls", "true");
-    url.searchParams.set("loop", "false");
-    url.searchParams.set("preload", "none");
-    if (!manualPlayback) url.searchParams.set("autoplay", "muted");
-    return url.toString();
-  };
-
   const clearMediaStatus = () => {
     status.hidden = true;
     status.textContent = "";
@@ -110,8 +100,9 @@ function initializeCarousel() {
   const deactivateMedia = ({ preserveStatus = false } = {}) => {
     window.clearTimeout(loadTimer);
     loadTimer = null;
-    if (frame.dataset.activeSrc) frame.src = "about:blank";
-    delete frame.dataset.activeSrc;
+    frame.pause?.();
+    frame.removeAttribute("playback-id");
+    delete frame.dataset.activePlaybackId;
     frame.hidden = true;
     poster.hidden = false;
     stage.classList.remove("is-playing");
@@ -121,20 +112,21 @@ function initializeCarousel() {
   const activateMedia = () => {
     if (videos[activeIndex].href) return;
     if (!mediaReady || !isInViewport || document.hidden) return;
-    const src = playerSrc(videos[activeIndex]);
     const activeVideo = videos[activeIndex];
-    if (frame.dataset.activeSrc === src) return;
+    if (frame.dataset.activePlaybackId === activeVideo.playbackId) return;
     stage.classList.remove("is-playing");
     poster.hidden = false;
     frame.hidden = false;
-    frame.dataset.activeSrc = src;
-    frame.title = `${activeVideo.label} video`;
-    frame.src = src;
+    frame.dataset.activePlaybackId = activeVideo.playbackId;
+    frame.setAttribute("playback-id", activeVideo.playbackId);
+    frame.setAttribute("autoplay", "muted");
+    frame.setAttribute("muted", "");
+    frame.setAttribute("preload", "auto");
     status.textContent = `Loading ${activeVideo.label} video…`;
     status.hidden = false;
     window.clearTimeout(loadTimer);
     loadTimer = window.setTimeout(() => {
-      if (frame.dataset.activeSrc !== src) return;
+      if (frame.dataset.activePlaybackId !== activeVideo.playbackId) return;
       mediaReady = false;
       deactivateMedia({ preserveStatus: true });
       status.textContent = "The video player did not load. The poster and description remain available.";
@@ -145,7 +137,6 @@ function initializeCarousel() {
   const render = () => {
     const activeVideo = videos[activeIndex];
     const isConcept = Boolean(activeVideo.href);
-    frame.title = isConcept ? "" : `${activeVideo.label} video`;
     poster.src = activeVideo.poster;
     if (isConcept) {
       poster.removeAttribute("srcset");
@@ -172,7 +163,10 @@ function initializeCarousel() {
       }
     });
 
-    if (frame.dataset.activeSrc && (isConcept || frame.dataset.activeSrc !== playerSrc(activeVideo))) {
+    if (
+      frame.dataset.activePlaybackId &&
+      (isConcept || frame.dataset.activePlaybackId !== activeVideo.playbackId)
+    ) {
       deactivateMedia();
     }
     if (isConcept) {
@@ -189,6 +183,7 @@ function initializeCarousel() {
   const selectVideo = (index) => {
     deactivateMedia();
     activeIndex = index;
+    completedPlays = 0;
     mediaReady = !manualPlayback;
     render();
   };
@@ -213,18 +208,25 @@ function initializeCarousel() {
     }
   });
 
-  frame.addEventListener("load", () => {
-    if (!frame.dataset.activeSrc) return;
-    try {
-      if (frame.contentWindow.location.href === "about:blank") return;
-    } catch {
-      // A loaded Mux document is cross-origin, which is the expected success path.
-    }
+  frame.addEventListener("playing", () => {
+    if (!frame.dataset.activePlaybackId) return;
     window.clearTimeout(loadTimer);
     loadTimer = null;
     clearMediaStatus();
     stage.classList.add("is-playing");
     poster.hidden = true;
+  });
+
+  let completedPlays = 0;
+  frame.addEventListener("ended", () => {
+    if (!frame.dataset.activePlaybackId || videos[activeIndex].href) return;
+    completedPlays += 1;
+    if (completedPlays < 2) {
+      frame.currentTime = 0;
+      frame.play()?.catch(() => {});
+      return;
+    }
+    selectVideo((activeIndex + 1) % videos.length);
   });
 
   if ("IntersectionObserver" in window) {

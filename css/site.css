@@ -520,7 +520,7 @@ h2 em {
   overflow: hidden;
 }
 
-.video-stage iframe,
+.video-stage mux-player,
 .video-poster {
   position: absolute;
   inset: 0;
@@ -528,8 +528,11 @@ h2 em {
   height: 100%;
 }
 
-.video-stage iframe {
+.video-stage mux-player {
+  --controls: none;
   border: 0;
+  pointer-events: none;
+  user-select: none;
 }
 
 .video-concept-link {

@@ -58,6 +58,7 @@
       data-exclude-hash="true"
       data-do-not-track="true"
     ></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mux/mux-player@3.13.2"></script>
     <script type="module" src="/src/main.js"></script>
   </head>
   <body>
@@ -155,21 +156,23 @@
               width="1200"
               height="900"
             />
-            <iframe
+            <mux-player
               data-video-frame
-              title="Immersive experiences video"
-              allow="accelerometer; gyroscope; autoplay; encrypted-media; fullscreen; picture-in-picture"
-              allowfullscreen
+              aria-hidden="true"
+              tabindex="-1"
+              autoplay="muted"
+              muted
+              playsinline
               hidden
-            ></iframe>
+            ></mux-player>
             <a
               class="video-concept-link"
               data-video-concept
               href="/templates/"
-              aria-label="Explore eight fictional website concepts"
+              aria-label="Explore the website concepts and project gallery"
               hidden
             >
-              <span class="video-concept-badge">Fictional concept work</span>
+              <span class="video-concept-badge">Concepts &amp; project work</span>
               <strong>Explore website concepts <span aria-hidden="true">↗</span></strong>
             </a>
             <p class="video-status" data-video-status role="status" aria-live="polite" hidden></p>
