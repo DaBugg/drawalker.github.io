@@ -1,25 +1,17 @@
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
+import routes from "./config/routes.cjs";
 
 const projectRoot = fileURLToPath(new URL(".", import.meta.url));
+const buildInputs = Object.fromEntries(
+  routes.map((route) => [route.id, resolve(projectRoot, route.sourcePath)]),
+);
 
 export default defineConfig({
   build: {
     rollupOptions: {
-      input: {
-        main: resolve(projectRoot, "index.html"),
-        switchboard: resolve(projectRoot, "switchboard.html"),
-        transportationCaseStudy: resolve(
-          projectRoot,
-          "work/transportation-solutions-lighting.html",
-        ),
-        codeLinkCaseStudy: resolve(projectRoot, "work/codelink.html"),
-        redeemedHandsCaseStudy: resolve(projectRoot, "work/redeemed-hands.html"),
-        privacy: resolve(projectRoot, "privacy.html"),
-        terms: resolve(projectRoot, "terms.html"),
-        notFound: resolve(projectRoot, "404.html"),
-      },
+      input: buildInputs,
     },
   },
 });

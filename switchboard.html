@@ -36,6 +36,7 @@
         --gradient-main: linear-gradient(135deg, var(--cyan) 0%, var(--emerald) 50%, var(--blue) 100%);
         --shadow: 0 30px 70px rgba(2, 6, 23, 0.42);
         --radius: clamp(20px, 2.8vw, 42px);
+        --information-label-size: clamp(0.75rem, 0.9vw, 0.82rem);
       }
 
       * {
@@ -190,6 +191,18 @@
       .system-shell {
         position: relative;
         isolation: isolate;
+      }
+
+      .example-data-note {
+        position: relative;
+        z-index: 1;
+        margin: 0 0 14px;
+        padding: 10px 14px;
+        border-left: 3px solid var(--gold);
+        background: rgba(15, 23, 42, 0.72);
+        color: #cbd5e1;
+        font-size: var(--information-label-size);
+        line-height: 1.5;
       }
 
       .system-shell::before {
@@ -507,8 +520,8 @@
         z-index: 4;
         top: var(--node-y);
         left: 50%;
-        width: 21px;
-        height: 21px;
+        width: 24px;
+        height: 24px;
         padding: 0;
         border: 3px solid #0f172a;
         border-radius: 50%;
@@ -548,7 +561,7 @@
 
       .system-node-copy small {
         color: #94a3b8;
-        font-size: 0.59rem;
+        font-size: var(--information-label-size);
         letter-spacing: 0.04em;
       }
 
@@ -642,7 +655,7 @@
       .system-visual header span {
         color: var(--cyan);
         font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-        font-size: 0.58rem;
+        font-size: var(--information-label-size);
         letter-spacing: 0.08em;
         text-transform: uppercase;
       }
@@ -684,7 +697,7 @@
         right: 12px;
         bottom: 10px;
         color: rgba(203, 213, 225, 0.52);
-        font-size: 0.5rem;
+        font-size: var(--information-label-size);
         font-weight: 800;
         letter-spacing: 0.09em;
         pointer-events: none;
@@ -721,7 +734,7 @@
         left: 12px;
         color: rgba(148, 163, 184, 0.68);
         font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-        font-size: 0.5rem;
+        font-size: var(--information-label-size);
         letter-spacing: 0.08em;
         pointer-events: none;
         text-transform: uppercase;
@@ -734,7 +747,7 @@
 
       .funnel-metrics span {
         color: #94a3b8;
-        font-size: 0.6rem;
+        font-size: var(--information-label-size);
         letter-spacing: 0.07em;
         text-transform: uppercase;
       }
@@ -765,7 +778,7 @@
 
       .form-card b {
         color: var(--cyan);
-        font-size: 0.58rem;
+        font-size: var(--information-label-size);
         letter-spacing: 0.06em;
         text-transform: uppercase;
       }
@@ -779,7 +792,7 @@
 
       .form-card small {
         color: #94a3b8;
-        font-size: 0.55rem;
+        font-size: var(--information-label-size);
       }
 
       .form-card:nth-child(2) {
@@ -827,7 +840,7 @@
         border-radius: 12px;
         background: rgba(15, 23, 42, 0.58);
         color: #cbd5e1;
-        font-size: 0.62rem;
+        font-size: var(--information-label-size);
         font-weight: 800;
       }
 
@@ -862,7 +875,7 @@
         background: rgba(15, 23, 42, 0.54);
         color: #94a3b8;
         cursor: pointer;
-        font-size: 0.54rem;
+        font-size: var(--information-label-size);
         font-weight: 800;
         letter-spacing: 0.04em;
         text-transform: uppercase;
@@ -912,12 +925,12 @@
 
       .crm-card strong {
         color: #f8fafc;
-        font-size: 0.61rem;
+        font-size: var(--information-label-size);
       }
 
       .crm-card small {
         color: #94a3b8;
-        font-size: 0.52rem;
+        font-size: var(--information-label-size);
       }
 
       .systems-chart {
@@ -1196,7 +1209,7 @@
 
       .crm-record small {
         color: #94a3b8;
-        font-size: 0.58rem;
+        font-size: var(--information-label-size);
       }
 
       .crm-pipeline .crm-stages {
@@ -1734,7 +1747,7 @@
       .browser-toolbar span {
         margin-left: 10px;
         color: #64748b;
-        font-size: 0.55rem;
+        font-size: var(--information-label-size);
         letter-spacing: 0.04em;
       }
 
@@ -1752,7 +1765,7 @@
 
       .landing-page-reveal small {
         color: #0e7490;
-        font-size: 0.55rem;
+        font-size: var(--information-label-size);
         font-weight: 800;
         letter-spacing: 0.13em;
         text-transform: uppercase;
@@ -1784,7 +1797,7 @@
         border-radius: 999px;
         background: #0f172a;
         color: #f8fafc;
-        font-size: 0.55rem;
+        font-size: var(--information-label-size);
         font-weight: 800;
         letter-spacing: 0.06em;
         text-transform: uppercase;
@@ -1833,7 +1846,7 @@
         border-radius: 999px;
         background: rgba(15, 23, 42, 0.88);
         color: #f8fafc;
-        font-size: 0.55rem;
+        font-size: var(--information-label-size);
         line-height: 1.3;
         text-align: center;
       }
@@ -2199,7 +2212,7 @@
         border: 1px solid rgba(248, 113, 113, 0.34);
         border-radius: 999px;
         color: var(--coral);
-        font-size: 0.6rem;
+        font-size: var(--information-label-size);
         font-weight: 800;
         letter-spacing: 0.11em;
         text-transform: uppercase;
@@ -2235,7 +2248,7 @@
         border-radius: 999px;
         background: rgba(148, 163, 184, 0.1);
         color: #94a3b8;
-        font-size: 0.61rem;
+        font-size: var(--information-label-size);
         font-weight: 700;
         letter-spacing: 0.06em;
         text-transform: uppercase;
@@ -2300,7 +2313,7 @@
       .flow-step span {
         color: var(--cyan);
         font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-        font-size: 0.62rem;
+        font-size: var(--information-label-size);
         font-weight: 800;
         letter-spacing: 0.08em;
       }
@@ -2313,7 +2326,7 @@
 
       .flow-step small {
         color: #94a3b8;
-        font-size: 0.58rem;
+        font-size: var(--information-label-size);
         line-height: 1.35;
       }
 
@@ -2353,7 +2366,7 @@
 
       .software-metrics span {
         color: #94a3b8;
-        font-size: 0.62rem;
+        font-size: var(--information-label-size);
         text-transform: uppercase;
       }
 
@@ -2386,7 +2399,7 @@
         border: 1px solid rgba(148, 163, 184, 0.16);
         background: rgba(15, 23, 42, 0.58);
         color: #cbd5e1;
-        font-size: 0.62rem;
+        font-size: var(--information-label-size);
         text-align: center;
       }
 
@@ -2586,7 +2599,7 @@
         grid-column: 1 / -1;
         align-self: end;
         color: #e5e7eb;
-        font-size: clamp(0.47rem, 0.68vw, 0.6rem);
+        font-size: var(--information-label-size);
         font-weight: 800;
         letter-spacing: 0.05em;
         line-height: 1.15;
@@ -2604,7 +2617,7 @@
         outline-offset: 5px;
       }
 
-      .service-key[aria-selected="true"] .key-cap {
+      .service-key[aria-pressed="true"] .key-cap {
         border-color: #9d8658;
         box-shadow:
           inset 0 1px 0 rgba(220, 201, 160, 0.28),
@@ -2615,23 +2628,23 @@
         transform: rotateX(2deg) translateY(8px);
       }
 
-      .service-key[aria-selected="true"] .key-switch {
+      .service-key[aria-pressed="true"] .key-switch {
         background-color: rgba(201, 174, 122, 0.76);
         box-shadow:
           inset 0 0 10px #f0dfc4,
           0 0 24px rgba(201, 174, 122, 0.82);
       }
 
-      .service-key[aria-selected="true"] .key-indicator {
+      .service-key[aria-pressed="true"] .key-indicator {
         background: var(--gold-hot);
         box-shadow:
           0 0 7px #f0dfc4,
           0 0 16px var(--gold);
       }
 
-      .service-key[aria-selected="true"] .key-function,
-      .service-key[aria-selected="true"] .key-symbol,
-      .service-key[aria-selected="true"] .key-name {
+      .service-key[aria-pressed="true"] .key-function,
+      .service-key[aria-pressed="true"] .key-symbol,
+      .service-key[aria-pressed="true"] .key-name {
         color: var(--gold-hot);
       }
 
@@ -2989,7 +3002,7 @@
           transform: none;
         }
 
-        .service-key[aria-selected="true"] .key-cap {
+        .service-key[aria-pressed="true"] .key-cap {
           box-shadow:
             inset 4px 0 0 var(--gold),
             0 8px 24px rgba(2, 6, 23, 0.28);
@@ -2997,7 +3010,7 @@
         }
 
         .key-name {
-          font-size: 0.72rem;
+          font-size: var(--information-label-size);
         }
 
         .service-panel {
@@ -3108,7 +3121,7 @@
           transition-duration: 0.01ms !important;
         }
 
-        .service-key[aria-selected="true"] .key-cap {
+        .service-key[aria-pressed="true"] .key-cap {
           transform: none;
         }
 
@@ -3140,9 +3153,12 @@
       </div>
 
       <section class="system-shell" aria-labelledby="active-service-title">
+        <p class="example-data-note">
+          Names, records, dates, and metrics shown in this switchboard are illustrative examples, not client results.
+        </p>
         <div class="display-panel">
           <div class="display-stage" aria-live="polite">
-            <section class="demo" data-demo="website" aria-label="Website customer journey demonstration" hidden>
+            <section class="demo" id="demo-website" data-demo="website" aria-label="Website customer journey demonstration" hidden>
               <header class="demo-header">
                 <div>
                   <p class="demo-kicker">Website system</p>
@@ -3172,7 +3188,7 @@
               </div>
             </section>
 
-            <section class="demo" data-demo="market" aria-label="U.S. market language demonstration" hidden>
+            <section class="demo" id="demo-market" data-demo="market" aria-label="U.S. market language demonstration" hidden>
               <header class="demo-header">
                 <div>
                   <p class="demo-kicker">Language / market adaptation</p>
@@ -3222,7 +3238,7 @@
               </div>
             </section>
 
-            <section class="demo" data-demo="automation" aria-label="Automation workflow demonstration" hidden>
+            <section class="demo" id="demo-automation" data-demo="automation" aria-label="Automation workflow demonstration" hidden>
               <header class="demo-header">
                 <div>
                   <p class="demo-kicker">Automation system</p>
@@ -3367,7 +3383,7 @@
               </div>
             </section>
 
-            <section class="demo" data-demo="software" aria-label="Custom software and CRM demonstration" hidden>
+            <section class="demo" id="demo-software" data-demo="software" aria-label="Custom software and CRM demonstration" hidden>
               <header class="demo-header">
                 <div>
                   <p class="demo-kicker">Software / CRM system</p>
@@ -3395,7 +3411,7 @@
               </div>
             </section>
 
-            <section class="demo" data-demo="growth" aria-label="Growth and lead generation demonstration" hidden>
+            <section class="demo" id="demo-growth" data-demo="growth" aria-label="Growth and lead generation demonstration" hidden>
               <header class="demo-header growth-demo-header">
                 <div>
                   <p class="demo-kicker">Growth system</p>
@@ -3476,7 +3492,7 @@
               </div>
             </section>
 
-            <section class="demo" data-demo="experience" aria-label="Interactive product demonstration">
+            <section class="demo" id="demo-experience" data-demo="experience" aria-label="Interactive product demonstration">
               <header class="demo-header">
                 <div>
                   <p class="demo-kicker">Interactive 3D experiences for modern websites.</p>
@@ -3610,14 +3626,13 @@
         </div>
 
         <div class="keyboard-zone">
-          <div class="key-grid" role="tablist" aria-label="Choose a Networks & Nodes service">
+          <div class="key-grid" role="group" aria-label="Choose a Networks &amp; Nodes service">
             <button
               class="service-key"
               id="key-experience"
               type="button"
-              role="tab"
-              aria-selected="true"
-              aria-controls="service-explanation"
+              aria-pressed="true"
+              aria-controls="demo-experience"
               data-service="experience"
             >
               <span class="key-switch" aria-hidden="true"></span>
@@ -3631,11 +3646,9 @@
               class="service-key"
               id="key-website"
               type="button"
-              role="tab"
-              aria-selected="false"
-              aria-controls="service-explanation"
+              aria-pressed="false"
+              aria-controls="demo-website service-explanation"
               data-service="website"
-              tabindex="-1"
             >
               <span class="key-switch" aria-hidden="true"></span>
               <span class="key-cap">
@@ -3648,11 +3661,9 @@
               class="service-key"
               id="key-growth"
               type="button"
-              role="tab"
-              aria-selected="false"
-              aria-controls="service-explanation"
+              aria-pressed="false"
+              aria-controls="demo-growth service-explanation"
               data-service="growth"
-              tabindex="-1"
             >
               <span class="key-switch" aria-hidden="true"></span>
               <span class="key-cap">
@@ -3665,11 +3676,9 @@
               class="service-key"
               id="key-market"
               type="button"
-              role="tab"
-              aria-selected="false"
-              aria-controls="service-explanation"
+              aria-pressed="false"
+              aria-controls="demo-market service-explanation"
               data-service="market"
-              tabindex="-1"
             >
               <span class="key-switch" aria-hidden="true"></span>
               <span class="key-cap">
@@ -3682,11 +3691,9 @@
               class="service-key"
               id="key-software"
               type="button"
-              role="tab"
-              aria-selected="false"
-              aria-controls="service-explanation"
+              aria-pressed="false"
+              aria-controls="demo-software service-explanation"
               data-service="software"
-              tabindex="-1"
             >
               <span class="key-switch" aria-hidden="true"></span>
               <span class="key-cap">
@@ -3699,11 +3706,9 @@
               class="service-key"
               id="key-automation"
               type="button"
-              role="tab"
-              aria-selected="false"
-              aria-controls="service-explanation"
+              aria-pressed="false"
+              aria-controls="demo-automation service-explanation"
               data-service="automation"
-              tabindex="-1"
             >
               <span class="key-switch" aria-hidden="true"></span>
               <span class="key-cap">
@@ -3715,7 +3720,7 @@
           </div>
         </div>
 
-        <div class="service-panel" id="service-explanation" role="tabpanel" aria-labelledby="key-experience" hidden>
+        <div class="service-panel" id="service-explanation" role="region" aria-labelledby="key-experience" hidden>
           <div class="service-content" id="service-content">
             <p class="channel-label">
               System <span id="channel-number">01</span>
@@ -3747,7 +3752,7 @@
       </section>
 
       <p class="prototype-note">
-        Select a node, use the arrow keys, or press 1–6.
+        Select a control, or use the arrow keys while a service control is focused.
       </p>
     </main>
 
@@ -3837,8 +3842,7 @@
 
         keys.forEach((key) => {
           const selected = key.dataset.service === id;
-          key.setAttribute("aria-selected", String(selected));
-          key.tabIndex = selected ? 0 : -1;
+          key.setAttribute("aria-pressed", String(selected));
           if (selected && moveFocus) key.focus();
         });
 
@@ -3889,15 +3893,6 @@
             selectService(keys[nextIndex].dataset.service, true);
           }
         });
-      });
-
-      const shortcutServices = ["experience", "website", "growth", "market", "software", "automation"];
-      window.addEventListener("keydown", (event) => {
-        if (event.metaKey || event.ctrlKey || event.altKey) return;
-        if (event.target.matches("input, textarea, select")) return;
-        if (!/^[1-6]$/.test(event.key)) return;
-        event.preventDefault();
-        selectService(shortcutServices[Number(event.key) - 1], true);
       });
 
       const marketCopy = {

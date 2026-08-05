@@ -1,10 +1,80 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const { pathToFileURL } = require("node:url");
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const routeManifest = require("../config/routes.cjs");
 
 const root = path.resolve(__dirname, "..");
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
+const siteOrigin = "https://www.networksandnodes.org";
+const attributeValue = (tag, name) => {
+  const match = tag.match(new RegExp(`\\b${name}\\s*=\\s*(?:"([^"]*)"|'([^']*)')`, "i"));
+  return match?.[1] ?? match?.[2];
+};
+
+test("route manifest keeps build, indexability, canonicals, and sitemap in parity", async () => {
+  const ids = routeManifest.map((route) => route.id);
+  const sourcePaths = routeManifest.map((route) => route.sourcePath);
+  const publicPaths = routeManifest.map((route) => route.publicPath);
+
+  assert.equal(new Set(ids).size, ids.length, "route IDs must be unique");
+  assert.equal(new Set(sourcePaths).size, sourcePaths.length, "route source paths must be unique");
+  assert.equal(new Set(publicPaths).size, publicPaths.length, "route public paths must be unique");
+
+  for (const route of routeManifest) {
+    assert.ok(fs.existsSync(path.join(root, route.sourcePath)), `${route.sourcePath} does not exist`);
+    assert.ok(["self", "none"].includes(route.canonicalIntent), `${route.id} has an invalid canonical intent`);
+    assert.equal(typeof route.indexable, "boolean", `${route.id} indexable must be boolean`);
+    assert.equal(typeof route.sitemap, "boolean", `${route.id} sitemap must be boolean`);
+    assert.equal(
+      route.publicPath,
+      route.sourcePath === "index.html" ? "/" : `/${route.sourcePath}`,
+      `${route.id} public path must match Vite's emitted path`,
+    );
+    assert.equal(route.sitemap, route.indexable, `${route.id} sitemap inclusion must match indexability`);
+
+    const html = read(route.sourcePath);
+    const robots = [...html.matchAll(/<meta\b[^>]*>/gi)]
+      .map((match) => match[0])
+      .filter((tag) => attributeValue(tag, "name")?.toLowerCase() === "robots")
+      .map((tag) => attributeValue(tag, "content") || "")
+      .join(",");
+    assert.equal(!robots.toLowerCase().includes("noindex"), route.indexable, `${route.id} indexability drifted`);
+
+    const canonicals = [...html.matchAll(/<link\b[^>]*>/gi)]
+      .map((match) => match[0])
+      .filter((tag) => (attributeValue(tag, "rel") || "").toLowerCase().split(/\s+/).includes("canonical"))
+      .map((tag) => attributeValue(tag, "href"));
+    if (route.canonicalIntent === "self") {
+      assert.deepEqual(
+        canonicals,
+        [new URL(route.publicPath, siteOrigin).href],
+        `${route.id} must have one absolute self-canonical`,
+      );
+    } else {
+      assert.deepEqual(canonicals, [], `${route.id} must not declare a canonical`);
+    }
+  }
+
+  const viteConfigUrl = pathToFileURL(path.join(root, "vite.config.mjs")).href;
+  const viteConfig = (await import(viteConfigUrl)).default;
+  const actualInputs = Object.fromEntries(
+    Object.entries(viteConfig.build.rollupOptions.input).map(([id, sourcePath]) => [
+      id,
+      path.relative(root, sourcePath),
+    ]),
+  );
+  const expectedInputs = Object.fromEntries(routeManifest.map((route) => [route.id, route.sourcePath]));
+  assert.deepEqual(actualInputs, expectedInputs, "Vite inputs must be derived from the route manifest");
+
+  const sitemapUrls = [...read("sitemap.xml").matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+  const expectedSitemapUrls = routeManifest
+    .filter((route) => route.sitemap)
+    .map((route) => new URL(route.publicPath, siteOrigin).href);
+  assert.equal(new Set(sitemapUrls).size, sitemapUrls.length, "sitemap URLs must not be duplicated");
+  assert.deepEqual([...sitemapUrls].sort(), [...expectedSitemapUrls].sort(), "sitemap and route manifest drifted");
+});
 
 test("homepage exposes the approved commercial vocabulary in semantic HTML", () => {
   const html = read("index.html");
@@ -95,7 +165,6 @@ test("project cards lead to internal details before explicit external actions", 
 
 test("all featured projects have reusable detail pages and indexed routes", () => {
   const sitemap = read("sitemap.xml");
-  const viteConfig = read("vite.config.mjs");
   const cases = [
     ["work/transportation-solutions-lighting.html", "Reported project outcome"],
     ["work/codelink.html", "Public product page available. No quantitative outcome published."],
@@ -108,7 +177,10 @@ test("all featured projects have reusable detail pages and indexed routes", () =
     assert.match(html, /Business|Problem/i);
     assert.ok(html.includes(proof), `${file} missing its proof/status statement`);
     assert.ok(sitemap.includes(file), `${file} missing from sitemap`);
-    assert.ok(viteConfig.includes(file), `${file} missing from the production build inputs`);
+    assert.ok(
+      routeManifest.some((route) => route.sourcePath === file && route.sitemap),
+      `${file} missing from the production route manifest`,
+    );
   }
 });
 
@@ -235,7 +307,6 @@ test("draft legal pages and the branded 404 are visible, cautious, and built", (
   const privacy = read("privacy.html");
   const terms = read("terms.html");
   const notFound = read("404.html");
-  const viteConfig = read("vite.config.mjs");
   const legalNotes = read("LEGAL-REVIEW-NOTES.md");
 
   assert.match(homepage, /href="\/privacy\.html">Privacy</);
@@ -252,9 +323,59 @@ test("draft legal pages and the branded 404 are visible, cautious, and built", (
   assert.match(notFound, /href="\/#top"/);
   assert.match(notFound, /href="\/#work"/);
   assert.match(notFound, /href="\/#contact"/);
-  for (const file of ["privacy.html", "terms.html", "404.html"]) assert.ok(viteConfig.includes(file));
+  for (const file of ["privacy.html", "terms.html", "404.html"]) {
+    assert.ok(routeManifest.some((route) => route.sourcePath === file));
+  }
   assert.match(legalNotes, /ownership and licensing policy/i);
   assert.match(legalNotes, /retention period/i);
+});
+
+test("raw contact links remain valid without Cloudflare decoder JavaScript", () => {
+  const contactPages = [
+    ["index.html", 2],
+    ["privacy.html", 1],
+    ["terms.html", 1],
+  ];
+
+  for (const [file, expectedCount] of contactPages) {
+    const html = read(file);
+    const mailtoAnchors = [
+      ...html.matchAll(/<a\b[^>]*href="mailto:david@networksandnodes\.org(?:\?[^\"]*)?"[^>]*>/gi),
+    ];
+
+    assert.equal(mailtoAnchors.length, expectedCount, `${file} has an unexpected raw contact destination`);
+    for (const anchor of mailtoAnchors) {
+      const protectionStart = html.lastIndexOf("<!--email_off-->", anchor.index);
+      const previousProtectionEnd = html.lastIndexOf("<!--/email_off-->", anchor.index);
+      const protectionEnd = html.indexOf("<!--/email_off-->", anchor.index);
+      assert.ok(
+        protectionStart > previousProtectionEnd && protectionEnd > anchor.index,
+        `${file} mailto must opt out of Cloudflare email rewriting`,
+      );
+    }
+    assert.doesNotMatch(html, /\/cdn-cgi\/l\/email-protection|data-cfemail/i);
+  }
+});
+
+test("raw page footers contain the current year before JavaScript runs", () => {
+  const currentYear = String(new Date().getFullYear());
+  const footerPages = [
+    "index.html",
+    "privacy.html",
+    "terms.html",
+    "404.html",
+    "work/transportation-solutions-lighting.html",
+    "work/codelink.html",
+    "work/redeemed-hands.html",
+  ];
+
+  for (const file of footerPages) {
+    const html = read(file);
+    const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0] || "";
+    assert.ok(footer, `${file} is missing its footer`);
+    assert.ok(footer.includes(currentYear), `${file} footer year is stale in raw HTML`);
+  }
+  assert.match(read("index.html"), new RegExp(`<span data-year>${currentYear}<\\/span>`));
 });
 
 test("homepage and switchboard form one combined capabilities section", () => {
@@ -289,6 +410,46 @@ test("Phase 1 keeps the hero compact and the project review accessible", () => {
   assert.match(css, /@media \(max-width: 640px\)/);
 });
 
+test("project labels meet WCAG AA contrast on paper and the highlighted outcome state", () => {
+  const css = read("css/site.css");
+  const token = (name) => css.match(new RegExp(`--${name}:\\s*(#[0-9a-f]{6})`, "i"))?.[1];
+  const toRgb = (hex) => hex.slice(1).match(/../g).map((value) => Number.parseInt(value, 16));
+  const relativeLuminance = (rgb) => {
+    const channels = rgb.map((value) => {
+      const channel = value / 255;
+      return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+    });
+    return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+  };
+  const contrast = (foreground, background) => {
+    const foregroundLuminance = relativeLuminance(foreground);
+    const backgroundLuminance = relativeLuminance(background);
+    return (Math.max(foregroundLuminance, backgroundLuminance) + 0.05)
+      / (Math.min(foregroundLuminance, backgroundLuminance) + 0.05);
+  };
+  const composite = (foreground, background, alpha) =>
+    foreground.map((value, index) => value * alpha + background[index] * (1 - alpha));
+
+  const paper = toRgb(token("paper"));
+  const paperAccent = toRgb(token("paper-accent"));
+  const outcomeColor = css.match(
+    /\.project-outcome\s*\{[^}]*background:\s*rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d.]+)\s*\)/,
+  );
+  assert.ok(outcomeColor, "project outcome background must be measurable");
+  const outcomeBackground = composite(
+    outcomeColor.slice(1, 4).map(Number),
+    paper,
+    Number(outcomeColor[4]),
+  );
+
+  assert.match(css, /\.project-meta\s*\{[^}]*color:\s*var\(--paper-accent\)/);
+  assert.match(css, /\.project-details dt\s*\{[^}]*color:\s*var\(--paper-accent\)/);
+  for (const [state, background] of [["paper", paper], ["highlighted outcome", outcomeBackground]]) {
+    const ratio = contrast(paperAccent, background);
+    assert.ok(ratio >= 4.5, `${state} project-label contrast is ${ratio.toFixed(4)}:1`);
+  }
+});
+
 test("switchboard exposes six connected capability states with proof and outcomes", () => {
   const html = read("switchboard.html");
   const capabilities = ["website", "automation", "software", "growth", "market", "experience"];
@@ -298,11 +459,10 @@ test("switchboard exposes six connected capability states with proof and outcome
     assert.match(html, new RegExp(`data-demo="${capability}"`));
   }
   assert.equal((html.match(/data-service="/g) || []).length, 6);
-  assert.equal((html.match(/<section class="demo" data-demo="/g) || []).length, 6);
+  assert.equal((html.match(/<section class="demo"[^>]*data-demo="/g) || []).length, 6);
   assert.match(html, /What it can include/);
   assert.match(html, /View related work/);
   assert.match(html, /Less manual handoff\. Faster response\. Better visibility\./);
-  assert.match(html, /shortcutServices = \["experience", "website", "growth", "market", "software", "automation"\]/);
   assert.deepEqual(
     [...html.matchAll(/data-service="([^"]+)"/g)].map((match) => match[1]),
     ["experience", "website", "growth", "market", "software", "automation"],
@@ -310,22 +470,69 @@ test("switchboard exposes six connected capability states with proof and outcome
   assert.match(html, /\.prototype-note\s*\{\s*display: none;/);
   assert.doesNotMatch(html.match(/data-demo="automation"[\s\S]*?data-demo="software"/)?.[0] || "", /Ads \/ Marketing/);
   assert.match(html.match(/data-demo="growth"[\s\S]*?data-demo="experience"/)?.[0] || "", /id="marketing-app-carousel"/);
-  assert.match(html, /font-size: clamp\(0\.47rem, 0\.68vw, 0\.6rem\)/);
+  assert.match(html, /--information-label-size: clamp\(0\.75rem, 0\.9vw, 0\.82rem\)/);
 });
 
 test("switchboard opens on Digital Experiences", () => {
   const html = read("switchboard.html");
-  const experienceDemo = html.match(/<section class="demo" data-demo="experience"[^>]*>/)?.[0] || "";
-  const websiteDemo = html.match(/<section class="demo" data-demo="website"[^>]*>/)?.[0] || "";
+  const experienceDemo = html.match(/<section class="demo"[^>]*data-demo="experience"[^>]*>/)?.[0] || "";
+  const websiteDemo = html.match(/<section class="demo"[^>]*data-demo="website"[^>]*>/)?.[0] || "";
   const experienceKey = html.match(/<button[\s\S]*?data-service="experience"[\s\S]*?<\/button>/)?.[0] || "";
 
   assert.doesNotMatch(experienceDemo, /\shidden/);
   assert.match(websiteDemo, /\shidden/);
-  assert.match(experienceKey, /aria-selected="true"/);
+  assert.match(experienceKey, /aria-pressed="true"/);
   assert.match(html, /id="system-count">01 \/ 06</);
   assert.match(html, /aria-labelledby="key-experience"/);
   assert.match(html, /selectService\("experience"\)/);
   assert.match(html, /servicePanel\.hidden = id === "experience"/);
+});
+
+test("switchboard service controls use grouped toggle semantics and scoped keyboard behavior", () => {
+  const html = read("switchboard.html");
+  const keys = [
+    ...html.matchAll(/<button\s+class="service-key"[\s\S]*?<\/button>/g),
+  ].map((match) => match[0]);
+  const services = ["experience", "website", "growth", "market", "software", "automation"];
+
+  assert.match(html, /<div class="key-grid" role="group" aria-label="Choose a Networks &amp; Nodes service">/);
+  assert.equal(keys.length, services.length);
+  assert.equal(keys.filter((key) => /aria-pressed="true"/.test(key)).length, 1);
+  assert.doesNotMatch(html, /role="(?:tab|tablist|tabpanel)"|aria-selected=|tabindex="-1"/);
+
+  for (const service of services) {
+    const key = keys.find((candidate) => candidate.includes(`data-service="${service}"`)) || "";
+    const expectedControls = service === "experience"
+      ? `demo-${service}`
+      : `demo-${service} service-explanation`;
+    assert.match(key, new RegExp(`aria-controls="${expectedControls}"`));
+    assert.match(html, new RegExp(`id="demo-${service}"[^>]*data-demo="${service}"`));
+  }
+
+  for (const keyName of ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"]) {
+    assert.ok(html.includes(`event.key === "${keyName}"`), `missing ${keyName} navigation`);
+  }
+  assert.doesNotMatch(html, /window\.addEventListener\("keydown"|shortcutServices/);
+  assert.match(html, /\.system-node\s*\{[\s\S]*?width: 24px;[\s\S]*?height: 24px;/);
+  assert.match(html, /\.service-key\s*\{[\s\S]*?min-height: clamp\(108px, 11vw, 148px\);/);
+  const keyNameRules = [...html.matchAll(/(?:^|\n)\s*\.key-name\s*\{([^}]*)\}/g)].map((match) => match[1]);
+  assert.ok(keyNameRules.length >= 2, "desktop and mobile key-name rules must be checked");
+  for (const rule of keyNameRules) {
+    assert.match(rule, /font-size: var\(--information-label-size\);/);
+  }
+});
+
+test("switchboard identifies illustrative data in persistent raw content", () => {
+  const html = read("switchboard.html");
+  const disclosure = "Names, records, dates, and metrics shown in this switchboard are illustrative examples, not client results.";
+  const disclosureRule = html.match(/\.example-data-note\s*\{([^}]*)\}/)?.[1] || "";
+  const systemShellIndex = html.indexOf('<section class="system-shell"');
+  const disclosureIndex = html.indexOf(disclosure);
+  const firstDemoIndex = html.indexOf('<section class="demo"');
+
+  assert.ok(systemShellIndex >= 0 && disclosureIndex > systemShellIndex && firstDemoIndex > disclosureIndex);
+  assert.doesNotMatch(disclosureRule, /display:\s*none|visibility:\s*hidden|opacity:\s*0/);
+  assert.doesNotMatch(html, /\.is-embedded[^{}]*\.example-data-note/);
 });
 
 test("mobile growth prioritizes connected channels over the full funnel", () => {

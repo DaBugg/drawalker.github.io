@@ -1,0 +1,68 @@
+const routes = [
+  {
+    id: "main",
+    sourcePath: "index.html",
+    publicPath: "/",
+    indexable: true,
+    canonicalIntent: "self",
+    sitemap: true,
+  },
+  {
+    id: "switchboard",
+    sourcePath: "switchboard.html",
+    publicPath: "/switchboard.html",
+    indexable: true,
+    canonicalIntent: "none",
+    sitemap: true,
+  },
+  {
+    id: "transportationCaseStudy",
+    sourcePath: "work/transportation-solutions-lighting.html",
+    publicPath: "/work/transportation-solutions-lighting.html",
+    indexable: true,
+    canonicalIntent: "self",
+    sitemap: true,
+  },
+  {
+    id: "codeLinkCaseStudy",
+    sourcePath: "work/codelink.html",
+    publicPath: "/work/codelink.html",
+    indexable: true,
+    canonicalIntent: "self",
+    sitemap: true,
+  },
+  {
+    id: "redeemedHandsCaseStudy",
+    sourcePath: "work/redeemed-hands.html",
+    publicPath: "/work/redeemed-hands.html",
+    indexable: true,
+    canonicalIntent: "self",
+    sitemap: true,
+  },
+  {
+    id: "privacy",
+    sourcePath: "privacy.html",
+    publicPath: "/privacy.html",
+    indexable: false,
+    canonicalIntent: "self",
+    sitemap: false,
+  },
+  {
+    id: "terms",
+    sourcePath: "terms.html",
+    publicPath: "/terms.html",
+    indexable: false,
+    canonicalIntent: "self",
+    sitemap: false,
+  },
+  {
+    id: "notFound",
+    sourcePath: "404.html",
+    publicPath: "/404.html",
+    indexable: false,
+    canonicalIntent: "none",
+    sitemap: false,
+  },
+];
+
+module.exports = routes;
