@@ -1,119 +1,89 @@
-# Portfolio Website
+# Networks & Nodes website
 
-A personal portfolio site showcasing projects, experience, and interactive components (mode toggle, theme toggle, API-driven cards).
+This repository is the production source of truth for
+[networksandnodes.org](https://www.networksandnodes.org/). Networks & Nodes is a
+service business offering websites, custom software, and automation.
 
----
+## Production source
 
-## Overview
+- Canonical repository: `https://github.com/DaBugg/drawalker.github.io`
+- Known local workspace: `/Users/dw/Documents/GitHub/drawalker.github.io`
+- Release branch: `main`
+- Production-matching audit baseline: `d5b431828d2fc63daebaf58c98a081e786f0371e`
+- Framework: static multi-page HTML and vanilla JavaScript built with Vite
+- Hosting: Vercel, with serverless functions under `/api`
+- Public edge: Cloudflare; the frontend defaults to
+  `https://assets.networksandnodes.org` for externally delivered assets
 
-Use this section as your high-level summary 
+The audit baseline records a verified production match; it is not a claim that
+every later commit has been deployed. Record the exact commit and Vercel
+deployment tested for every release.
 
-- **Purpose:** 
-- **What it includes:** 
-- **Who it’s for:** 
-- **Status:** << ACTIVE >>
+The older Next/Vinext implementation under
+`/Users/dw/Documents/Codex/2026-07-28/prior-conversation-with-codex-conversation-role`
+is a nonproduction prototype/reference. Do not deploy it or use it to restore
+the production site. Older locator instructions that identify it as canonical
+are superseded by [the production-source record](docs/PRODUCTION-SOURCE.md).
+The old files have deliberately not been deleted.
 
----
+Legacy material inside this repository—including `index/`, `test-pages-bad/`,
+`test-pages-new/`, `my-designs.html`, and `under-construction.html`—is also
+nonproduction reference material. These files are not production page inputs in
+`config/routes.cjs`; do not publish or restore the site from them.
 
-## Key Features
+## Local development
 
-- **Mode aware content** (e.g., Personal vs Business) driven by a single mode state
-- **Theme toggle** (Dark/Light) with consistent design tokens
-- **API widgets**
-  - Spotify “Now Playing” card (polling + progress animation)
-  - Quote-of-the-day (API/DB-driven, not hardcoded)
-- **Contact / Quote flow** (serverless `/api` endpoint + email delivery)
-- **Reusable sections** (Hero, Projects, Services/Tiers, About, Contact)
-- **Background effects** (particles/animated visuals) that don’t break mode/theme switching
+This repository currently has tracked dependency artifacts under
+`node_modules/`. Until those are removed in a separate reviewed cleanup, do not
+run `npm ci` in the canonical working copy: it can create a large unrelated
+diff. When dependencies must be installed from the lockfile, use a disposable
+clean checkout or worktree. With the existing installation, run:
 
----
-
-## Tech Stack
-
-Fill this in based on what you actually used.
-
-- **Frontend:** HTML / CSS / JavaScript
-- **Backend/API:** Node.js serverless functions (Vercel)
-- **Deployment:** Vercel (or equivalent)
-- **Other:** <<< e.g., Spotify Web API, nodemailer, dotenv >>>
-
----
-
-## Project Structure
-
-/
-├─ index.html
-├─ /css
-│  └─ styles.css
-├─ /js
-│  ├─ main.js
-│  ├─ mode-toggle.js
-│  ├─ theme-toggle.js
-│  ├─ spotify-card.js
-│  └─ effects.js
-├─ /api
-│  ├─ spotify.js
-│  └─ send-quote.js
-├─ /images
-└─ README.md
-
----
-
-## Environment Variables
-
-Create a `.env` file (only if your project uses server/API routes).
-
-### Spotify (if using “Now Playing”)
-
-```env
-SPOTIFY_CLIENT_ID=
-SPOTIFY_CLIENT_SECRET=
-SPOTIFY_REFRESH_TOKEN=
+```sh
+npm test
+npm run dev
 ```
 
-### Email (Using nodemailer)
+`npm run dev` starts the Vite frontend. It does not by itself reproduce the
+deployed Vercel function environment for `/api` routes.
 
-```env
-SMTP_HOST=
-SMTP_PORT=
-SMTP_USER=
-SMTP_PASS=
-CONTACT_EMAIL=
+Create and inspect the production build with:
+
+```sh
+npm run build
+npm run preview
 ```
 
-### Cloudflare Turnstile (form spam protection)
+The build output is `dist/`. A successful build is local evidence only; it does
+not authorize or prove a preview or production deployment.
 
-Create a Turnstile widget in the [Cloudflare dashboard](https://dash.cloudflare.com/?to=/:account/turnstile) for your domain, then add:
+## Source map
 
-```env
-TURNSTILE_SITE_KEY=
-TURNSTILE_SECRET_KEY=
-```
+| Responsibility | Source |
+|---|---|
+| Production routes and indexability intent | `config/routes.cjs` |
+| Vite inputs and build behavior | `vite.config.mjs`, `package.json` |
+| Repository-controlled Vercel redirects | `vercel.json` |
+| Primary pages | `index.html`, `work/*.html`, `switchboard.html` |
+| Nonindexable utility pages | `privacy.html`, `terms.html`, `404.html` |
+| Shared frontend styles and scripts | `css/`, `src/`, `js/` |
+| Project-review form function | `api/send-quote.js` |
+| Turnstile verification | `api/turnstile-config.js`, `lib/verify-turnstile.js` |
+| Crawler policy and sitemap | `robots.txt`, `sitemap.xml` |
+| Environment-variable names | `.env.example` |
 
-If these are not set, forms still work locally without the widget. When `TURNSTILE_SECRET_KEY` is set in production, submissions without a valid token are rejected.
+Do not commit `.env` files or expose environment values in documentation,
+issues, logs, or release records.
 
-Cloudflare provides always-pass test keys for development:
+## Release governance
 
-```env
-TURNSTILE_SITE_KEY=1x00000000000000000000AA
-TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
-```
+The site owner controls GitHub, Vercel, Cloudflare/R2, DNS, form delivery, and
+deployment or rollback approval. Repository work is local-only unless the site
+owner gives separate authority for a preview or production action.
 
+Read these before changing or releasing the site:
 
-
-## Known Issues / TODO
-* [ ] Ensure background effects don’t r on every mode switch
-* [ ] Improve lighthouse performance (reduce blocking JS, compress media)
-* [ ] Add caching for quote + spotify responses
-* [x] Harden form endpoint (Turnstile verification)
-* [ ] Add SQL database to Quotes section to change from manuall quote changes.
-
----
-
-## Contact
-* Site: https://www.networksandnodes.org
-* Email: david@networksandnodes.org
-* LinkedIn: https://www.linkedin.com/in/david-w-3621bb272/
-
-If you paste your repo structure (top-level folders + what framework you’re using), I can tighten this README so every path/command matches your project exactly.
-```
+- [Production source and ownership](docs/PRODUCTION-SOURCE.md)
+- [Deployment and rollback runbook](docs/DEPLOYMENT-RUNBOOK.md)
+- [SEO implementation plan](docs/NETWORKS-AND-NODES-MASTER-SEO-AUDIT-PLAN-2026-08-04.md.md)
+- [SEO research standard](docs/SEO-GUIDANCE-RESEARCH-STANDARD.md)

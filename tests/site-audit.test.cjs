@@ -76,6 +76,136 @@ test("route manifest keeps build, indexability, canonicals, and sitemap in parit
   assert.deepEqual([...sitemapUrls].sort(), [...expectedSitemapUrls].sort(), "sitemap and route manifest drifted");
 });
 
+test("repository robots defers crawler directives to the approved Cloudflare policy", () => {
+  const directives = read("robots.txt")
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line && !line.startsWith("#"));
+
+  assert.deepEqual(directives, [`Sitemap: ${siteOrigin}/sitemap.xml`]);
+});
+
+test("switchboard remains a usable embed-only noindex document", () => {
+  const homepage = read("index.html");
+  const switchboard = read("switchboard.html");
+  const sitemap = read("sitemap.xml");
+  const robots = read("robots.txt");
+  const route = routeManifest.find((item) => item.id === "switchboard");
+  const robotsTags = [...switchboard.matchAll(/<meta\b[^>]*>/gi)]
+    .map((match) => match[0])
+    .filter((tag) => attributeValue(tag, "name")?.toLowerCase() === "robots");
+
+  assert.deepEqual(
+    {
+      indexable: route?.indexable,
+      canonicalIntent: route?.canonicalIntent,
+      sitemap: route?.sitemap,
+    },
+    { indexable: false, canonicalIntent: "none", sitemap: false },
+  );
+  assert.equal(robotsTags.length, 1);
+  assert.equal(attributeValue(robotsTags[0], "content")?.toLowerCase(), "noindex, follow");
+  assert.doesNotMatch(switchboard, /<link\b[^>]*rel=["']canonical["']/i);
+  assert.doesNotMatch(sitemap, /switchboard\.html/);
+  assert.match(homepage, /<iframe\b[^>]*class="switchboard-embed"[^>]*src="\/switchboard\.html"/);
+  assert.doesNotMatch(homepage, /<a\b[^>]*href="\/switchboard\.html"/i);
+  assert.doesNotMatch(robots, /Disallow:\s*\/switchboard\.html/i);
+});
+
+test("Vercel config declares direct permanent redirects for duplicate URL variants", () => {
+  const config = JSON.parse(read("vercel.json"));
+  const redirects = config.redirects || [];
+  const bySource = new Map(redirects.map((redirect) => [redirect.source, redirect]));
+  const expectedPathRedirects = new Map([
+    ["/index.html", `${siteOrigin}/`],
+    ["/index.html/", `${siteOrigin}/`],
+    ...routeManifest
+      .filter((route) => !["main", "notFound"].includes(route.id))
+      .map((route) => [`${route.publicPath}/`, new URL(route.publicPath, siteOrigin).href]),
+  ]);
+
+  assert.equal(config.$schema, "https://openapi.vercel.sh/vercel.json");
+  for (const [source, destination] of expectedPathRedirects) {
+    assert.deepEqual(
+      bySource.get(source),
+      { source, destination, permanent: true },
+      `${source} must redirect directly to its HTTPS www equivalent`,
+    );
+  }
+  assert.equal(bySource.has("/404.html/"), false, "error-document variants must retain genuine 404 handling");
+
+  const apexRedirect = redirects.find((redirect) =>
+    redirect.has?.some((condition) => condition.type === "host" && condition.value === "networksandnodes.org"));
+  assert.deepEqual(apexRedirect, {
+    source: "/:path*",
+    has: [{ type: "host", value: "networksandnodes.org" }],
+    destination: `${siteOrigin}/:path*`,
+    permanent: true,
+  });
+  assert.equal(
+    redirects.some((redirect) => redirect.source === "/:path*" && !redirect.has),
+    false,
+    "unknown routes must not be redirected away from real 404 handling",
+  );
+  for (const protectedPath of ["/api/send-quote", "/assets/site.css", "/not-a-real-route"]) {
+    assert.equal(bySource.has(protectedPath), false, `${protectedPath} must not receive a path redirect`);
+  }
+  assert.ok(redirects.every((redirect) => redirect.permanent === true));
+});
+
+test("production governance identifies the source, owners, release evidence, and rollback path", () => {
+  const readme = read("README.md");
+  const sourceRecord = read("docs/PRODUCTION-SOURCE.md");
+  const runbook = read("docs/DEPLOYMENT-RUNBOOK.md");
+  const environmentExample = read(".env.example");
+
+  assert.match(readme, /github\.com\/DaBugg\/drawalker\.github\.io/);
+  assert.match(readme, /Release branch: `main`/);
+  assert.match(readme, /static multi-page HTML and vanilla JavaScript built with Vite/);
+  assert.match(readme, /Hosting: Vercel/);
+  assert.match(readme, /Public edge: Cloudflare/);
+  assert.match(readme, /Legacy material inside this repository[\s\S]*?nonproduction reference material/);
+
+  assert.match(sourceRecord, /\/Users\/dw\/Documents\/GitHub\/drawalker\.github\.io/);
+  assert.match(sourceRecord, /older Next\/Vinext prototype/);
+  for (const legacyPath of ["index/", "test-pages-bad/", "test-pages-new/", "my-designs.html", "under-construction.html"]) {
+    assert.ok(sourceRecord.includes(`\`${legacyPath}\``), `${legacyPath} must be labeled nonproduction`);
+  }
+  for (const ownerArea of ["GitHub repository", "Vercel project", "Cloudflare zone", "DNS", "Form inbox", "Production rollback"]) {
+    assert.match(sourceRecord, new RegExp(`\\| ${ownerArea}[^\\n]*\\| Site owner \\|`, "i"));
+  }
+
+  assert.match(runbook, /does\s+not prove whether pushes to `main` deploy automatically/);
+  assert.match(runbook, /Release record/);
+  assert.match(runbook, /promot(?:e|ing) the previous known-good Vercel deployment/i);
+  assert.match(runbook, /create a normal `git revert`/);
+  assert.match(runbook, /Do not use `git reset --hard`/);
+  assert.match(runbook, /Cloudflare → Rules → Redirect Rules → Single Redirects/);
+  assert.match(runbook, /Vercel → Project → Settings → Domains/);
+  assert.match(runbook, /Preserve\s+query string/);
+  assert.match(runbook, /search=yes, ai-train=no, use=reference/);
+  assert.match(runbook, /do not run `npm ci` in the canonical working copy/i);
+  assert.match(runbook, /exact-path rules before the general host rule/);
+
+  for (const variable of [
+    "VITE_ASSET_URL",
+    "SMTP_HOST",
+    "SMTP_PORT",
+    "SMTP_USER",
+    "SMTP_PASS",
+    "CONTACT_EMAIL",
+    "TURNSTILE_SITE_KEY",
+    "TURNSTILE_SECRET_KEY",
+    "SPOTIFY_CLIENT_ID",
+    "SPOTIFY_CLIENT_SECRET",
+    "SPOTIFY_REFRESH_TOKEN",
+    "SPOTIFY_REDIRECT_URI",
+    "PORT",
+  ]) {
+    assert.match(environmentExample, new RegExp(`^${variable}=$`, "m"));
+  }
+});
+
 test("homepage exposes the approved commercial vocabulary in semantic HTML", () => {
   const html = read("index.html");
 

@@ -1,16 +1,4 @@
-User-agent: Googlebot
-Disallow:
-
-User-agent: Twitterbot
-Disallow:
-
-User-agent: facebookexternalhit
-Disallow:
-
-User-agent: LinkedInBot
-Disallow:
-
-User-agent: *
-Disallow: /
+# Cloudflare Managed robots.txt supplies the production crawler policy.
+# Keep this source free of User-agent groups so the delivered policy is not duplicated.
 
 Sitemap: https://www.networksandnodes.org/sitemap.xml

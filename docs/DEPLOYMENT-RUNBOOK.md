@@ -1,0 +1,205 @@
+# Deployment and rollback runbook
+
+## Authority and scope
+
+The site owner controls GitHub, Vercel, Cloudflare/R2, DNS, form delivery, and
+all preview, production, and rollback approvals. Local repository work does not
+authorize an external platform action.
+
+The deployment path is:
+
+```text
+confirmed Git commit
+  -> Vercel build/deployment (`drawalker-github-io`)
+  -> Cloudflare public edge
+  -> https://www.networksandnodes.org/
+```
+
+The repository contains `vercel.json` for repository-controlled redirect
+policy. It does not contain a GitHub Actions deployment workflow or encode the
+active Vercel Git integration and production-branch trigger. It therefore does
+not prove whether pushes to `main` deploy automatically. Before the next
+authorized preview or production release, the site owner must confirm those
+settings in the Vercel dashboard and record the observed trigger here or in the
+release record.
+
+## Environment inventory
+
+Store deployment values in the owner-controlled platform environment. Keep only
+the blank variable inventory in `.env.example`; never commit or print values.
+
+| Variable | Purpose | Exposure |
+|---|---|---|
+| `VITE_ASSET_URL` | Build-time external asset base | Public after build |
+| `SMTP_HOST` | SMTP host; source defaults to `smtp.porkbun.com` | Configuration |
+| `SMTP_PORT` | SMTP port; source defaults to `587` | Configuration |
+| `SMTP_USER` | SMTP authentication and sender account | Sensitive |
+| `SMTP_PASS` | SMTP authentication secret | Secret |
+| `CONTACT_EMAIL` | Project-review and song-suggestion destination | Sensitive operational configuration |
+| `TURNSTILE_SITE_KEY` | Browser-visible Turnstile site key | Public |
+| `TURNSTILE_SECRET_KEY` | Server-side Turnstile verification | Secret |
+| `SPOTIFY_CLIENT_ID` | Spotify integration client | Configuration |
+| `SPOTIFY_CLIENT_SECRET` | Spotify integration credential | Secret |
+| `SPOTIFY_REFRESH_TOKEN` | Spotify account refresh token | Secret |
+| `SPOTIFY_REDIRECT_URI` | Spotify authorization callback | Configuration |
+| `PORT` | Legacy local Express-server port | Local configuration |
+
+All environment values and their rotation are owned by the site owner. The
+presence of a variable name in source does not verify that a deployed value is
+current or correct.
+
+## Local release preparation
+
+1. Confirm the canonical repository, branch, commit, and working tree:
+
+   ```sh
+   git status --short --branch
+   git rev-parse HEAD
+   git remote get-url origin
+   ```
+
+2. Preserve unrelated changes. Do not reset, overwrite, or include them in the
+   release.
+3. Do not run `npm ci` in the canonical working copy while `node_modules/`
+   remains tracked. If dependencies need installation, use a disposable clean
+   checkout or worktree, run `npm ci` there, and keep its dependency churn out
+   of the release diff.
+4. Run `npm test` using the reviewed dependency state.
+5. Run `npm run build` and confirm that `dist/` contains the intended HTML,
+   assets, `robots.txt`, and `sitemap.xml`.
+6. Review the changed-file list and `git diff --check`.
+7. Record the candidate commit. A dirty working tree is not a reproducible
+   release candidate.
+
+## Preview and production procedure
+
+1. Obtain explicit site-owner authority for the specific preview or production
+   action.
+2. Confirm that the target is the Vercel project `drawalker-github-io` and that
+   its current domain and branch settings are correct. Do not infer the trigger
+   from the local `.vercel` link.
+3. Create the deployment through the owner-confirmed Vercel workflow. Record its
+   deployment URL/ID, commit, trigger method, environment, and time.
+4. On a preview, validate the changed routes, functions, metadata, crawler
+   signals, console output, responsive behavior, keyboard behavior, and form
+   error paths applicable to the release. Do not send a live form submission
+   without separate approval.
+5. Obtain site-owner acceptance of the preview and exact commit before a
+   production action.
+6. After an authorized production release, verify the public Cloudflare-served
+   response rather than treating the Vercel build result as production proof.
+
+Minimum production checks:
+
+- Preferred URLs and representative assets return the intended status.
+- Redirects reach the exact canonical destination with the expected hop count.
+- `robots.txt`, `sitemap.xml`, canonical tags, and robots directives agree.
+- Raw and rendered HTML expose the intended title, primary content, links, and
+  conversion path.
+- No new console, JavaScript, hydration, function, or asset error blocks a
+  primary task.
+- Form validation and error states work. A real delivery test requires its own
+  approved recipient, marker, and downstream reconciliation.
+
+## Batch 2 external follow-up
+
+No Vercel or Cloudflare dashboard setting was changed during the repository-only
+Batch 2 work. The site owner must complete or review these actions before the
+host redirect portion of M08 can be marked verified:
+
+1. In **Cloudflare → Rules → Redirect Rules → Single Redirects**, place the
+   exact-path rules before the general host rule. Scope the exact rules to
+   `networksandnodes.org` and `www.networksandnodes.org`, return `308`, enable
+   **Preserve query string**, and send each path directly to its HTTPS `www`
+   destination:
+   - `/index.html` and `/index.html/` → `https://www.networksandnodes.org/`
+   - `/switchboard.html/` → `https://www.networksandnodes.org/switchboard.html`
+   - each deployed `/work/*.html/` variant → its matching non-trailing-slash URL
+   - `/privacy.html/` and `/terms.html/` → their matching non-trailing-slash URLs
+2. After those exact rules, create or review the general apex rule with the
+   expression `http.host eq "networksandnodes.org"`, a dynamic destination of
+   `concat("https://www.networksandnodes.org", http.request.uri.path)`, status
+   `308`, and **Preserve query string** enabled. Use Cloudflare Trace to confirm
+   these rules run before the existing scheme-only HTTPS redirect. This order
+   prevents combined apex + duplicate-path requests from taking a second Vercel
+   hop.
+3. In **Vercel → Project → Settings → Domains**, edit the
+   `networksandnodes.org` redirect to target `www.networksandnodes.org` with a
+   permanent `308` instead of the currently observed temporary `307`. Treat the
+   host-conditioned rule in `vercel.json` as a deployment fallback; the current
+   Vercel domain redirect may execute before deployment routes.
+4. In **Cloudflare → Security → Bots** (or Security Settings filtered to bot
+   traffic), retain the owner-approved managed robots policy:
+   `search=yes, ai-train=no, use=reference` and the currently managed named
+   crawler restrictions.
+5. After the repository deployment and dashboard review, fetch the public
+   redirect variants and `robots.txt` again. Record every redirect status, hop,
+   destination, and query-string result. The final delivered `robots.txt` must
+   contain Cloudflare's single wildcard policy, its approved named groups, and
+   the repository sitemap declaration without a conflicting repository group.
+
+The exact-path redirects in `vercel.json` use absolute production destinations.
+On a Vercel preview, following one of those redirects will leave the preview and
+open production. Record the preview response headers, and do not mistake the
+destination page for evidence that the preview itself served the redirected
+content.
+
+## Release record
+
+Retain one record per preview and production release. Do not include secrets,
+form contents, personal information, or full environment values.
+
+```text
+Release date/time:
+Environment: preview / production
+Approved by:
+Executed by:
+Repository:
+Branch:
+Commit:
+Working tree clean: yes / no
+Vercel project:
+Vercel deployment URL or ID:
+Deployment trigger: dashboard / CLI / Git integration / other
+Cloudflare-served URL checked:
+Files or M-items included:
+npm test result:
+npm run build result:
+HTTP/redirect checks:
+Robots/sitemap/canonical checks:
+Raw/rendered checks:
+Accessibility/performance checks:
+Form checks and authorization scope:
+Known limitations:
+Rollback target:
+Final disposition: accepted / rejected / rolled back
+```
+
+## Rollback
+
+Use a recoverable two-stage rollback. The site owner's approved order is to
+restore service by promoting the previous known-good Vercel deployment first,
+then reconcile Git history with a revert.
+
+1. Stop further production releases and notify the site owner.
+2. Identify the affected release record and the last known-good Vercel
+   deployment. Verify its commit and environment before changing production.
+3. With site-owner approval, promote the previous known-good Vercel deployment
+   to production.
+4. Run the minimum production checks against the Cloudflare-served site and
+   record the result.
+5. In the canonical repository, create a normal `git revert` of the faulty
+   release commit or commits. Do not use `git reset --hard`, rewrite shared
+   history, or restore from the old Next/Vinext archive.
+6. Run `npm test` and `npm run build` on the reverted state.
+7. With site-owner approval, deploy the tested revert through the confirmed
+   Vercel workflow so repository history and production converge.
+8. Purge or change Cloudflare caches only when the failure requires it and the
+   site owner has explicitly approved the exact scope. A broad purge is not a
+   default rollback step.
+9. Record the incident, promoted deployment, revert commit, validation, and any
+   follow-up action in the release record.
+
+If the previous deployment cannot be positively identified or its environment
+is incompatible, stop and obtain site-owner direction. Do not improvise a
+destructive rollback.

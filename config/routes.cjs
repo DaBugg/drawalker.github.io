@@ -11,9 +11,9 @@ const routes = [
     id: "switchboard",
     sourcePath: "switchboard.html",
     publicPath: "/switchboard.html",
-    indexable: true,
+    indexable: false,
     canonicalIntent: "none",
-    sitemap: true,
+    sitemap: false,
   },
   {
     id: "transportationCaseStudy",
