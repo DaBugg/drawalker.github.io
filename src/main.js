@@ -1,6 +1,7 @@
 import "../js/form-security.js";
 import "../js/in-page-navigation.js";
 import { assetUrl } from "./asset-url.js";
+import { initializeContactForm } from "./contact-form.mjs";
 
 const videos = [
   {
@@ -447,100 +448,6 @@ function initializeMobileMenu() {
     link.addEventListener("click", () => {
       menu.removeAttribute("open");
     });
-  });
-}
-
-function initializeContactForm() {
-  const form = document.querySelector("[data-contact-form]");
-  const status = document.querySelector("[data-form-status]");
-  const success = document.querySelector("[data-form-success]");
-  const turnstileSlot = document.querySelector("[data-turnstile]");
-  if (!form || !status || !success) return;
-
-  let turnstileWidget = null;
-  let turnstilePromise = null;
-
-  const initializeTurnstile = () => {
-    if (!window.siteTurnstile || !turnstileSlot) return Promise.resolve(null);
-    if (turnstilePromise) return turnstilePromise;
-    turnstilePromise = window.siteTurnstile
-      .render(turnstileSlot, { theme: "light" })
-      .then((widget) => {
-        turnstileWidget = widget;
-        return widget;
-      })
-      .catch(() => {
-        turnstileWidget = null;
-        return null;
-      });
-    return turnstilePromise;
-  };
-
-  form.addEventListener("focusin", initializeTurnstile, { once: true });
-  form.addEventListener(
-    "invalid",
-    () => {
-      status.textContent = "Please complete the required fields before sending.";
-    },
-    true,
-  );
-
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        initializeTurnstile();
-        observer.disconnect();
-      },
-      { rootMargin: "500px 0px" },
-    );
-    observer.observe(form);
-  }
-
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    status.textContent = "";
-
-    if (!form.checkValidity()) {
-      status.textContent = "Please complete the required fields before sending.";
-      form.querySelector(":invalid")?.focus();
-      form.reportValidity();
-      return;
-    }
-
-    await initializeTurnstile();
-
-    const button = form.querySelector('button[type="submit"]');
-    const originalText = button.querySelector("span").textContent;
-    button.disabled = true;
-    button.querySelector("span").textContent = "Sending…";
-
-    try {
-      const response = await fetch(form.action, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(Object.fromEntries(new FormData(form))),
-      });
-      const result = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        throw new Error(result.error || "We couldn’t send your message. Please try again.");
-      }
-
-      form.reset();
-      form.hidden = true;
-      success.hidden = false;
-      success.focus();
-    } catch (error) {
-      status.textContent =
-        error instanceof Error ? error.message : "We couldn’t send your message. Please try again.";
-      if (turnstileWidget !== null && window.siteTurnstile) {
-        window.siteTurnstile.reset(turnstileWidget);
-      }
-    } finally {
-      button.disabled = false;
-      button.querySelector("span").textContent = originalText;
-    }
   });
 }
 
