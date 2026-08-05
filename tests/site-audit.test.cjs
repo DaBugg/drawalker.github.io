@@ -9,7 +9,10 @@ const root = path.resolve(__dirname, "..");
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 const siteOrigin = "https://www.networksandnodes.org";
 const attributeValue = (tag, name) => {
-  const match = tag.match(new RegExp(`\\b${name}\\s*=\\s*(?:"([^"]*)"|'([^']*)')`, "i"));
+  const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = tag.match(
+    new RegExp(`(?:^|\\s)${escapedName}\\s*=\\s*(?:"([^"]*)"|'([^']*)')`, "i"),
+  );
   return match?.[1] ?? match?.[2];
 };
 
@@ -94,6 +97,7 @@ test("switchboard remains a usable embed-only noindex document", () => {
   const robotsTags = [...switchboard.matchAll(/<meta\b[^>]*>/gi)]
     .map((match) => match[0])
     .filter((tag) => attributeValue(tag, "name")?.toLowerCase() === "robots");
+  const switchboardFrame = homepage.match(/<iframe\b[^>]*data-switchboard-frame[^>]*>/i)?.[0] || "";
 
   assert.deepEqual(
     {
@@ -107,7 +111,11 @@ test("switchboard remains a usable embed-only noindex document", () => {
   assert.equal(attributeValue(robotsTags[0], "content")?.toLowerCase(), "noindex, follow");
   assert.doesNotMatch(switchboard, /<link\b[^>]*rel=["']canonical["']/i);
   assert.doesNotMatch(sitemap, /switchboard\.html/);
-  assert.match(homepage, /<iframe\b[^>]*class="switchboard-embed"[^>]*src="\/switchboard\.html"/);
+  assert.equal(attributeValue(switchboardFrame, "data-src"), "/switchboard.html");
+  assert.equal(attributeValue(switchboardFrame, "src"), undefined);
+  assert.match(switchboardFrame, /\shidden(?:\s|>)/i);
+  assert.match(homepage, /data-switchboard-load/);
+  assert.match(homepage, /<noscript>[\s\S]*?href="\/#project-review-form"[\s\S]*?<\/noscript>/);
   assert.doesNotMatch(homepage, /<a\b[^>]*href="\/switchboard\.html"/i);
   assert.doesNotMatch(robots, /Disallow:\s*\/switchboard\.html/i);
 });
@@ -715,12 +723,18 @@ test("rich media is progressively initialized", () => {
   const main = read("src/main.js");
   const switchboard = read("switchboard.html");
   const frameMarkup = homepage.match(/<iframe\s+data-video-frame[\s\S]*?<\/iframe>/)?.[0] || "";
+  const switchboardFrame = homepage.match(/<iframe\b[^>]*data-switchboard-frame[^>]*>/i)?.[0] || "";
 
   assert.doesNotMatch(frameMarkup, /\ssrc=/);
   assert.match(homepage, /data-video-poster/);
+  assert.match(homepage, /data-video-start/);
+  assert.doesNotMatch(homepage, /<video\b/i);
+  assert.equal(attributeValue(switchboardFrame, "src"), undefined);
+  assert.equal(attributeValue(switchboardFrame, "data-src"), "/switchboard.html");
   assert.match(main, /IntersectionObserver/);
   assert.match(main, /deactivateMedia/);
   assert.match(main, /document\.hidden/);
+  assert.doesNotMatch(main, /requestIdleCallback|setInterval/);
   assert.doesNotMatch(
     switchboard,
     /<script[^>]+src="https:\/\/ajax\.googleapis\.com\/ajax\/libs\/model-viewer/i,
@@ -733,39 +747,43 @@ test("the construction model is excluded and unloaded on mobile", () => {
 
   assert.match(switchboard, /mobileProductQuery = window\.matchMedia\("\(max-width: 700px\)"\)/);
   assert.match(switchboard, /if \(!mobileProductQuery\.matches\)/);
-  assert.match(switchboard, /productModel\.removeAttribute\("src"\)/);
-  assert.match(switchboard, /renderProduct\(0, !productDemo\.hidden\)/);
+  assert.match(switchboard, /cancelModelLoad\("product"\)/);
+  assert.match(switchboard, /renderProduct\(0\)/);
 });
 
-test("large 3D assets and the available carousel videos use the public R2 CDN", () => {
-  const homepage = read("index.html");
+test("showcase videos use adaptive Mux delivery and GLBs use versioned R2 URLs", () => {
   const main = read("src/main.js");
   const helper = read("src/asset-url.js");
   const switchboard = read("switchboard.html");
 
   assert.match(helper, /import\.meta\.env\.VITE_ASSET_URL/);
   assert.match(helper, /https:\/\/assets\.networksandnodes\.org/);
-  assert.match(homepage, /data-video-native/);
+  assert.doesNotMatch(main, /Immersive-designs\.MP4|Language-translation\.MOV|Realtor-redesign\.mp4/);
 
-  for (const asset of [
-    "Immersive-designs.MP4",
-    "Language-translation.MOV",
-    "Realtor-redesign.mp4",
+  for (const playbackId of [
+    "Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc",
+    "3hfzhGk1IQHb2kZwv01YlNYA6olGBfF70000SqZXQ702ozo",
+    "bmUEq0015EGNUVijLFRpphb007VWlqrbFp8rS9iJGJPGM",
+    "bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM",
   ]) {
-    assert.match(main, new RegExp(`assetUrl\\("${asset.replace(".", "\\.")}\\"\\)`));
+    assert.match(main, new RegExp(playbackId));
   }
+  assert.match(main, /https:\/\/player\.mux\.com\/\$\{video\.playbackId\}/);
+  assert.match(main, /url\.searchParams\.set\("controls", "true"\)/);
+  assert.match(main, /url\.searchParams\.set\("preload", "none"\)/);
 
-  for (const asset of [
-    "Chicago_Air_Jordan1_Compress-v1.glb",
-    "Building_Under_Cons_Compress-v1.glb",
-    "Midnight_Sentinel_Compress-v1.glb",
-    "Stock-shirt-compressed-v1.glb",
-  ]) {
+  const versionedModels = new Map([
+    ["Chicago_Air_Jordan1_Compress-v1.glb", "471915b9bc62126c0fcdd0152bffb344"],
+    ["Building_Under_Cons_Compress-v1.glb", "2990d2cf8c0b2eba038654be29e78d69"],
+    ["Midnight_Sentinel_Compress-v1.glb", "0ed7a505aadee2eafe541375ff9dd139"],
+    ["Stock-shirt-compressed-v1.glb", "1d6753625d3ecacac8dfdd9f87ecb620"],
+  ]);
+  for (const [asset, version] of versionedModels) {
     assert.match(switchboard, new RegExp(`assetUrl\\("${asset.replace(".", "\\.")}\\"\\)`));
     assert.doesNotMatch(switchboard, new RegExp(`/images/${asset.replace(".", "\\.")}`));
+    assert.match(helper, new RegExp(`"${asset.replace(".", "\\.")}": "${version}"`));
   }
-
-  assert.match(main, /type: "mux"[\s\S]*label: "Measured outcomes"/);
+  assert.match(helper, /url\.searchParams\.set\("v", version\)/);
 });
 
 test("hero carousel keeps the approved video order", () => {
@@ -776,10 +794,54 @@ test("hero carousel keeps the approved video order", () => {
   const measured = main.indexOf('label: "Measured outcomes"');
 
   assert.ok(immersive < market && market < brand && brand < measured);
-  assert.match(
-    main,
-    /Language-translation\.MOV"\),[\s\S]*?fit: "contain"[\s\S]*?Realtor-redesign\.mp4"\),[\s\S]*?fit: "contain"/,
+  assert.ok(
+    main.indexOf('playbackId: "Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc"') <
+      main.indexOf('playbackId: "3hfzhGk1IQHb2kZwv01YlNYA6olGBfF70000SqZXQ702ozo"') &&
+      main.indexOf('playbackId: "3hfzhGk1IQHb2kZwv01YlNYA6olGBfF70000SqZXQ702ozo"') <
+        main.indexOf('playbackId: "bmUEq0015EGNUVijLFRpphb007VWlqrbFp8rS9iJGJPGM"') &&
+      main.indexOf('playbackId: "bmUEq0015EGNUVijLFRpphb007VWlqrbFp8rS9iJGJPGM"') <
+        main.indexOf('playbackId: "bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM"'),
   );
+});
+
+test("Batch 4 hard-defers every heavy media boundary until explicit interaction", () => {
+  const homepage = read("index.html");
+  const main = read("src/main.js");
+  const switchboard = read("switchboard.html");
+  const videoFrame = homepage.match(/<iframe\s+data-video-frame[\s\S]*?<\/iframe>/)?.[0] || "";
+  const switchboardFrame = homepage.match(/<iframe\b[^>]*data-switchboard-frame[^>]*>/i)?.[0] || "";
+
+  assert.equal(attributeValue(videoFrame, "src"), undefined);
+  assert.equal(attributeValue(switchboardFrame, "src"), undefined);
+  assert.equal(attributeValue(switchboardFrame, "data-src"), "/switchboard.html");
+  assert.match(homepage, /data-video-start/);
+  assert.match(homepage, /data-switchboard-load/);
+  assert.match(main, /start\.addEventListener\("click"/);
+  assert.match(main, /let mediaReady = false/);
+  assert.match(main, /const selectVideo = \(index\) => \{\s*mediaReady = false;\s*deactivateMedia\(\);\s*activeIndex = index;/);
+  assert.match(main, /start\.addEventListener\("click", \(\) => \{\s*mediaReady = true;/);
+  assert.match(main, /navigator\.connection\?\.saveData === true/);
+  assert.match(main, /const manualPlayback = reduceMotion \|\| saveData/);
+  assert.match(main, /if \(!manualPlayback\) url\.searchParams\.set\("autoplay", "muted"\)/);
+  assert.doesNotMatch(main, /requestIdleCallback|setInterval/);
+
+  assert.match(switchboard, /data-load-product-model/);
+  assert.match(switchboard, /const approvedProductScenes = new Set\(\)/);
+  assert.match(switchboard, /loadProductButton\.addEventListener\("click", loadCurrentProductModel\)/);
+  assert.match(switchboard, /if \(id === "experience"\) \{\s*renderProduct\(currentProductIndex\)/);
+  assert.doesNotMatch(switchboard, /if \(id === "experience"\) loadCurrentProductModel\(\)/);
+  assert.match(switchboard, /const sceneIsApproved = approvedProductScenes\.has\(product\.scene\)/);
+  assert.match(switchboard, /const websiteIsInteractive =[^;]+sceneIsApproved/);
+  assert.match(switchboard, /if \(!websiteIsInteractive\) \{\s*cancelModelLoad\("website"\)/);
+  assert.match(switchboard, /function cancelModelLoad\(kind\)[\s\S]*?model\.removeAttribute\("src"\)/);
+  assert.match(switchboard, /function replaceModelElement\(kind\)[\s\S]*?currentModel\.replaceWith\(nextModel\)/);
+  assert.match(switchboard, /let productModelRequest = 0;[\s\S]*?let websiteModelRequest = 0;/);
+  assert.match(switchboard, /const readyProductScenes = new Set\(\)/);
+  assert.match(switchboard, /const productIsReady = canUseInteractiveModel && sceneIsReady/);
+  assert.match(switchboard, /readyProductScenes\.add\(loadedScene\)/);
+  assert.match(switchboard, /loadProductButton\.textContent = "Interactive 3D loaded"/);
+  assert.match(switchboard, /model !== activeModel \|\| requestId !== activeRequest/);
+  assert.match(switchboard, /model\.removeAttribute\("src"\);\s*approvedProductScenes\.delete\(failedScene\)/);
 });
 
 test("Phase 4 provides bounded, explicit 3D fallback states", () => {
@@ -815,8 +877,11 @@ test("Phase 4 reduced-motion paths avoid automatic media and decorative sequenci
   const main = read("src/main.js");
   const switchboard = read("switchboard.html");
 
-  assert.match(main, /if \(reduceMotion\) return;[\s\S]*?requestIdleCallback/);
-  assert.match(main, /playback\.hidden = reduceMotion/);
+  assert.match(main, /const manualPlayback = reduceMotion \|\| saveData/);
+  assert.match(main, /if \(!manualPlayback\) url\.searchParams\.set\("autoplay", "muted"\)/);
+  assert.doesNotMatch(main, /requestIdleCallback|setInterval/);
+  assert.match(switchboard, /const saveProductData = navigator\.connection\?\.saveData === true/);
+  assert.match(switchboard, /if \(reduceProductMotion \|\| saveProductData\)/);
   assert.match(switchboard, /productModel\.removeAttribute\("auto-rotate"\)/);
   assert.match(switchboard, /websiteProductModel\.removeAttribute\("auto-rotate"\)/);
   assert.match(switchboard, /showNode\(nodeButtons\.length - 1\)/);
@@ -835,9 +900,10 @@ test("Phase 4 preserves native validation, focus targets, and stable media sizin
   assert.match(contactForm, /form\.querySelector\(':invalid'\)\?\.focus\(\)/);
   assert.match(contactForm, /form\.addEventListener\(\s*'invalid'/);
   assert.match(contactForm, /Please complete the required fields before sending\./);
-  assert.match(homepage, /data-video-poster[\s\S]*?loading="eager"[\s\S]*?width="1200"[\s\S]*?height="675"/);
+  assert.match(homepage, /data-video-poster[\s\S]*?loading="eager"[\s\S]*?width="1200"[\s\S]*?height="900"/);
   assert.match(homepage, /data-video-poster[\s\S]*?srcset="[^"]+640w,[^"]+960w,[^"]+1200w"[\s\S]*?sizes="/);
   assert.match(main, /poster\.srcset = responsivePosterSources/);
+  assert.match(main, /poster\.height = activeVideo\.posterHeight/);
   assert.equal((switchboard.match(/<img\b/g) || []).length, (switchboard.match(/<img\b[\s\S]*?\bwidth="/g) || []).length);
   assert.match(switchboard, /if \("ResizeObserver" in window\)/);
 });

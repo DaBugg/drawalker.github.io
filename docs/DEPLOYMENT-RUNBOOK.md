@@ -243,6 +243,87 @@ production closure. Recheck the
 and [Umami Cloud changelog](https://docs.umami.is/docs/cloud/changelog) when
 performing the authorized deployment validation.
 
+## Batch 4 M01 media-performance follow-up
+
+Batch 4 changed the repository only. It did not deploy the site, upload,
+overwrite, or delete an R2 object, purge a cache, or change a Cloudflare, Mux,
+or Vercel setting. The original media remains available for rollback and no
+post-deployment result is claimed here.
+
+Before the change, the homepage could attach three full-file R2 videos totaling
+31,076,263 bytes, and the switchboard could load its runtime and initial model
+without a specific 3D-load decision. The public objects measured during the
+audit were:
+
+| Previous asset | Measured bytes | Relevant pre-change risk |
+| --- | ---: | --- |
+| `Immersive-designs.MP4` | 10,527,343 | Full H.264 MP4 rather than adaptive delivery |
+| `Language-translation.MOV` | 9,270,884 | HEVC-only QuickTime compatibility and full-file delivery |
+| `Realtor-redesign.mp4` | 11,278,036 | Full H.264 MP4 delivery |
+| Chicago shoe GLB | 7,921,968 | Initial interactive-scene payload |
+| Building GLB | 40,601,176 | Large scene payload |
+| Drone GLB | 10,018,464 | Large scene payload |
+| Shirt GLB | 23,694,740 | Large scene payload |
+
+The repository implementation now:
+
+- keeps a responsive poster through homepage LCP and attaches only the selected
+  video after explicit interaction, using the site's existing Mux adaptive
+  playback IDs instead of the three direct R2 video files;
+- disables post-click autoplay when Save-Data or reduced-motion is active, so
+  playback then requires the player's own explicit control;
+- leaves the switchboard iframe source-free until its labeled load button is
+  activated, then leaves every 3D scene static until that scene's size-labeled
+  load button is activated; and
+- appends ETag-derived version query tokens to GLB URLs. These tokens separate
+  repository asset versions but do not themselves provide immutable caching.
+
+Model compression was not performed because the required source assets and
+side-by-side visual-validation path were unavailable. The measured GLBs contain
+large embedded textures, so any later texture resizing or KTX2 conversion must
+use new versioned objects and pass visual review rather than overwrite the
+preserved originals.
+
+No audio track was removed or source video overwritten. The audit could inspect
+track metadata but could not human-verify that the AAC tracks in two originals
+were intentionally silent. If new renditions are later created, verify the
+audio editorially first, then publish silent H.264/adaptive variants under new
+versioned keys only when removing audio is correct.
+
+Complete these checks after an authorized deployment:
+
+1. Run a cold, cache-disabled network trace. Initial homepage load must request
+   no Mux player, switchboard document, model-viewer runtime, or GLB. A homepage
+   video activation must load only the selected Mux player. Switchboard
+   activation must load its document but no model runtime or GLB; activating one
+   scene must then load the runtime and only that selected GLB. Repeat with
+   Save-Data and reduced motion and confirm that neither mode starts playback or
+   rotates a model automatically.
+2. Test iOS Safari and Android Chrome at `390x844` and `390x667`, including
+   keyboard/focus behavior, poster and control sizing, orientation changes,
+   horizontal overflow, load/error recovery, and the no-JavaScript contact
+   route.
+3. Run three comparable cold mobile Lighthouse or PageSpeed tests with the same
+   location and profile. Preserve every result and report the median request
+   count, transferred bytes, LCP, INP or its lab proxy, and CLS against the
+   earlier 5.0-second / 11.1-MB lab reference. Do not present lab results as
+   field Core Web Vitals.
+4. Recheck response headers for every deployed media URL. Audit-time HEAD
+   responses for the measured R2 video and GLB objects did not expose an
+   immutable `Cache-Control` policy and were served as Cloudflare `DYNAMIC`.
+   The Cloudflare/R2 owner must publish new versioned objects with an appropriate
+   long-lived policy such as `public, max-age=31536000, immutable`, then confirm
+   the edge response. Change the version token whenever the bytes change; do not
+   overwrite an object behind an immutable URL.
+5. Inspect the effective production CSP and browser console. Permit only the
+   exact Mux player, poster, and stream origins observed in the deployed flow,
+   preserve the existing Turnstile and analytics rules, and do not add broad
+   wildcards. Confirm that deferred iframe and media requests are not blocked.
+6. Record raw and rendered HTML, trace files, device/browser versions, the three
+   performance runs, response headers, errors, and acceptance decision in the
+   release record. Until these checks pass, M01 is repository-implemented but
+   not production-verified.
+
 ## Release record
 
 Retain one record per preview and production release. Do not include secrets,

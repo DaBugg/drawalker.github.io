@@ -1,40 +1,38 @@
 import "../js/form-security.js";
 import "../js/in-page-navigation.js";
-import { assetUrl } from "./asset-url.js";
 import {
   createProjectReviewAnalytics,
   initializeProjectReviewCtaTracking,
 } from "./analytics.mjs";
 import { initializeContactForm } from "./contact-form.mjs";
+import { initializeSwitchboardEmbed } from "./switchboard-embed.mjs";
 
 const videos = [
   {
-    type: "native",
-    src: assetUrl("Immersive-designs.MP4"),
+    playbackId: "Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc",
     poster: "https://image.mux.com/Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc/thumbnail.webp?width=1200&time=0",
+    posterHeight: 900,
     label: "Immersive experiences",
     caption: "Movie-quality websites that draw customers in and make every interaction feel memorable.",
   },
   {
-    type: "native",
-    src: assetUrl("Language-translation.MOV"),
-    fit: "contain",
+    playbackId: "3hfzhGk1IQHb2kZwv01YlNYA6olGBfF70000SqZXQ702ozo",
     poster: "https://image.mux.com/3hfzhGk1IQHb2kZwv01YlNYA6olGBfF70000SqZXQ702ozo/thumbnail.webp?width=1200&time=0",
+    posterHeight: 663,
     label: "U.S. market readiness",
     caption: "Rebranding and translating international websites for modern U.S. audiences.",
   },
   {
-    type: "native",
-    src: assetUrl("Realtor-redesign.mp4"),
-    fit: "contain",
+    playbackId: "bmUEq0015EGNUVijLFRpphb007VWlqrbFp8rS9iJGJPGM",
     poster: "https://image.mux.com/bmUEq0015EGNUVijLFRpphb007VWlqrbFp8rS9iJGJPGM/thumbnail.webp?width=1200&time=0",
+    posterHeight: 883,
     label: "Brand systems",
     caption: "Clear digital experiences that make complex services easier to understand.",
   },
   {
-    type: "mux",
-    src: "https://player.mux.com/bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM?autoplay=muted&muted=true&loop=true&controls=false&preload=auto",
+    playbackId: "bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM",
     poster: "https://image.mux.com/bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM/thumbnail.webp?width=1200&time=0",
+    posterHeight: 894,
     label: "Measured outcomes",
     caption: "Reporting that helps teams see what is working and decide what comes next.",
   },
@@ -57,25 +55,26 @@ function initializeCarousel() {
 
   const stage = carousel.querySelector(".video-stage");
   const frame = carousel.querySelector("[data-video-frame]");
-  const nativeVideo = carousel.querySelector("[data-video-native]");
   const poster = carousel.querySelector("[data-video-poster]");
+  const start = carousel.querySelector("[data-video-start]");
+  const startLabel = start.querySelector("b");
+  const status = carousel.querySelector("[data-video-status]");
   const count = carousel.querySelector("[data-video-count]");
   const indexLabel = carousel.querySelector("[data-video-index]");
   const title = carousel.querySelector("[data-video-label]");
   const caption = carousel.querySelector("[data-video-caption]");
-  const playback = carousel.querySelector("[data-video-playback]");
   const selectors = [...carousel.querySelectorAll("[data-video-select]")];
   const previous = carousel.querySelector("[data-video-previous]");
   const next = carousel.querySelector("[data-video-next]");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const saveData = navigator.connection?.saveData === true;
+  const manualPlayback = reduceMotion || saveData;
 
   let activeIndex = 0;
-  let autoRotate = !reduceMotion;
-  let isHovering = false;
   let isInViewport = false;
   let mediaReady = false;
   let hasRendered = false;
-  let timer = null;
+  let loadTimer = null;
 
   const animateVideoCopy = () => {
     if (reduceMotion || !hasRendered || typeof title.animate !== "function") return;
@@ -95,66 +94,67 @@ function initializeCarousel() {
   };
 
   const playerSrc = (video) => {
-    if (video.type !== "mux" || !reduceMotion) return video.src;
-    const url = new URL(video.src);
-    url.searchParams.delete("autoplay");
-    url.searchParams.set("loop", "false");
+    const url = new URL(`https://player.mux.com/${video.playbackId}`);
+    url.searchParams.set("muted", "true");
     url.searchParams.set("controls", "true");
-    url.searchParams.set("preload", "metadata");
+    url.searchParams.set("loop", "false");
+    url.searchParams.set("preload", "none");
+    if (!manualPlayback) url.searchParams.set("autoplay", "muted");
     return url.toString();
   };
 
-  const deactivateMedia = () => {
+  const clearMediaStatus = () => {
+    status.hidden = true;
+    status.textContent = "";
+  };
+
+  const deactivateMedia = ({ preserveStatus = false } = {}) => {
+    window.clearTimeout(loadTimer);
+    loadTimer = null;
     if (frame.dataset.activeSrc) frame.src = "about:blank";
     delete frame.dataset.activeSrc;
     frame.hidden = true;
-
-    if (nativeVideo.dataset.activeSrc) {
-      nativeVideo.pause();
-      nativeVideo.removeAttribute("src");
-      nativeVideo.load();
-    }
-    delete nativeVideo.dataset.activeSrc;
-    nativeVideo.hidden = true;
     poster.hidden = false;
+    start.hidden = mediaReady;
     stage.classList.remove("is-playing");
+    if (!preserveStatus) clearMediaStatus();
   };
 
   const activateMedia = () => {
     if (!mediaReady || !isInViewport || document.hidden) return;
     const src = playerSrc(videos[activeIndex]);
     const activeVideo = videos[activeIndex];
-    const mediaElement = activeVideo.type === "native" ? nativeVideo : frame;
-    if (mediaElement.dataset.activeSrc === src) return;
+    if (frame.dataset.activeSrc === src) return;
     stage.classList.remove("is-playing");
     poster.hidden = false;
-
-    if (activeVideo.type === "native") {
-      nativeVideo.hidden = false;
-      nativeVideo.dataset.activeSrc = src;
-      nativeVideo.title = `${activeVideo.label} video`;
-      nativeVideo.poster = activeVideo.poster;
-      nativeVideo.style.objectFit = activeVideo.fit || "cover";
-      nativeVideo.controls = reduceMotion;
-      nativeVideo.loop = !reduceMotion;
-      nativeVideo.preload = "metadata";
-      nativeVideo.src = src;
-      nativeVideo.load();
-      if (!reduceMotion) nativeVideo.play().catch(() => {});
-      return;
-    }
-
+    start.hidden = true;
     frame.hidden = false;
     frame.dataset.activeSrc = src;
+    frame.title = `${activeVideo.label} video`;
     frame.src = src;
+    status.textContent = `Loading ${activeVideo.label} video…`;
+    status.hidden = false;
+    window.clearTimeout(loadTimer);
+    loadTimer = window.setTimeout(() => {
+      if (frame.dataset.activeSrc !== src) return;
+      mediaReady = false;
+      deactivateMedia({ preserveStatus: true });
+      start.hidden = false;
+      startLabel.textContent = "Try video again";
+      status.textContent = "The video player did not load. The poster and description remain available.";
+      status.hidden = false;
+    }, 10000);
   };
 
   const render = () => {
     const activeVideo = videos[activeIndex];
     frame.title = `${activeVideo.label} video`;
-    nativeVideo.title = `${activeVideo.label} video`;
     poster.src = activeVideo.poster;
     poster.srcset = responsivePosterSources(activeVideo.poster);
+    poster.width = 1200;
+    poster.height = activeVideo.posterHeight;
+    start.setAttribute("aria-label", `Play ${activeVideo.label} video`);
+    startLabel.textContent = "Play video";
     count.textContent = `${formatIndex(activeIndex)} / ${String(videos.length).padStart(2, "0")}`;
     indexLabel.textContent = formatIndex(activeIndex);
     title.textContent = activeVideo.label;
@@ -171,42 +171,18 @@ function initializeCarousel() {
       }
     });
 
-    const mediaElement = activeVideo.type === "native" ? nativeVideo : frame;
-    if (mediaElement.dataset.activeSrc !== playerSrc(activeVideo)) deactivateMedia();
+    if (frame.dataset.activeSrc && frame.dataset.activeSrc !== playerSrc(activeVideo)) {
+      deactivateMedia();
+    }
     activateMedia();
     hasRendered = true;
   };
 
-  const updatePlaybackButton = () => {
-    playback.querySelector("span").textContent = autoRotate ? "Ⅱ" : "▶";
-    playback.querySelector("b").textContent = autoRotate ? "Auto-rotate on" : "Auto-rotate off";
-    playback.setAttribute(
-      "aria-label",
-      autoRotate ? "Pause automatic video rotation" : "Resume automatic video rotation",
-    );
-  };
-
-  const stopTimer = () => {
-    window.clearInterval(timer);
-    timer = null;
-  };
-
-  const startTimer = () => {
-    stopTimer();
-    if (!autoRotate || isHovering || !mediaReady || !isInViewport || document.hidden) return;
-    timer = window.setInterval(() => {
-      activeIndex = (activeIndex + 1) % videos.length;
-      render();
-    }, 9000);
-  };
-
   const selectVideo = (index) => {
+    mediaReady = false;
+    deactivateMedia();
     activeIndex = index;
-    autoRotate = false;
-    mediaReady = true;
     render();
-    updatePlaybackButton();
-    startTimer();
   };
 
   selectors.forEach((button) => {
@@ -221,89 +197,51 @@ function initializeCarousel() {
     selectVideo((activeIndex + 1) % videos.length);
   });
 
-  playback.addEventListener("click", () => {
-    if (reduceMotion) return;
-    autoRotate = !autoRotate;
-    updatePlaybackButton();
-    startTimer();
-  });
-
-  carousel.addEventListener("mouseenter", () => {
-    isHovering = true;
-    startTimer();
-  });
-
-  carousel.addEventListener("mouseleave", () => {
-    isHovering = false;
-    startTimer();
+  start.addEventListener("click", () => {
+    mediaReady = true;
+    isInViewport = true;
+    activateMedia();
   });
 
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
-      stopTimer();
       deactivateMedia();
     } else {
       activateMedia();
-      startTimer();
     }
   });
 
   frame.addEventListener("load", () => {
     if (!frame.dataset.activeSrc) return;
+    try {
+      if (frame.contentWindow.location.href === "about:blank") return;
+    } catch {
+      // A loaded Mux document is cross-origin, which is the expected success path.
+    }
+    window.clearTimeout(loadTimer);
+    loadTimer = null;
+    clearMediaStatus();
     stage.classList.add("is-playing");
     poster.hidden = true;
   });
-
-  nativeVideo.addEventListener("loadeddata", () => {
-    if (!nativeVideo.dataset.activeSrc) return;
-    stage.classList.add("is-playing");
-    poster.hidden = true;
-  });
-
-  nativeVideo.addEventListener("error", () => {
-    stage.classList.remove("is-playing");
-    poster.hidden = false;
-  });
-
-  const beginMedia = () => {
-    mediaReady = true;
-    activateMedia();
-    startTimer();
-  };
 
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         isInViewport = entry.isIntersecting;
         if (!isInViewport) {
-          stopTimer();
           deactivateMedia();
           return;
         }
-        if (mediaReady) {
-          activateMedia();
-          startTimer();
-          return;
-        }
-        // Reduced-motion visitors get a stable poster until they explicitly
-        // choose a carousel item. Selecting an item still exposes controls.
-        if (reduceMotion) return;
-        if ("requestIdleCallback" in window) {
-          window.requestIdleCallback(beginMedia, { timeout: 1200 });
-        } else {
-          window.setTimeout(beginMedia, 250);
-        }
+        activateMedia();
       },
-      { rootMargin: "200px 0px", threshold: 0.05 },
+      { rootMargin: "100px 0px", threshold: 0.05 },
     );
     observer.observe(carousel);
   } else {
     isInViewport = true;
-    if (!reduceMotion) window.setTimeout(beginMedia, 250);
   }
 
-  playback.hidden = reduceMotion;
-  updatePlaybackButton();
   render();
 }
 
@@ -411,39 +349,6 @@ function initializeScrollProgress() {
   update();
 }
 
-function initializeSwitchboard() {
-  const frame = document.querySelector("[data-switchboard-frame]");
-  if (!frame) return;
-
-  const minimumHeight = 900;
-  const maximumHeight = 3600;
-  const applyHeight = (nextHeight) => {
-    if (!Number.isFinite(nextHeight)) return;
-    frame.style.height = `${Math.min(maximumHeight, Math.max(minimumHeight, Math.ceil(nextHeight)))}px`;
-  };
-
-  window.addEventListener("message", (event) => {
-    if (event.origin !== window.location.origin) return;
-    if (event.data?.type !== "networks-nodes-switchboard-height") return;
-    applyHeight(Number(event.data.height));
-  });
-
-  frame.addEventListener("load", () => {
-    try {
-      const frameDocument = frame.contentDocument;
-      if (!frameDocument) return;
-      applyHeight(
-        Math.max(
-          frameDocument.body.scrollHeight,
-          frameDocument.documentElement.scrollHeight,
-        ),
-      );
-    } catch {
-      // The embedded page can still report its height with postMessage.
-    }
-  });
-}
-
 function initializeMobileMenu() {
   const menu = document.querySelector(".mobile-menu");
   if (!menu) return;
@@ -460,7 +365,7 @@ document.querySelectorAll("[data-year]").forEach((year) => {
 });
 
 initializeCarousel();
-initializeSwitchboard();
+initializeSwitchboardEmbed();
 initializeMobileMenu();
 const projectReviewAnalytics = createProjectReviewAnalytics();
 initializeProjectReviewCtaTracking({ analytics: projectReviewAnalytics });

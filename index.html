@@ -153,17 +153,8 @@
               fetchpriority="high"
               loading="eager"
               width="1200"
-              height="675"
+              height="900"
             />
-            <video
-              data-video-native
-              title="Immersive experiences video"
-              muted
-              loop
-              playsinline
-              preload="none"
-              hidden
-            ></video>
             <iframe
               data-video-frame
               title="Immersive experiences video"
@@ -171,6 +162,16 @@
               allowfullscreen
               hidden
             ></iframe>
+            <button
+              class="video-start"
+              type="button"
+              data-video-start
+              aria-label="Play Immersive experiences video"
+            >
+              <span aria-hidden="true">▶</span>
+              <b>Play video</b>
+            </button>
+            <p class="video-status" data-video-status role="status" aria-live="polite" hidden></p>
             <div class="video-vignette" aria-hidden="true"></div>
             <div class="video-title" aria-live="polite">
               <span data-video-index>01</span>
@@ -194,10 +195,6 @@
             </div>
           </div>
 
-          <button class="carousel-playback" type="button" data-video-playback aria-label="Pause automatic video rotation">
-            <span aria-hidden="true">Ⅱ</span>
-            <b>Auto-rotate on</b>
-          </button>
         </div>
       </section>
 
@@ -248,13 +245,46 @@
             Explore the detailed capabilities below to see what each system does and how it connects to the business.
           </p>
         </div>
-        <div class="switchboard-frame-shell">
+        <div class="switchboard-frame-shell" data-switchboard-shell aria-busy="false">
+          <div class="switchboard-placeholder" data-switchboard-placeholder>
+            <p class="kicker">Optional interactive explorer</p>
+            <h3>See how the capabilities connect.</h3>
+            <p>
+              The detailed explorer is kept out of the initial page load. Open it when you are ready to interact
+              with the service examples.
+            </p>
+            <button
+              class="button button-primary switchboard-load"
+              type="button"
+              aria-controls="switchboard-explorer"
+              aria-describedby="switchboard-load-status"
+              data-switchboard-load
+            >
+              Load interactive explorer
+            </button>
+            <p
+              class="switchboard-load-status"
+              id="switchboard-load-status"
+              role="status"
+              aria-live="polite"
+              data-switchboard-status
+              hidden
+            ></p>
+            <noscript>
+              <p>
+                The interactive explorer requires JavaScript. The service overview above remains available, or
+                <a href="/#project-review-form">request a project review</a>.
+              </p>
+            </noscript>
+          </div>
           <iframe
+            id="switchboard-explorer"
             class="switchboard-embed"
-            src="/switchboard.html"
+            data-src="/switchboard.html"
             title="Networks & Nodes interactive service explorer"
             loading="lazy"
             data-switchboard-frame
+            hidden
           ></iframe>
         </div>
       </section>

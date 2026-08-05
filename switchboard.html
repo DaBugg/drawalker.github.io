@@ -277,6 +277,13 @@
         margin-bottom: clamp(22px, 3vw, 36px);
       }
 
+      .demo-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-end;
+      }
+
       .demo-kicker {
         margin: 0 0 10px;
         color: var(--cyan);
@@ -2846,6 +2853,10 @@
           margin-bottom: 30px;
         }
 
+        .demo-actions {
+          justify-content: flex-start;
+        }
+
         .demo-header .micro-control {
           justify-self: start;
         }
@@ -3500,7 +3511,12 @@
                   <h2>Let customers explore the product before they buy.</h2>
                   <p class="experience-secondary"><strong>Put the product in the customer’s hands.</strong> Make its scale, details, and value clear in the website itself.</p>
                 </div>
-                <button class="micro-control" type="button" data-reset-product>Reset view</button>
+                <div class="demo-actions">
+                  <button class="micro-control" type="button" data-load-product-model>
+                    Load interactive 3D · about 8 MB
+                  </button>
+                  <button class="micro-control" type="button" data-reset-product hidden>Reset view</button>
+                </div>
               </header>
 
               <div class="product-viewer">
@@ -3543,7 +3559,7 @@
                       touch-action="pan-y"
                     ></model-viewer>
                     <p class="model-status" data-model-status role="status" aria-live="polite">
-                      Static preview shown. Interactive 3D loads when supported.
+                      Static preview shown. Choose “Load interactive 3D” to download this model.
                     </p>
                   </div>
                   <div class="website-reveal" id="website-reveal" role="group" aria-label="Modern product landing page shown inside a browser" hidden>
@@ -3873,7 +3889,12 @@
           }),
         );
         servicePanel.setAttribute("aria-labelledby", `key-${id}`);
-        if (id === "experience") loadCurrentProductModel();
+        if (id === "experience") {
+          renderProduct(currentProductIndex);
+        } else {
+          cancelModelLoad("product");
+          cancelModelLoad("website");
+        }
 
         requestAnimationFrame(() => {
           serviceContent.style.animation = "";
@@ -4296,6 +4317,7 @@
             material: "Let customers rotate a shoe, examine materials, and understand the product from every angle.",
             alt: "Interactive 3D product visualization of a shoe",
             cameraOrbit: "35deg 72deg auto",
+            sizeLabel: "about 8 MB",
           },
         ];
         const architecture = {
@@ -4306,6 +4328,7 @@
           material: "Explore scale, structure, and construction detail in a navigable building model.",
           alt: "Interactive 3D architectural model of a building under construction",
           cameraOrbit: "28deg 68deg auto",
+          sizeLabel: "about 41 MB",
         };
 
         if (!mobileProductQuery.matches) {
@@ -4321,6 +4344,7 @@
             material: "Reveal form, components, and product behavior through a responsive drone experience.",
             alt: "Interactive 3D technology visualization of a quadcopter drone",
             cameraOrbit: "40deg 66deg auto",
+            sizeLabel: "about 10 MB",
           },
           {
             scene: "website",
@@ -4329,13 +4353,14 @@
             name: "Turn product exploration into action.",
             material: "Bring the model, story, and next step together in a focused product landing page.",
             alt: "Modern product landing page shown inside a browser",
+            sizeLabel: "about 24 MB",
           },
         );
 
         return models;
       };
       let productModels = createProductModels();
-      const productModel = document.querySelector("#product-model");
+      let productModel = document.querySelector("#product-model");
       const productVisual = document.querySelector("[data-model-shell]");
       const productFallback = productVisual.querySelector(".product-fallback");
       const modelStatus = document.querySelector("[data-model-status]");
@@ -4346,18 +4371,20 @@
       const productName = document.querySelector("#product-name");
       const productMaterial = document.querySelector("#product-material");
       const productMeta = document.querySelector(".product-meta");
-      const websiteProductModel = document.querySelector("#website-product-model");
+      let websiteProductModel = document.querySelector("#website-product-model");
       const websiteReveal = document.querySelector("#website-reveal");
       const websiteModelShell = websiteProductModel.closest(".landing-product");
       const websiteModelStatus = document.querySelector("[data-website-model-status]");
       const modelGround = document.querySelector(".model-ground");
       const productRotationCue = document.querySelector(".product-rotation-cue");
       const productCursor = document.querySelector(".interaction-cursor");
+      const loadProductButton = document.querySelector("[data-load-product-model]");
       const resetProductButton = document.querySelector("[data-reset-product]");
       const productProgressButtons = [...document.querySelectorAll("[data-product-scene]")];
       const previousProductButton = document.querySelector('[data-product-step="-1"]');
       const nextProductButton = document.querySelector('[data-product-step="1"]');
       const reduceProductMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const saveProductData = navigator.connection?.saveData === true;
       const forceStaticProductPreview = new URLSearchParams(window.location.search).get("webgl") === "off";
       const supportsInteractive3d = (() => {
         if (forceStaticProductPreview || !("customElements" in window)) return false;
@@ -4372,11 +4399,15 @@
       let modelViewerPromise = null;
       let productLoadTimer = null;
       let websiteProductLoadTimer = null;
+      let productModelRequest = 0;
+      let websiteModelRequest = 0;
       let transitionTimer = null;
       let transitionCleanupTimer = null;
       let hasShownProductCursor = false;
+      const approvedProductScenes = new Set();
+      const readyProductScenes = new Set();
 
-      if (reduceProductMotion) {
+      if (reduceProductMotion || saveProductData) {
         productModel.removeAttribute("auto-rotate");
         websiteProductModel.removeAttribute("auto-rotate");
         productModel.setAttribute("interaction-prompt", "none");
@@ -4431,22 +4462,81 @@
           script.onerror = () => finish(reject, new Error("The interactive 3D viewer could not be loaded."));
           document.head.appendChild(script);
         });
+        modelViewerPromise.catch(() => {
+          modelViewerPromise = null;
+        });
         return modelViewerPromise;
       }
 
-      function startModelTimeout(kind) {
+      function cancelModelLoad(kind) {
         const isWebsite = kind === "website";
-        const currentTimer = isWebsite ? websiteProductLoadTimer : productLoadTimer;
-        window.clearTimeout(currentTimer);
+        const model = isWebsite ? websiteProductModel : productModel;
+        const loadedScene = model.dataset.loadedScene;
+        if (loadedScene) readyProductScenes.delete(loadedScene);
+        if (isWebsite) {
+          websiteModelRequest += 1;
+          window.clearTimeout(websiteProductLoadTimer);
+          websiteProductLoadTimer = null;
+        } else {
+          productModelRequest += 1;
+          window.clearTimeout(productLoadTimer);
+          productLoadTimer = null;
+        }
+        delete model.dataset.loadingRequest;
+        delete model.dataset.loadingScene;
+        delete model.dataset.loadedScene;
+        model.removeAttribute("src");
+      }
+
+      function replaceModelElement(kind) {
+        const isWebsite = kind === "website";
+        const currentModel = isWebsite ? websiteProductModel : productModel;
+        const nextModel = currentModel.cloneNode(true);
+        nextModel.removeAttribute("src");
+        currentModel.replaceWith(nextModel);
+        if (isWebsite) {
+          websiteProductModel = nextModel;
+          bindWebsiteModelEvents(nextModel);
+        } else {
+          productModel = nextModel;
+          bindProductModelEvents(nextModel);
+        }
+        return nextModel;
+      }
+
+      function startModelLoad(kind, scene, source) {
+        const isWebsite = kind === "website";
+        cancelModelLoad(kind);
+        const model = replaceModelElement(kind);
+        const requestId = isWebsite ? ++websiteModelRequest : ++productModelRequest;
+        model.dataset.loadingRequest = String(requestId);
+        model.dataset.loadingScene = scene;
+        model.setAttribute("src", source);
         const timer = window.setTimeout(() => {
+          const activeModel = isWebsite ? websiteProductModel : productModel;
+          const activeRequest = isWebsite ? websiteModelRequest : productModelRequest;
+          if (model !== activeModel || requestId !== activeRequest) return;
+
+          if (isWebsite) websiteProductLoadTimer = null;
+          else productLoadTimer = null;
+          delete model.dataset.loadingRequest;
+          delete model.dataset.loadingScene;
+          model.removeAttribute("src");
+          approvedProductScenes.delete(scene);
+          readyProductScenes.delete(scene);
+          if (productModels[currentProductIndex]?.scene !== scene) return;
+
+          productRotationCue.hidden = true;
+          resetProductButton.hidden = true;
           if (isWebsite) {
-            websiteProductModel.hidden = true;
+            model.hidden = true;
             setWebsiteModelState("error", "The interactive model timed out. Static preview shown.");
           } else {
-            productModel.hidden = true;
+            model.hidden = true;
             modelGround.hidden = true;
             setProductModelState("error", "The interactive model timed out. Static preview shown.");
           }
+          updateProductLoadControl(productModels[currentProductIndex]);
         }, 15000);
         if (isWebsite) websiteProductLoadTimer = timer;
         else productLoadTimer = timer;
@@ -4461,7 +4551,11 @@
       function resetProductView(showFeedback = true) {
         const product = productModels[currentProductIndex];
         const isWebsiteScene = product?.scene === "website";
-        if ((!product?.src && !isWebsiteScene) || !supportsInteractive3d) return;
+        if (
+          (!product?.src && !isWebsiteScene) ||
+          !supportsInteractive3d ||
+          !readyProductScenes.has(product.scene)
+        ) return;
         const activeModel = isWebsiteScene ? websiteProductModel : productModel;
         applyModelReset(activeModel, isWebsiteScene ? "25deg 72deg auto" : product.cameraOrbit);
         if (!showFeedback) return;
@@ -4471,7 +4565,23 @@
         window.setTimeout(() => resetProductButton.classList.remove("is-resetting"), 560);
       }
 
-      function renderProduct(index, loadModel = true) {
+      function updateProductLoadControl(product) {
+        const sceneIsApproved = approvedProductScenes.has(product.scene);
+        const sceneIsReady = readyProductScenes.has(product.scene);
+        loadProductButton.hidden = !supportsInteractive3d;
+        if (sceneIsReady) {
+          loadProductButton.disabled = true;
+          loadProductButton.textContent = "Interactive 3D loaded";
+        } else if (sceneIsApproved) {
+          loadProductButton.disabled = true;
+          loadProductButton.textContent = "Loading interactive 3D…";
+        } else {
+          loadProductButton.disabled = false;
+          loadProductButton.textContent = `Load interactive 3D · ${product.sizeLabel}`;
+        }
+      }
+
+      function renderProduct(index) {
         currentProductIndex = (index + productModels.length) % productModels.length;
         const product = productModels[currentProductIndex];
         const previousProduct = productModels[
@@ -4479,8 +4589,12 @@
         ];
         const nextProduct = productModels[(currentProductIndex + 1) % productModels.length];
         const hasInteractiveModel = Boolean(product.src);
-        const canUseInteractiveModel = hasInteractiveModel && supportsInteractive3d;
-        const websiteIsInteractive = product.scene === "website" && supportsInteractive3d;
+        const sceneIsApproved = approvedProductScenes.has(product.scene);
+        const sceneIsReady = readyProductScenes.has(product.scene);
+        const canUseInteractiveModel = hasInteractiveModel && supportsInteractive3d && sceneIsApproved;
+        const websiteIsInteractive = product.scene === "website" && supportsInteractive3d && sceneIsApproved;
+        const productIsReady = canUseInteractiveModel && sceneIsReady;
+        const websiteIsReady = websiteIsInteractive && sceneIsReady;
 
         productDemo.dataset.experienceScene = product.scene;
         productDemo.style.setProperty("--experience-count", productModels.length);
@@ -4490,12 +4604,13 @@
         productMaterial.textContent = product.material;
         productModel.alt = product.alt;
         productVisual.hidden = product.scene === "website";
-        productModel.hidden = !canUseInteractiveModel;
+        productModel.hidden = !productIsReady;
         websiteReveal.hidden = product.scene !== "website";
-        if (product.scene === "website") websiteProductModel.hidden = !websiteIsInteractive;
-        modelGround.hidden = !canUseInteractiveModel;
-        productRotationCue.hidden = !(canUseInteractiveModel || websiteIsInteractive);
-        resetProductButton.hidden = !(canUseInteractiveModel || websiteIsInteractive);
+        if (product.scene === "website") websiteProductModel.hidden = !websiteIsReady;
+        modelGround.hidden = !productIsReady;
+        productRotationCue.hidden = !(productIsReady || websiteIsReady);
+        resetProductButton.hidden = !(productIsReady || websiteIsReady);
+        updateProductLoadControl(product);
         previousProductButton.setAttribute("aria-label", `Show previous experience: ${previousProduct.category}`);
         nextProductButton.setAttribute("aria-label", `Show next experience: ${nextProduct.category}`);
         productProgressButtons.forEach((button) => {
@@ -4509,17 +4624,27 @@
         });
 
         if (!canUseInteractiveModel) {
-          productModel.removeAttribute("src");
-        } else if (loadModel && productModel.getAttribute("src") !== product.src) {
+          cancelModelLoad("product");
+          if (product.scene !== "website") {
+            setProductModelState("static", "Static preview shown. Choose “Load interactive 3D” to download this model.");
+          }
+        } else if (productModel.getAttribute("src") !== product.src) {
           setProductModelState("loading", "Loading interactive 3D preview…");
-          productModel.setAttribute("src", product.src);
-          startModelTimeout("product");
+          startModelLoad("product", product.scene, product.src);
         }
 
-        if (websiteIsInteractive && !websiteProductModel.hasAttribute("src")) {
+        if (!websiteIsInteractive) {
+          cancelModelLoad("website");
+          if (product.scene === "website") {
+            setWebsiteModelState("static", "Static preview shown. Choose “Load interactive 3D” to download this model.");
+          }
+        } else if (!websiteProductModel.hasAttribute("src")) {
           setWebsiteModelState("loading", "Loading interactive product preview…");
-          websiteProductModel.setAttribute("src", assetUrl("Stock-shirt-compressed-v1.glb"));
-          startModelTimeout("website");
+          startModelLoad(
+            "website",
+            product.scene,
+            assetUrl("Stock-shirt-compressed-v1.glb"),
+          );
         }
 
         if (!reduceProductMotion && typeof productMeta.animate === "function") {
@@ -4556,14 +4681,14 @@
         const nextIndex = productModels.findIndex((product) => product.scene === currentScene);
 
         if (nextIndex < 0) {
-          productModel.removeAttribute("src");
+          cancelModelLoad("product");
           currentProductIndex = 0;
-          renderProduct(0, !productDemo.hidden);
+          renderProduct(0);
           return;
         }
 
-        productModel.removeAttribute("src");
-        renderProduct(nextIndex, !productDemo.hidden);
+        cancelModelLoad("product");
+        renderProduct(nextIndex);
       }
 
       if (mobileProductQuery.addEventListener) {
@@ -4575,21 +4700,30 @@
       async function loadCurrentProductModel() {
         if (!supportsInteractive3d) {
           markModelUnsupported();
-          renderProduct(currentProductIndex, false);
+          renderProduct(currentProductIndex);
           return;
         }
+        const requestedProduct = productModels[currentProductIndex];
+        loadProductButton.disabled = true;
+        loadProductButton.textContent = "Loading 3D viewer…";
         try {
-          const product = productModels[currentProductIndex];
-          if (product.src || product.scene === "website") await loadModelViewer();
+          if (requestedProduct.src || requestedProduct.scene === "website") await loadModelViewer();
+          approvedProductScenes.add(requestedProduct.scene);
           renderProduct(currentProductIndex);
         } catch (error) {
+          approvedProductScenes.delete(requestedProduct.scene);
+          readyProductScenes.delete(requestedProduct.scene);
+          if (productModels[currentProductIndex]?.scene !== requestedProduct.scene) {
+            renderProduct(currentProductIndex);
+            return;
+          }
           productModel.hidden = true;
           websiteProductModel.hidden = true;
           modelGround.hidden = true;
           productRotationCue.hidden = true;
           resetProductButton.hidden = true;
           const message = error instanceof Error ? error.message : "Interactive preview unavailable.";
-          renderProduct(currentProductIndex, false);
+          renderProduct(currentProductIndex);
           productModel.hidden = true;
           websiteProductModel.hidden = true;
           modelGround.hidden = true;
@@ -4611,36 +4745,105 @@
         });
       });
 
-      productModel.addEventListener("load", () => {
-        window.clearTimeout(productLoadTimer);
-        setProductModelState("ready", "Interactive 3D preview ready.");
-        const loadedProduct = productModels.find((product) => product.src === productModel.getAttribute("src"));
-        if (loadedProduct) applyModelReset(productModel, loadedProduct.cameraOrbit);
-        if (currentProductIndex === 0 && !hasShownProductCursor && !reduceProductMotion) {
-          hasShownProductCursor = true;
-          productCursor.classList.add("is-demonstrating");
-        }
-      });
-      productModel.addEventListener("error", () => {
-        window.clearTimeout(productLoadTimer);
-        productModel.hidden = true;
-        modelGround.hidden = true;
-        productRotationCue.hidden = true;
-        resetProductButton.hidden = true;
-        setProductModelState("error", "The interactive model is temporarily unavailable. Static preview shown.");
-      });
-      websiteProductModel.addEventListener("load", () => {
-        window.clearTimeout(websiteProductLoadTimer);
-        setWebsiteModelState("ready", "Interactive product preview ready.");
-        applyModelReset(websiteProductModel, "25deg 72deg auto");
-      });
-      websiteProductModel.addEventListener("error", () => {
-        window.clearTimeout(websiteProductLoadTimer);
-        websiteProductModel.hidden = true;
-        productRotationCue.hidden = true;
-        resetProductButton.hidden = true;
-        setWebsiteModelState("error", "The interactive model is temporarily unavailable. Static preview shown.");
-      });
+      loadProductButton.addEventListener("click", loadCurrentProductModel);
+
+      function bindProductModelEvents(model) {
+        model.addEventListener("load", () => {
+          const requestId = Number(model.dataset.loadingRequest);
+          const loadedScene = model.dataset.loadingScene;
+          if (!loadedScene || model !== productModel || requestId !== productModelRequest) return;
+
+          window.clearTimeout(productLoadTimer);
+          productLoadTimer = null;
+          delete model.dataset.loadingRequest;
+          delete model.dataset.loadingScene;
+          if (productModels[currentProductIndex]?.scene !== loadedScene) return;
+
+          readyProductScenes.add(loadedScene);
+          model.dataset.loadedScene = loadedScene;
+          model.hidden = false;
+          modelGround.hidden = false;
+          productRotationCue.hidden = false;
+          resetProductButton.hidden = false;
+          setProductModelState("ready", "Interactive 3D preview ready.");
+          updateProductLoadControl(productModels[currentProductIndex]);
+          const loadedProduct = productModels.find((product) => product.scene === loadedScene);
+          if (loadedProduct) applyModelReset(model, loadedProduct.cameraOrbit);
+          if (currentProductIndex === 0 && !hasShownProductCursor && !reduceProductMotion && !saveProductData) {
+            hasShownProductCursor = true;
+            productCursor.classList.add("is-demonstrating");
+          }
+        });
+
+        model.addEventListener("error", () => {
+          const requestId = Number(model.dataset.loadingRequest);
+          const failedScene = model.dataset.loadingScene;
+          if (!failedScene || model !== productModel || requestId !== productModelRequest) return;
+
+          window.clearTimeout(productLoadTimer);
+          productLoadTimer = null;
+          delete model.dataset.loadingRequest;
+          delete model.dataset.loadingScene;
+          model.removeAttribute("src");
+          approvedProductScenes.delete(failedScene);
+          readyProductScenes.delete(failedScene);
+          if (productModels[currentProductIndex]?.scene !== failedScene) return;
+
+          model.hidden = true;
+          modelGround.hidden = true;
+          productRotationCue.hidden = true;
+          resetProductButton.hidden = true;
+          setProductModelState("error", "The interactive model is temporarily unavailable. Static preview shown.");
+          updateProductLoadControl(productModels[currentProductIndex]);
+        });
+      }
+
+      function bindWebsiteModelEvents(model) {
+        model.addEventListener("load", () => {
+          const requestId = Number(model.dataset.loadingRequest);
+          const loadedScene = model.dataset.loadingScene;
+          if (!loadedScene || model !== websiteProductModel || requestId !== websiteModelRequest) return;
+
+          window.clearTimeout(websiteProductLoadTimer);
+          websiteProductLoadTimer = null;
+          delete model.dataset.loadingRequest;
+          delete model.dataset.loadingScene;
+          if (productModels[currentProductIndex]?.scene !== loadedScene) return;
+
+          readyProductScenes.add(loadedScene);
+          model.dataset.loadedScene = loadedScene;
+          model.hidden = false;
+          productRotationCue.hidden = false;
+          resetProductButton.hidden = false;
+          setWebsiteModelState("ready", "Interactive product preview ready.");
+          updateProductLoadControl(productModels[currentProductIndex]);
+          applyModelReset(model, "25deg 72deg auto");
+        });
+
+        model.addEventListener("error", () => {
+          const requestId = Number(model.dataset.loadingRequest);
+          const failedScene = model.dataset.loadingScene;
+          if (!failedScene || model !== websiteProductModel || requestId !== websiteModelRequest) return;
+
+          window.clearTimeout(websiteProductLoadTimer);
+          websiteProductLoadTimer = null;
+          delete model.dataset.loadingRequest;
+          delete model.dataset.loadingScene;
+          model.removeAttribute("src");
+          approvedProductScenes.delete(failedScene);
+          readyProductScenes.delete(failedScene);
+          if (productModels[currentProductIndex]?.scene !== failedScene) return;
+
+          model.hidden = true;
+          productRotationCue.hidden = true;
+          resetProductButton.hidden = true;
+          setWebsiteModelState("error", "The interactive model is temporarily unavailable. Static preview shown.");
+          updateProductLoadControl(productModels[currentProductIndex]);
+        });
+      }
+
+      bindProductModelEvents(productModel);
+      bindWebsiteModelEvents(websiteProductModel);
       resetProductButton.addEventListener("click", resetProductView);
       selectService("experience");
 
