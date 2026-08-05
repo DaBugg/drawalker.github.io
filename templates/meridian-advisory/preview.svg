@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" role="img" aria-label="Preview of Business Strategy Consultation | Meridian Advisory">
+    <rect width="1200" height="750" rx="28" fill="#F5F2EA"/>
+    <rect x="22" y="22" width="1156" height="58" rx="29" fill="#1F1F1F"/>
+    <circle cx="58" cy="51" r="10" fill="#6D5F91"/><circle cx="88" cy="51" r="10" fill="#E8E1D6"/><circle cx="118" cy="51" r="10" fill="#FFFFFF"/>
+    <rect x="146" y="39" width="210" height="24" rx="12" fill="#FFFFFF" opacity=".14"/>
+    <text x="70" y="166" font-family="Manrope, sans-serif" font-size="20" font-weight="700" fill="#6D5F91">WEBSITE CONCEPT</text>
+    <text x="70" y="226" font-family="Manrope, sans-serif" font-size="42" font-weight="700" letter-spacing="-1.5" fill="#1A191C"><tspan x="70" dy="0">Turn a difficult</tspan><tspan x="70" dy="48">business decision</tspan><tspan x="70" dy="48">into a documented</tspan><tspan x="70" dy="48">next move.</tspan></text>
+    <rect x="70" y="520" width="210" height="54" rx="27" fill="#1F1F1F"/>
+    <rect x="86" y="540" width="144" height="14" rx="7" fill="#FFFFFF" opacity=".92"/>
+    <rect x="620" y="122" width="500" height="500" rx="24" fill="#E8E1D6" stroke="#1A191C" stroke-opacity=".16"/>
+    <image href="assets/hero-visual.svg" x="646" y="148" width="448" height="448" preserveAspectRatio="xMidYMid meet"/>
+    </svg>

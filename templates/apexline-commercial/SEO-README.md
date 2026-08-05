@@ -1,0 +1,29 @@
+# SEO and launch notes
+
+## Current index recommendation
+
+This fictional concept ships with `noindex, nofollow` and a blocked `robots.txt` to avoid indexing a fictional company or duplicate template copy.
+
+Before production launch:
+
+1. Replace fictional proof, reviews, metrics, location, and schema URL.
+2. Change the robots meta tag to `index, follow`.
+3. Replace `robots.txt` with production crawl rules and add a sitemap URL.
+4. Add the verified canonical production URL.
+5. Replace the local SVG social image with a final 1200 by 630 image.
+6. Connect the form to a secure service and publish a complete privacy policy.
+7. Validate FAQ and organization schema.
+
+## Search positioning
+
+**Primary offer:** A preconstruction and bid review for commercial plumbing, mechanical, and specialty piping scopes.
+
+**Primary audience:** General contractors, developers, construction managers, and institutional owners.
+
+**Primary conversion:** Invite Apexline to bid
+
+**Title:** Commercial Plumbing and Mechanical Bid | Apexline
+
+**Meta description:** Invite Apexline to bid commercial plumbing, mechanical piping, fabrication, and coordinated field installation projects.
+
+**Layout recommendation:** Type A.

@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /
+# Demo ships noindex. Replace before a real production launch.

@@ -30,11 +30,11 @@ const videos = [
     caption: "Clear digital experiences that make complex services easier to understand.",
   },
   {
-    playbackId: "bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM",
-    poster: "https://image.mux.com/bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM/thumbnail.webp?width=1200&time=0",
-    posterHeight: 894,
-    label: "Measured outcomes",
-    caption: "Reporting that helps teams see what is working and decide what comes next.",
+    href: "/templates/",
+    poster: "/templates/forgeworks-industrial/preview.svg",
+    posterHeight: 750,
+    label: "Website concepts",
+    caption: "Explore eight interactive, fictional industry concepts built to demonstrate distinct website directions—not commissioned client work.",
   },
 ];
 
@@ -56,6 +56,7 @@ function initializeCarousel() {
   const stage = carousel.querySelector(".video-stage");
   const frame = carousel.querySelector("[data-video-frame]");
   const poster = carousel.querySelector("[data-video-poster]");
+  const conceptLink = carousel.querySelector("[data-video-concept]");
   const start = carousel.querySelector("[data-video-start]");
   const startLabel = start.querySelector("b");
   const status = carousel.querySelector("[data-video-status]");
@@ -115,12 +116,13 @@ function initializeCarousel() {
     delete frame.dataset.activeSrc;
     frame.hidden = true;
     poster.hidden = false;
-    start.hidden = mediaReady;
+    start.hidden = Boolean(videos[activeIndex].href) || mediaReady;
     stage.classList.remove("is-playing");
     if (!preserveStatus) clearMediaStatus();
   };
 
   const activateMedia = () => {
+    if (videos[activeIndex].href) return;
     if (!mediaReady || !isInViewport || document.hidden) return;
     const src = playerSrc(videos[activeIndex]);
     const activeVideo = videos[activeIndex];
@@ -148,13 +150,25 @@ function initializeCarousel() {
 
   const render = () => {
     const activeVideo = videos[activeIndex];
-    frame.title = `${activeVideo.label} video`;
+    const isConcept = Boolean(activeVideo.href);
+    frame.title = isConcept ? "" : `${activeVideo.label} video`;
     poster.src = activeVideo.poster;
-    poster.srcset = responsivePosterSources(activeVideo.poster);
+    if (isConcept) {
+      poster.removeAttribute("srcset");
+    } else {
+      poster.srcset = responsivePosterSources(activeVideo.poster);
+    }
     poster.width = 1200;
     poster.height = activeVideo.posterHeight;
-    start.setAttribute("aria-label", `Play ${activeVideo.label} video`);
+    if (isConcept) {
+      start.removeAttribute("aria-label");
+    } else {
+      start.setAttribute("aria-label", `Play ${activeVideo.label} video`);
+    }
     startLabel.textContent = "Play video";
+    start.hidden = isConcept;
+    conceptLink.hidden = !isConcept;
+    conceptLink.href = activeVideo.href || "/templates/";
     count.textContent = `${formatIndex(activeIndex)} / ${String(videos.length).padStart(2, "0")}`;
     indexLabel.textContent = formatIndex(activeIndex);
     title.textContent = activeVideo.label;
@@ -171,10 +185,17 @@ function initializeCarousel() {
       }
     });
 
-    if (frame.dataset.activeSrc && frame.dataset.activeSrc !== playerSrc(activeVideo)) {
+    if (frame.dataset.activeSrc && (isConcept || frame.dataset.activeSrc !== playerSrc(activeVideo))) {
       deactivateMedia();
     }
-    activateMedia();
+    if (isConcept) {
+      poster.hidden = false;
+      frame.hidden = true;
+      stage.classList.add("is-concept");
+    } else {
+      stage.classList.remove("is-concept");
+      activateMedia();
+    }
     hasRendered = true;
   };
 

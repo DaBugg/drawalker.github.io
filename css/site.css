@@ -532,9 +532,68 @@ h2 em {
   border: 0;
 }
 
+.video-concept-link {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.video-concept-link[hidden] {
+  display: none;
+}
+
+.video-concept-badge,
+.video-concept-link strong {
+  padding: 0.65rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(7, 13, 24, 0.9);
+  backdrop-filter: blur(12px);
+}
+
+.video-concept-badge {
+  color: var(--cyan);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.video-concept-link strong {
+  align-self: flex-end;
+  color: var(--text);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.video-concept-link:hover strong,
+.video-concept-link:focus-visible strong {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  transform: translateY(-2px);
+}
+
+.video-concept-link:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: -4px;
+}
+
 .video-poster {
   object-fit: cover;
   transition: opacity 180ms ease;
+}
+
+.video-stage.is-concept .video-poster {
+  object-position: top center;
 }
 
 .video-stage.is-playing .video-poster {

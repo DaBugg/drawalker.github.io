@@ -2262,6 +2262,71 @@
         text-transform: uppercase;
       }
 
+      .concept-gallery-preview {
+        position: relative;
+        display: block;
+        min-height: 280px;
+        overflow: hidden;
+        border: 1px solid rgba(148, 163, 184, 0.22);
+        border-radius: clamp(22px, 3vw, 36px);
+        background: #0b1220;
+        color: #f8fafc;
+        text-decoration: none;
+      }
+
+      .concept-gallery-preview::after {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 36%, rgba(2, 6, 23, 0.92));
+        content: "";
+        pointer-events: none;
+      }
+
+      .concept-gallery-preview img {
+        display: block;
+        width: 100%;
+        height: clamp(280px, 36vw, 440px);
+        object-fit: cover;
+        object-position: top center;
+        transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .concept-gallery-copy {
+        position: absolute;
+        z-index: 1;
+        right: clamp(20px, 4vw, 42px);
+        bottom: clamp(20px, 4vw, 42px);
+        left: clamp(20px, 4vw, 42px);
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .concept-gallery-copy small {
+        color: #cbd5e1;
+        font-size: var(--information-label-size);
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .concept-gallery-copy strong {
+        color: var(--cyan);
+        font-size: clamp(0.8rem, 1.4vw, 1rem);
+        white-space: nowrap;
+      }
+
+      .concept-gallery-preview:hover img,
+      .concept-gallery-preview:focus-visible img {
+        transform: scale(1.025);
+      }
+
+      .concept-gallery-preview:focus-visible {
+        outline: 2px solid var(--cyan);
+        outline-offset: 4px;
+      }
+
       .capability-flow {
         display: grid;
         grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -3046,6 +3111,16 @@
           padding: 20px;
         }
 
+        .concept-gallery-copy {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .concept-gallery-copy strong {
+          white-space: normal;
+        }
+
         .growth-channels > header {
           align-items: flex-start;
           flex-direction: column;
@@ -3178,26 +3253,24 @@
                 </div>
               </header>
 
-              <div class="capability-flow" aria-label="Website customer journey">
-                <div class="flow-step" style="--flow-delay: -0.2s">
-                  <span>01</span><strong>Traffic</strong><small>Search · campaigns · referrals</small>
-                </div>
-                <div class="flow-step" style="--flow-delay: -0.6s">
-                  <span>02</span><strong>Website</strong><small>Clear offer and positioning</small>
-                </div>
-                <div class="flow-step" style="--flow-delay: -1s">
-                  <span>03</span><strong>Experience</strong><small>Useful content and proof</small>
-                </div>
-                <div class="flow-step" style="--flow-delay: -1.4s">
-                  <span>04</span><strong>CTA</strong><small>A specific next action</small>
-                </div>
-                <div class="flow-step" style="--flow-delay: -1.8s">
-                  <span>05</span><strong>Booking</strong><small>Forms · calendar · inquiry</small>
-                </div>
-                <div class="flow-step" style="--flow-delay: -2.2s">
-                  <span>06</span><strong>CRM</strong><small>Context reaches the team</small>
-                </div>
-              </div>
+              <a
+                class="concept-gallery-preview"
+                href="/templates/"
+                target="_top"
+                aria-label="Explore eight fictional website concepts"
+              >
+                <img
+                  src="/templates/forgeworks-industrial/preview.svg"
+                  alt="Preview of the fictional Forgeworks Industrial website concept"
+                  width="1600"
+                  height="1000"
+                  loading="lazy"
+                />
+                <span class="concept-gallery-copy">
+                  <small>Fictional concept library · Eight interactive directions</small>
+                  <strong>Explore website concepts <span aria-hidden="true">↗</span></strong>
+                </span>
+              </a>
             </section>
 
             <section class="demo" id="demo-market" data-demo="market" aria-label="U.S. market language demonstration" hidden>

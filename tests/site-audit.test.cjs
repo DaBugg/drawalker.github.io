@@ -764,10 +764,11 @@ test("showcase videos use adaptive Mux delivery and GLBs use versioned R2 URLs",
     "Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc",
     "3hfzhGk1IQHb2kZwv01YlNYA6olGBfF70000SqZXQ702ozo",
     "bmUEq0015EGNUVijLFRpphb007VWlqrbFp8rS9iJGJPGM",
-    "bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM",
   ]) {
     assert.match(main, new RegExp(playbackId));
   }
+  assert.match(main, /href: "\/templates\/"/);
+  assert.match(main, /poster: "\/templates\/forgeworks-industrial\/preview\.svg"/);
   assert.match(main, /https:\/\/player\.mux\.com\/\$\{video\.playbackId\}/);
   assert.match(main, /url\.searchParams\.set\("controls", "true"\)/);
   assert.match(main, /url\.searchParams\.set\("preload", "none"\)/);
@@ -786,21 +787,20 @@ test("showcase videos use adaptive Mux delivery and GLBs use versioned R2 URLs",
   assert.match(helper, /url\.searchParams\.set\("v", version\)/);
 });
 
-test("hero carousel keeps the approved video order", () => {
+test("hero carousel keeps three approved videos followed by the website concepts feature", () => {
   const main = read("src/main.js");
   const immersive = main.indexOf('label: "Immersive experiences"');
   const market = main.indexOf('label: "U.S. market readiness"');
   const brand = main.indexOf('label: "Brand systems"');
-  const measured = main.indexOf('label: "Measured outcomes"');
+  const concepts = main.indexOf('label: "Website concepts"');
 
-  assert.ok(immersive < market && market < brand && brand < measured);
+  assert.ok(immersive < market && market < brand && brand < concepts);
   assert.ok(
     main.indexOf('playbackId: "Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc"') <
       main.indexOf('playbackId: "3hfzhGk1IQHb2kZwv01YlNYA6olGBfF70000SqZXQ702ozo"') &&
       main.indexOf('playbackId: "3hfzhGk1IQHb2kZwv01YlNYA6olGBfF70000SqZXQ702ozo"') <
         main.indexOf('playbackId: "bmUEq0015EGNUVijLFRpphb007VWlqrbFp8rS9iJGJPGM"') &&
-      main.indexOf('playbackId: "bmUEq0015EGNUVijLFRpphb007VWlqrbFp8rS9iJGJPGM"') <
-        main.indexOf('playbackId: "bMQF1EKQLcPVHg35lmtN02KueliX4m9PmAGE4NCAk2uM"'),
+      main.indexOf('playbackId: "bmUEq0015EGNUVijLFRpphb007VWlqrbFp8rS9iJGJPGM"') < concepts,
   );
 });
 
