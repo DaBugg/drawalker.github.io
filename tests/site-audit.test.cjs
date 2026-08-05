@@ -240,6 +240,40 @@ test("homepage has clear conversion paths and complete service intents", () => {
   }
 });
 
+test("Batch 3B uses event-only Umami tracking and a direct mobile form route", () => {
+  const html = read("index.html");
+  const css = read("css/site.css");
+  const scriptTags = [...html.matchAll(/<script\b[^>]*>/gi)].map((match) => match[0]);
+  const umamiScripts = scriptTags.filter(
+    (tag) => attributeValue(tag, "src") === "https://cloud.umami.is/script.js",
+  );
+
+  assert.equal(umamiScripts.length, 1);
+  const tracker = umamiScripts[0];
+  assert.equal(attributeValue(tracker, "data-website-id"), "88f9c391-5682-4761-a742-358c411cf28a");
+  assert.equal(attributeValue(tracker, "data-auto-track"), "false");
+  assert.equal(attributeValue(tracker, "data-domains"), "www.networksandnodes.org");
+  assert.equal(attributeValue(tracker, "data-exclude-search"), "true");
+  assert.equal(attributeValue(tracker, "data-exclude-hash"), "true");
+  assert.equal(attributeValue(tracker, "data-do-not-track"), "true");
+
+  const trackedCtas = [...html.matchAll(/<a\b[^>]*data-project-review-cta[^>]*>/gi)]
+    .map((match) => match[0]);
+  assert.equal(trackedCtas.length, 1);
+  assert.equal(attributeValue(trackedCtas[0], "href"), "/#project-review-form");
+  assert.equal(attributeValue(trackedCtas[0], "data-scroll-target"), "project-review-form");
+  assert.equal(attributeValue(trackedCtas[0], "data-project-review-cta"), "hero");
+
+  const forms = [...html.matchAll(/<form\b[^>]*>/gi)].map((match) => match[0]);
+  const projectReviewForms = forms.filter((tag) => attributeValue(tag, "id") === "project-review-form");
+  assert.equal(projectReviewForms.length, 1);
+  assert.equal(attributeValue(projectReviewForms[0], "aria-label"), "Project review request");
+  assert.match(
+    css,
+    /\.mobile-menu summary\s*\{[\s\S]*?min-width:\s*44px;[\s\S]*?min-height:\s*44px;/u,
+  );
+});
+
 test("homepage preserves the four-stage process with tangible artifacts", () => {
   const html = read("index.html");
 

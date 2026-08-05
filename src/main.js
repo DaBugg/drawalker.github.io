@@ -1,6 +1,10 @@
 import "../js/form-security.js";
 import "../js/in-page-navigation.js";
 import { assetUrl } from "./asset-url.js";
+import {
+  createProjectReviewAnalytics,
+  initializeProjectReviewCtaTracking,
+} from "./analytics.mjs";
 import { initializeContactForm } from "./contact-form.mjs";
 
 const videos = [
@@ -458,6 +462,8 @@ document.querySelectorAll("[data-year]").forEach((year) => {
 initializeCarousel();
 initializeSwitchboard();
 initializeMobileMenu();
-initializeContactForm();
+const projectReviewAnalytics = createProjectReviewAnalytics();
+initializeProjectReviewCtaTracking({ analytics: projectReviewAnalytics });
+initializeContactForm({ analytics: projectReviewAnalytics });
 initializeScrollReveals();
 initializeScrollProgress();

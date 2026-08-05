@@ -1451,6 +1451,10 @@ textarea:focus {
   }
 
   .mobile-menu summary {
+    display: grid;
+    min-width: 44px;
+    min-height: 44px;
+    place-items: center;
     cursor: pointer;
     font-size: 0.76rem;
     font-weight: 700;

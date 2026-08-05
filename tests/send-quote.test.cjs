@@ -105,6 +105,7 @@ test('HTTP and malformed-body failures return controlled non-2xx responses witho
   const methodResponse = createResponse();
   await methodHarness.handler(createRequest({ method: 'GET' }), methodResponse);
   assert.equal(methodResponse.statusCode, 405);
+  assert.equal(methodResponse.payload.failureStage, 'request');
   assert.equal(methodResponse.headers.allow, 'POST');
   assert.equal(methodHarness.verificationCalls(), 0);
   assert.equal(methodHarness.mail.length, 0);
@@ -113,6 +114,7 @@ test('HTTP and malformed-body failures return controlled non-2xx responses witho
   const jsonResponse = createResponse();
   await jsonHarness.handler(createRequest({ body: '{"broken":' }), jsonResponse);
   assert.equal(jsonResponse.statusCode, 400);
+  assert.equal(jsonResponse.payload.failureStage, 'request');
   assert.equal(jsonHarness.verificationCalls(), 0);
   assert.equal(jsonHarness.mail.length, 0);
 
@@ -123,6 +125,7 @@ test('HTTP and malformed-body failures return controlled non-2xx responses witho
     body: 'plain text',
   }), mediaResponse);
   assert.equal(mediaResponse.statusCode, 415);
+  assert.equal(mediaResponse.payload.failureStage, 'request');
   assert.equal(mediaHarness.verificationCalls(), 0);
 });
 
@@ -161,6 +164,7 @@ test('required-field and allowlist validation happens before Turnstile or SMTP',
     const response = createResponse();
     await harness.handler(createRequest({ body }), response);
     assert.equal(response.statusCode, 400);
+    assert.equal(response.payload.failureStage, 'validation');
     assert.equal(harness.verificationCalls(), 0);
     assert.equal(harness.mail.length, 0);
   }
@@ -189,6 +193,7 @@ test('Turnstile rejection and unavailability never create an email', async () =>
     assert.equal(response.statusCode, turnstileResult.status);
     assert.equal(harness.mail.length, 0);
     assert.equal(response.payload.ok, false);
+    assert.equal(response.payload.failureStage, 'security');
   }
 });
 
@@ -207,6 +212,7 @@ test('SMTP configuration fails closed without logging configuration values', asy
   await harness.handler(createRequest(), response);
 
   assert.equal(response.statusCode, 503);
+  assert.equal(response.payload.failureStage, 'delivery');
   assert.equal(harness.mail.length, 0);
   assert.equal(harness.logs.at(-1).event, 'project_review_delivery_failed');
   assert.doesNotMatch(JSON.stringify(harness.logs), /smtp\.example\.test/u);
@@ -246,6 +252,7 @@ test('successful provider acceptance sends one safely constructed current-langua
 
   assert.equal(response.statusCode, 200);
   assert.equal(response.payload.ok, true);
+  assert.equal('failureStage' in response.payload, false);
   assert.equal(harness.mail.length, 1);
   const message = harness.mail[0];
   assert.equal(message.to, 'recipient@example.test');
@@ -314,6 +321,7 @@ test('provider failures return a generic error and logs exclude raw error and fo
   }), response);
 
   assert.equal(response.statusCode, 502);
+  assert.equal(response.payload.failureStage, 'delivery');
   assert.equal(response.payload.error, 'There was a problem sending your request. Please try again later.');
   const serializedLogs = JSON.stringify(harness.logs);
   for (const sentinel of sensitiveSentinels) {
@@ -348,5 +356,6 @@ test('a replay rejected by Turnstile results in only one provider send', async (
 
   assert.equal(firstResponse.statusCode, 200);
   assert.equal(replayResponse.statusCode, 403);
+  assert.equal(replayResponse.payload.failureStage, 'security');
   assert.equal(harness.mail.length, 1);
 });

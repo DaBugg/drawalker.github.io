@@ -2,10 +2,18 @@ const GENERIC_SUBMISSION_ERROR = 'We could not send your message. Please try aga
 const SECURITY_EXPIRED_ERROR = 'The security check expired. Please complete it again.';
 const SECURITY_WIDGET_ERROR = 'The security check could not load. Please refresh and try again.';
 const SAFE_SERVER_MESSAGE = /^[^\u0000-\u001f\u007f]{1,240}$/u;
+const FORM_START_FIELDS = new Set(['name', 'email', 'role', 'project', 'service']);
+const SERVER_FAILURE_STAGES = new Map([
+  ['request', 'api'],
+  ['validation', 'validation'],
+  ['security', 'security'],
+  ['delivery', 'delivery'],
+]);
 
-function publicError(message) {
+function publicError(message, analyticsStage = 'api') {
   const error = new Error(message);
   error.isPublicFormError = true;
+  error.analyticsStage = analyticsStage;
   return error;
 }
 
@@ -13,6 +21,15 @@ function safeServerMessage(value) {
   return typeof value === 'string' && SAFE_SERVER_MESSAGE.test(value)
     ? value
     : GENERIC_SUBMISSION_ERROR;
+}
+
+function responseFailureStage(response, result = {}) {
+  const serverStage = SERVER_FAILURE_STAGES.get(result?.failureStage);
+  if (serverStage) return serverStage;
+  if (response?.status === 400) return 'validation';
+  if (response?.status === 403 || response?.status === 429) return 'security';
+  if (response?.status === 502) return 'delivery';
+  return 'api';
 }
 
 export function initializeContactForm(options = {}) {
@@ -30,6 +47,7 @@ export function initializeContactForm(options = {}) {
   const serializeForm = options.serializeForm || ((form) => (
     Object.fromEntries(new FormData(form))
   ));
+  const analytics = options.analytics || null;
 
   const form = root.querySelector('[data-contact-form]');
   const status = root.querySelector('[data-form-status]');
@@ -40,6 +58,28 @@ export function initializeContactForm(options = {}) {
   let turnstileWidget = null;
   let turnstilePromise = null;
   let isSubmitting = false;
+  let hasStarted = false;
+  let hasSucceeded = false;
+  let validationFailurePending = false;
+
+  const recordAnalytics = (method, ...args) => {
+    try {
+      if (typeof analytics?.[method] !== 'function') return;
+      const result = analytics[method](...args);
+      if (result && typeof result.catch === 'function') result.catch(() => {});
+    } catch (_) {
+      // Analytics must never interrupt form validation, submission, or recovery.
+    }
+  };
+
+  const recordValidationFailure = () => {
+    if (validationFailurePending) return;
+    validationFailurePending = true;
+    recordAnalytics('failure', 'validation');
+    queueMicrotask(() => {
+      validationFailurePending = false;
+    });
+  };
 
   const initializeTurnstile = () => {
     if (!turnstileApi || !turnstileSlot) return Promise.resolve(null);
@@ -78,9 +118,17 @@ export function initializeContactForm(options = {}) {
   };
 
   form.addEventListener('focusin', initializeTurnstile, { once: true });
+  const handleFormStart = (event) => {
+    if (hasStarted || !FORM_START_FIELDS.has(event?.target?.name)) return;
+    hasStarted = true;
+    recordAnalytics('formStart');
+  };
+  form.addEventListener('input', handleFormStart);
+  form.addEventListener('change', handleFormStart);
   form.addEventListener(
     'invalid',
     () => {
+      recordValidationFailure();
       status.textContent = 'Please complete the required fields before sending.';
     },
     true,
@@ -100,10 +148,11 @@ export function initializeContactForm(options = {}) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (isSubmitting) return;
+    if (isSubmitting || hasSucceeded) return;
     status.textContent = '';
 
     if (!form.checkValidity()) {
+      recordValidationFailure();
       status.textContent = 'Please complete the required fields before sending.';
       form.querySelector(':invalid')?.focus();
       form.reportValidity();
@@ -130,19 +179,27 @@ export function initializeContactForm(options = {}) {
           body: JSON.stringify(serializeForm(form)),
         });
       } catch (_) {
-        throw publicError(GENERIC_SUBMISSION_ERROR);
+        throw publicError(GENERIC_SUBMISSION_ERROR, 'network');
       }
 
       const result = await response.json().catch(() => ({}));
       if (!response.ok || result.ok !== true) {
-        throw publicError(safeServerMessage(result.error));
+        throw publicError(
+          safeServerMessage(result.error),
+          responseFailureStage(response, result),
+        );
       }
 
+      hasSucceeded = true;
+      recordAnalytics('success');
       form.reset();
       form.hidden = true;
       success.hidden = false;
       success.focus();
     } catch (error) {
+      if (!hasSucceeded) {
+        recordAnalytics('failure', error?.analyticsStage || 'api');
+      }
       status.textContent = error?.isPublicFormError
         ? error.message
         : GENERIC_SUBMISSION_ERROR;
@@ -166,4 +223,5 @@ export {
   GENERIC_SUBMISSION_ERROR,
   SECURITY_EXPIRED_ERROR,
   SECURITY_WIDGET_ERROR,
+  responseFailureStage,
 };

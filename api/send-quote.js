@@ -169,7 +169,12 @@ function createSendQuoteHandler(dependencies = {}) {
         stage: 'http',
         reason: 'method',
       });
-      sendJson(res, 405, { ok: false, error: 'Method Not Allowed', requestId });
+      sendJson(res, 405, {
+        ok: false,
+        error: 'Method Not Allowed',
+        failureStage: 'request',
+        requestId,
+      });
       return;
     }
 
@@ -183,6 +188,7 @@ function createSendQuoteHandler(dependencies = {}) {
       sendJson(res, parsedBody.status, {
         ok: false,
         error: 'Please check the form submission and try again.',
+        failureStage: 'request',
         requestId,
       });
       return;
@@ -195,7 +201,12 @@ function createSendQuoteHandler(dependencies = {}) {
         stage: 'validation',
         reason: validation.reason,
       });
-      sendJson(res, 400, { ok: false, error: validation.error, requestId });
+      sendJson(res, 400, {
+        ok: false,
+        error: validation.error,
+        failureStage: 'validation',
+        requestId,
+      });
       return;
     }
 
@@ -230,7 +241,12 @@ function createSendQuoteHandler(dependencies = {}) {
         stage: 'turnstile',
         reason,
       });
-      sendJson(res, status, { ok: false, error, requestId });
+      sendJson(res, status, {
+        ok: false,
+        error,
+        failureStage: 'security',
+        requestId,
+      });
       return;
     }
 
@@ -244,6 +260,7 @@ function createSendQuoteHandler(dependencies = {}) {
       sendJson(res, 503, {
         ok: false,
         error: 'Project review delivery is temporarily unavailable. Please try again later.',
+        failureStage: 'delivery',
         requestId,
       });
       return;
@@ -299,6 +316,7 @@ function createSendQuoteHandler(dependencies = {}) {
       sendJson(res, 502, {
         ok: false,
         error: 'There was a problem sending your request. Please try again later.',
+        failureStage: 'delivery',
         requestId,
       });
     }

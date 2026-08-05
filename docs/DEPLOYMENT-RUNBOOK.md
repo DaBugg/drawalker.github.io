@@ -175,6 +175,74 @@ duplicates. They do not guarantee exactly-once delivery after an ambiguous
 network failure or across separate serverless instances. A durable exactly-once
 claim would require an approved shared idempotency/outbox design.
 
+## Batch 3B analytics and mobile-conversion follow-up
+
+The site owner supplied the Umami Cloud tracking code and public Website ID on
+August 5, 2026. The repository configuration is intentionally event-only:
+
+- Cloudflare Web Analytics remains the pageview and real-user-performance source.
+- Umami automatic pageviews are disabled to avoid duplicate traffic reporting.
+- Tracking runs only on `www.networksandnodes.org`, honors Do Not Track, and
+  excludes URL search parameters and fragments.
+- The application sends handcrafted payloads containing only the public website
+  ID, the fixed `/` path, one allowlisted event name, and—when applicable—one
+  fixed placement or failure-stage value.
+- The application never calls Umami identification. Its handcrafted event body
+  contains no form values, email addresses, project text, Turnstile tokens,
+  request IDs, error messages, referrers, titles, language, screen data, query
+  strings, or URL fragments. Ordinary request metadata and vendor-side processing
+  remain subject to Umami, browser, and network behavior and require privacy
+  review.
+
+Approved local event contract:
+
+| Event | Trigger | Allowed event data |
+| --- | --- | --- |
+| `project_review_cta_click` | First activation of the early hero CTA per document | `placement: hero` |
+| `project_review_form_start` | First input/change on an approved visible form field | none |
+| `project_review_failure` | One terminal failed submission attempt | one of `validation`, `security`, `network`, `api`, `delivery` |
+| `project_review_success` | Only after an HTTP response with `ok: true` | none |
+
+Before closing M02 measurement or deploying this batch:
+
+1. Record the analytics/privacy approver by name or business role. Supplying the
+   tracking ID authorized the local integration but did not supply approved
+   public privacy wording. The draft privacy notice must not be presented as
+   final legal approval.
+2. Review the effective Cloudflare/Vercel Content Security Policy. If one is
+   active, merge `https://cloud.umami.is` into the applicable `script-src` (and
+   `script-src-elem`, when separately declared), and merge
+   `https://gateway.umami.is` into `connect-src`. Preserve all existing self,
+   Turnstile, nonce/hash, frame, and other policies. Umami Cloud moved its
+   collection endpoint to `gateway.umami.is` on June 6, 2026; verify the actual
+   deployed request destination before finalizing the policy.
+3. On an authorized deployment, confirm the tracker script loads without a CSP
+   violation and automatic pageview requests do not fire.
+4. With synthetic interactions, inspect the real Umami collection requests to
+   `gateway.umami.is`.
+   Confirm only the fixed payload keys and allowlisted values above are present;
+   queries, hashes, referrers, form values, tokens, and error text must be absent.
+5. Confirm one early CTA activation, one form start, and each mocked failure path
+   appears correctly in Umami. Analytics blocking must not affect navigation,
+   validation, error recovery, or form success.
+6. A real successful form test still requires the separate Batch 3A authorization
+   and downstream inbox reconciliation. Provider acceptance alone is not inbox
+   delivery proof.
+7. At `390×844` and `390×667`, verify that the hero CTA is visible early, lands
+   on `#project-review-form` below the sticky header, transfers focus safely, and
+   causes no horizontal overflow. Confirm the mobile menu summary measures at
+   least 44×44 CSS pixels with normal and reduced motion.
+
+The owner reported that the Vercel project uses the free Hobby plan. Vercel's
+current plan documentation restricts Hobby to personal, non-commercial use. This
+service-business deployment therefore requires an owner billing/eligibility
+review; repository tests cannot resolve plan compliance. Recheck the
+[Vercel Hobby plan documentation](https://vercel.com/docs/plans/hobby) before
+production closure. Recheck the
+[Umami tracker configuration](https://docs.umami.is/docs/tracker-configuration)
+and [Umami Cloud changelog](https://docs.umami.is/docs/cloud/changelog) when
+performing the authorized deployment validation.
+
 ## Release record
 
 Retain one record per preview and production release. Do not include secrets,
