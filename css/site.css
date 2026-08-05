@@ -670,8 +670,7 @@ h2 em {
   gap: 0.35rem;
 }
 
-.video-controls button,
-.video-start {
+.video-controls button {
   border: 1px solid var(--line);
   border-radius: 0;
   background: rgba(7, 13, 24, 0.82);
@@ -703,43 +702,15 @@ h2 em {
 }
 
 .video-controls button:hover,
-.video-controls button:focus-visible,
-.video-start:hover,
-.video-start:focus-visible {
+.video-controls button:focus-visible {
   border-color: var(--cyan);
   color: var(--text);
-}
-
-.video-start {
-  position: absolute;
-  z-index: 3;
-  top: 50%;
-  left: 50%;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  min-height: 44px;
-  padding: 0.7rem 0.9rem;
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  transform: translate(-50%, -50%);
-}
-
-.video-start span {
-  display: block;
-  color: var(--cyan);
-  font-size: 0.72rem;
-}
-
-.video-start b {
-  font-weight: 500;
 }
 
 .video-status {
   position: absolute;
   z-index: 3;
-  top: calc(50% + 2.6rem);
+  top: 50%;
   left: 50%;
   width: min(88%, 28rem);
   margin: 0;

@@ -781,7 +781,7 @@ test("rich media is progressively initialized", () => {
 
   assert.doesNotMatch(frameMarkup, /\ssrc=/);
   assert.match(homepage, /data-video-poster/);
-  assert.match(homepage, /data-video-start/);
+  assert.doesNotMatch(homepage, /data-video-start|class="video-start"/);
   assert.doesNotMatch(homepage, /<video\b/i);
   assert.equal(attributeValue(switchboardFrame, "src"), undefined);
   assert.equal(attributeValue(switchboardFrame, "data-src"), "/switchboard.html");
@@ -858,7 +858,7 @@ test("hero carousel keeps three approved videos followed by the website concepts
   );
 });
 
-test("Batch 4 hard-defers every heavy media boundary until explicit interaction", () => {
+test("hero videos autoplay in view while heavy Switchboard media still requires explicit interaction", () => {
   const homepage = read("index.html");
   const main = read("src/main.js");
   const switchboard = read("switchboard.html");
@@ -868,12 +868,11 @@ test("Batch 4 hard-defers every heavy media boundary until explicit interaction"
   assert.equal(attributeValue(videoFrame, "src"), undefined);
   assert.equal(attributeValue(switchboardFrame, "src"), undefined);
   assert.equal(attributeValue(switchboardFrame, "data-src"), "/switchboard.html");
-  assert.match(homepage, /data-video-start/);
+  assert.doesNotMatch(homepage, /data-video-start|class="video-start"/);
   assert.match(homepage, /data-switchboard-load/);
-  assert.match(main, /start\.addEventListener\("click"/);
-  assert.match(main, /let mediaReady = false/);
-  assert.match(main, /const selectVideo = \(index\) => \{\s*mediaReady = false;\s*deactivateMedia\(\);\s*activeIndex = index;/);
-  assert.match(main, /start\.addEventListener\("click", \(\) => \{\s*mediaReady = true;/);
+  assert.doesNotMatch(main, /start\.addEventListener|data-video-start/);
+  assert.match(main, /let mediaReady = !manualPlayback/);
+  assert.match(main, /const selectVideo = \(index\) => \{\s*deactivateMedia\(\);\s*activeIndex = index;\s*mediaReady = !manualPlayback;/);
   assert.match(main, /navigator\.connection\?\.saveData === true/);
   assert.match(main, /const manualPlayback = reduceMotion \|\| saveData/);
   assert.match(main, /if \(!manualPlayback\) url\.searchParams\.set\("autoplay", "muted"\)/);

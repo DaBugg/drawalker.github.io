@@ -57,8 +57,6 @@ function initializeCarousel() {
   const frame = carousel.querySelector("[data-video-frame]");
   const poster = carousel.querySelector("[data-video-poster]");
   const conceptLink = carousel.querySelector("[data-video-concept]");
-  const start = carousel.querySelector("[data-video-start]");
-  const startLabel = start.querySelector("b");
   const status = carousel.querySelector("[data-video-status]");
   const count = carousel.querySelector("[data-video-count]");
   const indexLabel = carousel.querySelector("[data-video-index]");
@@ -73,7 +71,7 @@ function initializeCarousel() {
 
   let activeIndex = 0;
   let isInViewport = false;
-  let mediaReady = false;
+  let mediaReady = !manualPlayback;
   let hasRendered = false;
   let loadTimer = null;
 
@@ -116,7 +114,6 @@ function initializeCarousel() {
     delete frame.dataset.activeSrc;
     frame.hidden = true;
     poster.hidden = false;
-    start.hidden = Boolean(videos[activeIndex].href) || mediaReady;
     stage.classList.remove("is-playing");
     if (!preserveStatus) clearMediaStatus();
   };
@@ -129,7 +126,6 @@ function initializeCarousel() {
     if (frame.dataset.activeSrc === src) return;
     stage.classList.remove("is-playing");
     poster.hidden = false;
-    start.hidden = true;
     frame.hidden = false;
     frame.dataset.activeSrc = src;
     frame.title = `${activeVideo.label} video`;
@@ -141,8 +137,6 @@ function initializeCarousel() {
       if (frame.dataset.activeSrc !== src) return;
       mediaReady = false;
       deactivateMedia({ preserveStatus: true });
-      start.hidden = false;
-      startLabel.textContent = "Try video again";
       status.textContent = "The video player did not load. The poster and description remain available.";
       status.hidden = false;
     }, 10000);
@@ -160,13 +154,6 @@ function initializeCarousel() {
     }
     poster.width = 1200;
     poster.height = activeVideo.posterHeight;
-    if (isConcept) {
-      start.removeAttribute("aria-label");
-    } else {
-      start.setAttribute("aria-label", `Play ${activeVideo.label} video`);
-    }
-    startLabel.textContent = "Play video";
-    start.hidden = isConcept;
     conceptLink.hidden = !isConcept;
     conceptLink.href = activeVideo.href || "/templates/";
     count.textContent = `${formatIndex(activeIndex)} / ${String(videos.length).padStart(2, "0")}`;
@@ -200,9 +187,9 @@ function initializeCarousel() {
   };
 
   const selectVideo = (index) => {
-    mediaReady = false;
     deactivateMedia();
     activeIndex = index;
+    mediaReady = !manualPlayback;
     render();
   };
 
@@ -216,12 +203,6 @@ function initializeCarousel() {
 
   next.addEventListener("click", () => {
     selectVideo((activeIndex + 1) % videos.length);
-  });
-
-  start.addEventListener("click", () => {
-    mediaReady = true;
-    isInViewport = true;
-    activateMedia();
   });
 
   document.addEventListener("visibilitychange", () => {
