@@ -1743,6 +1743,16 @@ textarea:focus {
     padding: 1.15rem;
   }
 
+  .video-concept-link {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .video-concept-link strong {
+    align-self: flex-start;
+  }
+
   .video-stage {
     min-height: 410px;
     margin: 1rem 0;

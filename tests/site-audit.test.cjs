@@ -718,6 +718,60 @@ test("mobile growth prioritizes connected channels over the full funnel", () => 
   assert.match(html, /\.growth-demo-header,[\s\S]*?\.growth-flow\s*\{\s*display: none;/);
 });
 
+test("the website concept gallery and all eight noindex demos ship as local static routes", () => {
+  const homepage = read("index.html");
+  const main = read("src/main.js");
+  const switchboard = read("switchboard.html");
+  const gallery = read("templates/index.html");
+  const packageJson = read("package.json");
+  const concepts = [
+    "apexline-commercial",
+    "fleetaxis-logistics",
+    "forgeworks-industrial",
+    "harborline-development",
+    "meridian-advisory",
+    "palm-coast-specialty-clinic",
+    "rapidroot-home-services",
+    "sitepilot-operations",
+  ];
+
+  assert.match(packageJson, /cp -R templates dist\//);
+  assert.match(homepage, /href="\/templates\/"/);
+  assert.match(switchboard, /href="\/templates\/"/);
+  assert.match(main, /\/templates\/forgeworks-industrial\/preview\.svg/);
+  assert.match(switchboard, /\/templates\/forgeworks-industrial\/preview\.svg/);
+
+  for (const concept of concepts) {
+    const conceptRoot = path.join(root, "templates", concept);
+    for (const file of [
+      "index.html",
+      "privacy.html",
+      "terms.html",
+      "404.html",
+      "styles.css",
+      "script.js",
+      "preview.svg",
+      "assets/favicon.svg",
+      "assets/hero-visual.svg",
+      "assets/og-image.svg",
+    ]) {
+      assert.ok(fs.existsSync(path.join(conceptRoot, file)), `${concept}/${file} must ship`);
+    }
+
+    for (const file of ["index.html", "privacy.html", "terms.html", "404.html"]) {
+      assert.match(
+        fs.readFileSync(path.join(conceptRoot, file), "utf8"),
+        /<meta\s+name="robots"\s+content="noindex, nofollow">/i,
+        `${concept}/${file} must remain noindex`,
+      );
+    }
+
+    const publicRoot = `/templates/${concept}/`;
+    assert.match(gallery, new RegExp(`href="${publicRoot}"`));
+    assert.match(gallery, new RegExp(`src="${publicRoot}preview\\.svg"`));
+  }
+});
+
 test("rich media is progressively initialized", () => {
   const homepage = read("index.html");
   const main = read("src/main.js");
