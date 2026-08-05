@@ -41,6 +41,7 @@
     return global.turnstile.render(container, {
       sitekey: siteKey,
       theme: (options && options.theme) || 'auto',
+      action: options && options.action,
       callback: options && options.callback,
       'expired-callback': options && options.onExpire,
       'error-callback': options && options.onError,

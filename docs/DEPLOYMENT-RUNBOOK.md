@@ -144,6 +144,37 @@ open production. Record the preview response headers, and do not mistake the
 destination page for evidence that the preview itself served the redirected
 content.
 
+## Batch 3A external follow-up
+
+Repository tests use synthetic form data and provider stubs. They do not prove
+production inbox delivery. Before closing M02 operationally, the site owner must:
+
+1. Rotate the Turnstile secret if it has appeared in terminal, tool, or chat
+   output. During Cloudflare's documented rotation grace period, update
+   `TURNSTILE_SECRET_KEY` in the Vercel environment and the ignored local `.env`,
+   then deploy and verify the new value without printing either value. Do not
+   commit the local environment file.
+2. In **Cloudflare → Security → WAF → Rate limiting rules**, create or review a
+   rule scoped exactly to `POST /api/send-quote`. Choose the threshold and
+   mitigation from observed legitimate volume rather than an arbitrary default.
+   Verify that limited requests receive the intended response and never reach
+   Turnstile validation or SMTP delivery.
+3. Confirm the Turnstile widget hostname allowlist contains only the approved
+   production and separately authorized preview hosts. Production must not allow
+   `localhost` or `127.0.0.1`.
+4. Authorize a controlled form test separately. Record the approved environment,
+   recipient/CRM owner, destination, unique non-sensitive marker, Vercel-log
+   access, and downstream inbox/CRM access before submitting anything.
+5. For that single test, reconcile the browser response and request ID with the
+   non-PII Vercel event, exactly one downstream arrival, reply-to behavior, and
+   safe HTML/plain-text rendering. Do not call provider acceptance proof of final
+   inbox delivery.
+
+Client in-flight suppression and Turnstile single-use rejection reduce accidental
+duplicates. They do not guarantee exactly-once delivery after an ambiguous
+network failure or across separate serverless instances. A durable exactly-once
+claim would require an approved shared idempotency/outbox design.
+
 ## Release record
 
 Retain one record per preview and production release. Do not include secrets,

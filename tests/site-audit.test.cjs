@@ -792,13 +792,15 @@ test("Phase 4 reduced-motion paths avoid automatic media and decorative sequenci
 test("Phase 4 preserves native validation, focus targets, and stable media sizing", () => {
   const homepage = read("index.html");
   const main = read("src/main.js");
+  const contactForm = read("src/contact-form.mjs");
   const switchboard = read("switchboard.html");
 
   assert.match(homepage, /<main id="main" tabindex="-1">/);
   assert.doesNotMatch(homepage, /data-contact-form novalidate/);
-  assert.match(main, /form\.querySelector\(":invalid"\)\?\.focus\(\)/);
-  assert.match(main, /form\.addEventListener\(\s*"invalid"/);
-  assert.match(main, /Please complete the required fields before sending\./);
+  assert.match(main, /import \{ initializeContactForm \} from "\.\/contact-form\.mjs"/);
+  assert.match(contactForm, /form\.querySelector\(':invalid'\)\?\.focus\(\)/);
+  assert.match(contactForm, /form\.addEventListener\(\s*'invalid'/);
+  assert.match(contactForm, /Please complete the required fields before sending\./);
   assert.match(homepage, /data-video-poster[\s\S]*?loading="eager"[\s\S]*?width="1200"[\s\S]*?height="675"/);
   assert.match(homepage, /data-video-poster[\s\S]*?srcset="[^"]+640w,[^"]+960w,[^"]+1200w"[\s\S]*?sizes="/);
   assert.match(main, /poster\.srcset = responsivePosterSources/);

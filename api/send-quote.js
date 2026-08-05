@@ -17,6 +17,13 @@ const TURNSTILE_REASONS = new Set([
   'unavailable',
   'misconfigured',
 ]);
+const TURNSTILE_ERRORS = Object.freeze({
+  required: 'Please complete the security check and try again.',
+  rejected: 'The security check was rejected. Please try again.',
+  duplicate: 'The security check expired or was already used. Please complete it again.',
+  unavailable: 'The security check is temporarily unavailable. Please try again later.',
+  misconfigured: 'The security check is temporarily unavailable. Please try again later.',
+});
 
 function isRecord(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -87,6 +94,17 @@ function getRemoteIp(req) {
   const realIp = req.headers?.['x-real-ip'];
   if (typeof realIp === 'string' && realIp.trim()) return realIp.trim();
   return typeof req.socket?.remoteAddress === 'string' ? req.socket.remoteAddress : '';
+}
+
+function getRequestHostname(req) {
+  const host = req.headers?.host;
+  if (typeof host !== 'string' || !host.trim()) return '';
+
+  try {
+    return new URL(`https://${host.trim()}`).hostname.toLowerCase();
+  } catch (_) {
+    return '';
+  }
 }
 
 function readSmtpConfiguration(env) {
@@ -186,7 +204,11 @@ function createSendQuoteHandler(dependencies = {}) {
       turnstileResult = await verifyToken(
         parsedBody.value['cf-turnstile-response'],
         getRemoteIp(req),
-        { idempotencyKey: requestId },
+        {
+          expectedAction: 'project_review',
+          expectedHostname: getRequestHostname(req),
+          idempotencyKey: requestId,
+        },
       );
     } catch (_) {
       turnstileResult = {
@@ -202,9 +224,7 @@ function createSendQuoteHandler(dependencies = {}) {
       const reason = TURNSTILE_REASONS.has(turnstileResult?.reason)
         ? turnstileResult.reason
         : 'unavailable';
-      const error = typeof turnstileResult?.error === 'string'
-        ? turnstileResult.error
-        : 'The security check is temporarily unavailable. Please try again later.';
+      const error = TURNSTILE_ERRORS[reason];
       logEvent(logger, status === 403 ? 'warn' : 'error', 'project_review_rejected', {
         requestId,
         stage: 'turnstile',
@@ -236,6 +256,7 @@ function createSendQuoteHandler(dependencies = {}) {
         host: smtp.host,
         port: smtp.port,
         secure: smtp.port === 465,
+        requireTLS: smtp.port !== 465,
         auth: {
           user: smtp.user,
           pass: smtp.pass,

@@ -48,6 +48,7 @@ export function initializeContactForm(options = {}) {
     turnstilePromise = turnstileApi
       .render(turnstileSlot, {
         theme: 'light',
+        action: 'project_review',
         callback: () => {
           if (
             status.textContent === SECURITY_EXPIRED_ERROR ||
