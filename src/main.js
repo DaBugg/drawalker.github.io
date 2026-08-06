@@ -246,6 +246,7 @@ function initializeCarousel() {
     isInViewport = true;
   }
 
+  if (manualPlayback) deactivateMedia();
   render();
 }
 

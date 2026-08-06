@@ -6,7 +6,7 @@
       "Field operations software shown through a role-based dashboard, live workflow, and mobile field state.",
       "Book a product demo",
       "Interactive dashboard",
-      "../sitepilot-operations/index.html",
+      "/templates/sitepilot-operations/",
       "sitepilot",
     ],
     [
@@ -15,7 +15,7 @@
       "A drawing-to-shipment crate reveal with machining media, process selection, inspection record, and RFQ packaging.",
       "Submit an RFQ",
       "Scroll crate reveal",
-      "../forgeworks-industrial/index.html",
+      "/templates/forgeworks-industrial/",
       "forge-feature",
     ],
     [
@@ -24,7 +24,7 @@
       "A video-led quote entry that opens into event-based lane status, handoffs, and shipment control.",
       "Build a freight quote",
       "Video quote + control tower",
-      "../fleetaxis-logistics/index.html",
+      "/templates/fleetaxis-logistics/",
       "fleet-feature",
     ],
     [
@@ -33,7 +33,7 @@
       "A photo-led path from problem selection through ZIP and requested service time.",
       "Book service",
       "Three-step booking",
-      "../rapidroot-home-services/index.html",
+      "/templates/rapidroot-home-services/",
       "rapid-feature",
     ],
   ];

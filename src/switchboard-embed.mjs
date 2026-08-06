@@ -11,13 +11,11 @@ export function initializeSwitchboardEmbed(options = {}) {
   const frame = root.querySelector('[data-switchboard-frame]');
   const shell = root.querySelector('[data-switchboard-shell]');
   const placeholder = root.querySelector('[data-switchboard-placeholder]');
-  const loadButton = root.querySelector('[data-switchboard-load]');
   const status = root.querySelector('[data-switchboard-status]');
-  if (!frame || !shell || !placeholder || !loadButton || !status) return null;
+  if (!frame || !shell || !placeholder || !status) return null;
 
-  let hasRequested = false;
+  let hasRequested = Boolean(frame.getAttribute('src'));
   let loadTimer = null;
-  let shouldTransferFocus = false;
 
   const clearLoadTimer = () => {
     clearTimer(loadTimer);
@@ -27,13 +25,9 @@ export function initializeSwitchboardEmbed(options = {}) {
   const resetRequest = (message) => {
     clearLoadTimer();
     hasRequested = false;
-    shouldTransferFocus = false;
     shell.setAttribute('aria-busy', 'false');
     frame.hidden = true;
-    frame.removeAttribute('src');
     placeholder.hidden = false;
-    loadButton.disabled = false;
-    loadButton.textContent = 'Try interactive explorer again';
     status.textContent = message;
     status.hidden = false;
   };
@@ -52,12 +46,11 @@ export function initializeSwitchboardEmbed(options = {}) {
     if (!source) return;
 
     hasRequested = true;
-    shouldTransferFocus = root.activeElement === loadButton;
     shell.setAttribute('aria-busy', 'true');
-    loadButton.disabled = true;
-    loadButton.textContent = 'Loading interactive explorer…';
     status.textContent = 'Loading the interactive explorer.';
     status.hidden = false;
+    placeholder.hidden = true;
+    frame.hidden = false;
     clearLoadTimer();
     loadTimer = setTimer(() => {
       resetRequest('The interactive explorer took too long to load. The service overview remains available.');
@@ -65,17 +58,15 @@ export function initializeSwitchboardEmbed(options = {}) {
     frame.src = source;
   };
 
-  loadButton.addEventListener('click', requestExplorer);
-
   windowImpl.addEventListener('message', (event) => {
-    if (!hasRequested || frame.hidden) return;
+    if (frame.hidden) return;
     if (event.origin !== windowImpl.location.origin) return;
     if (event.source !== frame.contentWindow) return;
     if (event.data?.type !== 'networks-nodes-switchboard-height') return;
     applyHeight(Number(event.data.height));
   });
 
-  frame.addEventListener('load', () => {
+  const handleFrameLoad = () => {
     if (!hasRequested) return;
     const frameDocument = frame.contentDocument;
     if (!frameDocument?.querySelector('#capability-network')) {
@@ -83,11 +74,11 @@ export function initializeSwitchboardEmbed(options = {}) {
       return;
     }
 
-    const transferFocus = shouldTransferFocus && root.activeElement === loadButton;
     clearLoadTimer();
     shell.setAttribute('aria-busy', 'false');
     placeholder.hidden = true;
     frame.hidden = false;
+    status.hidden = true;
 
     applyHeight(
       Math.max(
@@ -96,13 +87,28 @@ export function initializeSwitchboardEmbed(options = {}) {
       ),
     );
 
-    if (transferFocus) frame.focus({ preventScroll: true });
-  });
+  };
+
+  frame.addEventListener('load', handleFrameLoad);
 
   frame.addEventListener('error', () => {
     if (!hasRequested) return;
     resetRequest('The interactive explorer could not be loaded. The service overview remains available.');
   });
+
+  if (hasRequested) {
+    shell.setAttribute('aria-busy', 'true');
+    placeholder.hidden = true;
+    frame.hidden = false;
+    loadTimer = setTimer(() => {
+      resetRequest('The interactive explorer took too long to load. The service overview remains available.');
+    }, loadTimeout);
+    if (frame.contentDocument?.readyState === 'complete') {
+      setTimer(handleFrameLoad, 0);
+    }
+  } else {
+    requestExplorer();
+  }
 
   return { requestExplorer };
 }

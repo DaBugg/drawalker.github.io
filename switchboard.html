@@ -3588,6 +3588,12 @@
                   <p class="experience-secondary"><strong>Put the product in the customer’s hands.</strong> Make its scale, details, and value clear in the website itself.</p>
                 </div>
                 <div class="demo-actions">
+                  <button
+                    class="micro-control"
+                    type="button"
+                    aria-controls="experience-stage"
+                    data-load-product-model
+                  >Load 3D experiences</button>
                   <button class="micro-control" type="button" data-reset-product hidden>Reset view</button>
                 </div>
               </header>
@@ -3964,7 +3970,7 @@
         servicePanel.setAttribute("aria-labelledby", `key-${id}`);
         if (id === "experience") {
           renderProduct(currentProductIndex);
-          void loadCurrentProductModel();
+          if (hasApproved3d) void loadCurrentProductModel();
         } else {
           cancelModelLoad("product");
           cancelModelLoad("website");
@@ -4452,6 +4458,7 @@
       const modelGround = document.querySelector(".model-ground");
       const productRotationCue = document.querySelector(".product-rotation-cue");
       const productCursor = document.querySelector(".interaction-cursor");
+      const loadProductButton = document.querySelector("[data-load-product-model]");
       const resetProductButton = document.querySelector("[data-reset-product]");
       const productProgressButtons = [...document.querySelectorAll("[data-product-scene]")];
       const previousProductButton = document.querySelector('[data-product-step="-1"]');
@@ -4477,6 +4484,7 @@
       let transitionTimer = null;
       let transitionCleanupTimer = null;
       let hasShownProductCursor = false;
+      let hasApproved3d = false;
       const approvedProductScenes = new Set();
       const readyProductScenes = new Set();
       const pendingProductScenes = new Set();
@@ -4509,6 +4517,7 @@
       }
 
       if (!supportsInteractive3d) markModelUnsupported();
+      if (!supportsInteractive3d) loadProductButton.hidden = true;
 
       function loadModelViewer() {
         if (!supportsInteractive3d) {
@@ -4610,6 +4619,9 @@
             modelGround.hidden = true;
             setProductModelState("error", "The interactive model timed out. Static preview shown.");
           }
+          loadProductButton.hidden = false;
+          loadProductButton.disabled = false;
+          loadProductButton.textContent = "Try 3D experience again";
         }, 15000);
         if (isWebsite) websiteProductLoadTimer = timer;
         else productLoadTimer = timer;
@@ -4682,7 +4694,7 @@
         if (!canUseInteractiveModel) {
           cancelModelLoad("product");
           if (product.scene !== "website") {
-            setProductModelState("static", "Preparing the interactive 3D preview…");
+            setProductModelState("static", "Load the 3D experience when you are ready.");
           }
         } else if (productModel.getAttribute("src") !== product.src) {
           setProductModelState("loading", "Loading interactive 3D preview…");
@@ -4692,7 +4704,7 @@
         if (!websiteIsInteractive) {
           cancelModelLoad("website");
           if (product.scene === "website") {
-            setWebsiteModelState("static", "Preparing the interactive product preview…");
+            setWebsiteModelState("static", "Load the 3D experience when you are ready.");
           }
         } else if (!websiteProductModel.hasAttribute("src")) {
           setWebsiteModelState("loading", "Loading interactive product preview…");
@@ -4717,7 +4729,7 @@
       function changeProduct(index) {
         if (reduceProductMotion) {
           renderProduct(index);
-          void loadCurrentProductModel();
+          if (hasApproved3d) void loadCurrentProductModel();
           return;
         }
 
@@ -4728,7 +4740,7 @@
         experienceStage.classList.add("is-transitioning");
         transitionTimer = window.setTimeout(() => {
           renderProduct(index);
-          void loadCurrentProductModel();
+          if (hasApproved3d) void loadCurrentProductModel();
         }, 250);
         transitionCleanupTimer = window.setTimeout(() => {
           experienceStage.classList.remove("is-transitioning");
@@ -4744,13 +4756,13 @@
           cancelModelLoad("product");
           currentProductIndex = 0;
           renderProduct(0);
-          void loadCurrentProductModel();
+          if (hasApproved3d) void loadCurrentProductModel();
           return;
         }
 
         cancelModelLoad("product");
         renderProduct(nextIndex);
-        void loadCurrentProductModel();
+        if (hasApproved3d) void loadCurrentProductModel();
       }
 
       if (mobileProductQuery.addEventListener) {
@@ -4760,6 +4772,7 @@
       }
 
       async function loadCurrentProductModel() {
+        if (!hasApproved3d) return;
         if (!supportsInteractive3d) {
           markModelUnsupported();
           return;
@@ -4770,6 +4783,9 @@
         try {
           if (requestedProduct.src || requestedProduct.scene === "website") await loadModelViewer();
           approvedProductScenes.add(requestedProduct.scene);
+          loadProductButton.hidden = true;
+          loadProductButton.disabled = false;
+          loadProductButton.textContent = "Load 3D experiences";
           if (productModels[currentProductIndex]?.scene === requestedProduct.scene) renderProduct(currentProductIndex);
         } catch (error) {
           approvedProductScenes.delete(requestedProduct.scene);
@@ -4790,6 +4806,9 @@
           modelGround.hidden = true;
           setProductModelState("error", `${message} Static preview shown.`);
           setWebsiteModelState("error", `${message} Static preview shown.`);
+          loadProductButton.hidden = false;
+          loadProductButton.disabled = false;
+          loadProductButton.textContent = "Try 3D experience again";
         } finally {
           pendingProductScenes.delete(requestedProduct.scene);
         }
@@ -4854,6 +4873,9 @@
           productRotationCue.hidden = true;
           resetProductButton.hidden = true;
           setProductModelState("error", "The interactive model is temporarily unavailable. Static preview shown.");
+          loadProductButton.hidden = false;
+          loadProductButton.disabled = false;
+          loadProductButton.textContent = "Try 3D experience again";
         });
       }
 
@@ -4896,11 +4918,20 @@
           productRotationCue.hidden = true;
           resetProductButton.hidden = true;
           setWebsiteModelState("error", "The interactive model is temporarily unavailable. Static preview shown.");
+          loadProductButton.hidden = false;
+          loadProductButton.disabled = false;
+          loadProductButton.textContent = "Try 3D experience again";
         });
       }
 
       bindProductModelEvents(productModel);
       bindWebsiteModelEvents(websiteProductModel);
+      loadProductButton.addEventListener("click", () => {
+        hasApproved3d = true;
+        loadProductButton.disabled = true;
+        loadProductButton.textContent = "Loading 3D experience…";
+        void loadCurrentProductModel();
+      });
       resetProductButton.addEventListener("click", resetProductView);
       selectService("experience");
 

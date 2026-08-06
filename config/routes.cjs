@@ -16,6 +16,22 @@ const routes = [
     sitemap: false,
   },
   {
+    id: "templates",
+    sourcePath: "templates/index.html",
+    publicPath: "/templates/",
+    indexable: true,
+    canonicalIntent: "self",
+    sitemap: false,
+  },
+  {
+    id: "templateGallery",
+    sourcePath: "templates/template-gallery/index.html",
+    publicPath: "/templates/template-gallery/index.html",
+    indexable: false,
+    canonicalIntent: "none",
+    sitemap: false,
+  },
+  {
     id: "transportationCaseStudy",
     sourcePath: "work/transportation-solutions-lighting.html",
     publicPath: "/work/transportation-solutions-lighting.html",

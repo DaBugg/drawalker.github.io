@@ -12,6 +12,26 @@
       "permanent": true
     },
     {
+      "source": "/templates",
+      "destination": "https://www.networksandnodes.org/templates/",
+      "permanent": true
+    },
+    {
+      "source": "/templates/template-gallery",
+      "destination": "https://www.networksandnodes.org/templates/",
+      "permanent": true
+    },
+    {
+      "source": "/templates/template-gallery/",
+      "destination": "https://www.networksandnodes.org/templates/",
+      "permanent": true
+    },
+    {
+      "source": "/templates/template-gallery/index.html",
+      "destination": "https://www.networksandnodes.org/templates/",
+      "permanent": true
+    },
+    {
       "source": "/switchboard.html/",
       "destination": "https://www.networksandnodes.org/switchboard.html",
       "permanent": true

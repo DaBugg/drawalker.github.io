@@ -158,12 +158,14 @@
             />
             <mux-player
               data-video-frame
+              data-active-playback-id="Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc"
+              playback-id="Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc"
               aria-hidden="true"
               tabindex="-1"
               autoplay="muted"
               muted
               playsinline
-              hidden
+              preload="auto"
             ></mux-player>
             <a
               class="video-concept-link"
@@ -249,23 +251,10 @@
             Explore the detailed capabilities below to see what each system does and how it connects to the business.
           </p>
         </div>
-        <div class="switchboard-frame-shell" data-switchboard-shell aria-busy="false">
-          <div class="switchboard-placeholder" data-switchboard-placeholder>
-            <p class="kicker">Optional interactive explorer</p>
-            <h3>See how the capabilities connect.</h3>
-            <p>
-              The detailed explorer is kept out of the initial page load. Open it when you are ready to interact
-              with the service examples.
-            </p>
-            <button
-              class="button button-primary switchboard-load"
-              type="button"
-              aria-controls="switchboard-explorer"
-              aria-describedby="switchboard-load-status"
-              data-switchboard-load
-            >
-              Load interactive explorer
-            </button>
+        <div class="switchboard-frame-shell" data-switchboard-shell aria-busy="true">
+          <div class="switchboard-placeholder" data-switchboard-placeholder hidden>
+            <p class="kicker">Interactive explorer unavailable</p>
+            <h3>The service overview remains available.</h3>
             <p
               class="switchboard-load-status"
               id="switchboard-load-status"
@@ -274,21 +263,18 @@
               data-switchboard-status
               hidden
             ></p>
-            <noscript>
-              <p>
-                The interactive explorer requires JavaScript. The service overview above remains available, or
-                <a href="/#project-review-form">request a project review</a>.
-              </p>
-            </noscript>
+            <a class="button button-primary switchboard-load" href="/switchboard.html">
+              Open the explorer directly
+            </a>
           </div>
           <iframe
             id="switchboard-explorer"
             class="switchboard-embed"
+            src="/switchboard.html"
             data-src="/switchboard.html"
             title="Networks & Nodes interactive service explorer"
-            loading="lazy"
+            loading="eager"
             data-switchboard-frame
-            hidden
           ></iframe>
         </div>
       </section>
@@ -300,8 +286,8 @@
             <h2>Proof in the work.</h2>
           </div>
           <p class="work-proof-line">
-            Three featured projects showing work across strategy, design, and implementation. Each entry separates
-            the problem, the system delivered, and the verified outcome or current status.
+            Two featured systems and a growing website library showing strategy, design, and implementation across
+            real operating needs and distinct buying journeys.
           </p>
         </div>
 
@@ -393,42 +379,42 @@
           </article>
 
           <article class="project">
-            <div class="project-meta"><span>03</span><span>Local construction</span></div>
+            <div class="project-meta"><span>03</span><span>Website use-case library</span></div>
             <div class="project-content">
-              <h3>Redeemed Hands</h3>
+              <h3>Website Template Library</h3>
               <dl class="project-details">
                 <div>
-                  <dt>Business problem</dt>
-                  <dd>A broad construction offer needed a clearer service story and a more direct path to a quote.</dd>
+                  <dt>Design question</dt>
+                  <dd>Different industries need different combinations of trust, proof, interaction, and conversion paths.</dd>
                 </div>
                 <div>
                   <dt>What we built</dt>
-                  <dd>A WordPress service website with clear positioning, quote prompts, and a project gallery.</dd>
+                  <dd>A growing collection of interactive website directions organized around specific audiences and buying contexts.</dd>
                 </div>
                 <div>
-                  <dt>Systems connected</dt>
-                  <dd>Service content · Quote path · 18 item project gallery · Business contact details</dd>
+                  <dt>Use cases represented</dt>
+                  <dd>Technical · Service · Professional · Software · Consumer experiences</dd>
                 </div>
                 <div class="project-outcome">
                   <dt>Current status</dt>
-                  <dd>Completed homepage preview in the repository. Public launch URL still needs owner verification.</dd>
+                  <dd>Concept studies, active explorations, and selected project work available as interactive previews.</dd>
                 </div>
               </dl>
               <div class="project-actions">
                 <a
                   class="project-link project-link-primary"
-                  href="/work/redeemed-hands.html"
-                  aria-label="Read the Redeemed Hands project details"
+                  href="/templates/"
+                  aria-label="Explore the website template and use-case library"
                 >
-                  Read the project details <span aria-hidden="true">→</span>
+                  Explore website use cases <span aria-hidden="true">→</span>
                 </a>
                 <a
                   class="project-link project-link-secondary"
                   href="/#contact"
                   data-scroll-target="contact"
-                  aria-label="Request a review for a project similar to Redeemed Hands"
+                  aria-label="Request a review for a website project"
                 >
-                  Discuss a similar project <span aria-hidden="true">↓</span>
+                  Discuss a website project <span aria-hidden="true">↓</span>
                 </a>
               </div>
             </div>
