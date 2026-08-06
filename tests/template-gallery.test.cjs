@@ -152,7 +152,7 @@ test("featured concepts use local, dimensioned project imagery", () => {
 
   for (const concept of featured) {
     const preview = concept.featured;
-    assert.match(preview.imageSrc, /^\/templates\//);
+    assert.match(preview.imageSrc, /^\/(?:templates|images)\//);
     assert.ok(Number.isInteger(preview.imageWidth) && preview.imageWidth > 0);
     assert.ok(Number.isInteger(preview.imageHeight) && preview.imageHeight > 0);
     const assetPath = path.join(repositoryRoot, decodeURIComponent(preview.imageSrc.slice(1)));
@@ -160,21 +160,46 @@ test("featured concepts use local, dimensioned project imagery", () => {
   }
 });
 
-test("AERON uses the supplied Mux demo in featured and library cards", () => {
+test("matching land artwork replaces the gallery thumbnail treatments", () => {
   const galleryHtml = fs.readFileSync(path.join(galleryRoot, "index.html"), "utf8");
   const galleryScript = fs.readFileSync(galleryScriptPath, "utf8");
-  const playbackId = "01cjA3vR18XErYM3qnRDcE6L7rlOZCXcrcplLGdvz5nk";
+  const artwork = [
+    "aeron-land.png",
+    "dailypour-land.png",
+    "gatkeeper-land.png",
+    "lgpr-land.png",
+    "rapidroot-land.png",
+    "sitepilot-land.png",
+  ];
 
-  assert.match(galleryHtml, /@mux\/mux-player@3\.13\.2/);
-  assert.match(galleryHtml, /<mux-player class="featured-aeron-player" data-feature-video/);
-  assert.match(
-    galleryHtml,
-    new RegExp(`<mux-player class="aeron-card-player"[^>]*playback-id="${playbackId}"`),
-  );
-  assert.match(galleryScript, new RegExp(`playbackId: "${playbackId}"`));
-  assert.match(galleryScript, /prefers-reduced-motion: reduce/);
-  assert.match(galleryScript, /setPlayback\(featuredVideo, featured\[featuredIndex\]\.id === "aeron"\)/);
-  assert.match(galleryScript, /setPlayback\(libraryVideo, aeronCard && !aeronCard\.classList\.contains\("hidden"\)\)/);
+  for (const filename of artwork) {
+    assert.match(galleryHtml, new RegExp(`/images/${filename.replace(".", "\\.")}`));
+    assert.ok(fs.existsSync(path.join(repositoryRoot, "images", filename)));
+  }
+
+  const packageJson = JSON.parse(fs.readFileSync(path.join(repositoryRoot, "package.json"), "utf8"));
+  assert.match(packageJson.scripts.build, /images\/\*-land\.png/);
+
+  assert.doesNotMatch(galleryHtml, /mux-player|@mux\/mux-player/);
+  assert.doesNotMatch(galleryScript, /playbackId|data-feature-video|data-aeron-card-player/);
+  assert.match(galleryScript, /imageSrc: "\/images\/aeron-land\.png"/);
+  assert.match(galleryScript, /imageSrc: "\/images\/lgpr-land\.png"/);
+});
+
+test("the gallery pairs one wide and one tall concept without incomplete rows", () => {
+  const galleryHtml = fs.readFileSync(path.join(galleryRoot, "index.html"), "utf8");
+  const cardClasses = [...galleryHtml.matchAll(
+    /<article class="concept (large|tall)" data-concept-id="([^"]+)"/g,
+  )];
+
+  assert.equal(cardClasses.length, 16);
+  for (let index = 0; index < cardClasses.length; index += 2) {
+    assert.deepEqual(
+      new Set([cardClasses[index][1], cardClasses[index + 1][1]]),
+      new Set(["large", "tall"]),
+      `gallery pair ${index / 2 + 1} must contain one wide and one tall concept`,
+    );
+  }
 });
 
 test("all 16 concepts provide one same-tab return to Networks & Nodes", () => {

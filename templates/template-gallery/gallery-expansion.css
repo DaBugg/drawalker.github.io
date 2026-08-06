@@ -447,3 +447,104 @@
     width: 78%;
   }
 }
+
+/* Editorial gallery rhythm: a wide study paired with a taller study per row. */
+.concept-grid {
+  column-gap: clamp(1rem, 2vw, 2rem);
+  row-gap: clamp(1.5rem, 3vw, 3.25rem);
+}
+
+.concept,
+.concept.large,
+.concept.tall {
+  background: transparent;
+}
+
+.concept.large { grid-column: span 7; }
+.concept.tall { grid-column: span 5; }
+
+.concept.large .preview {
+  height: clamp(400px, 34vw, 540px);
+}
+
+.concept.tall .preview {
+  height: clamp(480px, 43vw, 650px);
+}
+
+.concept .meta {
+  padding: 1.15rem 0.2rem 0;
+}
+
+.concept .meta dl {
+  margin-bottom: 0.85rem;
+}
+
+.image-preview {
+  padding: 0;
+  background: #111;
+}
+
+.image-preview::before,
+.image-preview::after {
+  display: none;
+}
+
+.image-preview > .concept-preview-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 450ms ease;
+}
+
+.concept a:hover .concept-preview-image,
+.concept a:focus-visible .concept-preview-image {
+  transform: scale(1.015);
+}
+
+.image-preview.rapid .concept-preview-image { object-position: center top; }
+.image-preview.sitepilot .concept-preview-image { object-position: center; }
+.image-preview.lgpr .concept-preview-image { object-position: center; }
+
+.concept-grid.list .concept {
+  margin-bottom: 1.25rem;
+}
+
+.concept-grid.list .preview,
+.concept-grid.list .large .preview,
+.concept-grid.list .tall .preview {
+  height: 220px;
+}
+
+@media (max-width: 900px) {
+  .concept,
+  .concept.large,
+  .concept.tall {
+    grid-column: span 6;
+  }
+
+  .concept.large .preview,
+  .concept.tall .preview {
+    height: clamp(360px, 54vw, 520px);
+  }
+}
+
+@media (max-width: 600px) {
+  .concept,
+  .concept.large,
+  .concept.tall {
+    grid-column: span 12;
+  }
+
+  .concept.large .preview,
+  .concept.tall .preview {
+    height: min(112vw, 520px);
+  }
+
+  .concept .meta {
+    padding-top: 1rem;
+  }
+}
