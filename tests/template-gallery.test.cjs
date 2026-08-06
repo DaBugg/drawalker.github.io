@@ -190,7 +190,7 @@ test("matching land artwork replaces the gallery thumbnail treatments", () => {
   assert.match(galleryScript, /imageSrc: "\/images\/lgpr-land\.png"/);
 });
 
-test("the five priority concepts lead an organically packed masonry gallery", () => {
+test("the original gallery composition uses cover-filled image containers", () => {
   const galleryHtml = fs.readFileSync(path.join(galleryRoot, "index.html"), "utf8");
   const galleryStyles = fs.readFileSync(
     path.join(templatesRoot, "template-gallery", "gallery-expansion.css"),
@@ -200,12 +200,12 @@ test("the five priority concepts lead an organically packed masonry gallery", ()
   const sourceOrder = [...galleryHtml.matchAll(/data-concept-id="([^"]+)"/g)].map((match) => match[1]);
 
   assert.deepEqual(sourceOrder.slice(0, 5), expectedLibraryOrder.slice(0, 5));
-  assert.match(galleryStyles, /grid-auto-flow: dense/);
-  assert.match(galleryStyles, /--concept-span: 8/);
-  assert.match(galleryStyles, /--concept-span: 4/);
-  assert.match(galleryStyles, /aspect-ratio: var\(--preview-ratio/);
-  assert.match(galleryScript, /function layoutMasonry\(\)/);
-  assert.match(galleryScript, /card\.style\.gridRowEnd = `span \$\{rowSpan\}`/);
+  assert.match(galleryHtml, /class="concept wide"/);
+  assert.match(galleryHtml, /class="concept large"/);
+  assert.match(galleryHtml, /class="concept tall"/);
+  assert.match(galleryStyles, /\.image-preview > \.concept-preview-image[\s\S]*object-fit: cover/);
+  assert.doesNotMatch(galleryStyles, /grid-auto-flow: dense|--concept-span|--preview-ratio/);
+  assert.doesNotMatch(galleryScript, /layoutMasonry|gridRowEnd/);
 });
 
 test("all 16 concepts provide one same-tab return to Networks & Nodes", () => {
@@ -276,12 +276,12 @@ test("the template gallery is the canonical search-facing library", () => {
   const galleryHtml = fs.readFileSync(path.join(galleryRoot, "index.html"), "utf8");
   assert.match(galleryHtml, /<link rel="canonical" href="https:\/\/www\.networksandnodes\.org\/templates\/">/);
   assert.doesNotMatch(galleryHtml, /<meta name="robots" content="noindex/i);
-  assert.match(galleryHtml, /concept studies, active explorations, and selected project directions/i);
+  assert.match(galleryHtml, /website design concepts/i);
 });
 
 test("the homepage promotes the gallery instead of Redeemed Hands", () => {
   const homepage = fs.readFileSync(path.join(repositoryRoot, "index.html"), "utf8");
-  assert.match(homepage, /<h3>Website Template Library<\/h3>/);
+  assert.match(homepage, /<h3>Website Design Concept Library<\/h3>/);
   assert.match(homepage, /href="\/templates\/"/);
   assert.doesNotMatch(homepage, /<h3>Redeemed Hands<\/h3>/);
 });

@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Off Map Club | Small-group travel field guide</title>
-  <meta name="description" content="Browse small-group adventures through routes, field notes and candid trip stories with Off Map Club.">
+  <title>Travel Website Design Concept | Off Map Club</title>
+  <meta name="description" content="Explore a cinematic travel website concept by Networks &amp; Nodes, shaped around routes, candid trip stories, discovery filters, and trip-finder conversion.">
+  <meta name="robots" content="noindex, nofollow, max-image-preview:large">
   <meta name="theme-color" content="#f1e8d4">
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -397,5 +398,5 @@
   const modal=document.querySelector('.modal'),close=document.querySelector('.close');let lastFocus;function setModal(open){if(open)lastFocus=document.activeElement;modal.classList.toggle('open',open);modal.setAttribute('aria-hidden',String(!open));document.body.classList.toggle('lock',open);if(open)setTimeout(()=>document.getElementById('fname').focus(),100);else lastFocus?.focus()}document.querySelectorAll('.open-modal').forEach(b=>b.addEventListener('click',()=>setModal(true)));close.addEventListener('click',()=>setModal(false));modal.addEventListener('click',e=>{if(e.target===modal)setModal(false)});document.addEventListener('keydown',e=>{if(e.key==='Escape')setModal(false)});
   document.getElementById('tripForm').addEventListener('submit',e=>{e.preventDefault();if(!e.currentTarget.reportValidity())return;e.currentTarget.querySelector('.status').style.display='block'});
 </script>
-<a class="nn-studio-return" href="https://www.networksandnodes.org/" aria-label="Back to Networks &amp; Nodes">← Back to Networks &amp; Nodes</a><script src="/templates/template-gallery/studio-return.js"></script></body>
+<a class="nn-studio-return" href="https://www.networksandnodes.org/" aria-label="Back to Networks &amp; Nodes">← Website demonstration by Networks &amp; Nodes</a><script src="/templates/template-gallery/studio-return.js"></script></body>
 </html>
