@@ -35,10 +35,10 @@ const expectedOriginalOrder = [
   "meridian",
   "rapidroot",
   "fleetaxis",
+  "daily-pour",
+  "lgpr",
   "sitepilot",
   "sl-plumbing",
-  "lgpr",
-  "daily-pour",
   "structure-house",
   "aeron",
   "northstar-credit",
@@ -161,7 +161,7 @@ test("the template gallery links every template website exactly once", () => {
   assert.deepEqual(cardTargets.sort(), collectTemplateEntries(templatesRoot).sort());
 });
 
-test("the gallery restores its original library and featured order", () => {
+test("the gallery uses the requested library and featured order", () => {
   const galleryHtml = fs.readFileSync(path.join(galleryRoot, "index.html"), "utf8");
   const galleryScript = fs.readFileSync(galleryScriptPath, "utf8");
   assert.deepEqual(readOriginalOrder(), expectedOriginalOrder);
@@ -172,24 +172,26 @@ test("the gallery restores its original library and featured order", () => {
   assert.equal(cards.length, 16, "every library card must have a stable ID and safe new-tab link");
   assert.deepEqual(cards.map((match) => match[1]), expectedLibraryOrder);
 
-  assert.match(galleryScript, /SitePilot Operations/);
-  assert.match(galleryScript, /Forgeworks Industrial/);
+  assert.match(galleryScript, /The Daily Pour/);
   assert.match(galleryScript, /FleetAxis Logistics/);
-  assert.match(galleryScript, /RapidRoot Home Services/);
+  assert.match(galleryScript, /Off Map Club/);
+  assert.match(galleryScript, /AERON/);
+  assert.match(galleryScript, /Northstar Credit/);
   assert.match(galleryScript, /featuredIndex = \(featuredIndex \+ featured\.length - 1\) % featured\.length/);
   assert.match(galleryScript, /featuredIndex = \(featuredIndex \+ 1\) % featured\.length/);
-  assert.match(galleryHtml, /data-feature-title>SitePilot Operations<\/h2>/);
-  assert.match(galleryHtml, /data-feature-link href="\/templates\/sitepilot-operations\/"/);
+  assert.match(galleryHtml, /data-feature-title>The Daily Pour<\/h2>/);
+  assert.match(galleryHtml, /data-feature-link href="\/templates\/coffee-shop\/"/);
 });
 
-test("the restored featured rotation uses the original visual treatments", () => {
+test("the featured rotation uses the requested five visual treatments", () => {
   const galleryHtml = fs.readFileSync(path.join(galleryRoot, "index.html"), "utf8");
   const galleryScript = fs.readFileSync(galleryScriptPath, "utf8");
-  assert.match(galleryHtml, /<div class="featured-preview sitepilot">/);
-  assert.match(galleryScript, /"sitepilot"/);
-  assert.match(galleryScript, /"forge-feature"/);
+  assert.match(galleryHtml, /<div class="featured-preview daily-feature">/);
+  assert.match(galleryScript, /"daily-feature"/);
   assert.match(galleryScript, /"fleet-feature"/);
-  assert.match(galleryScript, /"rapid-feature"/);
+  assert.match(galleryScript, /"offmap-feature"/);
+  assert.match(galleryScript, /"aeron-feature"/);
+  assert.match(galleryScript, /"northstar-feature"/);
 });
 
 test("the gallery uses its original designed thumbnail treatments", () => {
@@ -220,6 +222,12 @@ test("the original gallery composition keeps its mixed card sizes", () => {
   assert.doesNotMatch(galleryHtml, /class="concept-preview-image"|class="preview image-preview/);
   assert.doesNotMatch(galleryStyles, /grid-auto-flow: dense|--concept-span|--preview-ratio/);
   assert.doesNotMatch(galleryScript, /layoutMasonry|gridRowEnd/);
+  assert.match(galleryHtml, /class="concept large" data-concept-id="sitepilot"/);
+  assert.match(galleryHtml, /class="concept tall" data-concept-id="sl-plumbing"/);
+  assert.ok(
+    expectedOriginalOrder.indexOf("sl-plumbing") === expectedOriginalOrder.indexOf("sitepilot") + 1,
+    "SitePilot and S&L must remain adjacent so their 7/5-column cards share a row",
+  );
 });
 
 test("all 16 concepts provide one same-tab return to Networks & Nodes", () => {
