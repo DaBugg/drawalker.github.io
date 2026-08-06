@@ -3655,7 +3655,7 @@
                   class="product-nav"
                   type="button"
                   data-product-step="-1"
-                  aria-label="Show previous experience: Website experience"
+                  aria-label="Show previous experience: Interactive technology"
                 >
                   <span aria-hidden="true">←</span>
                 </button>
@@ -3667,7 +3667,7 @@
                     data-load-product-model
                   >Load 3D experience</button>
                   <div class="model-ground" aria-hidden="true"></div>
-                  <div class="product-visual" data-model-shell data-model-state="static">
+                  <div class="product-visual" data-model-shell data-model-state="static" hidden>
                     <img
                       class="product-fallback"
                       src="/images/3d-experience-fallback.svg"
@@ -3699,7 +3699,7 @@
                       Preparing the interactive 3D preview…
                     </p>
                   </div>
-                  <div class="website-reveal" id="website-reveal" role="group" aria-label="Modern product landing page shown inside a browser" hidden>
+                  <div class="website-reveal" id="website-reveal" role="group" aria-label="Modern product landing page shown inside a browser">
                     <div class="browser-toolbar" aria-hidden="true">
                       <i></i><i></i><i></i><span>product.example / explore</span>
                     </div>
@@ -3746,11 +3746,11 @@
                   </div>
                   <div class="product-meta">
                     <div class="product-category-line">
-                      <span id="product-category">Product visualization</span>
+                      <span id="product-category">Website experience</span>
                       <span id="product-index">01 / 04</span>
                     </div>
-                    <strong id="product-name">Inspect every product detail.</strong>
-                    <span id="product-material">Let customers rotate a shoe, examine materials, and understand the product from every angle.</span>
+                    <strong id="product-name">Turn product exploration into action.</strong>
+                    <span id="product-material">Bring the model, story, and next step together in a focused product landing page.</span>
                   </div>
                   <span class="interaction-cursor" aria-hidden="true"></span>
                   <span class="scan-transition" aria-hidden="true"></span>
@@ -3759,20 +3759,20 @@
                   class="product-nav"
                   type="button"
                   data-product-step="1"
-                  aria-label="Show next experience: Architectural visualization"
+                  aria-label="Show next experience: Product visualization"
                 >
                   <span aria-hidden="true">→</span>
                 </button>
               </div>
-              <div class="product-rotation-cue" role="img" aria-label="Drag the product left or right to rotate">
+              <div class="product-rotation-cue" role="img" aria-label="Drag the product left or right to rotate" hidden>
                 <span aria-hidden="true">⟲</span>
                 <span aria-hidden="true">⟳</span>
               </div>
               <div class="experience-progress" aria-label="Experience scenes">
-                <button type="button" data-product-scene="product" aria-current="step">Product</button>
+                <button type="button" data-product-scene="website" aria-current="step">Website</button>
+                <button type="button" data-product-scene="product">Product</button>
                 <button type="button" data-product-scene="architecture">Architecture</button>
                 <button type="button" data-product-scene="technology">Technology</button>
-                <button type="button" data-product-scene="website">Website</button>
               </div>
             </section>
 
@@ -4448,6 +4448,15 @@
       const createProductModels = () => {
         const models = [
           {
+            scene: "website",
+            src: "",
+            category: "Website experience",
+            name: "Turn product exploration into action.",
+            material: "Bring the model, story, and next step together in a focused product landing page.",
+            alt: "Modern product landing page shown inside a browser",
+            sizeLabel: "about 24 MB",
+          },
+          {
             scene: "product",
             src: assetUrl("Chicago_Air_Jordan1_Compress-v1.glb"),
             category: "Product visualization",
@@ -4483,15 +4492,6 @@
             alt: "Interactive 3D technology visualization of a quadcopter drone",
             cameraOrbit: "40deg 66deg auto",
             sizeLabel: "about 10 MB",
-          },
-          {
-            scene: "website",
-            src: "",
-            category: "Website experience",
-            name: "Turn product exploration into action.",
-            material: "Bring the model, story, and next step together in a focused product landing page.",
-            alt: "Modern product landing page shown inside a browser",
-            sizeLabel: "about 24 MB",
           },
         );
 

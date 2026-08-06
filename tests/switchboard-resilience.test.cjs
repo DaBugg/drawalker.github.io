@@ -18,6 +18,14 @@ test("interactive media components are bundled with the site", () => {
   assert.match(main, /import "@mux\/mux-player";/);
   assert.doesNotMatch(switchboard, /ajax\.googleapis\.com\/ajax\/libs\/model-viewer/);
   assert.match(switchboard, /networks-nodes-switchboard-ready/);
+  assert.match(
+    switchboard,
+    /const models = \[\s*\{\s*scene: "website"[\s\S]*scene: "product"/,
+  );
+  assert.match(
+    switchboard,
+    /data-product-scene="website" aria-current="step">Website<\/button>[\s\S]*data-product-scene="product">Product<\/button>/,
+  );
   assert.match(viewerLoader, /import\("@google\/model-viewer"\)/);
 });
 
