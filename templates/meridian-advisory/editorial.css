@@ -1,0 +1,93 @@
+/* Editorial photography system */
+.hero-figure {
+  position: relative;
+  min-height: 520px;
+  margin: 0;
+  overflow: hidden;
+  background: #c8cbc9;
+}
+
+.hero-figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  object-fit: cover;
+  filter: saturate(.78) contrast(1.03);
+}
+
+.hero-figure::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, #15191ecc, transparent 48%);
+  content: '';
+}
+
+.hero-figure figcaption {
+  position: absolute;
+  z-index: 2;
+  right: 1.2rem;
+  bottom: 1.2rem;
+  left: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0;
+  color: #fff;
+  font-size: .62rem;
+  letter-spacing: .08em;
+}
+
+.hero-figure figcaption b { font-weight: 500; }
+
+.evidence {
+  display: grid;
+  padding: 0;
+  grid-template-columns: 1.18fr .82fr;
+  background: #111419;
+  color: #fff;
+}
+
+.evidence figure {
+  min-height: 720px;
+  margin: 0;
+  overflow: hidden;
+}
+
+.evidence figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 720px;
+  object-fit: cover;
+}
+
+.evidence > div { padding: 8vw 5vw; }
+.evidence > div > p:not(.eyebrow) { color: #b8bdc1; }
+.evidence dl { margin: 4rem 0 0; border-top: 1px solid #4a4f54; }
+.evidence dl div { display: grid; padding: 1rem 0; grid-template-columns: .45fr 1fr; border-bottom: 1px solid #4a4f54; }
+.evidence dt { color: #8299ee; font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; }
+.evidence dd { margin: 0; }
+
+.people > div:first-child p { color: var(--muted); }
+.people > div:first-child small { display: block; margin-top: 2rem; color: #7a7f83; font-size: .65rem; }
+.portrait { display: block; width: 100%; min-height: 440px; aspect-ratio: 3 / 4; object-fit: cover; filter: saturate(.82) contrast(1.02); }
+.thinking article img { display: block; width: 100%; aspect-ratio: 3 / 2; margin-bottom: 1.2rem; object-fit: cover; filter: saturate(.75); }
+
+@media (max-width: 900px) {
+  .hero-figure { display: block; min-height: 520px; }
+  .hero-figure img { min-height: 520px; }
+  .evidence { grid-template-columns: 1fr; }
+  .evidence figure,
+  .evidence figure img { min-height: 560px; }
+  .thinking > p { margin-bottom: 2rem; }
+}
+
+@media (max-width: 600px) {
+  .hero-figure,
+  .hero-figure img { min-height: 430px; }
+  .evidence figure,
+  .evidence figure img { min-height: 420px; }
+  .evidence > div { padding: 5rem 1.2rem; }
+  .evidence dl div { grid-template-columns: 1fr; gap: .25rem; }
+}

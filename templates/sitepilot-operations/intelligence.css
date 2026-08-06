@@ -1,0 +1,171 @@
+.intelligence {
+  padding: 8vw 3vw;
+  background: #080a09;
+  color: var(--white);
+}
+
+.intelligence > header {
+  display: grid;
+  max-width: 1500px;
+  margin: 0 auto 4rem;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 5vw;
+  align-items: end;
+}
+
+.intelligence > header h2 { max-width: 900px; margin-bottom: 0; }
+.intelligence > header > p { max-width: 580px; margin-bottom: 0; color: var(--muted); }
+
+.intelligence-shell {
+  display: grid;
+  max-width: 1500px;
+  margin: auto;
+  grid-template-columns: .78fr 1.22fr;
+  border: 1px solid #343c37;
+  background: var(--panel);
+  box-shadow: 0 36px 90px #000;
+}
+
+.network-panel { border-right: 1px solid var(--line); }
+.network-panel > header,
+.signal-toolbar,
+.signal-feed > header {
+  display: flex;
+  min-height: 70px;
+  padding: 1rem 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.network-panel > header div,
+.signal-toolbar > div:first-child { display: grid; }
+.network-panel > header span,
+.signal-toolbar span { color: var(--muted); font: 400 .55rem var(--mono); letter-spacing: .08em; }
+.network-panel > header b,
+.signal-toolbar b { font-size: .9rem; }
+.network-panel > header > i { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 8px #b8f43f12; }
+.network-panel > header small { color: #ff806b; font-size: .62rem; }
+
+.site-map {
+  position: relative;
+  min-height: 680px;
+  overflow: hidden;
+  background: #0c100d;
+}
+
+.map-grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(#ffffff09 1px, transparent 1px), linear-gradient(90deg, #ffffff09 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+.site-map::before,
+.site-map::after {
+  position: absolute;
+  border: 1px solid #526057;
+  content: '';
+  transform: rotate(-8deg);
+}
+
+.site-map::before { top: 18%; right: 9%; bottom: 21%; left: 12%; border-radius: 48% 52% 44% 56%; }
+.site-map::after { top: 29%; right: 19%; bottom: 34%; left: 24%; border-radius: 53% 47% 57% 43%; }
+
+.map-link { position: absolute; z-index: 1; height: 1px; background: #66716a; transform-origin: left; }
+.link-a { top: 35%; left: 28%; width: 47%; transform: rotate(-17deg); }
+.link-b { top: 39%; left: 31%; width: 42%; transform: rotate(45deg); }
+
+.site-node {
+  position: absolute;
+  z-index: 3;
+  left: var(--x);
+  top: var(--y);
+  display: grid;
+  min-width: 124px;
+  min-height: 94px;
+  padding: .8rem;
+  border: 1px solid #536058;
+  background: #151a16;
+  color: #dce2dd;
+  text-align: left;
+  transform: translate(-50%, -50%);
+  transition: all 700ms cubic-bezier(.32,.72,0,1);
+}
+
+.site-node:hover,
+.site-node:focus-visible { border-color: var(--lime); transform: translate(-50%, -50%) scale(1.03); }
+.site-node.active { border-color: var(--lime); background: var(--lime); color: #071007; box-shadow: 0 18px 50px #0008; }
+.site-node span { font: 400 .52rem var(--mono); }
+.site-node b { align-self: end; font-size: .8rem; }
+.site-node small { opacity: .7; font: 400 .5rem var(--mono); text-transform: uppercase; }
+
+.map-legend {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  display: flex;
+  gap: 1.5rem;
+  color: var(--muted);
+  font: 400 .52rem var(--mono);
+}
+
+.map-legend span { display: flex; align-items: center; gap: .45rem; }
+.map-legend i { display: block; width: 7px; height: 7px; border-radius: 50%; }
+.map-legend .live { background: var(--lime); }
+.map-legend .watch { background: #ff735c; }
+
+.signal-panel { min-width: 0; }
+.signal-toolbar > div:last-child { display: flex; }
+.signal-toolbar button { min-width: 52px; min-height: 36px; border: 1px solid var(--line); background: transparent; color: var(--muted); font: 400 .55rem var(--mono); }
+.signal-toolbar button.active { border-color: var(--lime); background: var(--lime); color: #000; }
+
+.signal-kpis { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+.signal-kpis > div { display: grid; min-height: 155px; padding: 1.25rem; align-content: space-between; border-right: 1px solid var(--line); }
+.signal-kpis > div:last-child { border-right: 0; }
+.signal-kpis span { color: var(--muted); font: 400 .52rem var(--mono); }
+.signal-kpis b { font: 700 clamp(2rem,4vw,3.4rem) var(--mono); }
+.signal-kpis small { color: #7f8982; font-size: .62rem; }
+.signal-kpis .alert b { color: #ff735c; }
+
+.trend { margin: 0; padding: 1.25rem; border-bottom: 1px solid var(--line); }
+.trend canvas { display: block; width: 100%; height: 280px; }
+.trend figcaption { display: flex; margin-top: .8rem; align-items: center; gap: 1.2rem; color: var(--muted); font: 400 .52rem var(--mono); }
+.trend figcaption span { display: flex; align-items: center; gap: .4rem; }
+.trend figcaption i { display: block; width: 18px; height: 2px; }
+.trend .completion { background: var(--lime); }
+.trend .exception { background: #ff735c; }
+.trend figcaption b { margin-left: auto; color: #c1c7c2; font-weight: 400; }
+
+.signal-feed > header { min-height: 56px; font-size: .7rem; }
+.signal-feed > header span { color: var(--muted); }
+.signal-feed ul { margin: 0; padding: 0 1.25rem; list-style: none; }
+.signal-feed li { display: grid; padding: .9rem 0; grid-template-columns: 28px 1fr auto; gap: .65rem; align-items: center; border-bottom: 1px solid var(--line); }
+.signal-feed li > i { color: #ff735c; }
+.signal-feed li span { display: grid; font-size: .65rem; }
+.signal-feed li span b { color: #e9ede9; }
+.signal-feed li em { color: var(--muted); font: 400 .52rem var(--mono); }
+
+@media (max-width: 1000px) {
+  .intelligence > header,
+  .intelligence-shell { grid-template-columns: 1fr; }
+  .network-panel { border-right: 0; border-bottom: 1px solid var(--line); }
+  .site-map { min-height: 560px; }
+}
+
+@media (max-width: 650px) {
+  .intelligence { padding: 5rem 1rem; }
+  .intelligence > header { gap: 1.5rem; }
+  .site-map { min-height: 480px; }
+  .site-node { min-width: 100px; min-height: 82px; }
+  .signal-toolbar { align-items: flex-start; flex-direction: column; }
+  .signal-kpis { grid-template-columns: 1fr; }
+  .signal-kpis > div { min-height: 120px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .trend canvas { height: 220px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-node { transition: none; }
+}
