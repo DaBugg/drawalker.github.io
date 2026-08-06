@@ -56,8 +56,11 @@ test("non-3D media loads automatically and 3D retains an explicit gate", () => {
   assert.match(homepage, /<mux-player[\s\S]*?playback-id="Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc"[\s\S]*?autoplay="muted"/);
   assert.match(homepage, /<iframe[\s\S]*?src="\/switchboard\.html"[\s\S]*?loading="eager"/);
   assert.doesNotMatch(homepage, /data-switchboard-load/);
-  assert.match(switchboard, /data-load-product-model/);
+  assert.match(switchboard, /<div class="product-main"[^>]*>[\s\S]*?class="model-load-action"[\s\S]*?data-load-product-model/);
   assert.match(switchboard, /if \(!hasApproved3d\) return;/);
+  assert.match(switchboard, /background: linear-gradient\(145deg, #ef4444, #b91c1c\)/);
+  assert.match(switchboard, /}, 90000\);/);
+  assert.match(switchboard, /height: clamp\(132px, 11vw, 158px\)/);
 });
 
 test("every public gallery entry point resolves to the canonical templates route", () => {
