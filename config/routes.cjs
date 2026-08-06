@@ -21,7 +21,7 @@ const routes = [
     publicPath: "/templates/",
     indexable: true,
     canonicalIntent: "self",
-    sitemap: false,
+    sitemap: true,
   },
   {
     id: "templateGallery",

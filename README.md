@@ -61,7 +61,7 @@ not authorize or prove a preview or production deployment.
 
 | Responsibility | Source |
 |---|---|
-| Production routes and indexability intent | `config/routes.cjs` |
+| Production routes, indexability, and sitemap inclusion | `config/routes.cjs` |
 | Vite inputs and build behavior | `vite.config.mjs`, `package.json` |
 | Repository-controlled Vercel redirects | `vercel.json` |
 | Primary pages | `index.html`, `work/*.html`, `switchboard.html` |
@@ -70,6 +70,10 @@ not authorize or prove a preview or production deployment.
 | Project-review form function | `api/send-quote.js` |
 | Turnstile verification | `api/turnstile-config.js`, `lib/verify-turnstile.js` |
 | Crawler policy and sitemap | `robots.txt`, `sitemap.xml` |
+
+`sitemap.xml` is generated automatically from routes marked `sitemap: true` in
+`config/routes.cjs` before every production build. Run `npm run generate:sitemap`
+after changing the route manifest; do not edit the XML inventory by hand.
 | Environment-variable names | `.env.example` |
 
 Do not commit `.env` files or expose environment values in documentation,
