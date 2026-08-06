@@ -239,7 +239,7 @@ test("the original gallery composition keeps its mixed card sizes", () => {
   );
 });
 
-test("all 16 concepts provide one same-tab return to Networks & Nodes", () => {
+test("all 16 concepts provide shared home and gallery return navigation", () => {
   for (const relativePath of conceptIndexFiles) {
     const html = fs.readFileSync(path.join(templatesRoot, relativePath), "utf8");
     const returnLinks = [...html.matchAll(/<a class="nn-studio-return"[^>]*>/g)];
@@ -258,7 +258,10 @@ test("all 16 concepts provide one same-tab return to Networks & Nodes", () => {
     path.join(templatesRoot, "template-gallery", "studio-return.js"),
     "utf8",
   );
-  assert.match(returnScript, /\.nn-studio-return:focus-visible/);
+  assert.match(returnScript, /Networks & Nodes home/);
+  assert.match(returnScript, /← Back to template gallery/);
+  assert.match(returnScript, /https:\/\/www\.networksandnodes\.org\/templates\//);
+  assert.match(returnScript, /\.nn-template-return__link:focus-visible/);
   assert.match(returnScript, /@media \(max-width: 560px\)/);
   assert.match(returnScript, /min-height: 44px/);
 });
@@ -269,6 +272,13 @@ test("every concept page is excluded from search and clearly returns to the stud
   ));
 
   assert.equal(conceptHtmlFiles.length, 55, "the indexing policy must cover every concept HTML page");
+
+  const returnScript = fs.readFileSync(
+    path.join(templatesRoot, "template-gallery", "studio-return.js"),
+    "utf8",
+  );
+  assert.match(returnScript, /existingReturn\.replaceWith\(returnNav\)/);
+  assert.match(returnScript, /returnNav\.append\(existingReturn, galleryReturn\)/);
 
   for (const htmlFile of conceptHtmlFiles) {
     const html = fs.readFileSync(htmlFile, "utf8");
