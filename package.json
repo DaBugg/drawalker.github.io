@@ -24,6 +24,8 @@
   },
   "homepage": "https://github.com/DaBugg/drawalker.github.io#readme",
   "dependencies": {
+    "@google/model-viewer": "^4.3.1",
+    "@mux/mux-player": "^3.13.2",
     "@vercel/analytics": "^1.5.0",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
