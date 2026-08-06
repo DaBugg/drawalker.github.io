@@ -16,15 +16,8 @@
   object-fit: cover;
 }
 
-.preview.aeron-shot > img,
-.preview.sitepilot-shot > img,
-.preview.gatekeeper-shot > img,
-.preview.lgpr-shot > img {
+.preview.sitepilot-shot > img {
   object-position: center;
-}
-
-.preview.rapidroot-shot > img {
-  object-position: top center;
 }
 
 .library-status {
