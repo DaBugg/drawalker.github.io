@@ -13,7 +13,8 @@ Audit date: 2026-08-03
 - Business problem: the website, customer communication, dispatch activity, and reporting needed to operate as a connected journey instead of separate touchpoints.
 - Networks & Nodes work represented in this repository: website experience, dispatch workflow, reporting, and customer communication treated as one connected operating system.
 - Supported capability count: four named touchpoints: website, customer communication, dispatch, and reporting.
-- Verified outcome language: “Approximately 10 hours per week in reported manual dispatch work reduced.”
+- Approved public outcome language: “Reported manual dispatch work reduced through a connected operating workflow.”
+- The earlier numerical estimate is intentionally not approved for publication without a retained measurement record and client approval.
 - Public status: the client website returned HTTP 200 during this audit.
 
 ### Sources
@@ -26,7 +27,7 @@ Audit date: 2026-08-03
 ### Do not claim yet
 
 - Revenue, lead, conversion, traffic, or financial impact.
-- A stronger dispatch metric without supporting records and client approval.
+- A numerical or stronger dispatch metric without supporting records and client approval.
 - A project timeline or launch date.
 
 ## CodeLink

@@ -1,17 +1,25 @@
-# Industry landing page concept library
+# Website template library
 
-Eight redesigned fictional industry concepts plus an editorial gallery. Each site now uses a distinct buying journey, hero archetype, content hierarchy, visual system, and interaction.
+The editorial gallery includes every website entry point in this folder. The collection spans industry concepts, service businesses, consumer brands, product demonstrations, and multi-page website demos.
 
-## Concepts
+## Websites
 
-- `forgeworks-industrial` — technical manufacturing procurement and RFQ
+- `SL-Web-Demo` — commercial plumbing contractor website
+- `advertising Agency Demo` — hospitality, culinary, and lifestyle PR agency
 - `apexline-commercial` — commercial project lifecycle and bid invitation
+- `coffee-shop` — neighborhood coffee shop, menu, and retail experience
+- `construction` — owner-focused South Florida construction management
+- `drone-demo` — modular autonomous aerial systems product site
+- `finance` — personal and business credit platform
+- `fleetaxis-logistics` — route builder and shipment control tower
+- `forgeworks-industrial` — technical manufacturing procurement and RFQ
 - `harborline-development` — editorial real estate portfolio and investor overview
+- `lead-gen-demo` — qualified-consultation and booking funnel
 - `meridian-advisory` — senior-led advisory and decision framework
 - `rapidroot-home-services` — local service selection, ZIP check, and booking
-- `palm-coast-specialty-clinic` — patient condition pathways and evaluation access
-- `fleetaxis-logistics` — route builder and shipment control tower
 - `sitepilot-operations` — role-based field operations product demonstration
+- `stretch-consierge/stretch-concierge-site` — assisted stretch and mobility practice
+- `travel` — small-group travel field guide and trip finder
 - `template-gallery` — asymmetric concept library with filters and list view
 
 ## Review locally

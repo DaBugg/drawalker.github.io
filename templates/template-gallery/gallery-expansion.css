@@ -1,0 +1,449 @@
+.intro strong {
+  color: var(--orange);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.library-status {
+  margin: 0.65rem 0 0;
+  color: #6f6f68;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.plumbing {
+  background: #071f33;
+  color: #fff;
+  padding: 9%;
+}
+
+.plumbing::after {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(#ffffff12 1px, transparent 1px), linear-gradient(90deg, #ffffff12 1px, transparent 1px);
+  background-size: 34px 34px;
+  content: "";
+}
+
+.plumbing > * {
+  position: relative;
+  z-index: 1;
+}
+
+.plumbing b {
+  display: block;
+  color: #f5a623;
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  letter-spacing: -0.08em;
+  line-height: 0.8;
+}
+
+.plumbing span {
+  position: absolute;
+  right: 8%;
+  bottom: 16%;
+  max-width: 65%;
+  font-size: clamp(1.15rem, 2.4vw, 2.4rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.plumbing i {
+  position: absolute;
+  right: 8%;
+  bottom: 7%;
+  color: #a9bed0;
+  font-size: 0.58rem;
+  font-style: normal;
+  letter-spacing: 0.12em;
+}
+
+.lgpr {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #f55b43;
+  color: #1b1715;
+  padding: 8%;
+}
+
+.lgpr span,
+.lgpr i {
+  font-size: 0.58rem;
+  font-style: normal;
+  letter-spacing: 0.12em;
+}
+
+.lgpr b {
+  max-width: 92%;
+  font: 400 clamp(2rem, 4.2vw, 4.3rem)/0.9 var(--serif);
+}
+
+.lgpr em {
+  color: #fff8e7;
+  font-weight: 400;
+}
+
+.coffee {
+  background: #13120f;
+  color: #f6edd7;
+  padding: 6%;
+}
+
+.coffee::after {
+  position: absolute;
+  right: -3%;
+  bottom: -17%;
+  width: 58%;
+  aspect-ratio: 1;
+  border: 2px solid #b9ef67;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 28px #13120f, inset 0 0 0 30px #b9ef67;
+  content: "";
+}
+
+.coffee b {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(2.8rem, 6vw, 6rem);
+  letter-spacing: -0.07em;
+  line-height: 0.75;
+}
+
+.coffee span {
+  position: absolute;
+  top: 8%;
+  right: 7%;
+  color: #b9ef67;
+  font-size: 3rem;
+}
+
+.coffee i {
+  position: absolute;
+  left: 6%;
+  bottom: 7%;
+  color: #b9ef67;
+  font-size: 0.58rem;
+  font-style: normal;
+  letter-spacing: 0.14em;
+}
+
+.structure {
+  background: #f0ece2;
+  color: #15202a;
+  padding: 6%;
+}
+
+.structure::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 49.8%, #bd5b3428 50%, transparent 50.2%);
+  content: "";
+}
+
+.structure > span,
+.structure > em {
+  position: relative;
+  z-index: 1;
+  font-size: 0.58rem;
+  font-style: normal;
+  letter-spacing: 0.12em;
+}
+
+.structure > b {
+  position: relative;
+  z-index: 1;
+  display: block;
+  max-width: 78%;
+  margin-top: 12%;
+  font: 400 clamp(2.5rem, 5vw, 5.5rem)/0.92 var(--serif);
+}
+
+.structure > div {
+  position: absolute;
+  right: 7%;
+  bottom: 10%;
+  left: 7%;
+  z-index: 1;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.structure > div i {
+  display: block;
+  height: 6px;
+  background: #15202a;
+}
+
+.structure > div i:nth-child(2) { width: 82%; }
+.structure > div i:nth-child(3) { width: 61%; }
+.structure > div i:nth-child(4) { width: 91%; }
+
+.structure > em {
+  position: absolute;
+  top: 6%;
+  right: 6%;
+  color: #bd5b34;
+}
+
+.aeron {
+  background: #0d1215 url("../drone-demo/aeron-drone-hero.png") center 45% / 120% auto no-repeat;
+  color: #fff;
+  padding: 7%;
+}
+
+.aeron::before {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #071012b8, transparent 48%, #071012e8), linear-gradient(90deg, #071012a8, transparent);
+  content: "";
+}
+
+.aeron > * {
+  position: relative;
+  z-index: 1;
+}
+
+.aeron b {
+  display: block;
+  color: #ff6a2a;
+  font-size: 1rem;
+  letter-spacing: 0.3em;
+}
+
+.aeron span {
+  position: absolute;
+  top: 19%;
+  left: 7%;
+  max-width: 75%;
+  font-size: clamp(1.7rem, 3vw, 3rem);
+  font-weight: 600;
+  line-height: 0.95;
+}
+
+.aeron i {
+  position: absolute;
+  right: 7%;
+  bottom: 6%;
+  color: #ff8a54;
+  font-size: 0.6rem;
+  font-style: normal;
+  letter-spacing: 0.13em;
+}
+
+.northstar {
+  background: #071c3c;
+  color: #f4f7fb;
+  padding: 8%;
+}
+
+.northstar::after {
+  position: absolute;
+  right: -24%;
+  bottom: -22%;
+  width: 85%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, #a9deff, #2469aa 45%, #071c3c 72%);
+  content: "";
+}
+
+.northstar span,
+.northstar i,
+.northstar b {
+  position: relative;
+  z-index: 1;
+}
+
+.northstar span,
+.northstar i {
+  font-size: 0.56rem;
+  font-style: normal;
+  letter-spacing: 0.12em;
+}
+
+.northstar b {
+  display: block;
+  margin-top: 28%;
+  font: 400 clamp(2.3rem, 4.5vw, 4.5rem)/0.9 var(--serif);
+}
+
+.northstar i {
+  position: absolute;
+  left: 8%;
+  bottom: 7%;
+  color: #a9deff;
+}
+
+.gatekeeper {
+  background: #081b36;
+  color: #f5f8ff;
+  padding: 6%;
+}
+
+.gatekeeper::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 38%;
+  height: 100%;
+  background: repeating-linear-gradient(135deg, #ff7648, #ff7648 2px, transparent 2px, transparent 22px);
+  opacity: 0.26;
+  content: "";
+}
+
+.gatekeeper > * {
+  position: relative;
+  z-index: 1;
+}
+
+.gatekeeper span {
+  color: #ff7648;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+}
+
+.gatekeeper b {
+  display: block;
+  max-width: 70%;
+  margin-top: 10%;
+  font: 400 clamp(2.7rem, 5vw, 5.4rem)/0.9 var(--serif);
+}
+
+.gatekeeper i {
+  position: absolute;
+  left: 6%;
+  bottom: 8%;
+  background: #ff7648;
+  color: #081b36;
+  padding: 0.8rem 1rem;
+  font-size: 0.58rem;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.coastal {
+  background: #d7ebe7;
+  color: #123044;
+  padding: 6%;
+}
+
+.coastal::after {
+  position: absolute;
+  right: 8%;
+  bottom: 12%;
+  width: 36%;
+  aspect-ratio: 0.8;
+  border-radius: 50% 50% 42% 42%;
+  background: #c89970;
+  box-shadow: 52px 38px 0 -10px #123044;
+  content: "";
+}
+
+.coastal > * {
+  position: relative;
+  z-index: 1;
+}
+
+.coastal span,
+.coastal i {
+  font-size: 0.58rem;
+  font-style: normal;
+  letter-spacing: 0.12em;
+}
+
+.coastal b {
+  display: block;
+  max-width: 70%;
+  margin-top: 13%;
+  font: 600 clamp(3rem, 6vw, 6.5rem)/0.85 var(--sans);
+  letter-spacing: -0.07em;
+}
+
+.coastal i {
+  position: absolute;
+  left: 6%;
+  bottom: 9%;
+}
+
+.coastal em {
+  position: absolute;
+  right: 6%;
+  top: 6%;
+  background: #123044;
+  color: #fff;
+  padding: 0.75rem;
+  font-size: 0.55rem;
+  font-style: normal;
+}
+
+.offmap {
+  background: linear-gradient(165deg, #e8a95c 0 44%, #315d62 44% 70%, #122b32 70%);
+  color: #fffaf0;
+  padding: 7%;
+}
+
+.offmap::after {
+  position: absolute;
+  top: 25%;
+  right: -18%;
+  width: 88%;
+  aspect-ratio: 1;
+  border: 2px solid #fffaf0aa;
+  border-radius: 46% 54% 38% 62%;
+  content: "";
+  transform: rotate(-16deg);
+}
+
+.offmap > * {
+  position: relative;
+  z-index: 1;
+}
+
+.offmap span,
+.offmap i,
+.offmap em {
+  font-size: 0.58rem;
+  font-style: normal;
+  letter-spacing: 0.12em;
+}
+
+.offmap b {
+  display: block;
+  margin-top: 30%;
+  font: 400 clamp(2.8rem, 5.5vw, 5.8rem)/0.85 var(--serif);
+}
+
+.offmap i {
+  position: absolute;
+  left: 7%;
+  bottom: 7%;
+}
+
+.offmap em {
+  position: absolute;
+  right: 7%;
+  bottom: 7%;
+  background: #fffaf0;
+  color: #122b32;
+  padding: 0.75rem;
+}
+
+@media (max-width: 600px) {
+  .library-status {
+    margin-bottom: 0;
+  }
+
+  .plumbing span,
+  .gatekeeper b,
+  .coastal b {
+    max-width: 82%;
+  }
+
+  .coffee::after {
+    width: 78%;
+  }
+}
