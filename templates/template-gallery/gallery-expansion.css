@@ -447,27 +447,3 @@
     width: 78%;
   }
 }
-
-/* Keep the original gallery composition; screenshots simply cover its preview boxes. */
-.image-preview {
-  padding: 0;
-  background: #111;
-}
-
-.image-preview::before,
-.image-preview::after {
-  display: none;
-}
-
-.image-preview > .concept-preview-image {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.image-preview.rapid .concept-preview-image { object-position: center 16%; }

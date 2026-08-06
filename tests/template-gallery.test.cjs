@@ -28,6 +28,25 @@ const expectedLibraryOrder = [
   "meridian",
 ];
 
+const expectedOriginalOrder = [
+  "forgeworks",
+  "apexline",
+  "harborline",
+  "meridian",
+  "rapidroot",
+  "fleetaxis",
+  "sitepilot",
+  "sl-plumbing",
+  "lgpr",
+  "daily-pour",
+  "structure-house",
+  "aeron",
+  "northstar-credit",
+  "gatekeeper",
+  "coastal-stretch",
+  "off-map-club",
+];
+
 const conceptIndexFiles = [
   "drone-demo/index.html",
   "finance/index.html",
@@ -70,6 +89,13 @@ function readConcepts() {
   const script = fs.readFileSync(galleryScriptPath, "utf8");
   const match = script.match(/const concepts = (\[[\s\S]*?\n  \]);/);
   assert.ok(match, "gallery script must expose one canonical concepts array");
+  return JSON.parse(JSON.stringify(vm.runInNewContext(`(${match[1]})`)));
+}
+
+function readOriginalOrder() {
+  const script = fs.readFileSync(galleryScriptPath, "utf8");
+  const match = script.match(/const originalOrder = (\[[\s\S]*?\n  \]);/);
+  assert.ok(match, "gallery script must expose the restored original order");
   return JSON.parse(JSON.stringify(vm.runInNewContext(`(${match[1]})`)));
 }
 
@@ -135,27 +161,10 @@ test("the template gallery links every template website exactly once", () => {
   assert.deepEqual(cardTargets.sort(), collectTemplateEntries(templatesRoot).sort());
 });
 
-test("the canonical collection controls the specified library and featured order", () => {
+test("the gallery restores its original library and featured order", () => {
   const galleryHtml = fs.readFileSync(path.join(galleryRoot, "index.html"), "utf8");
   const galleryScript = fs.readFileSync(galleryScriptPath, "utf8");
-  const concepts = readConcepts();
-  const library = [...concepts].sort((a, b) => a.libraryRank - b.libraryRank);
-  const featured = concepts
-    .filter((concept) => concept.featuredRank !== null)
-    .sort((a, b) => a.featuredRank - b.featuredRank);
-
-  assert.equal(concepts.length, 16);
-  assert.deepEqual(library.slice(0, 5).map((concept) => concept.id), expectedLibraryOrder.slice(0, 5));
-  assert.deepEqual(
-    new Set(library.slice(5).map((concept) => concept.id)),
-    new Set(expectedLibraryOrder.slice(5)),
-  );
-  assert.deepEqual(featured.map((concept) => concept.id), expectedLibraryOrder.slice(0, 5));
-  assert.equal(new Set(concepts.map((concept) => concept.id)).size, 16);
-  assert.equal(new Set(concepts.map((concept) => concept.href)).size, 16);
-  assert.equal(new Set(concepts.map((concept) => concept.libraryRank)).size, 16);
-  assert.equal(new Set(featured.map((concept) => concept.featuredRank)).size, 5);
-  assert.ok(featured.every((concept) => concept.featured));
+  assert.deepEqual(readOriginalOrder(), expectedOriginalOrder);
 
   const cards = [...galleryHtml.matchAll(
     /<article class="concept[^"]*" data-concept-id="([^"]+)" data-category="([^"]+)">\s*<a href="([^"]+)" target="_blank" rel="noopener noreferrer">/g,
@@ -163,76 +172,52 @@ test("the canonical collection controls the specified library and featured order
   assert.equal(cards.length, 16, "every library card must have a stable ID and safe new-tab link");
   assert.deepEqual(cards.map((match) => match[1]), expectedLibraryOrder);
 
-  const cardById = new Map(cards.map((match) => [match[1], match]));
-  for (const concept of concepts) {
-    const card = cardById.get(concept.id);
-    assert.ok(card, `missing gallery card for ${concept.id}`);
-    assert.equal(card[3], concept.href);
-    assert.deepEqual(card[2].split(" ").sort(), [...concept.categories].sort());
-  }
-
-  assert.match(galleryScript, /const library = \[\.\.\.concepts\]\.sort/);
-  assert.match(galleryScript, /\.filter\(\(concept\) => concept\.featuredRank !== null\)/);
+  assert.match(galleryScript, /SitePilot Operations/);
+  assert.match(galleryScript, /Forgeworks Industrial/);
+  assert.match(galleryScript, /FleetAxis Logistics/);
+  assert.match(galleryScript, /RapidRoot Home Services/);
   assert.match(galleryScript, /featuredIndex = \(featuredIndex \+ featured\.length - 1\) % featured\.length/);
   assert.match(galleryScript, /featuredIndex = \(featuredIndex \+ 1\) % featured\.length/);
-  assert.match(galleryHtml, /data-feature-title>AERON<\/h2>/);
-  assert.match(galleryHtml, /data-feature-link href="\/templates\/drone-demo\/" target="_blank" rel="noopener noreferrer"/);
+  assert.match(galleryHtml, /data-feature-title>SitePilot Operations<\/h2>/);
+  assert.match(galleryHtml, /data-feature-link href="\/templates\/sitepilot-operations\/"/);
 });
 
-test("featured concepts use local, dimensioned project imagery", () => {
-  const concepts = readConcepts();
-  const featured = concepts.filter((concept) => concept.featuredRank !== null);
-
-  for (const concept of featured) {
-    const preview = concept.featured;
-    assert.match(preview.imageSrc, /^\/(?:templates|images)\//);
-    assert.ok(Number.isInteger(preview.imageWidth) && preview.imageWidth > 0);
-    assert.ok(Number.isInteger(preview.imageHeight) && preview.imageHeight > 0);
-    const assetPath = path.join(repositoryRoot, decodeURIComponent(preview.imageSrc.slice(1)));
-    assert.ok(fs.existsSync(assetPath), `missing featured asset: ${preview.imageSrc}`);
-  }
-});
-
-test("matching land artwork replaces the gallery thumbnail treatments", () => {
+test("the restored featured rotation uses the original visual treatments", () => {
   const galleryHtml = fs.readFileSync(path.join(galleryRoot, "index.html"), "utf8");
   const galleryScript = fs.readFileSync(galleryScriptPath, "utf8");
-  const artwork = [
-    "aeron-land.png",
-    "dailypour-land.png",
-    "gatkeeper-land.png",
-    "lgpr-land.png",
-    "rapidroot-land.png",
-    "sitepilot-land.png",
-  ];
-
-  for (const filename of artwork) {
-    assert.match(galleryHtml, new RegExp(`/images/${filename.replace(".", "\\.")}`));
-    assert.ok(fs.existsSync(path.join(repositoryRoot, "images", filename)));
-  }
-
-  const packageJson = JSON.parse(fs.readFileSync(path.join(repositoryRoot, "package.json"), "utf8"));
-  assert.match(packageJson.scripts.build, /images\/\*-land\.png/);
-
-  assert.doesNotMatch(galleryHtml, /mux-player|@mux\/mux-player/);
-  assert.doesNotMatch(galleryScript, /playbackId|data-feature-video|data-aeron-card-player/);
-  assert.match(galleryScript, /imageSrc: "\/images\/aeron-land\.png"/);
-  assert.match(galleryScript, /imageSrc: "\/images\/lgpr-land\.png"/);
+  assert.match(galleryHtml, /<div class="featured-preview sitepilot">/);
+  assert.match(galleryScript, /"sitepilot"/);
+  assert.match(galleryScript, /"forge-feature"/);
+  assert.match(galleryScript, /"fleet-feature"/);
+  assert.match(galleryScript, /"rapid-feature"/);
 });
 
-test("the original gallery composition uses cover-filled image containers", () => {
+test("the gallery uses its original designed thumbnail treatments", () => {
+  const galleryHtml = fs.readFileSync(path.join(galleryRoot, "index.html"), "utf8");
+  const galleryScript = fs.readFileSync(galleryScriptPath, "utf8");
+  const galleryStyles = fs.readFileSync(path.join(templatesRoot, "template-gallery", "gallery-expansion.css"), "utf8");
+  assert.doesNotMatch(galleryHtml, /\/images\/[^"']+-land\.png/);
+  assert.doesNotMatch(galleryHtml, /mux-player|@mux\/mux-player/);
+  assert.doesNotMatch(galleryScript, /playbackId|data-feature-video|data-aeron-card-player|imageSrc/);
+  assert.match(galleryHtml, /<div class="preview aeron">[\s\S]*BUILD FOR THE MISSION/);
+  assert.match(galleryHtml, /<div class="preview lgpr">[\s\S]*attention/);
+  assert.match(galleryStyles, /\.aeron \{/);
+  assert.match(galleryStyles, /\.lgpr \{/);
+  assert.match(galleryStyles, /\.coffee \{/);
+});
+
+test("the original gallery composition keeps its mixed card sizes", () => {
   const galleryHtml = fs.readFileSync(path.join(galleryRoot, "index.html"), "utf8");
   const galleryStyles = fs.readFileSync(
     path.join(templatesRoot, "template-gallery", "gallery-expansion.css"),
     "utf8",
   );
   const galleryScript = fs.readFileSync(galleryScriptPath, "utf8");
-  const sourceOrder = [...galleryHtml.matchAll(/data-concept-id="([^"]+)"/g)].map((match) => match[1]);
-
-  assert.deepEqual(sourceOrder.slice(0, 5), expectedLibraryOrder.slice(0, 5));
+  assert.deepEqual(readOriginalOrder(), expectedOriginalOrder);
   assert.match(galleryHtml, /class="concept wide"/);
   assert.match(galleryHtml, /class="concept large"/);
   assert.match(galleryHtml, /class="concept tall"/);
-  assert.match(galleryStyles, /\.image-preview > \.concept-preview-image[\s\S]*object-fit: cover/);
+  assert.doesNotMatch(galleryHtml, /class="concept-preview-image"|class="preview image-preview/);
   assert.doesNotMatch(galleryStyles, /grid-auto-flow: dense|--concept-span|--preview-ratio/);
   assert.doesNotMatch(galleryScript, /layoutMasonry|gridRowEnd/);
 });
@@ -339,7 +324,6 @@ test("the template gallery is the canonical search-facing library", () => {
   const galleryHtml = fs.readFileSync(path.join(galleryRoot, "index.html"), "utf8");
   const homepageHtml = fs.readFileSync(path.join(repositoryRoot, "index.html"), "utf8");
   const sitemap = fs.readFileSync(path.join(repositoryRoot, "sitemap.xml"), "utf8");
-  const concepts = readConcepts();
   const jsonLdMatch = galleryHtml.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
 
   assert.match(galleryHtml, /<link rel="canonical" href="https:\/\/www\.networksandnodes\.org\/templates\/">/);
@@ -360,12 +344,9 @@ test("the template gallery is the canonical search-facing library", () => {
   assert.equal(itemList.numberOfItems, 16);
   assert.deepEqual(
     itemList.itemListElement.map((entry) => entry.position),
-    concepts.map((concept) => concept.libraryRank),
+    Array.from({ length: 16 }, (_, index) => index + 1),
   );
-  assert.deepEqual(
-    itemList.itemListElement.map((entry) => entry.name),
-    concepts.map((concept) => concept.title),
-  );
+  assert.equal(new Set(itemList.itemListElement.map((entry) => entry.url)).size, 16);
 
   assert.ok((homepageHtml.match(/href="\/templates\/"/g) || []).length >= 4);
   assert.match(homepageHtml, />Website concepts<\/a>/);

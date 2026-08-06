@@ -30,6 +30,8 @@ Serve this directory with any static web server, then open `template-gallery/ind
 
 The `/templates/` gallery is the canonical, indexable portfolio collection. It is included in the root sitemap and links to every demonstration in curated order.
 
+`TEMPLATES-PAGE-AGENT-SCHEMA.md` is the implementation contract for ranking, the canonical concept schema, new-tab gallery behavior, return navigation, SEO wording, indexing, structured data, and verification.
+
 All individual concept pages—including secondary pages—remain `noindex, nofollow`. They are excluded from the sitemap and must visibly identify themselves as website demonstrations. All companies, people, projects, metrics, ratings, availability, coverage, and product capabilities are illustrative until replaced and verified. Fictional entity, service, review, rating, product, and FAQ structured data must not be published. See each folder's `REDESIGN-NOTES.md` and `SEO-README.md`, plus `REDESIGN-SUMMARY.md` at the collection root.
 
 ## Phase 5 SEO
