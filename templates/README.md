@@ -26,9 +26,11 @@ The editorial gallery includes every website entry point in this folder. The col
 
 Serve this directory with any static web server, then open `template-gallery/index.html`. Direct file opening also works.
 
-## Fictional-content and SEO default
+## Search-facing gallery and fictional-content default
 
-The industry concepts remain `noindex, nofollow`. All companies, people, projects, metrics, ratings, availability, coverage, and product capabilities are illustrative until replaced and verified. See each folder's `REDESIGN-NOTES.md` and `SEO-README.md`, plus `REDESIGN-SUMMARY.md` at the collection root.
+The `/templates/` gallery is the canonical, indexable portfolio collection. It is included in the root sitemap and links to every demonstration in curated order.
+
+All individual concept pages—including secondary pages—remain `noindex, nofollow`. They are excluded from the sitemap and must visibly identify themselves as website demonstrations. All companies, people, projects, metrics, ratings, availability, coverage, and product capabilities are illustrative until replaced and verified. Fictional entity, service, review, rating, product, and FAQ structured data must not be published. See each folder's `REDESIGN-NOTES.md` and `SEO-README.md`, plus `REDESIGN-SUMMARY.md` at the collection root.
 
 ## Phase 5 SEO
 
