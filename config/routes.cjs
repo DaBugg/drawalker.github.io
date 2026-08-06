@@ -32,6 +32,14 @@ const routes = [
     sitemap: false,
   },
   {
+    id: "aeronCaseStudy",
+    sourcePath: "work/aeron/index.html",
+    publicPath: "/work/aeron/",
+    indexable: true,
+    canonicalIntent: "self",
+    sitemap: true,
+  },
+  {
     id: "transportationCaseStudy",
     sourcePath: "work/transportation-solutions-lighting.html",
     publicPath: "/work/transportation-solutions-lighting.html",
