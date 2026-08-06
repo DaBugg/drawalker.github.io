@@ -168,6 +168,33 @@
     .filter(Boolean);
   const filters = [...document.querySelectorAll("[data-filter]")];
   const status = document.querySelector("[data-library-status]");
+  let layoutFrame;
+
+  function layoutMasonry() {
+    cancelAnimationFrame(layoutFrame);
+    layoutFrame = requestAnimationFrame(() => {
+      if (grid.classList.contains("list")) {
+        cards.forEach((card) => { card.style.gridRowEnd = ""; });
+        return;
+      }
+
+      const gridStyles = getComputedStyle(grid);
+      const rowHeight = Number.parseFloat(gridStyles.gridAutoRows);
+      const rowGap = Number.parseFloat(gridStyles.rowGap);
+
+      cards.forEach((card) => {
+        if (card.classList.contains("hidden")) {
+          card.style.gridRowEnd = "";
+          return;
+        }
+
+        card.style.gridRowEnd = "auto";
+        const cardHeight = card.getBoundingClientRect().height;
+        const rowSpan = Math.ceil((cardHeight + rowGap) / (rowHeight + rowGap));
+        card.style.gridRowEnd = `span ${rowSpan}`;
+      });
+    });
+  }
 
   document.querySelectorAll("[data-concept-count]").forEach((element) => {
     element.textContent = String(cards.length).padStart(2, "0");
@@ -193,6 +220,7 @@
       status.textContent = button.dataset.filter === "all"
         ? `Showing all ${cards.length} concepts`
         : `Showing ${visibleCount} ${button.textContent.trim().toLowerCase()} concepts`;
+      layoutMasonry();
     });
   });
 
@@ -203,7 +231,11 @@
     const list = grid.classList.toggle("list");
     view.setAttribute("aria-pressed", String(list));
     view.textContent = list ? "Grid view" : "List view";
+    layoutMasonry();
   });
 
   renderFeatured();
+  layoutMasonry();
+  window.addEventListener("resize", layoutMasonry, { passive: true });
+  document.fonts?.ready.then(layoutMasonry);
 })();

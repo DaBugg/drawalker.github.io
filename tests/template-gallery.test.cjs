@@ -116,7 +116,11 @@ test("the canonical collection controls the specified library and featured order
     .sort((a, b) => a.featuredRank - b.featuredRank);
 
   assert.equal(concepts.length, 16);
-  assert.deepEqual(library.map((concept) => concept.id), expectedLibraryOrder);
+  assert.deepEqual(library.slice(0, 5).map((concept) => concept.id), expectedLibraryOrder.slice(0, 5));
+  assert.deepEqual(
+    new Set(library.slice(5).map((concept) => concept.id)),
+    new Set(expectedLibraryOrder.slice(5)),
+  );
   assert.deepEqual(featured.map((concept) => concept.id), expectedLibraryOrder.slice(0, 5));
   assert.equal(new Set(concepts.map((concept) => concept.id)).size, 16);
   assert.equal(new Set(concepts.map((concept) => concept.href)).size, 16);
@@ -186,20 +190,22 @@ test("matching land artwork replaces the gallery thumbnail treatments", () => {
   assert.match(galleryScript, /imageSrc: "\/images\/lgpr-land\.png"/);
 });
 
-test("the gallery pairs one wide and one tall concept without incomplete rows", () => {
+test("the five priority concepts lead an organically packed masonry gallery", () => {
   const galleryHtml = fs.readFileSync(path.join(galleryRoot, "index.html"), "utf8");
-  const cardClasses = [...galleryHtml.matchAll(
-    /<article class="concept (large|tall)" data-concept-id="([^"]+)"/g,
-  )];
+  const galleryStyles = fs.readFileSync(
+    path.join(templatesRoot, "template-gallery", "gallery-expansion.css"),
+    "utf8",
+  );
+  const galleryScript = fs.readFileSync(galleryScriptPath, "utf8");
+  const sourceOrder = [...galleryHtml.matchAll(/data-concept-id="([^"]+)"/g)].map((match) => match[1]);
 
-  assert.equal(cardClasses.length, 16);
-  for (let index = 0; index < cardClasses.length; index += 2) {
-    assert.deepEqual(
-      new Set([cardClasses[index][1], cardClasses[index + 1][1]]),
-      new Set(["large", "tall"]),
-      `gallery pair ${index / 2 + 1} must contain one wide and one tall concept`,
-    );
-  }
+  assert.deepEqual(sourceOrder.slice(0, 5), expectedLibraryOrder.slice(0, 5));
+  assert.match(galleryStyles, /grid-auto-flow: dense/);
+  assert.match(galleryStyles, /--concept-span: 8/);
+  assert.match(galleryStyles, /--concept-span: 4/);
+  assert.match(galleryStyles, /aspect-ratio: var\(--preview-ratio/);
+  assert.match(galleryScript, /function layoutMasonry\(\)/);
+  assert.match(galleryScript, /card\.style\.gridRowEnd = `span \$\{rowSpan\}`/);
 });
 
 test("all 16 concepts provide one same-tab return to Networks & Nodes", () => {
