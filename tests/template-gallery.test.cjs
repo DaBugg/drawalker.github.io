@@ -47,6 +47,25 @@ const conceptIndexFiles = [
   "meridian-advisory/index.html",
 ];
 
+const conceptRoots = [
+  "SL-Web-Demo",
+  "advertising Agency Demo",
+  "apexline-commercial",
+  "coffee-shop",
+  "construction",
+  "drone-demo",
+  "finance",
+  "fleetaxis-logistics",
+  "forgeworks-industrial",
+  "harborline-development",
+  "lead-gen-demo",
+  "meridian-advisory",
+  "rapidroot-home-services",
+  "sitepilot-operations",
+  "stretch-consierge/stretch-concierge-site",
+  "travel",
+];
+
 function readConcepts() {
   const script = fs.readFileSync(galleryScriptPath, "utf8");
   const match = script.match(/const concepts = (\[[\s\S]*?\n  \]);/);
@@ -66,6 +85,16 @@ function collectTemplateEntries(directory, entries = []) {
     }
   }
 
+  return entries;
+}
+
+function collectHtmlFiles(directory, entries = []) {
+  for (const item of fs.readdirSync(directory, { withFileTypes: true })) {
+    if (item.name === "node_modules") continue;
+    const itemPath = path.join(directory, item.name);
+    if (item.isDirectory()) collectHtmlFiles(itemPath, entries);
+    else if (item.name.endsWith(".html")) entries.push(itemPath);
+  }
   return entries;
 }
 
@@ -232,6 +261,40 @@ test("all 16 concepts provide one same-tab return to Networks & Nodes", () => {
   assert.match(returnScript, /min-height: 44px/);
 });
 
+test("every concept page is excluded from search and clearly returns to the studio", () => {
+  const conceptHtmlFiles = conceptRoots.flatMap((root) => (
+    collectHtmlFiles(path.join(templatesRoot, root))
+  ));
+
+  assert.equal(conceptHtmlFiles.length, 55, "the indexing policy must cover every concept HTML page");
+
+  for (const htmlFile of conceptHtmlFiles) {
+    const html = fs.readFileSync(htmlFile, "utf8");
+    const relativePath = path.relative(repositoryRoot, htmlFile);
+    assert.match(
+      html,
+      /<meta name="robots" content="noindex, nofollow, max-image-preview:large">/i,
+      `${relativePath} must keep demonstration content out of search`,
+    );
+    assert.doesNotMatch(
+      html,
+      /<script[^>]+type="application\/ld\+json"/i,
+      `${relativePath} must not publish fictional entity or proof schema`,
+    );
+    assert.equal(
+      (html.match(/class="nn-studio-return"/g) || []).length,
+      1,
+      `${relativePath} must contain exactly one studio return`,
+    );
+    assert.match(html, /Website demonstration by Networks &amp; Nodes/);
+    assert.equal(
+      (html.match(/\/templates\/template-gallery\/studio-return\.js/g) || []).length,
+      1,
+      `${relativePath} must load the shared return treatment exactly once`,
+    );
+  }
+});
+
 test("gallery and concept entry pages have no missing local links or assets", () => {
   const htmlFiles = ["index.html", ...conceptIndexFiles].map((relativePath) => (
     path.join(templatesRoot, relativePath)
@@ -274,9 +337,42 @@ test("gallery and concept entry pages have no missing local links or assets", ()
 
 test("the template gallery is the canonical search-facing library", () => {
   const galleryHtml = fs.readFileSync(path.join(galleryRoot, "index.html"), "utf8");
+  const homepageHtml = fs.readFileSync(path.join(repositoryRoot, "index.html"), "utf8");
+  const sitemap = fs.readFileSync(path.join(repositoryRoot, "sitemap.xml"), "utf8");
+  const concepts = readConcepts();
+  const jsonLdMatch = galleryHtml.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+
   assert.match(galleryHtml, /<link rel="canonical" href="https:\/\/www\.networksandnodes\.org\/templates\/">/);
   assert.doesNotMatch(galleryHtml, /<meta name="robots" content="noindex/i);
-  assert.match(galleryHtml, /website design concepts/i);
+  assert.match(galleryHtml, /<meta name="robots" content="index, follow, max-image-preview:large">/i);
+  assert.match(galleryHtml, /<title>Website Design Concepts by Industry \| Networks &amp; Nodes<\/title>/);
+  assert.match(galleryHtml, /Website concepts designed around how different customers buy\./);
+  assert.match(galleryHtml, /Browse website concepts by industry and buying context\./);
+
+  assert.ok(jsonLdMatch, "the gallery must provide CollectionPage and ItemList structured data");
+  const jsonLd = JSON.parse(jsonLdMatch[1]);
+  const collection = jsonLd["@graph"].find((entry) => entry["@type"] === "CollectionPage");
+  const itemList = jsonLd["@graph"].find((entry) => entry["@type"] === "ItemList");
+  const breadcrumb = jsonLd["@graph"].find((entry) => entry["@type"] === "BreadcrumbList");
+  assert.ok(collection);
+  assert.ok(itemList);
+  assert.ok(breadcrumb);
+  assert.equal(itemList.numberOfItems, 16);
+  assert.deepEqual(
+    itemList.itemListElement.map((entry) => entry.position),
+    concepts.map((concept) => concept.libraryRank),
+  );
+  assert.deepEqual(
+    itemList.itemListElement.map((entry) => entry.name),
+    concepts.map((concept) => concept.title),
+  );
+
+  assert.ok((homepageHtml.match(/href="\/templates\/"/g) || []).length >= 4);
+  assert.match(homepageHtml, />Website concepts<\/a>/);
+  assert.match(homepageHtml, /Website Design Concept Library/);
+
+  assert.match(sitemap, /<loc>https:\/\/www\.networksandnodes\.org\/templates\/<\/loc>/);
+  assert.doesNotMatch(sitemap, /<loc>https:\/\/www\.networksandnodes\.org\/templates\/.+<\/loc>/);
 });
 
 test("the homepage promotes the gallery instead of Redeemed Hands", () => {
