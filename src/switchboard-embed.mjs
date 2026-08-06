@@ -40,6 +40,16 @@ export function initializeSwitchboardEmbed(options = {}) {
     )}px`;
   };
 
+  const completeRequest = (nextHeight) => {
+    if (!hasRequested) return;
+    clearLoadTimer();
+    shell.setAttribute('aria-busy', 'false');
+    placeholder.hidden = true;
+    frame.hidden = false;
+    status.hidden = true;
+    applyHeight(nextHeight);
+  };
+
   const requestExplorer = () => {
     if (hasRequested) return;
     const source = frame.dataset.src;
@@ -62,31 +72,17 @@ export function initializeSwitchboardEmbed(options = {}) {
     if (frame.hidden) return;
     if (event.origin !== windowImpl.location.origin) return;
     if (event.source !== frame.contentWindow) return;
-    if (event.data?.type !== 'networks-nodes-switchboard-height') return;
-    applyHeight(Number(event.data.height));
+    const messageType = event.data?.type;
+    if (
+      messageType !== 'networks-nodes-switchboard-ready' &&
+      messageType !== 'networks-nodes-switchboard-height'
+    ) return;
+    completeRequest(Number(event.data.height));
   });
 
   const handleFrameLoad = () => {
     if (!hasRequested) return;
-    const frameDocument = frame.contentDocument;
-    if (!frameDocument?.querySelector('#capability-network')) {
-      resetRequest('The interactive explorer could not be loaded. The service overview remains available.');
-      return;
-    }
-
-    clearLoadTimer();
-    shell.setAttribute('aria-busy', 'false');
-    placeholder.hidden = true;
-    frame.hidden = false;
-    status.hidden = true;
-
-    applyHeight(
-      Math.max(
-        frameDocument.body.scrollHeight,
-        frameDocument.documentElement.scrollHeight,
-      ),
-    );
-
+    completeRequest();
   };
 
   frame.addEventListener('load', handleFrameLoad);

@@ -13,6 +13,7 @@
     <script>
       if (window.self !== window.top) document.documentElement.classList.add("is-embedded");
     </script>
+    <script type="module" src="/src/model-viewer-loader.mjs"></script>
     <style>
       :root {
         color-scheme: dark;
@@ -4583,24 +4584,27 @@
         if (customElements.get("model-viewer")) return Promise.resolve();
         if (modelViewerPromise) return modelViewerPromise;
         modelViewerPromise = new Promise((resolve, reject) => {
-          const script = document.createElement("script");
           let settled = false;
           const finish = (callback, value) => {
             if (settled) return;
             settled = true;
             window.clearTimeout(timeout);
+            window.removeEventListener("networks-nodes-model-viewer-loader-ready", startLoader);
             callback(value);
+          };
+          const startLoader = () => {
+            const loadViewer = window.loadNetworksNodesModelViewer;
+            if (typeof loadViewer !== "function") return;
+            Promise.resolve(loadViewer())
+              .then(() => customElements.whenDefined("model-viewer"))
+              .then(() => finish(resolve))
+              .catch(() => finish(reject, new Error("The interactive 3D viewer could not be loaded.")));
           };
           const timeout = window.setTimeout(() => {
             finish(reject, new Error("The interactive 3D viewer timed out while loading."));
           }, 30000);
-          script.type = "module";
-          script.src = "https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js";
-          script.onload = () => {
-            customElements.whenDefined("model-viewer").then(() => finish(resolve));
-          };
-          script.onerror = () => finish(reject, new Error("The interactive 3D viewer could not be loaded."));
-          document.head.appendChild(script);
+          window.addEventListener("networks-nodes-model-viewer-loader-ready", startLoader);
+          startLoader();
         });
         modelViewerPromise.catch(() => {
           modelViewerPromise = null;
@@ -4992,23 +4996,31 @@
       resetProductButton.addEventListener("click", resetProductView);
       selectService("experience");
 
-      const reportSwitchboardHeight = () => {
+      const reportSwitchboardMessage = (type) => {
         window.parent.postMessage(
           {
-            type: "networks-nodes-switchboard-height",
+            type,
             height: document.documentElement.scrollHeight,
           },
           window.location.origin,
         );
       };
 
+      const reportSwitchboardHeight = () => {
+        reportSwitchboardMessage("networks-nodes-switchboard-height");
+      };
+
+      const reportSwitchboardReady = () => {
+        reportSwitchboardMessage("networks-nodes-switchboard-ready");
+      };
+
       if ("ResizeObserver" in window) {
         const switchboardResizeObserver = new ResizeObserver(reportSwitchboardHeight);
         switchboardResizeObserver.observe(document.body);
       }
-      window.addEventListener("load", reportSwitchboardHeight);
+      window.addEventListener("load", reportSwitchboardReady);
       window.addEventListener("resize", reportSwitchboardHeight);
-      reportSwitchboardHeight();
+      reportSwitchboardReady();
     </script>
   </body>
 </html>
