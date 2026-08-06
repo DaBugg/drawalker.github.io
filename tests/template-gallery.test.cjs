@@ -186,12 +186,21 @@ test("the gallery uses the requested library and featured order", () => {
 test("the featured rotation uses the requested five visual treatments", () => {
   const galleryHtml = fs.readFileSync(path.join(galleryRoot, "index.html"), "utf8");
   const galleryScript = fs.readFileSync(galleryScriptPath, "utf8");
+  const integrationStyles = fs.readFileSync(
+    path.join(templatesRoot, "template-gallery", "integration-pass.css"),
+    "utf8",
+  );
   assert.match(galleryHtml, /<div class="featured-preview daily-feature">/);
   assert.match(galleryScript, /"daily-feature"/);
   assert.match(galleryScript, /"fleet-feature"/);
   assert.match(galleryScript, /"offmap-feature"/);
   assert.match(galleryScript, /"aeron-feature"/);
   assert.match(galleryScript, /"northstar-feature"/);
+  assert.match(integrationStyles, /\/images\/dailypour-land\.png/);
+  assert.match(integrationStyles, /\/templates\/fleetaxis-logistics\/preview\.svg/);
+  assert.match(integrationStyles, /\/templates\/travel\/off-map-feature\.png/);
+  assert.match(integrationStyles, /\/templates\/drone-demo\/aeron-drone-hero\.png/);
+  assert.match(integrationStyles, /\/templates\/finance\/assets\/meadow-credit-recovery-clean\.webp/);
 });
 
 test("the gallery uses its original designed thumbnail treatments", () => {
