@@ -15,6 +15,9 @@
         heroType: "Mission telemetry + cinematic media",
         status: "Technical product site",
         previewKey: "aeron-feature",
+        mediaType: "mux",
+        playbackId: "01cjA3vR18XErYM3qnRDcE6L7rlOZCXcrcplLGdvz5nk",
+        poster: "https://image.mux.com/01cjA3vR18XErYM3qnRDcE6L7rlOZCXcrcplLGdvz5nk/thumbnail.webp?time=1&width=1600",
         imageSrc: "/templates/drone-demo/aeron-drone-hero.png",
         imageWidth: 780,
         imageHeight: 605,
@@ -114,6 +117,9 @@
     .filter((concept) => concept.featuredRank !== null)
     .sort((a, b) => a.featuredRank - b.featuredRank);
   const grid = document.querySelector("[data-grid]");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const featuredVideo = document.querySelector("[data-feature-video]");
+  const libraryVideo = document.querySelector("[data-aeron-card-player]");
 
   library.forEach((concept) => {
     const card = grid.querySelector(`[data-concept-id="${concept.id}"]`);
@@ -128,6 +134,25 @@
   });
 
   let featuredIndex = 0;
+
+  function setPlayback(player, shouldPlay) {
+    if (!player || typeof player.pause !== "function") return;
+    if (!shouldPlay || reducedMotion.matches) {
+      player.pause();
+      return;
+    }
+
+    const playRequest = player.play();
+    if (playRequest && typeof playRequest.catch === "function") {
+      playRequest.catch(() => {});
+    }
+  }
+
+  function updateAeronPlayback() {
+    const aeronCard = grid.querySelector('[data-concept-id="aeron"]');
+    setPlayback(featuredVideo, featured[featuredIndex].id === "aeron");
+    setPlayback(libraryVideo, aeronCard && !aeronCard.classList.contains("hidden"));
+  }
 
   function renderFeatured() {
     const concept = featured[featuredIndex];
@@ -144,13 +169,22 @@
     document.querySelector("[data-feature-status]").textContent = data.status;
 
     preview.className = `featured-preview ${data.previewKey}`;
-    image.src = data.imageSrc;
-    image.width = data.imageWidth;
-    image.height = data.imageHeight;
-    image.alt = "";
+    const usesMux = data.mediaType === "mux";
+    featuredVideo.hidden = !usesMux;
+    image.hidden = usesMux;
+    if (usesMux) {
+      featuredVideo.setAttribute("playback-id", data.playbackId);
+      featuredVideo.setAttribute("poster", data.poster);
+    } else {
+      image.src = data.imageSrc;
+      image.width = data.imageWidth;
+      image.height = data.imageHeight;
+      image.alt = "";
+    }
     link.href = concept.href;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
+    updateAeronPlayback();
   }
 
   document.querySelector("[data-feature=prev]").addEventListener("click", () => {
@@ -193,6 +227,7 @@
       status.textContent = button.dataset.filter === "all"
         ? `Showing all ${cards.length} concepts`
         : `Showing ${visibleCount} ${button.textContent.trim().toLowerCase()} concepts`;
+      updateAeronPlayback();
     });
   });
 
@@ -206,4 +241,6 @@
   });
 
   renderFeatured();
+  customElements.whenDefined("mux-player").then(updateAeronPlayback);
+  reducedMotion.addEventListener("change", updateAeronPlayback);
 })();

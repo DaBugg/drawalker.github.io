@@ -160,6 +160,23 @@ test("featured concepts use local, dimensioned project imagery", () => {
   }
 });
 
+test("AERON uses the supplied Mux demo in featured and library cards", () => {
+  const galleryHtml = fs.readFileSync(path.join(galleryRoot, "index.html"), "utf8");
+  const galleryScript = fs.readFileSync(galleryScriptPath, "utf8");
+  const playbackId = "01cjA3vR18XErYM3qnRDcE6L7rlOZCXcrcplLGdvz5nk";
+
+  assert.match(galleryHtml, /@mux\/mux-player@3\.13\.2/);
+  assert.match(galleryHtml, /<mux-player class="featured-aeron-player" data-feature-video/);
+  assert.match(
+    galleryHtml,
+    new RegExp(`<mux-player class="aeron-card-player"[^>]*playback-id="${playbackId}"`),
+  );
+  assert.match(galleryScript, new RegExp(`playbackId: "${playbackId}"`));
+  assert.match(galleryScript, /prefers-reduced-motion: reduce/);
+  assert.match(galleryScript, /setPlayback\(featuredVideo, featured\[featuredIndex\]\.id === "aeron"\)/);
+  assert.match(galleryScript, /setPlayback\(libraryVideo, aeronCard && !aeronCard\.classList\.contains\("hidden"\)\)/);
+});
+
 test("all 16 concepts provide one same-tab return to Networks & Nodes", () => {
   for (const relativePath of conceptIndexFiles) {
     const html = fs.readFileSync(path.join(templatesRoot, relativePath), "utf8");
