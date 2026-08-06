@@ -1,106 +1,16 @@
-(() => {
-  const body = document.body;
-  const menuButton = document.querySelector('[data-menu-toggle]');
-  const mobileMenu = document.querySelector('[data-mobile-menu]');
-
-  function setMenu(open) {
-    if (!menuButton || !mobileMenu) return;
-    menuButton.classList.toggle('is-open', open);
-    mobileMenu.classList.toggle('is-open', open);
-    menuButton.setAttribute('aria-expanded', String(open));
-    body.classList.toggle('menu-open', open);
-  }
-
-  menuButton?.addEventListener('click', () => {
-    setMenu(menuButton.getAttribute('aria-expanded') !== 'true');
-  });
-
-  mobileMenu?.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => setMenu(false));
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') setMenu(false);
-  });
-
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.16 });
-
-  document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
-
-  const wordObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) entry.target.classList.add('is-visible');
-    });
-  }, { threshold: 0.6, rootMargin: '0px 0px -18% 0px' });
-
-  document.querySelectorAll('.reveal-word').forEach((word) => wordObserver.observe(word));
-
-  document.querySelectorAll('.faq-question').forEach((button) => {
-    button.addEventListener('click', () => {
-      const item = button.closest('.faq-item');
-      const open = item.classList.toggle('is-open');
-      button.setAttribute('aria-expanded', String(open));
-    });
-  });
-
-  const form = document.querySelector('[data-lead-form]');
-  if (!form) return;
-
-  const status = form.querySelector('[data-form-status]');
-  const submitButton = form.querySelector('button[type="submit"]');
-
-  function showError(field, message) {
-    const error = form.querySelector(`[data-error-for="${field.name}"]`);
-    if (error) error.textContent = message;
-    field.setAttribute('aria-invalid', message ? 'true' : 'false');
-  }
-
-  function validateField(field) {
-    const value = field.value.trim();
-    let message = '';
-    if (field.required && !value) message = 'This field is required.';
-    if (!message && field.type === 'email' && !/^\S+@\S+\.\S+$/.test(value)) message = 'Enter a valid email address.';
-    showError(field, message);
-    return !message;
-  }
-
-  form.querySelectorAll('input, select, textarea').forEach((field) => {
-    field.addEventListener('blur', () => validateField(field));
-    field.addEventListener('input', () => {
-      if (field.getAttribute('aria-invalid') === 'true') validateField(field);
-    });
-  });
-
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const fields = [...form.querySelectorAll('input, select, textarea')].filter((field) => field.type !== 'hidden');
-    const valid = fields.every(validateField);
-    status.className = 'form-status';
-
-    if (!valid) {
-      status.textContent = 'Review the highlighted fields and try again.';
-      status.classList.add('error');
-      form.querySelector('[aria-invalid="true"]')?.focus();
-      return;
-    }
-
-    submitButton.disabled = true;
-    submitButton.textContent = 'Sending request';
-    status.textContent = 'Preparing your request.';
-
-    await new Promise((resolve) => setTimeout(resolve, 700));
-
-    form.reset();
-    submitButton.disabled = false;
-    submitButton.textContent = submitButton.dataset.defaultLabel;
-    status.textContent = 'Request received. This demo is ready to connect to a production form service.';
-    status.classList.add('success');
-  });
+(()=>{
+  const menu=document.querySelector('[data-menu]'),nav=document.querySelector('.site-header nav');menu?.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(open))});
+  const pause=document.querySelector('[data-pause]');pause?.addEventListener('click',()=>{const media=pause.closest('.hero-media'),paused=media.classList.toggle('paused');pause.setAttribute('aria-pressed',String(paused));pause.querySelector('i').className=`ph ph-${paused?'play':'pause'}`;pause.querySelector('span').textContent=paused?'Resume motion':'Pause motion'});
+  const phases={
+    precon:{number:'PHASE 01',title:'Price the buildable scope.',copy:'Budget, constructability, long-lead items, and schedule risk are surfaced while options still exist.',input:'Design documents + milestone schedule',output:'Scope narrative + risk log',src:'assets/media/phase-preconstruction.jpg',alt:'Preconstruction team reviewing mechanical plans and a milestone schedule beside an active commercial project'},
+    coord:{number:'PHASE 02',title:'Resolve it before the field.',copy:'Trade paths, access zones, elevations, sleeves, and equipment clearances become shared installation information.',input:'Federated model + field input',output:'Approved coordination zones',src:'assets/media/phase-coordination.jpg',alt:'MEP coordination team reviewing a detailed commercial building systems model'},
+    fab:{number:'PHASE 03',title:'Move repeatable work off site.',copy:'Assemblies are planned around transport, access, lifting, and the installation sequence.',input:'Approved spool drawings',output:'Labeled install-ready assemblies',src:'assets/media/phase-fabrication.jpg',alt:'Commercial prefabrication shop assembling labeled modular pipe racks'},
+    install:{number:'PHASE 04',title:'Run the plan with the crew.',copy:'Look-ahead planning connects material releases, inspections, access, and downstream constraints.',input:'Coordination package + releases',output:'Installed and tested systems',src:'assets/media/phase-installation.jpg',alt:'Commercial mechanical crew installing coordinated overhead piping from a protected lift'},
+    commission:{number:'PHASE 05',title:'Verify performance by system.',copy:'Testing, startup, correction, and owner requirements are tracked with the installed work.',input:'Completed systems + test plan',output:'Verified readiness records',src:'assets/media/phase-commissioning.jpg',alt:'Commissioning technician testing completed commercial mechanical equipment'},
+    close:{number:'PHASE 06',title:'Finish with usable records.',copy:'As-builts, test reports, O&M inputs, and turnover items are assembled throughout delivery.',input:'Field records + approvals',output:'Organized closeout package',src:'assets/media/phase-closeout.jpg',alt:'Project team assembling closeout documents and digital system records'}
+  };
+  const tabs=[...document.querySelectorAll('[data-phase]')],panel=document.getElementById('phase-panel'),image=document.querySelector('[data-phase-image]');
+  function selectPhase(button){const data=phases[button.dataset.phase];tabs.forEach(tab=>{const active=tab===button;tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1});panel.setAttribute('aria-labelledby',button.id);image.parentElement.classList.add('changing');setTimeout(()=>{image.src=data.src;image.alt=data.alt;image.parentElement.classList.remove('changing')},180);['number','title','copy','input','output'].forEach(key=>document.querySelector(`[data-phase-${key}]`).textContent=data[key])}
+  tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>selectPhase(tab));tab.addEventListener('keydown',event=>{if(!['ArrowDown','ArrowRight','ArrowUp','ArrowLeft','Home','End'].includes(event.key))return;event.preventDefault();let next=index;if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else next=(index+(['ArrowDown','ArrowRight'].includes(event.key)?1:-1)+tabs.length)%tabs.length;tabs[next].focus();selectPhase(tabs[next])})});
+  const form=document.querySelector('[data-form]');form?.addEventListener('submit',event=>{event.preventDefault();let valid=true;form.querySelectorAll('[required]').forEach(field=>{let message=field.value.trim()?'':'Required.';if(!message&&field.type==='email'&&!/^\S+@\S+\.\S+$/.test(field.value))message='Enter a valid email.';form.querySelector(`[data-error="${field.name}"]`).textContent=message;field.setAttribute('aria-invalid',String(Boolean(message)));valid=valid&&!message});const status=form.querySelector('.form-status');if(!valid){status.textContent='Review the highlighted fields.';form.querySelector('[aria-invalid="true"]')?.focus();return}status.textContent='Bid invitation captured for this demo. Connect a secure endpoint before launch.';form.reset()});
 })();

@@ -26,4 +26,4 @@ Before production launch:
 
 **Meta description:** Book a Palm Beach County home service visit for plumbing, cooling, electrical, drain, and water heater needs.
 
-**Layout recommendation:** Type A.
+**Layout:** Task-based booking interface. Search intent is organized around service issue, Palm Beach County availability, visit expectations, estimates, arrival windows, guarantees, and financing.

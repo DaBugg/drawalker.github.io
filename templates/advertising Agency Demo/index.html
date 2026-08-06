@@ -1,0 +1,1905 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="LGPR is a senior-led public relations agency for hospitality, culinary and lifestyle brands.">
+  <meta name="theme-color" content="#f1ede5">
+  <title>LGPR — Hospitality, Culinary & Lifestyle PR</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <style>
+:root {
+  --ink: #171612;
+  --paper: #f1ede5;
+  --ivory: #fbf9f4;
+  --sand: #d8cdbd;
+  --stone: #706b62;
+  --wine: #78343c;
+  --line: rgba(23, 22, 18, 0.17);
+  --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino,
+    Georgia, serif;
+  --sans: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 86px;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  border-radius: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.shell {
+  width: min(1320px, calc(100% - 64px));
+  margin-inline: auto;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.69rem;
+  font-weight: 700;
+  letter-spacing: 0.19em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--line);
+  background: rgba(241, 237, 229, 0.94);
+  backdrop-filter: blur(14px);
+}
+
+.nav-wrap {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  min-height: 82px;
+}
+
+.wordmark {
+  width: fit-content;
+  font-family: var(--serif);
+  font-size: 1.65rem;
+  letter-spacing: 0.06em;
+}
+
+.nav-links {
+  display: flex;
+  gap: clamp(1.25rem, 2.5vw, 2.6rem);
+}
+
+.nav-links a {
+  position: relative;
+  padding-block: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.nav-links a::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background: var(--ink);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 220ms ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.nav-cta {
+  justify-self: end;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  min-height: 52px;
+  border: 1px solid var(--ink);
+  padding: 0.9rem 1.2rem;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 0.71rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  transition:
+    background 200ms ease,
+    color 200ms ease,
+    transform 200ms ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.button--small {
+  min-height: 42px;
+  padding: 0.7rem 0.95rem;
+}
+
+.button--dark {
+  background: var(--ink);
+  color: var(--ivory);
+}
+
+.button--dark:hover,
+.button--dark:focus-visible {
+  background: var(--wine);
+}
+
+.button--light {
+  border-color: var(--ivory);
+  color: var(--ivory);
+}
+
+.button--light:hover,
+.button--light:focus-visible {
+  background: var(--ivory);
+  color: var(--ink);
+}
+
+.menu-button,
+.mobile-nav {
+  display: none;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.02fr 0.98fr;
+  min-height: 760px;
+  padding-block: 30px 82px;
+}
+
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6.6rem clamp(2rem, 5vw, 6rem) 1rem 0;
+}
+
+.hero h1 {
+  max-width: 830px;
+  margin: 1rem 0 2rem;
+  font-family: var(--serif);
+  font-size: clamp(4.2rem, 7.3vw, 8.7rem);
+  font-weight: 400;
+  letter-spacing: -0.065em;
+  line-height: 0.84;
+}
+
+h1 em,
+h2 em {
+  color: var(--wine);
+  font-weight: 400;
+}
+
+.hero-intro {
+  max-width: 620px;
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.08rem, 1.45vw, 1.34rem);
+  line-height: 1.58;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+  margin-top: 2.3rem;
+}
+
+.text-link {
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.hero-note {
+  margin: auto 0 0;
+  padding-top: 3.5rem;
+  color: var(--stone);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.hero-visual {
+  position: relative;
+  min-height: 730px;
+  overflow: visible;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-visual::after {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  content: "";
+  pointer-events: none;
+}
+
+.hero-caption {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  gap: 1.4rem;
+  padding: 0.75rem 0.85rem;
+  background: rgba(251, 249, 244, 0.93);
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.hero-inset {
+  position: absolute;
+  right: auto;
+  bottom: -42px;
+  left: -72px;
+  width: min(260px, 38%);
+  padding: 10px;
+  background: var(--ivory);
+  box-shadow: 0 20px 45px rgba(23, 22, 18, 0.16);
+}
+
+.hero-inset img {
+  width: 100%;
+  aspect-ratio: 1.15;
+  object-fit: cover;
+}
+
+.hero-inset span {
+  display: block;
+  padding: 0.75rem 0.25rem 0.2rem;
+  font-family: var(--serif);
+  font-size: 0.92rem;
+}
+
+.credibility {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.credibility div {
+  padding: 1.55rem 2rem;
+  border-right: 1px solid var(--line);
+}
+
+.credibility div:last-child {
+  border-right: 0;
+}
+
+.credibility strong,
+.credibility span {
+  display: block;
+}
+
+.credibility strong {
+  margin-bottom: 0.35rem;
+  font-family: var(--serif);
+  font-size: 1.75rem;
+  font-weight: 400;
+}
+
+.credibility span {
+  color: var(--stone);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.client-proof {
+  padding: 90px 0 100px;
+  background: var(--ivory);
+}
+
+.client-proof__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.client-proof__head > p:last-child {
+  margin: 0;
+  color: var(--stone);
+  font-family: var(--serif);
+  font-size: 0.94rem;
+  font-style: italic;
+}
+
+.client-window {
+  position: relative;
+  overflow: hidden;
+}
+
+.client-window::before,
+.client-window::after {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  bottom: 0;
+  width: min(11vw, 160px);
+  content: "";
+  pointer-events: none;
+}
+
+.client-window::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--ivory), transparent);
+}
+
+.client-window::after {
+  right: 0;
+  background: linear-gradient(-90deg, var(--ivory), transparent);
+}
+
+.client-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 42s linear infinite;
+}
+
+.client-group {
+  display: flex;
+  gap: 18px;
+  margin: 0;
+  padding: 0 18px 0 0;
+  list-style: none;
+}
+
+.client-logo {
+  position: relative;
+  width: 230px;
+  height: 132px;
+  flex: 0 0 230px;
+  overflow: hidden;
+  border: 1px solid rgba(23, 22, 18, 0.08);
+  background: #fbfaf7;
+}
+
+.client-logo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition:
+    opacity 280ms ease,
+    transform 320ms ease;
+}
+
+.client-logo__color {
+  opacity: 0;
+}
+
+.client-logo:hover .client-logo__grey {
+  opacity: 0;
+  transform: scale(1.025);
+}
+
+.client-logo:hover .client-logo__color {
+  opacity: 1;
+  transform: scale(1.025);
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.section-heading h2,
+.contact-copy h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(3.2rem, 5.4vw, 6.6rem);
+  font-weight: 400;
+  letter-spacing: -0.052em;
+  line-height: 0.94;
+}
+
+.expertise-section,
+.team-section {
+  padding-block: 125px;
+  background: var(--ivory);
+}
+
+.section-heading {
+  display: grid;
+  grid-template-columns: 0.27fr 0.51fr 0.22fr;
+  gap: 2rem;
+  align-items: end;
+  margin-bottom: 52px;
+}
+
+.section-heading > p:last-child {
+  margin: 0 0 0.4rem;
+  color: var(--stone);
+  font-size: 0.93rem;
+  line-height: 1.65;
+}
+
+.expertise-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.expertise-card {
+  position: relative;
+  min-height: 580px;
+  overflow: hidden;
+  background: #3c3934;
+}
+
+.expertise-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.expertise-card::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(16, 15, 13, 0.03) 30%,
+    rgba(16, 15, 13, 0.82) 100%
+  );
+  content: "";
+}
+
+.expertise-card:hover img {
+  transform: scale(1.04);
+}
+
+.expertise-card__content {
+  position: absolute;
+  z-index: 2;
+  right: 28px;
+  bottom: 28px;
+  left: 28px;
+  color: white;
+}
+
+.expertise-card__content > span {
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.expertise-card__content h3 {
+  margin: 0.45rem 0 0.8rem;
+  font-family: var(--serif);
+  font-size: clamp(2.4rem, 3.3vw, 4rem);
+  font-weight: 400;
+}
+
+.expertise-card__content p {
+  max-width: 340px;
+  margin: 0;
+  font-size: 0.91rem;
+  line-height: 1.58;
+}
+
+.work-section {
+  padding-block: 130px;
+  background: var(--ink);
+  color: var(--ivory);
+}
+
+.section-heading--light > p:last-child {
+  color: #b9b1a5;
+}
+
+.section-heading--light h2 em {
+  color: #c99b89;
+}
+
+.work-list {
+  border-top: 1px solid rgba(251, 249, 244, 0.23);
+}
+
+.work-card {
+  display: grid;
+  grid-template-columns: 0.44fr 0.56fr;
+  gap: clamp(2rem, 6vw, 7rem);
+  padding-block: 46px;
+  border-bottom: 1px solid rgba(251, 249, 244, 0.23);
+}
+
+.work-card__image {
+  position: relative;
+  min-height: 360px;
+  overflow: hidden;
+}
+
+.work-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.88;
+  transition: transform 600ms ease;
+}
+
+.work-card:hover .work-card__image img {
+  transform: scale(1.035);
+}
+
+.work-card__image > span {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  min-width: 42px;
+  padding: 0.65rem;
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.work-card__content {
+  align-self: center;
+}
+
+.work-card__content h3 {
+  margin: 0.55rem 0 1.4rem;
+  font-family: var(--serif);
+  font-size: clamp(3rem, 5vw, 6rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}
+
+.work-card__title {
+  max-width: 650px;
+  margin: 0 0 2.6rem;
+  font-family: var(--serif);
+  font-size: clamp(1.45rem, 2.2vw, 2.15rem);
+  line-height: 1.28;
+}
+
+.work-card dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.6rem;
+  margin: 0;
+}
+
+.work-card dl > div {
+  border-top: 1px solid rgba(251, 249, 244, 0.22);
+  padding-top: 1rem;
+}
+
+.work-card dt {
+  margin-bottom: 0.6rem;
+  color: #c9c0b3;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.work-card dd {
+  margin: 0;
+  color: #d8d2c9;
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+.work-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-top: 42px;
+}
+
+.work-cta p {
+  max-width: 590px;
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.45rem;
+  line-height: 1.35;
+}
+
+.features-section {
+  padding-block: 130px;
+  background: var(--paper);
+}
+
+.features-heading {
+  display: grid;
+  grid-template-columns: 0.62fr 0.27fr 0.11fr;
+  gap: 2rem;
+  align-items: end;
+  margin-bottom: 48px;
+}
+
+.features-heading h2 {
+  margin: 0.7rem 0 0;
+  font-family: var(--serif);
+  font-size: clamp(3.3rem, 5.4vw, 6.5rem);
+  font-weight: 400;
+  letter-spacing: -0.052em;
+  line-height: 0.94;
+}
+
+.features-heading > p {
+  margin: 0 0 0.45rem;
+  color: var(--stone);
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+.feature-count {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.45rem;
+  margin-bottom: 0.45rem;
+  font-family: var(--serif);
+  font-size: 1rem;
+}
+
+.feature-count span:nth-child(2),
+.feature-count span:nth-child(3) {
+  color: var(--stone);
+}
+
+.feature-gallery {
+  position: relative;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding-block: 24px;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.08fr 0.88fr;
+  gap: 18px;
+}
+
+.feature-card {
+  min-width: 0;
+  padding: 10px 10px 0;
+  background: var(--ivory);
+}
+
+.feature-card__art {
+  position: relative;
+  height: clamp(440px, 48vw, 680px);
+  overflow: hidden;
+  background: white;
+}
+
+.feature-card__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.feature-card:hover .feature-card__art img,
+.feature-card:focus-visible .feature-card__art img {
+  transform: scale(1.018);
+}
+
+.feature-card__number {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  min-width: 38px;
+  padding: 0.55rem;
+  background: rgba(251, 249, 244, 0.94);
+  font-family: var(--serif);
+  font-size: 0.83rem;
+  text-align: center;
+}
+
+.feature-card__meta {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.8rem;
+  align-items: center;
+  min-height: 70px;
+}
+
+.feature-card__meta strong {
+  overflow: hidden;
+  font-family: var(--serif);
+  font-size: clamp(1rem, 1.45vw, 1.35rem);
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.feature-card__meta > span {
+  color: var(--stone);
+  font-size: 0.61rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.feature-card__meta > span:last-child {
+  color: var(--ink);
+  font-size: 0.9rem;
+}
+
+.feature-arrow {
+  position: absolute;
+  z-index: 5;
+  top: 50%;
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  background: rgba(251, 249, 244, 0.94);
+  color: var(--ink);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.feature-arrow:hover,
+.feature-arrow:focus-visible {
+  background: var(--ink);
+  color: var(--ivory);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.feature-arrow--previous {
+  left: -26px;
+}
+
+.feature-arrow--next {
+  right: -26px;
+}
+
+.testimonial-section {
+  padding-block: 135px;
+  background: var(--ivory);
+}
+
+.quote-mark {
+  height: 68px;
+  color: var(--wine);
+  font-family: var(--serif);
+  font-size: 7rem;
+  line-height: 1;
+}
+
+blockquote {
+  max-width: 1180px;
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(3rem, 6vw, 7.25rem);
+  letter-spacing: -0.052em;
+  line-height: 0.98;
+}
+
+.testimonial-meta {
+  display: grid;
+  grid-template-columns: 0.35fr 0.65fr;
+  gap: 2rem;
+  margin-top: 3.8rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1.3rem;
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.65;
+  text-transform: uppercase;
+}
+
+.testimonial-meta > span:last-child {
+  color: var(--stone);
+}
+
+.team-section .section-heading {
+  grid-template-columns: 0.27fr 0.73fr;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.team-member {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 2.4rem;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+}
+
+.team-member img {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: grayscale(1);
+  transition: filter 300ms ease;
+}
+
+.team-member:hover img {
+  filter: grayscale(0);
+}
+
+.team-member h3 {
+  margin: 0.55rem 0 1rem;
+  font-family: var(--serif);
+  font-size: clamp(2rem, 3.2vw, 3.5rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+
+.team-member div > p:last-child {
+  margin: 0;
+  color: var(--stone);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.contact-section {
+  padding-block: 135px;
+  background: #c9b8a4;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 0.51fr 0.49fr;
+  gap: clamp(4rem, 8vw, 9rem);
+}
+
+.contact-copy h2 {
+  margin: 1rem 0 2rem;
+  font-size: clamp(3.2rem, 5vw, 6.2rem);
+}
+
+.contact-copy h2 em {
+  display: block;
+  margin-top: 0.22em;
+  color: var(--ink);
+}
+
+.contact-copy > p:last-of-type {
+  max-width: 500px;
+  font-family: var(--serif);
+  font-size: 1.18rem;
+  line-height: 1.55;
+}
+
+.contact-copy > a {
+  display: inline-block;
+  margin-top: 2rem;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 0.3rem;
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.inquiry-form {
+  align-self: start;
+  padding: clamp(1.6rem, 4vw, 3.25rem);
+  background: var(--ivory);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+.inquiry-form label {
+  display: block;
+  margin-bottom: 1.15rem;
+}
+
+.inquiry-form label > span {
+  display: block;
+  margin-bottom: 0.55rem;
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.inquiry-form input,
+.inquiry-form select,
+.inquiry-form textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  transition: border-color 180ms ease;
+}
+
+.inquiry-form input,
+.inquiry-form select {
+  min-height: 48px;
+  padding: 0 0.85rem;
+}
+
+.inquiry-form textarea {
+  min-height: 120px;
+  padding: 0.85rem;
+  resize: vertical;
+}
+
+.inquiry-form input:focus,
+.inquiry-form select:focus,
+.inquiry-form textarea:focus {
+  border-color: var(--wine);
+}
+
+.inquiry-form .button {
+  width: 100%;
+  margin-top: 0.4rem;
+}
+
+.form-note {
+  margin: 0.9rem 0 0;
+  color: var(--stone);
+  font-size: 0.7rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+footer {
+  background: var(--ink);
+  color: var(--ivory);
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  min-height: 190px;
+  padding-block: 3rem;
+}
+
+.wordmark--footer {
+  font-size: clamp(3rem, 5vw, 5.5rem);
+}
+
+.footer-top p,
+.footer-top > a:last-child {
+  margin: 0 0 0.45rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.footer-top > a:last-child {
+  justify-self: end;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  border-top: 1px solid rgba(251, 249, 244, 0.18);
+  padding-block: 1.4rem;
+  color: #aaa399;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1100px) {
+  .shell {
+    width: min(100% - 40px, 1320px);
+  }
+
+  .hero {
+    grid-template-columns: 1fr 0.9fr;
+    min-height: 680px;
+  }
+
+  .hero-copy {
+    padding-top: 4.5rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(4.2rem, 8vw, 6.8rem);
+  }
+
+  .section-heading {
+    grid-template-columns: 0.25fr 0.75fr;
+  }
+
+  .section-heading > p:last-child {
+    grid-column: 2;
+    max-width: 580px;
+  }
+
+  .team-member {
+    grid-template-columns: 170px 1fr;
+  }
+}
+
+@media (max-width: 820px) {
+  html {
+    scroll-padding-top: 72px;
+  }
+
+  .shell {
+    width: min(100% - 30px, 1320px);
+  }
+
+  .nav-wrap {
+    grid-template-columns: 1fr auto;
+    min-height: 72px;
+  }
+
+  .nav-links,
+  .nav-cta {
+    display: none;
+  }
+
+  .menu-button {
+    display: grid;
+    gap: 6px;
+    width: 42px;
+    height: 42px;
+    place-content: center;
+    border: 1px solid var(--line);
+    background: transparent;
+  }
+
+  .menu-button span {
+    display: block;
+    width: 18px;
+    height: 1px;
+    background: var(--ink);
+  }
+
+  .mobile-nav {
+    position: absolute;
+    right: 0;
+    left: 0;
+    display: grid;
+    max-height: 0;
+    overflow: hidden;
+    background: var(--paper);
+    opacity: 0;
+    transition:
+      max-height 280ms ease,
+      opacity 200ms ease;
+  }
+
+  .mobile-nav.is-open {
+    max-height: 360px;
+    border-bottom: 1px solid var(--line);
+    opacity: 1;
+  }
+
+  .mobile-nav a {
+    margin-inline: 15px;
+    border-top: 1px solid var(--line);
+    padding: 1rem 0;
+    font-family: var(--serif);
+    font-size: 1.4rem;
+  }
+
+  .mobile-nav a:last-child {
+    color: var(--wine);
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding-top: 0;
+  }
+
+  .hero-copy {
+    min-height: auto;
+    padding: 5rem 0 3.5rem;
+  }
+
+  .hero h1 {
+    max-width: 760px;
+    font-size: clamp(4rem, 14vw, 7rem);
+  }
+
+  .hero-note {
+    margin-top: 3.5rem;
+  }
+
+  .hero-visual {
+    min-height: 650px;
+    margin-left: 50px;
+  }
+
+  .hero-inset {
+    left: -50px;
+  }
+
+  .credibility {
+    grid-template-columns: 1fr;
+  }
+
+  .credibility div {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding-inline: 0;
+  }
+
+  .credibility div:last-child {
+    border-bottom: 0;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .expertise-section,
+  .team-section,
+  .work-section,
+  .features-section,
+  .testimonial-section,
+  .contact-section {
+    padding-block: 95px;
+  }
+
+  .section-heading,
+  .team-section .section-heading {
+    grid-template-columns: 1fr;
+  }
+
+  .section-heading > p:last-child {
+    grid-column: auto;
+    max-width: 580px;
+  }
+
+  .expertise-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .features-heading {
+    grid-template-columns: 1fr auto;
+  }
+
+  .features-heading > p {
+    grid-column: 1;
+    max-width: 560px;
+  }
+
+  .feature-count {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .feature-card:nth-child(3) {
+    display: none;
+  }
+
+  .feature-card__art {
+    height: 620px;
+  }
+
+  .expertise-card {
+    min-height: 600px;
+  }
+
+  .work-card {
+    grid-template-columns: 1fr;
+  }
+
+  .work-card__image {
+    min-height: 480px;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+
+  .contact-grid {
+    gap: 4rem;
+  }
+
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-top p {
+    grid-row: 2;
+    margin-top: 2rem;
+  }
+
+  .footer-top > a:last-child {
+    align-self: center;
+  }
+}
+
+@media (max-width: 540px) {
+  .shell {
+    width: min(100% - 24px, 1320px);
+  }
+
+  .hero-copy {
+    padding-top: 4.2rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(3.55rem, 16vw, 5.4rem);
+    letter-spacing: -0.058em;
+  }
+
+  .hero-intro {
+    font-size: 1.06rem;
+  }
+
+  .hero-actions {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .hero-actions .button {
+    width: 100%;
+  }
+
+  .text-link {
+    align-self: flex-start;
+  }
+
+  .hero-note {
+    line-height: 1.7;
+  }
+
+  .hero-visual {
+    min-height: 500px;
+    margin-left: 22px;
+  }
+
+  .hero-inset {
+    bottom: -30px;
+    left: -22px;
+    width: 43%;
+  }
+
+  .hero-caption {
+    top: 12px;
+    right: 12px;
+    gap: 0.7rem;
+    font-size: 0.56rem;
+  }
+
+  .client-proof {
+    padding-block: 70px;
+  }
+
+  .client-proof__head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .client-logo {
+    width: 190px;
+    height: 110px;
+    flex-basis: 190px;
+  }
+
+  .section-heading h2,
+  .contact-copy h2 {
+    font-size: clamp(2.9rem, 14vw, 4.5rem);
+  }
+
+  .work-card dl,
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .expertise-card {
+    min-height: 490px;
+  }
+
+  .work-card__image {
+    min-height: 330px;
+  }
+
+  .work-card__content h3 {
+    font-size: 3.2rem;
+  }
+
+  .work-cta {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .features-heading {
+    grid-template-columns: 1fr auto;
+    gap: 1.2rem;
+  }
+
+  .features-heading h2 {
+    font-size: clamp(2.9rem, 14vw, 4.4rem);
+  }
+
+  .features-heading > p {
+    grid-column: 1 / -1;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-card:nth-child(2) {
+    display: none;
+  }
+
+  .feature-card__art {
+    height: min(130vw, 620px);
+  }
+
+  .feature-card__meta {
+    grid-template-columns: 1fr auto;
+  }
+
+  .feature-card__meta > span:last-child {
+    grid-column: 2;
+    grid-row: 1 / 3;
+  }
+
+  .feature-arrow {
+    top: calc(50% - 34px);
+    width: 44px;
+    height: 44px;
+  }
+
+  .feature-arrow--previous {
+    left: -7px;
+  }
+
+  .feature-arrow--next {
+    right: -7px;
+  }
+
+  blockquote {
+    font-size: clamp(2.75rem, 13vw, 4.4rem);
+  }
+
+  .testimonial-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .team-member {
+    grid-template-columns: 110px 1fr;
+    gap: 1.25rem;
+  }
+
+  .team-member h3 {
+    font-size: 2.2rem;
+  }
+
+  .inquiry-form {
+    margin-inline: -12px;
+  }
+
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 1.3rem;
+  }
+
+  .footer-top p {
+    grid-row: auto;
+    margin-top: 0;
+  }
+
+  .footer-top > a:last-child {
+    justify-self: start;
+  }
+
+  .footer-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .client-window {
+    overflow-x: auto;
+  }
+}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell nav-wrap">
+      <a class="wordmark" href="#top" aria-label="LGPR home">LGPR</a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#expertise">Expertise</a>
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="button button--small nav-cta" href="#contact">Start a conversation</a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-navigation" aria-label="Open navigation">
+        <span></span><span></span>
+      </button>
+    </div>
+    <div id="mobile-navigation" class="mobile-nav">
+      <a href="#expertise">Expertise</a>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="#contact">Start a conversation</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero shell">
+      <div class="hero-copy">
+        <p class="eyebrow">Hospitality · Culinary · Lifestyle</p>
+        <h1>Get the kind of <em>attention</em> your brand deserves.</h1>
+        <p class="hero-intro">You've built something worth knowing about. LGPR helps the right editors, travelers, diners and tastemakers notice it—with senior-led PR shaped by smart strategy and relationships that matter.</p>
+        <div class="hero-actions">
+          <a class="button button--dark" href="#work">View our work <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="#contact">Start a conversation <span aria-hidden="true">→</span></a>
+        </div>
+        <p class="hero-note">Los Angeles · San Francisco Bay Area · San Diego</p>
+      </div>
+      <div class="hero-visual" aria-label="LGPR hospitality experience">
+        <img class="hero-image" src="images/hospitality.webp" alt="Warm, design-led hotel guest room">
+        <div class="hero-caption"><span>Senior-led PR</span><span>Since 2012</span></div>
+        <div class="hero-inset">
+          <img src="images/culinary.webp" alt="Restaurant dish styled for a culinary story">
+          <span>Stories worth repeating</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="credibility shell" aria-label="LGPR credentials">
+      <div><strong>20+ years</strong><span>Experience per principal</span></div>
+      <div><strong>Senior-led</strong><span>Your account stays senior</span></div>
+      <div><strong>National reach</strong><span>Local, regional & national media</span></div>
+    </section>
+
+    <section class="client-proof" aria-labelledby="client-proof-title">
+      <div class="shell client-proof__head">
+        <p id="client-proof-title" class="eyebrow">Selected client experience</p>
+        <p>Hover a name to see it in color</p>
+      </div>
+      <div class="client-window">
+        <div class="client-track">
+          <ul class="client-group">
+                <li class="client-logo" aria-label="Farmhouse Inn">
+                  <img class="client-logo__grey" src="logos/farmhouse-inn-grey.png" alt="Farmhouse Inn">
+                  <img class="client-logo__color" src="logos/farmhouse-inn-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="Fort Ross Vineyard & Winery">
+                  <img class="client-logo__grey" src="logos/fort-ross-vineyard-winery-grey.png" alt="Fort Ross Vineyard & Winery">
+                  <img class="client-logo__color" src="logos/fort-ross-vineyard-winery-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="Grange Restaurant & Bar">
+                  <img class="client-logo__grey" src="logos/grange-restaurant-bar-grey.png" alt="Grange Restaurant & Bar">
+                  <img class="client-logo__color" src="logos/grange-restaurant-bar-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="Hotel Kabuki">
+                  <img class="client-logo__grey" src="logos/hotel-kabuki-grey.png" alt="Hotel Kabuki">
+                  <img class="client-logo__color" src="logos/hotel-kabuki-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="HotelTonight">
+                  <img class="client-logo__grey" src="logos/hotel-tonight-grey.png" alt="HotelTonight">
+                  <img class="client-logo__color" src="logos/hotel-tonight-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="Hotel Vitale">
+                  <img class="client-logo__grey" src="logos/hotel-vitale-grey.png" alt="Hotel Vitale">
+                  <img class="client-logo__color" src="logos/hotel-vitale-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="Juniper Books">
+                  <img class="client-logo__grey" src="logos/juniper-books-grey.png" alt="Juniper Books">
+                  <img class="client-logo__color" src="logos/juniper-books-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="Kimpton Hotel Enso">
+                  <img class="client-logo__grey" src="logos/kimpton-hotel-enso-grey.png" alt="Kimpton Hotel Enso">
+                  <img class="client-logo__color" src="logos/kimpton-hotel-enso-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="Kimpton Sir Francis Drake">
+                  <img class="client-logo__grey" src="logos/kimpton-sir-francis-drake-grey.png" alt="Kimpton Sir Francis Drake">
+                  <img class="client-logo__color" src="logos/kimpton-sir-francis-drake-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="Lazy Bear">
+                  <img class="client-logo__grey" src="logos/lazy-bear-grey.png" alt="Lazy Bear">
+                  <img class="client-logo__color" src="logos/lazy-bear-color.png" alt="" aria-hidden="true">
+                </li></ul>
+          <ul class="client-group" aria-hidden="true">
+                <li class="client-logo" aria-label="Farmhouse Inn">
+                  <img class="client-logo__grey" src="logos/farmhouse-inn-grey.png" alt="" aria-hidden="true">
+                  <img class="client-logo__color" src="logos/farmhouse-inn-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="Fort Ross Vineyard & Winery">
+                  <img class="client-logo__grey" src="logos/fort-ross-vineyard-winery-grey.png" alt="" aria-hidden="true">
+                  <img class="client-logo__color" src="logos/fort-ross-vineyard-winery-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="Grange Restaurant & Bar">
+                  <img class="client-logo__grey" src="logos/grange-restaurant-bar-grey.png" alt="" aria-hidden="true">
+                  <img class="client-logo__color" src="logos/grange-restaurant-bar-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="Hotel Kabuki">
+                  <img class="client-logo__grey" src="logos/hotel-kabuki-grey.png" alt="" aria-hidden="true">
+                  <img class="client-logo__color" src="logos/hotel-kabuki-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="HotelTonight">
+                  <img class="client-logo__grey" src="logos/hotel-tonight-grey.png" alt="" aria-hidden="true">
+                  <img class="client-logo__color" src="logos/hotel-tonight-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="Hotel Vitale">
+                  <img class="client-logo__grey" src="logos/hotel-vitale-grey.png" alt="" aria-hidden="true">
+                  <img class="client-logo__color" src="logos/hotel-vitale-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="Juniper Books">
+                  <img class="client-logo__grey" src="logos/juniper-books-grey.png" alt="" aria-hidden="true">
+                  <img class="client-logo__color" src="logos/juniper-books-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="Kimpton Hotel Enso">
+                  <img class="client-logo__grey" src="logos/kimpton-hotel-enso-grey.png" alt="" aria-hidden="true">
+                  <img class="client-logo__color" src="logos/kimpton-hotel-enso-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="Kimpton Sir Francis Drake">
+                  <img class="client-logo__grey" src="logos/kimpton-sir-francis-drake-grey.png" alt="" aria-hidden="true">
+                  <img class="client-logo__color" src="logos/kimpton-sir-francis-drake-color.png" alt="" aria-hidden="true">
+                </li>
+                <li class="client-logo" aria-label="Lazy Bear">
+                  <img class="client-logo__grey" src="logos/lazy-bear-grey.png" alt="" aria-hidden="true">
+                  <img class="client-logo__color" src="logos/lazy-bear-color.png" alt="" aria-hidden="true">
+                </li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="expertise" class="expertise-section">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="eyebrow">Where we work</p>
+          <h2>Built for brands with a <em>point of view.</em></h2>
+          <p>Deep category fluency lets us move quickly, speak credibly and spot the story before it becomes obvious.</p>
+        </div>
+        <div class="expertise-grid">
+          <article class="expertise-card">
+            <img src="images/hospitality.webp" alt="Luxury hotel interior">
+            <div class="expertise-card__content"><span>01</span><h3>Hospitality</h3><p>Openings, renovations and rebrands that stay relevant long after the first announcement.</p></div>
+          </article>
+          <article class="expertise-card">
+            <img src="images/culinary.webp" alt="Restaurant burger and beer">
+            <div class="expertise-card__content"><span>02</span><h3>Culinary</h3><p>Chefs and restaurants positioned through stories diners want to experience and editors want to cover.</p></div>
+          </article>
+          <article class="expertise-card">
+            <img src="images/lifestyle.webp" alt="Lifestyle food product">
+            <div class="expertise-card__content"><span>03</span><h3>Lifestyle</h3><p>Distinctive brands translated into timely ideas, cultural relevance and meaningful visibility.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" class="work-section">
+      <div class="shell">
+        <div class="section-heading section-heading--light">
+          <p class="eyebrow">Selected experience</p>
+          <h2>Work that earns <em>attention.</em></h2>
+          <p>A closer look at how LGPR turns a brand's strongest qualities into stories with staying power.</p>
+        </div>
+        <div class="work-list">
+          <article class="work-card">
+            <div class="work-card__image"><img src="images/hospitality.webp" alt=""><span>01</span></div>
+            <div class="work-card__content">
+              <p class="eyebrow">Luxury hospitality</p><h3>Farmhouse Inn</h3>
+              <p class="work-card__title">Keeping a beloved property in the conversation.</p>
+              <dl><div><dt>Challenge</dt><dd>Turn an exceptional guest experience into fresh, timely reasons for travelers and editors to pay attention.</dd></div><div><dt>Approach</dt><dd>Property positioning, culinary storytelling and a steady calendar of editorial angles that extend beyond one news cycle.</dd></div></dl>
+            </div>
+          </article>
+          <article class="work-card">
+            <div class="work-card__image"><img src="images/culinary.webp" alt=""><span>02</span></div>
+            <div class="work-card__content">
+              <p class="eyebrow">Culinary</p><h3>Grange</h3>
+              <p class="work-card__title">Making the story as memorable as the meal.</p>
+              <dl><div><dt>Challenge</dt><dd>Give a chef-driven restaurant a clear point of view in a crowded and fast-moving dining landscape.</dd></div><div><dt>Approach</dt><dd>Chef storytelling, seasonal hooks and media outreach designed around what makes the experience genuinely distinct.</dd></div></dl>
+            </div>
+          </article>
+          <article class="work-card">
+            <div class="work-card__image"><img src="images/lifestyle.webp" alt=""><span>03</span></div>
+            <div class="work-card__content">
+              <p class="eyebrow">Wine & destination</p><h3>Fort Ross</h3>
+              <p class="work-card__title">Turning a sense of place into a reason to visit.</p>
+              <dl><div><dt>Challenge</dt><dd>Connect a destination winery's setting, craft and character into one compelling narrative.</dd></div><div><dt>Approach</dt><dd>Place-led positioning, thoughtful press experiences and stories built to travel across food, wine and lifestyle media.</dd></div></dl>
+            </div>
+          </article>
+        </div>
+        <div class="work-cta">
+          <p>Need a launch, repositioning or long-term PR partner with category experience?</p>
+          <a class="button button--light" href="#contact">Start a conversation <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="features-section" aria-labelledby="features-title">
+      <div class="shell">
+        <div class="features-heading">
+          <div><p class="eyebrow">Press in the wild</p><h2 id="features-title">Recent Client Features</h2></div>
+          <p>A glimpse at the stories, destinations and culinary talent LGPR clients are bringing to a wider audience.</p>
+          <div class="feature-count" aria-live="polite"><span id="feature-current">01</span><span>/</span><span>08</span></div>
+        </div>
+        <div class="feature-gallery">
+          <button class="feature-arrow feature-arrow--previous" type="button" aria-label="Show previous client features"><span aria-hidden="true">←</span></button>
+          <div class="feature-grid" id="feature-grid"></div>
+          <button class="feature-arrow feature-arrow--next" type="button" aria-label="Show next client features"><span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonial-section">
+      <div class="shell">
+        <div class="quote-mark" aria-hidden="true">“</div>
+        <blockquote>I can confidently say there are no public relations experts more effective than Leah Goldstein.</blockquote>
+        <div class="testimonial-meta">
+          <span>Chip Conley</span>
+          <span>Founder & former CEO, Joie de Vivre Hospitality<br>Former head of global hospitality & strategy, Airbnb</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="team-section">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="eyebrow">The senior team</p>
+          <h2>Experience you actually <em>work with.</em></h2>
+        </div>
+        <div class="team-grid">
+          <article class="team-member">
+            <img src="images/leah.webp" alt="Leah Goldstein">
+            <div><p class="eyebrow">Founder · 20+ years</p><h3>Leah Goldstein</h3><p>Culinary, luxury hospitality and lifestyle PR experience across New York, Los Angeles and San Francisco agency markets.</p></div>
+          </article>
+          <article class="team-member">
+            <img src="images/tory.webp" alt="Tory Weiss">
+            <div><p class="eyebrow">Principal · 20+ years</p><h3>Tory Weiss</h3><p>Travel, hospitality, destination, luxury hotel and high-end real estate expertise focused on awareness and demand.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+      <div class="shell contact-grid">
+        <div class="contact-copy">
+          <p class="eyebrow">Start here</p>
+          <h2>You've built something worth talking about.<em> Let's make sure people hear about it.</em></h2>
+          <p>Tell us what you're building, changing or launching. We'll start with the opportunity and take it from there.</p>
+          <a href="mailto:leah@lgprinc.com">leah@lgprinc.com ↗</a>
+        </div>
+        <form class="inquiry-form">
+          <div class="form-row">
+            <label><span>Name</span><input name="name" type="text" autocomplete="name" required></label>
+            <label><span>Company</span><input name="company" type="text" autocomplete="organization" required></label>
+          </div>
+          <div class="form-row">
+            <label><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
+            <label><span>Website</span><input name="website" type="url" inputmode="url" placeholder="https://"></label>
+          </div>
+          <div class="form-row">
+            <label>
+              <span>Project type</span>
+              <select name="projectType" required>
+                <option value="" disabled selected>Select one</option>
+                <option>Hotel or restaurant launch</option>
+                <option>Brand repositioning</option>
+                <option>Ongoing brand PR</option>
+                <option>Chef or executive PR</option>
+                <option>Media event or experience</option>
+                <option>Something else</option>
+              </select>
+            </label>
+            <label><span>Launch date</span><input name="launchDate" type="date"></label>
+          </div>
+          <label><span>What are you looking to accomplish?</span><textarea name="goals" rows="4" required></textarea></label>
+          <button class="button button--dark" type="submit">Start a conversation <span aria-hidden="true">→</span></button>
+          <p class="form-note">Submitting opens your email app with these details ready to send.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-top">
+      <a class="wordmark wordmark--footer" href="#top">LGPR</a>
+      <p>Hospitality · Culinary · Lifestyle PR</p>
+      <a href="mailto:leah@lgprinc.com">leah@lgprinc.com</a>
+    </div>
+    <div class="shell footer-bottom">
+      <span>© <span id="current-year"></span> LGPR, Inc.</span>
+      <span>Los Angeles · San Francisco Bay Area · San Diego</span>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    "use strict";
+
+    var menuButton = document.querySelector(".menu-button");
+    var mobileNav = document.getElementById("mobile-navigation");
+
+    function closeMenu() {
+      mobileNav.classList.remove("is-open");
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.setAttribute("aria-label", "Open navigation");
+    }
+
+    menuButton.addEventListener("click", function () {
+      var opening = !mobileNav.classList.contains("is-open");
+      mobileNav.classList.toggle("is-open", opening);
+      menuButton.setAttribute("aria-expanded", String(opening));
+      menuButton.setAttribute("aria-label", opening ? "Close navigation" : "Open navigation");
+    });
+
+    mobileNav.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", closeMenu);
+    });
+
+    var features = [{"publication":"The Wall Street Journal","date":"July 26, 2025","image":"features/wall-street-journal.webp","href":"https://www.lgprinc.com/s/The-Wall-Street-Journal-July-26-2025.pdf"},{"publication":"Forbes","date":"July 26, 2025","image":"features/forbes.webp","href":"https://www.lgprinc.com/s/Forbes-July-26-2025.pdf"},{"publication":"Phoenix Magazine","date":"July 2025","image":"features/phoenix-magazine.webp","href":"https://www.lgprinc.com/s/Phoenix-Magazine-July-2025-g48k.pdf"},{"publication":"AFAR","date":"November 7, 2025","image":"features/afar.webp","href":"https://www.lgprinc.com/s/afarcom-November-7-2025.pdf"},{"publication":"FOUND SF","date":"July 25, 2025","image":"features/found-sf.webp","href":"https://www.lgprinc.com/s/FOUND-SF-July-25-2025.pdf"},{"publication":"Fresno Bee","date":"August 23, 2025","image":"features/fresno-bee.webp","href":"https://www.lgprinc.com/s/Fresno-Bee-August-23-2025.pdf"},{"publication":"National Geographic Traveler","date":"November 11, 2025","image":"features/national-geographic-traveler.webp","href":"https://www.lgprinc.com/s/NationalGeographicTravelercom-November-11-2025.pdf"},{"publication":"SF Eater","date":"July 21, 2025","image":"features/sf-eater.webp","href":"https://www.lgprinc.com/s/SFEatercom-July-21-2025.pdf"}];
+    var currentFeature = 0;
+    var featureGrid = document.getElementById("feature-grid");
+    var featureCurrent = document.getElementById("feature-current");
+
+    function twoDigits(number) {
+      return String(number).padStart(2, "0");
+    }
+
+    function renderFeatures() {
+      featureGrid.innerHTML = "";
+      for (var offset = 0; offset < 3; offset += 1) {
+        var featureIndex = (currentFeature + offset) % features.length;
+        var feature = features[featureIndex];
+        var card = document.createElement("a");
+        card.className = "feature-card";
+        card.href = feature.href;
+        card.target = "_blank";
+        card.rel = "noreferrer";
+        card.setAttribute("aria-label", "View " + feature.publication + " client feature from " + feature.date);
+        card.innerHTML =
+          '<div class="feature-card__art">' +
+            '<img src="' + feature.image + '" alt="">' +
+            '<span class="feature-card__number">' + twoDigits(featureIndex + 1) + '</span>' +
+          '</div>' +
+          '<div class="feature-card__meta">' +
+            '<strong></strong><span></span><span aria-hidden="true">↗</span>' +
+          '</div>';
+        card.querySelector("strong").textContent = feature.publication;
+        card.querySelector(".feature-card__meta > span").textContent = feature.date;
+        featureGrid.appendChild(card);
+      }
+      featureCurrent.textContent = twoDigits(currentFeature + 1);
+    }
+
+    document.querySelector(".feature-arrow--previous").addEventListener("click", function () {
+      currentFeature = (currentFeature - 1 + features.length) % features.length;
+      renderFeatures();
+    });
+
+    document.querySelector(".feature-arrow--next").addEventListener("click", function () {
+      currentFeature = (currentFeature + 1) % features.length;
+      renderFeatures();
+    });
+
+    document.querySelector(".inquiry-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+      var form = new FormData(event.currentTarget);
+      var subject = "New LGPR inquiry from " + (form.get("company") || form.get("name"));
+      var body = [
+        "Name: " + form.get("name"),
+        "Company: " + form.get("company"),
+        "Website: " + form.get("website"),
+        "Email: " + form.get("email"),
+        "Project type: " + form.get("projectType"),
+        "Launch date: " + (form.get("launchDate") || "Not specified"),
+        "",
+        "What they are looking to accomplish:",
+        form.get("goals")
+      ].join("\n");
+      window.location.href = "mailto:leah@lgprinc.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    });
+
+    document.getElementById("current-year").textContent = String(new Date().getFullYear());
+    renderFeatures();
+  }());
+  </script>
+</body>
+</html>

@@ -24,3 +24,7 @@ python3 -m http.server 8000
 - `assets/favicon.svg`
 
 All company information, reviews, metrics, and case studies are fictional demonstration content.
+
+## Redesigned experience
+
+Sticky industrial-crate story with drawing, material, manufactured-part, inspection, and packing-label chapters. The process selector, material ledger, real manufacturing imagery, reduced-motion composition, and RFQ package flow are documented in `REDESIGN-NOTES.md`.

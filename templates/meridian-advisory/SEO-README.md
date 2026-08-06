@@ -26,4 +26,4 @@ Before production launch:
 
 **Meta description:** Book a focused business strategy consultation and receive a written decision summary with priorities, owners, and next actions.
 
-**Layout recommendation:** Type A.
+**Layout:** Editorial advisory and insight system. Search intent is organized around strategic decisions, operating models, critical initiatives, engagement structure, senior advisors, and working sessions.

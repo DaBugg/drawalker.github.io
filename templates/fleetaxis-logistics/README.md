@@ -24,3 +24,7 @@ python3 -m http.server 8000
 - `assets/favicon.svg`
 
 All company information, reviews, metrics, and case studies are fictional demonstration content.
+
+## Redesigned experience
+
+Video-led freight quote experience with a compact lane brief, a quote-triggered control tower, real port and jobsite imagery, project-cargo planning, and complete quote requirements. See `REDESIGN-NOTES.md`.

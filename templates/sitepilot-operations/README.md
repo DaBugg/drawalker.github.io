@@ -24,3 +24,7 @@ python3 -m http.server 8000
 - `assets/favicon.svg`
 
 All company information, reviews, metrics, and case studies are fictional demonstration content.
+
+## Redesigned experience
+
+Product-led software concept with an immediate dashboard, role switcher, workflow demonstration, module system, mobile field view, security framing, and demo request. See `REDESIGN-NOTES.md`.

@@ -24,3 +24,7 @@ python3 -m http.server 8000
 - `assets/favicon.svg`
 
 All company information, reviews, metrics, and case studies are fictional demonstration content.
+
+## Redesigned experience
+
+Minimal senior-led advisory narrative with decision problems, advisory pathways, a clickable decision framework, representative engagements, people, and current thinking. See `REDESIGN-NOTES.md`.

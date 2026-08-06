@@ -26,4 +26,4 @@ Before production launch:
 
 **Meta description:** Request a freight quote with lane, equipment, handling, timing, and delivery requirements reviewed before booking.
 
-**Layout recommendation:** Type A.
+**Layout:** Route quote and control tower. Search intent is organized around origin, destination, equipment, project cargo, tracking, coverage, appointments, and quote requirements.

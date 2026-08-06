@@ -26,4 +26,4 @@ Before production launch:
 
 **Meta description:** Invite Apexline to bid commercial plumbing, mechanical piping, fabrication, and coordinated field installation projects.
 
-**Layout recommendation:** Type A.
+**Layout:** Project lifecycle and portfolio. Search intent is organized around markets, preconstruction, coordination, fabrication, installation, delivery methods, and bid requirements.

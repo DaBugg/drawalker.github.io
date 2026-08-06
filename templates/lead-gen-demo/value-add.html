@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free 5-Day Course | Gatekeeper</title>
+    <meta name="description"
+        content="Get our free 5-day email course on turning more leads into buyers.">
+
+    <!-- Fonts: Space Grotesk (Display) + Manrope (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/value-add.css">
+</head>
+
+<body>
+    <!-- Sticky Header -->
+    <header class="sticky-header">
+        <a href="index.html" class="nav-logo">GATE<span>KEEPER</span></a>
+        <a href="index.html" class="nav-back">← Back to Home</a>
+    </header>
+
+    <!-- Unified Page Background -->
+    <div class="page-background"></div>
+
+    <!-- Parallax Orbs -->
+    <div class="bg-orbs-container">
+        <div class="bg-orb bg-orb-1 layer-far"></div>
+        <div class="bg-orb bg-orb-2 layer-mid"></div>
+        <div class="bg-orb bg-orb-3 layer-near"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="value-card">
+                <!-- Main content -->
+                <div id="signupContent">
+                    <div class="gift-icon">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 8h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8Z" />
+                            <path d="M12 8v12" />
+                            <path d="M3 8l1.5-3a2 2 0 0 1 1.79-1h11.42a2 2 0 0 1 1.79 1L21 8" />
+                            <path d="M12 4v4" />
+                            <path d="M8 4c1.5 0 3 1 4 2.5" />
+                            <path d="M16 4c-1.5 0-3 1-4 2.5" />
+                        </svg>
+                    </div>
+
+                    <h1>Get our free <span class="accent">5-Day Course</span></h1>
+                    <p class="subtitle">Learn how to turn more leads into paying customers with daily tips sent straight to your inbox.</p>
+
+                    <div class="course-outline">
+                        <h3>What you'll learn</h3>
+                        <div class="day-item">
+                            <div class="day-number">1</div>
+                            <div class="day-title">Why most leads never buy (and how to fix it)</div>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-number">2</div>
+                            <div class="day-title">The 60-second rule that doubles your show rate</div>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-number">3</div>
+                            <div class="day-title">How to know who's ready to buy before you call</div>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-number">4</div>
+                            <div class="day-title">The follow-up system that works while you sleep</div>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-number">5</div>
+                            <div class="day-title">Putting it all together: your action plan</div>
+                        </div>
+                    </div>
+
+                    <form class="signup-form" id="courseForm">
+                        <div class="form-group">
+                            <label for="courseEmail">Email Address</label>
+                            <input type="email" id="courseEmail" name="email" placeholder="you@company.com" required>
+                        </div>
+                        <button type="submit" class="btn">Send Me The Course</button>
+                    </form>
+
+                    <p class="privacy-note">We respect your privacy. Unsubscribe anytime. <a onclick="openModal('privacyModal')">Privacy Policy</a></p>
+                </div>
+
+                <!-- Success message -->
+                <div class="success-message" id="successMessage">
+                    <div class="success-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                            <polyline points="22 4 12 14.01 9 11.01" />
+                        </svg>
+                    </div>
+                    <h2>Check your inbox!</h2>
+                    <p>Day 1 of your course is on its way. Keep an eye on your email.</p>
+                </div>
+
+                <a href="index.html" class="back-link">&larr; Back to Gatekeeper</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-columns">
+                <!-- Navigation Column -->
+                <div class="footer-column">
+                    <h4>Navigate</h4>
+                    <ul>
+                        <li><a href="index.html#how">How It Works</a></li>
+                        <li><a href="index.html#testimonials">Results</a></li>
+                        <li><a href="index.html#founder">About</a></li>
+                        <li><a href="index.html#faq">FAQ</a></li>
+                        <li><a href="index.html#apply">Get Started</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Column -->
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#" onclick="openModal('termsModal'); return false;">Terms of Service</a></li>
+                        <li><a href="#" onclick="openModal('privacyModal'); return false;">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Social Column -->
+                <div class="footer-column">
+                    <h4>Connect</h4>
+                    <div class="footer-socials">
+                        <a href="mailto:hello@gatekeeper.example" class="footer-social-link" aria-label="Email Gatekeeper">
+                            <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        </a>
+                        <a href="index.html#testimonials" class="footer-social-link" aria-label="Read Gatekeeper results">
+                            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="index.html#apply" class="footer-social-link" aria-label="Request a Gatekeeper fit review">
+                            <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Large Logo -->
+            <div class="footer-large-logo">
+                <span>GATEKEEPER</span>
+            </div>
+
+            <!-- Copyright -->
+            <div class="footer-bottom">
+                <p>&copy; 2026 Gatekeeper Systems. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Terms of Service Modal -->
+    <div id="termsModal" class="modal-overlay" onclick="if(event.target === this) closeModal('termsModal')">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Terms of Service</h2>
+                <button class="modal-close" onclick="closeModal('termsModal')" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Last Updated:</strong> February 2026</p>
+
+                <h3>1. Acceptance of Terms</h3>
+                <p>By accessing and using the Gatekeeper service ("Service"), you accept and agree to be bound by the terms and provisions of this agreement. If you do not agree to these terms, you should not use this Service.</p>
+
+                <h3>2. Service Description</h3>
+                <p>Gatekeeper provides a lead qualification and consultation booking system designed for service-based businesses. We deliver qualified, booked consultations based on agreed-upon criteria and service terms.</p>
+
+                <h3>3. User Obligations</h3>
+                <p>You agree to provide accurate information when using our Service. You are responsible for maintaining the confidentiality of your account information and for all activities that occur under your account.</p>
+
+                <h3>4. Service Guarantee</h3>
+                <p>Our guarantee of 15+ qualified consultations in 60 days applies to our management fee only. Ad spend and setup costs are separate and not covered by this guarantee. Qualification criteria are defined in your service agreement.</p>
+
+                <h3>5. Payment Terms</h3>
+                <p>Payment terms are outlined in your individual service agreement. The guarantee applies only to management fees as specified.</p>
+
+                <h3>6. Limitation of Liability</h3>
+                <p>Gatekeeper shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of the Service. Our liability is limited to the amount paid for the Service.</p>
+
+                <h3>7. Modifications</h3>
+                <p>We reserve the right to modify these terms at any time. Continued use of the Service after changes constitutes acceptance of the new terms.</p>
+
+                <h3>8. Contact</h3>
+                <p>For questions about these Terms, please contact us through the booking form on our main page.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacyModal" class="modal-overlay" onclick="if(event.target === this) closeModal('privacyModal')">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Privacy Policy</h2>
+                <button class="modal-close" onclick="closeModal('privacyModal')" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Last Updated:</strong> February 2026</p>
+
+                <h3>1. Information We Collect</h3>
+                <p>We collect information you provide directly, including:</p>
+                <ul>
+                    <li>Name and contact information (email, phone)</li>
+                    <li>Business information (monthly revenue, lead volume)</li>
+                    <li>Booking and consultation preferences</li>
+                </ul>
+
+                <h3>2. How We Use Your Information</h3>
+                <p>We use collected information to:</p>
+                <ul>
+                    <li>Provide and improve our Service</li>
+                    <li>Communicate with you about bookings and services</li>
+                    <li>Qualify and route leads appropriately</li>
+                    <li>Send relevant updates and information</li>
+                </ul>
+
+                <h3>3. Information Sharing</h3>
+                <p>We do not sell your personal information. We may share information with:</p>
+                <ul>
+                    <li>Service providers who assist in our operations</li>
+                    <li>Business partners as required to deliver services</li>
+                    <li>Legal authorities when required by law</li>
+                </ul>
+
+                <h3>4. Data Security</h3>
+                <p>We implement appropriate security measures to protect your information. This includes encryption, secure data transmission, and access controls. However, no method of transmission over the Internet is 100% secure.</p>
+
+                <h3>5. Your Rights</h3>
+                <p>You have the right to:</p>
+                <ul>
+                    <li>Access your personal information</li>
+                    <li>Request correction of inaccurate data</li>
+                    <li>Request deletion of your information</li>
+                    <li>Opt out of marketing communications</li>
+                </ul>
+
+                <h3>6. Cookies</h3>
+                <p>We use cookies and similar technologies to enhance your experience. You can manage cookie preferences through your browser settings.</p>
+
+                <h3>7. Contact Us</h3>
+                <p>For privacy-related questions or to exercise your rights, please contact us through the booking form on our main page.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form submission
+        const courseForm = document.getElementById('courseForm');
+        const signupContent = document.getElementById('signupContent');
+        const successMessage = document.getElementById('successMessage');
+
+        courseForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('courseEmail').value;
+            // Here you would typically send this to your email service
+            signupContent.style.display = 'none';
+            successMessage.classList.add('show');
+        });
+
+        // Modal functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            }
+        });
+
+        // Parallax orbs on scroll
+        function updateParallax() {
+            const scrollY = window.scrollY;
+            const orbs = document.querySelectorAll('.bg-orb');
+            orbs.forEach(orb => {
+                let speed = 0.1;
+                if (orb.classList.contains('layer-mid')) speed = 0.2;
+                if (orb.classList.contains('layer-near')) speed = 0.35;
+                orb.style.transform = `translateY(${scrollY * speed}px)`;
+            });
+        }
+
+        window.addEventListener('scroll', updateParallax, { passive: true });
+        updateParallax();
+    </script>
+</body>
+
+</html>

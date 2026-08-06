@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Northstar Credit helps people and businesses monitor credit, understand meaningful changes, and build a practical improvement plan.">
+  <meta name="theme-color" content="#07131f">
+  <title>Northstar Credit | Credit clarity for people and companies</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/underwater-credit-monitoring.webp" fetchpriority="high">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js">
+</script>
+</head>
+<body data-cursor-scene="intro">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="northstar-header" id="siteHeader">
+    <nav class="northstar-nav" aria-label="Main navigation">
+      <a class="northstar-brand" href="#intro" aria-label="Northstar Credit home" data-cursor-label="Open"><span class="northstar-brand__mark">N</span><span>Northstar Credit</span></a>
+      <div class="northstar-nav__links">
+        <a href="#personal" data-scene-link="personal" data-cursor-label="Explore">Personal</a>
+        <a href="#business" data-scene-link="business" data-cursor-label="Explore">Business</a>
+        <a href="#consulting" data-scene-link="consulting" data-cursor-label="Explore">Consulting</a>
+        <a href="#how" data-cursor-label="View">How it works</a>
+      </div>
+      <div class="northstar-nav__actions">
+        <a class="northstar-nav__text-link" href="#dashboard" data-cursor-label="View">Explore</a>
+        <a class="northstar-button northstar-button--light" href="#consultation" data-cursor-label="Book">Book a credit review</a>
+      </div>
+      <button class="northstar-menu-button" id="menuButton" type="button" aria-label="Open navigation" aria-expanded="false">Menu</button>
+    </nav>
+    <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
+      <a href="#personal" data-scene-link="personal">Personal credit</a>
+      <a href="#business" data-scene-link="business">Business credit</a>
+      <a href="#consulting" data-scene-link="consulting">Consulting</a>
+      <a href="#how">How it works</a>
+      <a href="#consultation">Book a credit review</a>
+    </nav>
+  </header>
+
+  <nav class="story-progress" id="storyProgress" aria-label="Credit story progress">
+    <a class="is-active" href="#intro" data-progress-scene="intro" aria-label="Go to introduction" aria-current="step">
+<span>
+</span>
+</a>
+    <a href="#personal" data-progress-scene="personal" aria-label="Go to personal credit">01</a>
+    <a href="#business" data-progress-scene="business" aria-label="Go to business credit">02</a>
+    <a href="#consulting" data-progress-scene="consulting" aria-label="Go to consultant guidance">03</a>
+  </nav>
+
+  <main id="main">
+    <section class="credit-story" aria-label="Northstar Credit paths">
+      <article class="stack-panel stack-panel--intro interactive-hero" id="intro" data-scene="intro" data-mode="personal" aria-labelledby="heroHeadline">
+        <div class="hero-backgrounds" aria-hidden="true">
+          <video class="hero-background is-active" data-background="personal" autoplay muted loop playsinline preload="auto" poster="assets/underwater-credit-monitoring.webp"><source src="assets/water-bg.mp4" type="video/mp4"></video>
+          <video class="hero-background" data-background="business" muted loop playsinline preload="metadata" poster="assets/fire-business-credit.webp"><source src="assets/fire-bg.mp4" type="video/mp4"></video>
+          <video class="hero-background hero-background-consulting" data-background="consulting" muted loop playsinline preload="metadata" poster="assets/meadow-credit-recovery-clean.webp"><source src="assets/nature-bg.mp4" type="video/mp4"></video>
+        </div>
+        <div class="hero-flat-overlay" aria-hidden="true"></div>
+
+        <div class="container hero-experience">
+          <div class="hero-copy-panel">
+            <div class="hero-mode-tabs" role="tablist" aria-label="Credit paths">
+              <button class="hero-mode-tab is-active" id="tab-personal" type="button" role="tab" aria-selected="true" aria-controls="heroModePanel" tabindex="0" data-mode="personal">Personal</button>
+              <button class="hero-mode-tab" id="tab-business" type="button" role="tab" aria-selected="false" aria-controls="heroModePanel" tabindex="-1" data-mode="business">Business</button>
+              <button class="hero-mode-tab" id="tab-consulting" type="button" role="tab" aria-selected="false" aria-controls="heroModePanel" tabindex="-1" data-mode="consulting">Consulting</button>
+            </div>
+
+            <div class="hero-mode-content" id="heroModePanel" role="tabpanel" aria-labelledby="tab-personal">
+              <div class="hero-mode-label" id="heroModeLabel">01 / Personal credit</div>
+              <h1 id="heroHeadline" tabindex="-1">See beneath the surface.</h1>
+              <p class="hero-lead" id="heroDescription">Track score trends, utilization, inquiries, and account changes without digging through disconnected reports.</p>
+              <a class="button hero-primary-cta" id="heroCta" href="#personal" data-cursor-label="Explore">Review my personal credit</a>
+              <div class="hero-proof"><div class="avatars" aria-hidden="true"><span>A</span><span>M</span><span>J</span></div><div><strong>4.8 average client rating</strong><small>127 fictional demo reviews</small></div></div>
+            </div>
+          </div>
+
+          <div class="hero-product-column">
+            <div class="hero-model" id="heroModelStage" data-model="personal" data-cursor-label="Drag">
+              <model-viewer id="heroModel" src="assets/ocean-card-3d-comp-v1.glb" alt="Interactive Northstar personal credit card" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="12deg" disable-zoom interaction-prompt="none" shadow-intensity=".7" exposure="1.05" touch-action="pan-y"></model-viewer>
+              <div class="model-instructions"><span>Drag to rotate</span><div class="model-key-controls" aria-label="Rotate card controls"><button type="button" data-rotate-target="heroModel" data-direction="-1" aria-label="Rotate card left">←</button><button type="button" data-rotate-target="heroModel" data-direction="1" aria-label="Rotate card right">→</button></div></div>
+            </div>
+
+            <article class="hero-context-panel" id="heroContextPanel">
+              <span class="context-kicker" id="contextKicker">Personal monitoring</span>
+              <div class="context-value"><strong id="contextValue">742</strong><small id="contextDelta">+18</small></div>
+              <p id="contextDescription">Track score trends, utilization, inquiries, and account changes from one organized view.</p>
+              <ul id="contextFeatures"><li>Three bureau score snapshots</li><li>Account and inquiry monitoring</li><li>Plain language change explanations</li></ul>
+            </article>
+          </div>
+
+          <div class="hero-navigation" aria-label="Hero mode controls">
+            <button class="hero-arrow" id="previousMode" type="button" aria-label="Previous credit path" disabled>←</button>
+            <div class="hero-progress"><strong id="heroProgressText">01 / 03</strong><div class="progress-dots" aria-hidden="true"><span class="is-active"></span><span></span><span></span></div><small>Scroll for the full story</small></div>
+            <button class="hero-arrow" id="nextMode" type="button" aria-label="Next credit path">→</button>
+          </div>
+        </div>
+        <div class="sr-only" id="heroAnnouncement" aria-live="polite"></div>
+      </article>
+
+      <article class="stack-panel stack-panel--personal" id="personal" data-scene="personal">
+        <div class="scene-background" aria-hidden="true">
+<img src="assets/underwater-credit-monitoring.webp" alt="" width="1728" height="962" decoding="async" fetchpriority="high">
+<span class="scene-overlay">
+</span>
+</div>
+        <div class="container scene-content">
+          <div class="scene-copy">
+            <div class="scene-label">
+<span>
+</span>01 / Live signals</div>
+            <h2>Catch the change<br>that matters.</h2>
+            <p class="scene-lead">A focused monitoring feed separates meaningful credit movement from routine report noise, so you know what deserves attention.</p>
+            <a class="button button-light" href="#dashboard" data-cursor-label="Explore">Open the monitoring preview</a>
+          </div>
+          <div class="scene-product">
+            <section class="sticky-tool sticky-tool--signals" aria-label="Animated personal credit signal chart">
+              <div class="sticky-tool__header"><div><span class="sticky-tool__eyebrow">Personal profile</span><strong>Signal monitor</strong></div><span class="live-status"><i></i>Live</span></div>
+              <div class="signal-score"><div><span>Current score</span><strong data-count-to="742">742</strong></div><span class="signal-change"><b data-count-to="18" data-count-prefix="+">+18</b> this cycle</span></div>
+              <div class="signal-chart" role="img" aria-label="Personal credit score increased from 686 to 742 over seven months">
+                <svg viewBox="0 0 620 190" aria-hidden="true">
+                  <g class="signal-chart__grid"><path d="M0 35H620M0 90H620M0 145H620"></path></g>
+                  <path class="signal-chart__area" d="M0 157 C72 151 105 128 162 135 S258 118 314 107 S397 82 447 88 S538 51 620 35 L620 190 L0 190 Z"></path>
+                  <path class="signal-chart__line" d="M0 157 C72 151 105 128 162 135 S258 118 314 107 S397 82 447 88 S538 51 620 35"></path>
+                  <circle class="signal-chart__point" cx="620" cy="35" r="6"></circle>
+                </svg>
+                <div class="signal-chart__months" aria-hidden="true"><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span></div>
+              </div>
+              <div class="signal-alerts">
+                <div><span class="signal-icon">↓</span><p><strong>Utilization decreased</strong><small>31% → 24% across revolving accounts</small></p><time>Today</time></div>
+                <div><span class="signal-icon signal-icon--soft">✓</span><p><strong>Payment history remains strong</strong><small>No late payments detected this cycle</small></p><time>2d</time></div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </article>
+
+      <article class="stack-panel stack-panel--business" id="business" data-scene="business">
+        <div class="scene-background" aria-hidden="true">
+<img src="assets/fire-business-credit.webp" alt="" width="1722" height="962" loading="lazy" decoding="async">
+<span class="scene-overlay">
+</span>
+</div>
+        <div class="container scene-content">
+          <div class="scene-copy">
+            <div class="scene-label">
+<span>
+</span>02 / Readiness planning</div>
+            <h2>Know when<br>you are ready.</h2>
+            <p class="scene-lead">Turn business profile signals into a practical readiness checklist before the next vendor, lease, or financing conversation.</p>
+            <a class="button button-warm" href="#business-details" data-cursor-label="Explore">Review the readiness framework</a>
+          </div>
+          <div class="scene-product">
+            <section class="sticky-tool sticky-tool--readiness" aria-label="Animated business credit readiness graph">
+              <div class="sticky-tool__header"><div><span class="sticky-tool__eyebrow">Business profile</span><strong>Readiness workspace</strong></div><span class="tool-period">This quarter</span></div>
+              <div class="readiness-summary">
+                <div class="readiness-ring" style="--readiness:78"><span><strong data-count-to="78" data-count-suffix="%">78%</strong><small>ready</small></span></div>
+                <div><span class="sticky-tool__eyebrow">Next milestone</span><h3>Strengthen reporting depth</h3><p>One more qualifying trade relationship completes the current milestone.</p></div>
+              </div>
+              <div class="readiness-bars" aria-label="Business readiness factors">
+                <div style="--value:94%"><span>Identity alignment</span><i><b></b></i><strong data-count-to="94">94</strong></div>
+                <div style="--value:82%"><span>Payment history</span><i><b></b></i><strong data-count-to="82">82</strong></div>
+                <div style="--value:68%"><span>Reporting depth</span><i><b></b></i><strong data-count-to="68">68</strong></div>
+                <div style="--value:73%"><span>Vendor readiness</span><i><b></b></i><strong data-count-to="73">73</strong></div>
+              </div>
+              <div class="readiness-caption"><span><i></i>Current profile</span><strong><b data-count-to="9" data-count-prefix="+">+9</b> points this quarter</strong></div>
+            </section>
+          </div>
+        </div>
+      </article>
+
+      <article class="stack-panel stack-panel--consulting" id="consulting" data-scene="consulting">
+        <div class="scene-background" aria-hidden="true">
+<img src="assets/meadow-credit-recovery-clean.webp" alt="" width="1738" height="846" loading="lazy" decoding="async">
+<span class="scene-overlay">
+</span>
+</div>
+        <div class="container scene-content">
+          <div class="scene-copy">
+            <div class="scene-label">
+<span>
+</span>03 / Guided roadmap</div>
+            <h2>Turn advice<br>into action.</h2>
+            <p class="scene-lead">A structured 90-day roadmap turns a report review into sequenced actions, clear documentation, and measurable checkpoints.</p>
+            <a class="button" href="#consultation" data-cursor-label="Book">Schedule a consultation</a>
+          </div>
+          <div class="scene-product">
+            <section class="sticky-tool sticky-tool--roadmap" id="roadmapTool" aria-label="Interactive 90-day credit plan" tabindex="0">
+              <div class="sticky-tool__header"><div><span class="sticky-tool__eyebrow">Consultant plan</span><strong>Your 90-day roadmap</strong></div><span class="tool-period" id="roadmapPosition">01 / 03</span></div>
+              <div class="roadmap-progress" aria-hidden="true"><span id="roadmapProgressBar" style="--progress:34%"></span></div>
+              <div class="roadmap-carousel">
+                <button class="roadmap-arrow" id="roadmapPrevious" type="button" aria-label="Previous roadmap phase" disabled>←</button>
+                <div class="roadmap-viewport" aria-live="polite">
+                  <article class="roadmap-slide" id="roadmapSlide">
+                    <span id="roadmapRange">Days 01–30</span>
+                    <h3 id="roadmapTitle">Stabilize</h3>
+                    <p id="roadmapDescription">Verify reporting details, organize documents, and lower the highest-impact utilization balances.</p>
+                    <ul id="roadmapActions"><li>Audit all three reports</li><li>Organize supporting records</li><li>Target high utilization first</li></ul>
+                    <small id="roadmapStatus">3 actions in progress</small>
+                  </article>
+                </div>
+                <button class="roadmap-arrow" id="roadmapNext" type="button" aria-label="Next roadmap phase">→</button>
+              </div>
+              <div class="roadmap-footer">
+                <div class="roadmap-dots" role="group" aria-label="Choose roadmap phase"><button class="is-active" type="button" data-roadmap-index="0" aria-label="Days 1 to 30" aria-pressed="true"></button><button type="button" data-roadmap-index="1" aria-label="Days 31 to 60" aria-pressed="false"></button><button type="button" data-roadmap-index="2" aria-label="Days 61 to 90" aria-pressed="false"></button></div>
+                <span id="roadmapCheckpoint">Next check-in · Day 14</span>
+              </div>
+            </section>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <div class="lower-page" id="lowerPage">
+      <section class="trust-bar" aria-label="Platform benefits">
+<div class="container trust-grid">
+<div>
+<strong>Personal and business profiles</strong>
+<span>Separate views, one clear plan</span>
+</div>
+<div>
+<strong>Meaningful change monitoring</strong>
+<span>Focus on signals that matter</span>
+</div>
+<div>
+<strong>Consultant supported planning</strong>
+<span>Human guidance when needed</span>
+</div>
+<div>
+<strong>Prioritized next steps</strong>
+<span>Action without the noise</span>
+</div>
+</div>
+</section>
+
+      <section class="section platform-overview" id="platform">
+<div class="container">
+<div class="section-head reveal">
+<div>
+<div class="eyebrow">
+<span>
+</span>One connected platform</div>
+<h2>One platform. Three clear paths.</h2>
+</div>
+<p>Monitor personal credit, understand business readiness, and bring in a consultant when the next decision needs a structured plan.</p>
+</div>
+<div class="overview-grid">
+<article class="solid-card reveal">
+<span class="number-chip">01</span>
+<h3>Monitor</h3>
+<p>Track scores, accounts, inquiries, payment history, and meaningful profile changes.</p>
+</article>
+<article class="solid-card reveal">
+<span class="number-chip warm">02</span>
+<h3>Understand</h3>
+<p>Turn raw report activity into plain-language context about risk, readiness, and progress.</p>
+</article>
+<article class="solid-card reveal">
+<span class="number-chip green">03</span>
+<h3>Act</h3>
+<p>Follow prioritized next steps independently or with a consultant-supported roadmap.</p>
+</article>
+</div>
+</div>
+</section>
+
+      <section class="section dashboard-demo" id="dashboard">
+<div class="container">
+<div class="section-head reveal">
+<div>
+<div class="eyebrow">
+<span>
+</span>Interactive preview</div>
+<h2>Focus on the signal behind the score.</h2>
+</div>
+<p>Explore how Northstar organizes monitoring without reproducing the entire application.</p>
+</div>
+<div class="dashboard-preview reveal">
+<div class="dashboard-controls">
+<div class="switcher" role="group" aria-label="Credit profile">
+<button class="is-active" type="button" data-profile="personal">Personal</button>
+<button type="button" data-profile="business">Business</button>
+</div>
+<div class="switcher compact" role="group" aria-label="Score range">
+<button type="button" data-range="3">3M</button>
+<button class="is-active" type="button" data-range="6">6M</button>
+<button type="button" data-range="12">1Y</button>
+</div>
+</div>
+<div class="dashboard-main">
+<div class="chart-panel">
+<div class="chart-heading">
+<div>
+<small id="dashboardProfileLabel">Personal score</small>
+<strong id="dashboardScore">742</strong>
+</div>
+<span id="dashboardChange">+18 in 6 months</span>
+</div>
+<div class="credit-chart" id="creditChart" role="img" aria-label="Personal credit score history">
+<span style="--h:34%">
+</span>
+<span style="--h:42%">
+</span>
+<span style="--h:49%">
+</span>
+<span style="--h:58%">
+</span>
+<span style="--h:67%">
+</span>
+<span style="--h:79%">
+</span>
+<span class="selected" style="--h:88%">
+<b>742</b>
+</span>
+</div>
+<div class="chart-caption">
+<span>Three bureau trend</span>
+<strong id="accountSummary">Utilization decreased on one account</strong>
+</div>
+</div>
+<aside class="monitoring-alerts">
+<span class="info-kicker">Monitoring alerts</span>
+<div>
+<i>
+</i>
+<p>
+<strong>Utilization decreased</strong>
+<small>One revolving account moved below 30%.</small>
+</p>
+</div>
+<div>
+<i class="warm">
+</i>
+<p>
+<strong>New inquiry detected</strong>
+<small>Review the source and confirm it is expected.</small>
+</p>
+</div>
+<div>
+<i class="green">
+</i>
+<p>
+<strong>Payment history unchanged</strong>
+<small>No missed payments reported this cycle.</small>
+</p>
+</div>
+</aside>
+</div>
+</div>
+</div>
+</section>
+
+      <section class="section personal-feature" id="personal-details">
+<div class="container feature-layout">
+<div class="feature-copy reveal">
+<div class="eyebrow">
+<span>
+</span>Personal credit monitoring</div>
+<h2>Know what changed and why it matters.</h2>
+<p>See score history and account activity without moving between disconnected reports.</p>
+<ul class="check-grid">
+<li>Score history</li>
+<li>Three bureau snapshots</li>
+<li>Utilization tracking</li>
+<li>Inquiry alerts</li>
+<li>Account change explanations</li>
+<li>Plain language summaries</li>
+</ul>
+<a class="button" href="#consultation" data-cursor-label="Explore">Explore personal monitoring</a>
+</div>
+<article class="score-card reveal">
+<span class="info-kicker">Current personal score</span>
+<strong>742</strong>
+<p>Good · up 18 points across the selected six-month view.</p>
+<div class="score-signals">
+<div>
+<span>Payment history</span>
+<b>Excellent</b>
+</div>
+<div>
+<span>Utilization</span>
+<b>Improving</b>
+</div>
+<div>
+<span>New inquiries</span>
+<b>1 detected</b>
+</div>
+</div>
+</article>
+</div>
+</section>
+
+      <section class="section business-feature" id="business-details">
+<div class="container feature-layout reverse">
+<div class="feature-copy reveal">
+<div class="eyebrow warm">
+<span>
+</span>Business credit readiness</div>
+<h2>Build a profile others can evaluate.</h2>
+<p>Keep business identity, trade activity, payment history, and financing preparation separate from personal credit.</p>
+<ul class="check-grid">
+<li>Business identity and profile health</li>
+<li>Trade account tracking</li>
+<li>Payment history</li>
+<li>Vendor readiness</li>
+<li>Financing preparation milestones</li>
+<li>Separate business and personal views</li>
+</ul>
+<a class="button button-warm" href="#consultation" data-cursor-label="Explore">Explore business readiness</a>
+</div>
+<article class="readiness-card reveal">
+<div class="readiness-head">
+<span>Business profile</span>
+<strong>Northstar Studio LLC</strong>
+</div>
+<div class="readiness-value">
+<strong>78%</strong>
+<span>Financing preparation</span>
+</div>
+<div class="readiness-list">
+<div>
+<span>Business identity</span>
+<b>Verified</b>
+</div>
+<div>
+<span>Trade accounts</span>
+<b>4 reporting</b>
+</div>
+<div>
+<span>Payment history</span>
+<b>Review</b>
+</div>
+<div>
+<span>Vendor readiness</span>
+<b>2 steps left</b>
+</div>
+</div>
+</article>
+</div>
+</section>
+
+      <section class="section consultant-process" id="consultant-process">
+<div class="container">
+<div class="section-head reveal">
+<div>
+<div class="eyebrow green">
+<span>
+</span>Consultant guided improvement</div>
+<h2>A practical plan for the next 90 days.</h2>
+</div>
+<p>Ninety days creates a review rhythm, not a promise that every credit issue will be resolved in that period.</p>
+</div>
+<div class="timeline-grid">
+<article class="timeline-card reveal">
+<span>Day 1</span>
+<h3>Review reports and identify priorities</h3>
+<p>Clarify the current picture and document the factors connected to your goal.</p>
+</article>
+<article class="timeline-card reveal">
+<span>Day 30</span>
+<h3>Correct documentation and reduce avoidable risk</h3>
+<p>Organize records and focus on the highest-impact habits.</p>
+</article>
+<article class="timeline-card reveal">
+<span>Day 60</span>
+<h3>Track changes and adjust the plan</h3>
+<p>Review new activity and adapt priorities to the evidence.</p>
+</article>
+<article class="timeline-card reveal">
+<span>Day 90</span>
+<h3>Review progress and define the next stage</h3>
+<p>Measure progress against the starting point and decide what comes next.</p>
+</article>
+</div>
+<div class="center-action reveal">
+<a class="button" href="#consultation" data-cursor-label="Book">Meet with a consultant</a>
+</div>
+</div>
+</section>
+
+      <section class="section how" id="how">
+<div class="container">
+<div class="section-head reveal">
+<div>
+<div class="eyebrow">
+<span>
+</span>How it works</div>
+<h2>From raw reports to a clear next step.</h2>
+</div>
+<p>Monitoring shows what happened. A prioritized plan helps determine what to do next.</p>
+</div>
+<div class="steps-grid">
+<article class="step-card reveal">
+<span>01</span>
+<h3>Connect your credit profiles</h3>
+<p>Bring personal or business information into one organized view so the starting point is clear.</p>
+</article>
+<article class="step-card reveal">
+<span>02</span>
+<h3>Understand the signals</h3>
+<p>See the changes, risk factors, and readiness indicators connected to your current goal.</p>
+</article>
+<article class="step-card reveal">
+<span>03</span>
+<h3>Follow a prioritized plan</h3>
+<p>Work independently or with a consultant on the next actions that matter most.</p>
+</article>
+</div>
+</div>
+</section>
+
+      <section class="section social-proof">
+<div class="container">
+<div class="social-proof-head reveal">
+<div>
+<div class="section-label">Client perspective</div>
+<h2>Clarity people can use.</h2>
+</div>
+<div class="rating-block">
+<strong>4.8</strong>
+<span>from 127 fictional demo reviews</span>
+</div>
+</div>
+<!-- Fictional demo testimonials for this static concept. -->
+<div class="testimonial-grid">
+<blockquote class="testimonial reveal">
+<p>“I finally understood which changes mattered and which ones could wait.”</p>
+<footer>Marissa T. · Personal monitoring</footer>
+</blockquote>
+<blockquote class="testimonial reveal">
+<p>“Separating the business profile made our financing preparation easier to discuss.”</p>
+<footer>Andre C. · Business owner</footer>
+</blockquote>
+<blockquote class="testimonial reveal">
+<p>“The plan gave me a realistic sequence instead of another overwhelming checklist.”</p>
+<footer>Jamie R. · Consulting client</footer>
+</blockquote>
+</div>
+</div>
+</section>
+
+      <section class="section faq-section" id="faq">
+<div class="container faq-layout">
+<div class="faq-intro reveal">
+<div class="eyebrow">
+<span>
+</span>Questions, answered</div>
+<h2>Credit guidance without vague promises.</h2>
+<p>Northstar provides monitoring, education, and consulting support. It is not a lender or credit bureau.</p>
+</div>
+<div class="faq-list reveal">
+<details>
+<summary>Does checking my credit here lower my score?</summary>
+<p>A monitoring view generally uses soft inquiry information, which does not lower a score. Confirm the exact data source and authorization during onboarding.</p>
+</details>
+<details>
+<summary>Can I monitor personal and business credit separately?</summary>
+<p>Yes. Northstar keeps the profiles distinct while making both easier to understand from one account.</p>
+</details>
+<details>
+<summary>What does a credit consultant actually do?</summary>
+<p>A consultant reviews reports, explains relevant factors, helps organize documentation, and creates prioritized educational next steps.</p>
+</details>
+<details>
+<summary>Can you guarantee a specific score increase?</summary>
+<p>No. Scores depend on many factors, and Northstar does not guarantee increases, approvals, deletions, or funding outcomes.</p>
+</details>
+<details>
+<summary>How long does credit improvement take?</summary>
+<p>Timelines vary with the starting profile, reporting cycles, documentation, and actions taken. The 90-day roadmap is a review structure, not a completion guarantee.</p>
+</details>
+<details>
+<summary>Do you dispute accurate information?</summary>
+<p>No. Accurate and verifiable information should not be disputed simply because it is unfavorable.</p>
+</details>
+<details>
+<summary>Is this a lender or credit bureau?</summary>
+<p>No. Northstar is a fictional monitoring, education, and consulting concept and is not affiliated with a bureau or lender.</p>
+</details>
+<details>
+<summary>What should I prepare for a credit review?</summary>
+<p>Bring your primary goal, relevant timeline, recent reports if available, and documentation connected to accounts or inquiries you want to discuss.</p>
+</details>
+</div>
+</div>
+</section>
+
+      <section class="section consultation" id="consultation">
+<div class="container consultation-card reveal">
+<div class="consultation-copy">
+<div class="eyebrow light">
+<span>
+</span>Book a credit review</div>
+<h2>Leave with a prioritized next step.</h2>
+<p>Review your personal credit, business profile, or both with a consultant and clarify what to focus on next.</p>
+</div>
+<form id="reviewForm" novalidate>
+<div class="form-grid">
+<label>
+<span>Full name</span>
+<input type="text" name="name" autocomplete="name" required>
+<small class="field-error" data-error-for="name">
+</small>
+</label>
+<label>
+<span>Email</span>
+<input type="email" name="email" autocomplete="email" required>
+<small class="field-error" data-error-for="email">
+</small>
+</label>
+<label>
+<span>Phone</span>
+<input type="tel" name="phone" autocomplete="tel" required>
+<small class="field-error" data-error-for="phone">
+</small>
+</label>
+<label>
+<span>Credit path</span>
+<select name="path" required>
+<option value="">Select one</option>
+<option>Personal credit</option>
+<option>Business credit</option>
+<option>Personal and business</option>
+<option>Consultant guided improvement</option>
+</select>
+<small class="field-error" data-error-for="path">
+</small>
+</label>
+<label>
+<span>Main goal</span>
+<select name="goal" required>
+<option value="">Select one</option>
+<option>Monitor my credit</option>
+<option>Prepare for financing</option>
+<option>Understand changes</option>
+<option>Create an improvement plan</option>
+</select>
+<small class="field-error" data-error-for="goal">
+</small>
+</label>
+<label>
+<span>Preferred consultation method</span>
+<select name="method" required>
+<option value="">Select one</option>
+<option>Phone</option>
+<option>Video call</option>
+<option>Email follow-up</option>
+</select>
+<small class="field-error" data-error-for="method">
+</small>
+</label>
+</div>
+<label class="consent-field">
+<input type="checkbox" name="consent" required>
+<span>I agree to be contacted about this review request.</span>
+</label>
+<small class="field-error" data-error-for="consent">
+</small>
+<button class="button button-light form-button" type="submit" data-cursor-label="Book">
+<span>Book a credit review</span>
+</button>
+<div class="form-success" id="formSuccess" role="status" aria-live="polite" tabindex="-1" hidden>
+<strong>Review request received.</strong>
+<span>A Northstar consultant will follow up using your preferred method.</span>
+</div>
+<small class="form-disclaimer">Educational and consulting services only. Results are not guaranteed. Northstar Credit is not a credit bureau or lender.</small>
+</form>
+</div>
+</section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+<div class="container footer-grid">
+<div>
+<a class="brand footer-brand" href="#intro">
+<span class="brand-mark">N</span>
+<span>Northstar Credit</span>
+</a>
+<p>Personal credit monitoring, business credit visibility, and consultant guided improvement planning.</p>
+</div>
+<div>
+<strong>Platform</strong>
+<a href="#personal">Personal credit</a>
+<a href="#business">Business credit</a>
+<a href="#consulting">Consulting</a>
+</div>
+<div>
+<strong>Company</strong>
+<a href="#how">How it works</a>
+<a href="#faq">FAQ</a>
+<a href="#consultation">Contact</a>
+</div>
+<div>
+<strong>Important</strong>
+<p>Northstar Credit provides educational tools and consulting support. It does not guarantee score increases, deletions, or lending outcomes.</p>
+</div>
+</div>
+<div class="container footer-bottom">
+<span>© 2026 Northstar Credit. Demo concept.</span>
+<span>Built for personal and business credit clarity.</span>
+</div>
+</footer>
+
+  <div class="custom-cursor" aria-hidden="true">
+<span class="custom-cursor__core">
+</span>
+<span class="custom-cursor__ring">
+</span>
+<span class="custom-cursor__highlight">
+</span>
+<span class="custom-cursor__accent custom-cursor__accent--one">
+</span>
+<span class="custom-cursor__accent custom-cursor__accent--two">
+</span>
+<span class="custom-cursor__accent custom-cursor__accent--three">
+</span>
+<span class="custom-cursor__label">
+</span>
+</div>
+
+  <script src="script.js">
+</script>
+</body>
+</html>

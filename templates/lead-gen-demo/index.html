@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gatekeeper | Qualified Consultations Only</title>
+    <meta name="description"
+        content="We add 15+ qualified consultations to your calendar in 60 days. The difference is in the filter.">
+
+    <!-- Security Headers - Uncomment when deploying to production with a proper server -->
+    <!--
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    -->
+
+    <!-- Fonts: Space Grotesk (Display) + Manrope (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <!-- Unified Page Background -->
+    <div class="page-background"></div>
+
+    <!-- Parallax Orb Layers -->
+    <div class="bg-orbs-container">
+        <div class="bg-orb bg-orb-1 layer-far"></div>
+        <div class="bg-orb bg-orb-2 layer-mid"></div>
+        <div class="bg-orb bg-orb-3 layer-far"></div>
+        <div class="bg-orb bg-orb-4 layer-near"></div>
+        <div class="bg-orb bg-orb-5 layer-mid"></div>
+        <div class="bg-orb bg-orb-6 layer-near"></div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Sticky Navigation -->
+    <nav class="sticky-nav" id="stickyNav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo hoverable">
+                <div class="nav-logo-icon">
+                    <svg viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 15 L100 45 L190 15 L100 135 Z" fill="none" stroke="#a855f7" stroke-width="14"
+                            stroke-linejoin="round" stroke-linecap="round" />
+                    </svg>
+                </div>
+                <span class="nav-logo-text">GATE<span>KEEPER</span></span>
+            </a>
+            <button class="nav-toggle hoverable" id="navToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="#how" class="nav-link hoverable">How It Works</a>
+                <a href="#testimonials" class="nav-link hoverable">Results</a>
+                <a href="#founder" class="nav-link hoverable">About</a>
+                <a href="#faq" class="nav-link hoverable">FAQ</a>
+                <a href="#apply" class="nav-cta hoverable">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Custom Cursor (Purple Dot) -->
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <div class="noise-overlay"></div>
+
+    <!-- SPLASH SCREEN -->
+    <div class="splash-screen active" id="splash">
+        <div class="splash-content">
+            <div class="splash-logo-icon">
+                <svg viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 15 L100 45 L190 15 L100 135 Z" fill="none" stroke="#a855f7" stroke-width="14"
+                        stroke-linejoin="round" stroke-linecap="round" />
+                </svg>
+            </div>
+            <div class="splash-logo-text"><span class="gate">GATE</span><span class="keeper">KEEPER</span></div>
+        </div>
+        <!-- Gradient Orbs floating behind logo -->
+        <div class="splash-orbs">
+            <div class="splash-orb orb-1"></div>
+            <div class="splash-orb orb-2"></div>
+            <div class="splash-orb orb-3"></div>
+            <div class="splash-orb orb-4"></div>
+            <div class="splash-orb orb-5"></div>
+            <div class="splash-orb orb-6"></div>
+        </div>
+        <div class="scroll-prompt">
+            <span class="scroll-text">Scroll to explore</span>
+            <div class="scroll-line"></div>
+        </div>
+    </div>
+
+    <!-- ANIMATION LAYER -->
+    <div class="animation-stage" id="stage">
+        <canvas id="funnelCanvas"></canvas>
+    </div>
+
+    <!-- CONTENT LAYER -->
+    <main class="content-wrapper">
+        <div class="scroll-spacer"></div>
+
+        <!-- HERO -->
+        <section class="hero section-snap section-full">
+            <div class="container">
+                <h1 class="hero-title animate-on-scroll">Your calendar should be full of <span
+                        class="accent">buyers</span>.</h1>
+                <p class="hero-sub animate-on-scroll delay-1">Add <span class="accent tooltip"
+                        data-tip="Qualified means they have the budget, the need, and they're ready to make a decision.">15+ qualified</span>
+                    meetings to your calendar in <span class="stat-animate" data-target="60">60</span> days, or <span class="accent tooltip"
+                        data-tip="Your monthly fee is waived until you see results.">you don't pay</span> until you see results.
+                </p>
+                <div class="hero-cta-group animate-on-scroll delay-2">
+                    <a href="#apply" class="btn btn-primary hoverable">Get Started</a>
+                    <a href="#how" class="btn btn-secondary hoverable">See How It Works</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- VSL SECTION -->
+        <section class="section vsl-section section-snap section-full" id="vsl">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title animate-on-scroll">See how we find <span class="accent">real buyers</span>.
+                    </h2>
+                    <p class="section-sub animate-on-scroll delay-1">Not every lead is worth your time. Watch how we
+                        find the ones who are ready to buy.</p>
+                </div>
+                <div class="vsl-wrapper animate-scale-up delay-2">
+                    <button class="vsl-player hoverable" type="button" aria-label="Play the Gatekeeper interactive overview" aria-pressed="false">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1800&q=86" alt="Sales team reviewing a qualification workflow">
+                        <span class="vsl-shade"></span>
+                        <span class="vsl-kicker">GATEKEEPER OVERVIEW · 01:42</span>
+                        <span class="vsl-chapter" data-vsl-chapter>Reply while intent is high.</span>
+                        <span class="vsl-caption" data-vsl-caption>Gatekeeper starts a useful conversation in under 60 seconds, while the prospect still remembers why they raised their hand.</span>
+                        <span class="play-button" aria-hidden="true"></span>
+                        <span class="vsl-control" data-vsl-control>PLAY OVERVIEW</span>
+                        <span class="vsl-progress"><i data-vsl-progress></i></span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SPLIT REALITY -->
+        <section class="section split-reality section-snap section-full">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title animate-on-scroll">Why this feels <span class="accent">different</span></h2>
+                    <p class="section-sub animate-on-scroll delay-1">More leads won't help if most of them aren't
+                        buyers. We help the right ones get through.</p>
+                </div>
+                <div class="split-grid">
+                    <div class="split-card noise-card animate-slide-left delay-2">
+                        <div class="split-label">What you've tried</div>
+                        <h3 class="card-title">Wasted Time</h3>
+                        <ul class="feature-list">
+                            <li><span class="split-icon">×</span> Spent more on ads hoping for better leads</li>
+                            <li><span class="split-icon">×</span> Hired more people to make calls faster</li>
+                            <li><span class="split-icon">×</span> Bought new sales software</li>
+                            <li><span class="split-icon">×</span> Switched agencies more than once</li>
+                        </ul>
+                    </div>
+                    <div class="split-card signal-card animate-slide-right delay-3">
+                        <div class="split-label">What this does</div>
+                        <h3 class="card-title">Real Results</h3>
+                        <ul class="feature-list good">
+                            <li><span class="split-icon">✓</span> Every lead gets a reply in under 60 seconds</li>
+                            <li><span class="split-icon">✓</span> Only ready-to-buy leads book calls</li>
+                            <li><span class="split-icon">✓</span> Budget and interest checked first</li>
+                            <li><span class="split-icon">✓</span> Calm calendar with spaced meetings</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOUNDER -->
+        <section class="section founder-section section-snap section-full" id="founder">
+            <div class="container">
+                <div class="founder-card animate-scale-up">
+                    <img class="founder-photo" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=86" alt="Founder portrait used for the Gatekeeper demonstration">
+                    <div class="founder-story">
+                    <span class="parallax-quote">"</span>
+                    <h2 class="founder-title">Why I built Gatekeeper.</h2>
+                    <div class="founder-content">
+                        <p>"I spent three years making 60 calls a day. Most people didn't even remember asking for help.
+                            I realized the problem wasn't what I was saying. <strong>It was who I was talking
+                                to.</strong>"</p>
+                        <p>Most agencies give you more leads because that's easy. We give you better leads because
+                            that's what actually makes you money. I built Gatekeeper to save your time the same way I
+                            wish someone had saved mine.</p>
+                    </div>
+                    <div class="founder-sig">Ty Bryant, Founder</div>
+                    <small class="demo-photo-note">Portrait photography is illustrative for this fictional demonstration.</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS (with integrated stats) -->
+        <section class="section how-it-works section-snap section-full" id="how">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title animate-on-scroll">How It Works</h2>
+                    <p class="section-sub animate-on-scroll delay-1">A simple way to stop wasting time on the wrong people</p>
+                </div>
+
+                <div class="how-it-works-layout">
+                    <div class="how-it-works-main">
+                        <div class="flow-diagram animate-on-scroll delay-2">
+                            <div class="flow-step" data-step="1">
+                                <div class="flow-icon">
+                                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                        <polyline points="7 10 12 15 17 10" />
+                                        <line x1="12" y1="15" x2="12" y2="3" />
+                                    </svg>
+                                </div>
+                                <div class="flow-title">Lead comes in</div>
+                                <div class="flow-desc">From ads, Google, or word of mouth.</div>
+                            </div>
+
+                            <div class="flow-connector"></div>
+
+                            <div class="flow-step active" data-step="2">
+                                <div class="flow-icon">
+                                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                                    </svg>
+                                </div>
+                                <div class="flow-title">We check if they're ready</div>
+                                <div class="flow-desc">Our system replies in under 60 seconds.</div>
+                            </div>
+
+                            <div class="flow-connector"></div>
+
+                            <div class="flow-step" data-step="3">
+                                <div class="flow-icon">
+                                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                        <line x1="16" y1="2" x2="16" y2="6" />
+                                        <line x1="8" y1="2" x2="8" y2="6" />
+                                        <line x1="3" y1="10" x2="21" y2="10" />
+                                        <path d="M9 16l2 2 4-4" />
+                                    </svg>
+                                </div>
+                                <div class="flow-title">Ready? They book.</div>
+                                <div class="flow-desc">Only real buyers get on your calendar.</div>
+                            </div>
+
+                            <div class="flow-connector"></div>
+
+                            <div class="flow-step" data-step="4">
+                                <div class="flow-icon">
+                                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M17 2.1l4 4-4 4" />
+                                        <path d="M3 12.2v-2a4 4 0 0 1 4-4h12.8" />
+                                        <path d="M7 21.9l-4-4 4-4" />
+                                        <path d="M21 11.8v2a4 4 0 0 1-4 4H4.2" />
+                                    </svg>
+                                </div>
+                                <div class="flow-title">Not yet? We follow up.</div>
+                                <div class="flow-desc">We keep in touch for 21 days.</div>
+                            </div>
+                        </div>
+
+                        <div class="flow-highlight animate-on-scroll delay-3">
+                            <p>Same leads. Same ads. You just stop talking to people who were never going to buy.</p>
+                        </div>
+
+                        <div class="how-it-works-stats">
+                            <div class="mini-stat animate-on-scroll delay-2">
+                                <div class="mini-stat-value" data-target="73">0</div>
+                                <div class="mini-stat-label">Show Rate %</div>
+                            </div>
+                            <div class="mini-stat animate-on-scroll delay-3">
+                                <div class="mini-stat-value">&lt;60s</div>
+                                <div class="mini-stat-label">Response Time</div>
+                            </div>
+                            <div class="mini-stat animate-on-scroll delay-4">
+                                <div class="mini-stat-value" data-target="15">0</div>
+                                <div class="mini-stat-label">Meetings in 60 Days</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS -->
+        <section class="section testimonials section-snap section-full" id="testimonials">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title animate-on-scroll">What our clients say</h2>
+                    <p class="section-sub animate-on-scroll delay-1">Real results from real businesses</p>
+                </div>
+
+                <div class="testimonials-grid">
+                    <div class="testimonial-card hoverable animate-on-scroll delay-2">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-text">"Before Gatekeeper, only 40% of our booked calls showed up. Now we're at 73%. Same ads, same offer — we just stopped talking to people who were never going to buy."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">SJ</div>
+                            <div class="author-info">
+                                <div class="author-name">Sarah Jenkins</div>
+                                <div class="author-role">Founder, LegalFlow</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card hoverable animate-on-scroll delay-3">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-text">"We went from 2-3 qualified calls a week to 12+ in the first month. The response time alone made a huge difference — leads were booking while still interested."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">MR</div>
+                            <div class="author-info">
+                                <div class="author-name">Mike Rodriguez</div>
+                                <div class="author-role">Founder, Coastal Wellness</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card hoverable animate-on-scroll delay-3">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p class="testimonial-text">"Used to waste 15+ hours a week chasing cold leads. Now my calendar only has people ready to move forward. Closed $47k in the first 60 days."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">DR</div>
+                            <div class="author-info">
+                                <div class="author-name">David Ross</div>
+                                <div class="author-role">CEO, Ross Capital</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHO THIS IS FOR -->
+        <section class="section for-section section-snap section-full">
+            <div class="container">
+                <div class="for-content">
+                    <h2 class="section-title animate-on-scroll">Is this right for you?</h2>
+                    <p class="for-subtitle animate-on-scroll delay-1">This works best if you already get leads but want
+                        more of them to buy.</p>
+                    <ul class="for-list" id="forList">
+                        <li><span class="for-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> You run a service business or agency</li>
+                        <li><span class="for-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> You get leads but most of them don't buy</li>
+                        <li><span class="for-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> You're tired of calling people who don't answer or can't pay</li>
+                        <li><span class="for-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> You want to spend more time with people who are ready to buy</li>
+                    </ul>
+                    <div class="for-note animate-on-scroll delay-4">
+                        If this sounds like you, keep going.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA + FAQ -->
+        <section class="section cta-faq section-snap section-full" id="apply">
+            <div class="container">
+                <div class="cta-faq-grid">
+                    <!-- Form Side -->
+                    <div class="cta-side">
+                        <h2 class="animate-on-scroll">See if you're a good fit</h2>
+                        <p class="cta-sub animate-on-scroll delay-1">15 minutes. We'll show you where you're losing
+                            leads.</p>
+
+                        <!-- Step Indicators -->
+                        <div class="form-steps animate-on-scroll delay-2">
+                            <div class="step-indicator active" data-step="1"></div>
+                            <div class="step-indicator" data-step="2"></div>
+                            <div class="step-indicator" data-step="3"></div>
+                        </div>
+
+                        <!-- Step 1: Form -->
+                        <div class="form-card animate-on-scroll delay-2" id="formStep">
+                            <form id="qualifyForm" novalidate>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" id="name" name="name" placeholder="Your name" required>
+                                        <div class="error-message" id="nameError">Please enter your name</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" id="email" name="email" placeholder="you@company.com"
+                                            required>
+                                        <div class="error-message" id="emailError">Please enter a valid email address
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="phone">Phone</label>
+                                        <input type="tel" id="phone" name="phone" placeholder="5551234567"
+                                            pattern="[0-9]*" inputmode="numeric" required>
+                                        <div class="error-message" id="phoneError">Please enter a valid phone number
+                                            (numbers only)</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="revenue">Monthly Revenue</label>
+                                        <select id="revenue" name="revenue" required>
+                                            <option value="">Select range</option>
+                                            <option value="under75">Under $75k</option>
+                                            <option value="75to100">$75k to $100k</option>
+                                            <option value="100to180">$100k to $180k</option>
+                                            <option value="180plus">$180k+</option>
+                                        </select>
+                                        <div class="error-message" id="revenueError">Please select your revenue range
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group" style="grid-column: 1 / -1;">
+                                        <label for="leads">Leads Per Month</label>
+                                        <select id="leads" name="leads" required>
+                                            <option value="">Select range</option>
+                                            <option value="under25">Under 25</option>
+                                            <option value="25to50">25 to 50</option>
+                                            <option value="50to100">50 to 100</option>
+                                            <option value="100plus">100+</option>
+                                        </select>
+                                        <div class="error-message" id="leadsError">Please select your lead volume</div>
+                                    </div>
+                                </div>
+
+                                <!-- Legal Compliance -->
+                                <div class="legal-checkbox">
+                                    <input type="checkbox" id="consent" name="consent" required>
+                                    <label for="consent">I agree to the <a href="#" onclick="openModal('privacyModal'); return false;">Privacy
+                                            Policy</a> and consent to receive communications about my inquiry. I can opt
+                                        out anytime.</label>
+                                </div>
+                                <div class="error-message" id="consentError" style="margin-left: 30px;">Please agree to
+                                    continue</div>
+
+                                <button type="submit" class="btn btn-primary hoverable">Check If I Qualify</button>
+                            </form>
+                            <p class="form-note">Interactive demo only. No CRM, calendar event, or email is created.</p>
+                        </div>
+
+                        <!-- Step 2: Calendar Booking -->
+                        <div class="calendar-step" id="calendarStep">
+                            <h4>Great! Pick a date and time.</h4>
+                            <p>Choose when works best for your 15-minute call.</p>
+
+                            <div class="calendar-nav">
+                                <button type="button" id="prevMonth" class="hoverable">&larr; Prev</button>
+                                <span class="calendar-month" id="calendarMonth">February 2026</span>
+                                <button type="button" id="nextMonth" class="hoverable">Next &rarr;</button>
+                            </div>
+
+                            <div class="calendar-grid" id="calendarGrid">
+                                <!-- Calendar days will be generated by JS -->
+                            </div>
+
+                            <div id="timeSlotContainer" style="display: none;">
+                                <p style="text-align: center; margin-bottom: 16px; color: var(--text-gray);">Available
+                                    times for <span id="selectedDateText"></span>:</p>
+                                <div class="time-slots" id="timeSlots">
+                                    <div class="time-slot hoverable" data-time="09:00">9:00 AM</div>
+                                    <div class="time-slot hoverable" data-time="10:00">10:00 AM</div>
+                                    <div class="time-slot hoverable" data-time="11:00">11:00 AM</div>
+                                    <div class="time-slot hoverable" data-time="13:00">1:00 PM</div>
+                                    <div class="time-slot hoverable" data-time="14:00">2:00 PM</div>
+                                    <div class="time-slot hoverable" data-time="15:00">3:00 PM</div>
+                                </div>
+                                <button type="button" class="btn btn-primary hoverable" id="confirmBooking"
+                                    style="width: 100%;">Confirm Booking</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Confirmation -->
+                        <div class="confirmation-step" id="confirmationStep">
+                            <div class="confirmation-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                    <polyline points="22 4 12 14.01 9 11.01" />
+                                </svg>
+                            </div>
+                            <h4>Demo booking staged.</h4>
+                            <p>No calendar invite was sent. Connect an approved scheduling service before launch.</p>
+
+                            <div class="confirmation-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">Date</span>
+                                    <span class="detail-value" id="confirmDate">-</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Time</span>
+                                    <span class="detail-value" id="confirmTime">-</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Duration</span>
+                                    <span class="detail-value">15 minutes</span>
+                                </div>
+                            </div>
+
+                            <p style="font-size: 14px;">We'll call you at the number you gave us.</p>
+                        </div>
+
+                        <!-- Not qualified message (hidden - redirects) -->
+                        <div class="not-qualified" id="notQualified"></div>
+
+                        <div class="guarantee-badge animate-on-scroll delay-3">
+                            <span>✓</span> 15+ <span class="tooltip"
+                                data-tip="They have the budget, the need, and the power to make a decision.">qualified</span>
+                            meetings in 60 days or <span class="tooltip"
+                                data-tip="Our fee is waived. Ad spend is separate.">you don't pay</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ SECTION -->
+        <section class="section faq-section section-snap" id="faq">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title animate-on-scroll">Common Questions</h2>
+                    <p class="section-sub animate-on-scroll delay-1">Everything you need to know</p>
+                </div>
+                <div class="faq-grid animate-on-scroll delay-2">
+                    <div class="faq-item">
+                        <div class="faq-question">How much does it cost?</div>
+                        <div class="faq-answer">You pay a monthly fee plus your ad spend. If you close just one or two deals, you've already covered the cost.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">I already use a CRM</div>
+                        <div class="faq-answer">No problem. We work on top of what you have. We send the good leads right to your current system.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">What if it doesn't work?</div>
+                        <div class="faq-answer">15+ booked calls in 60 days or you don't pay us. Simple as that.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">Will leads know it's automated?</div>
+                        <div class="faq-answer">No. Our messages sound like real people. Your team still does the actual calls and closes the deals.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">I don't run ads</div>
+                        <div class="faq-answer">That's fine. This works with any way you get leads - website, referrals, Google, anything.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">When will I see results?</div>
+                        <div class="faq-answer">Your leads get faster replies within 24 hours. Most people start seeing booked calls in the first 2 weeks.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-columns">
+                    <!-- Navigation Column -->
+                    <div class="footer-column">
+                        <h4>Navigate</h4>
+                        <ul>
+                            <li><a href="#how">How It Works</a></li>
+                            <li><a href="#testimonials">Results</a></li>
+                            <li><a href="#founder">About</a></li>
+                            <li><a href="#faq">FAQ</a></li>
+                            <li><a href="#apply">Get Started</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Legal Column -->
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="#" onclick="openModal('termsModal'); return false;">Terms of Service</a></li>
+                            <li><a href="#" onclick="openModal('privacyModal'); return false;">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column"><h4>Connect</h4><ul><li><a href="mailto:hello@gatekeeper.example">hello@gatekeeper.example</a></li><li><a href="#apply">Request a fit review</a></li></ul></div>
+                </div>
+
+                <!-- Large Logo -->
+                <div class="footer-large-logo">
+                    <span>GATEKEEPER</span>
+                </div>
+
+                <!-- Copyright -->
+                <div class="footer-bottom">
+                    <p>&copy; 2026 Gatekeeper Systems. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Terms of Service Modal -->
+        <div id="termsModal" class="modal-overlay" onclick="if(event.target === this) closeModal('termsModal')">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Terms of Service</h2>
+                    <button class="modal-close" onclick="closeModal('termsModal')" aria-label="Close modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Last Updated:</strong> February 2026</p>
+
+                    <h3>1. Acceptance of Terms</h3>
+                    <p>By accessing and using the Gatekeeper service ("Service"), you accept and agree to be bound by the terms and provisions of this agreement. If you do not agree to these terms, you should not use this Service.</p>
+
+                    <h3>2. Service Description</h3>
+                    <p>Gatekeeper provides a lead qualification and consultation booking system designed for service-based businesses. We deliver qualified, booked consultations based on agreed-upon criteria and service terms.</p>
+
+                    <h3>3. User Obligations</h3>
+                    <p>You agree to provide accurate information when using our Service. You are responsible for maintaining the confidentiality of your account information and for all activities that occur under your account.</p>
+
+                    <h3>4. Service Guarantee</h3>
+                    <p>Our guarantee of 15+ qualified consultations in 60 days applies to our management fee only. Ad spend and setup costs are separate and not covered by this guarantee. Qualification criteria are defined in your service agreement.</p>
+
+                    <h3>5. Payment Terms</h3>
+                    <p>Payment terms are outlined in your individual service agreement. The guarantee applies only to management fees as specified.</p>
+
+                    <h3>6. Limitation of Liability</h3>
+                    <p>Gatekeeper shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of the Service. Our liability is limited to the amount paid for the Service.</p>
+
+                    <h3>7. Modifications</h3>
+                    <p>We reserve the right to modify these terms at any time. Continued use of the Service after changes constitutes acceptance of the new terms.</p>
+
+                    <h3>8. Contact</h3>
+                    <p>For questions about these Terms, please contact us through the booking form on this page.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacy Policy Modal -->
+        <div id="privacyModal" class="modal-overlay" onclick="if(event.target === this) closeModal('privacyModal')">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Privacy Policy</h2>
+                    <button class="modal-close" onclick="closeModal('privacyModal')" aria-label="Close modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Last Updated:</strong> February 2026</p>
+
+                    <h3>1. Information We Collect</h3>
+                    <p>We collect information you provide directly, including:</p>
+                    <ul>
+                        <li>Name and contact information (email, phone)</li>
+                        <li>Business information (monthly revenue, lead volume)</li>
+                        <li>Booking and consultation preferences</li>
+                    </ul>
+
+                    <h3>2. How We Use Your Information</h3>
+                    <p>We use collected information to:</p>
+                    <ul>
+                        <li>Provide and improve our Service</li>
+                        <li>Communicate with you about bookings and services</li>
+                        <li>Qualify and route leads appropriately</li>
+                        <li>Send relevant updates and information</li>
+                    </ul>
+
+                    <h3>3. Information Sharing</h3>
+                    <p>We do not sell your personal information. We may share information with:</p>
+                    <ul>
+                        <li>Service providers who assist in our operations</li>
+                        <li>Business partners as required to deliver services</li>
+                        <li>Legal authorities when required by law</li>
+                    </ul>
+
+                    <h3>4. Data Security</h3>
+                    <p>We implement appropriate security measures to protect your information. This includes encryption, secure data transmission, and access controls. However, no method of transmission over the Internet is 100% secure.</p>
+
+                    <h3>5. Your Rights</h3>
+                    <p>You have the right to:</p>
+                    <ul>
+                        <li>Access your personal information</li>
+                        <li>Request correction of inaccurate data</li>
+                        <li>Request deletion of your information</li>
+                        <li>Opt out of marketing communications</li>
+                    </ul>
+
+                    <h3>6. Cookies</h3>
+                    <p>We use cookies and similar technologies to enhance your experience. You can manage cookie preferences through your browser settings.</p>
+
+                    <h3>7. Contact Us</h3>
+                    <p>For privacy-related questions or to exercise your rights, please contact us through the booking form on this page.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ========== MODAL FUNCTIONS ==========
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            }
+        });
+    </script>
+
+    <script>
+        // ========== STICKY NAVIGATION ==========
+        const stickyNav = document.getElementById('stickyNav');
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        let lastScrollY = 0;
+
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+
+            // Show nav after scrolling past splash (about 1.5 viewport heights)
+            if (scrollY > window.innerHeight * 1.2) {
+                stickyNav.classList.add('visible');
+            } else {
+                stickyNav.classList.remove('visible');
+            }
+
+            lastScrollY = scrollY;
+        });
+
+        // Mobile menu toggle
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            navLinks.classList.toggle('open');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-link, .nav-cta').forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navLinks.classList.remove('open');
+            });
+        });
+
+        // ========== CUSTOM CURSOR (Purple Dot) ==========
+        const cursorDot = document.getElementById('cursorDot');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            cursorDot.style.left = cursorX + 'px';
+            cursorDot.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        document.querySelectorAll('.hoverable, a, button, input, select, summary').forEach(el => {
+            el.addEventListener('mouseenter', () => cursorDot.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursorDot.classList.remove('hover'));
+        });
+
+        document.addEventListener('mousedown', () => cursorDot.classList.add('clicking'));
+        document.addEventListener('mouseup', () => cursorDot.classList.remove('clicking'));
+
+        // ========== PROGRESS BAR ==========
+        const progressBar = document.getElementById('progressBar');
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            progressBar.style.width = scrollPercent + '%';
+        });
+
+        // ========== SCROLL ANIMATIONS ==========
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -80px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+
+                    // Number counter animation (supports both stat-value and mini-stat-value)
+                    const statValue = entry.target.querySelector('.stat-value[data-target], .mini-stat-value[data-target]');
+                    if (statValue && !statValue.classList.contains('counted')) {
+                        statValue.classList.add('counted');
+                        const target = parseInt(statValue.getAttribute('data-target'));
+                        let current = 0;
+                        const increment = target / 40;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                const labelEl = statValue.nextElementSibling;
+                                const suffix = labelEl && labelEl.textContent.includes('%') ? '%' : '+';
+                                statValue.textContent = target + suffix;
+                                clearInterval(timer);
+                            } else {
+                                statValue.textContent = Math.floor(current);
+                            }
+                        }, 40);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll, .animate-slide-left, .animate-slide-right, .animate-scale-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ========== FOR-LIST ANIMATED CHECKMARKS ==========
+        const forListObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const items = entry.target.querySelectorAll('li');
+                    items.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.classList.add('visible');
+                        }, index * 150);
+                    });
+                    forListObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        const forList = document.getElementById('forList');
+        if (forList) {
+            forListObserver.observe(forList);
+        }
+
+        // ========== VSL AUTOPLAY/PAUSE ON SCROLL ==========
+        const vslObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target.querySelector('video');
+                if (video) {
+                    if (entry.isIntersecting) {
+                        video.play().catch(() => {}); // Autoplay muted
+                    } else {
+                        video.pause();
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const vslSection = document.querySelector('.vsl-section');
+        if (vslSection) {
+            vslObserver.observe(vslSection);
+        }
+
+        const vslPlayer = document.querySelector('.vsl-player');
+        if (vslPlayer) {
+            const chapters = [
+                ['Reply while intent is high.', 'Gatekeeper starts a useful conversation in under 60 seconds, while the prospect still remembers why they raised their hand.'],
+                ['Qualify before the calendar.', 'Budget, need, timing, and decision authority are checked before anyone can claim a meeting slot.'],
+                ['Hand sales the full context.', 'Every accepted booking arrives with answers, score, source, and the conversation that earned the meeting.']
+            ];
+            let vslTimer = null, vslStep = 0;
+            const renderVsl = () => {
+                vslPlayer.querySelector('[data-vsl-chapter]').textContent = chapters[vslStep][0];
+                vslPlayer.querySelector('[data-vsl-caption]').textContent = chapters[vslStep][1];
+                vslPlayer.querySelector('[data-vsl-progress]').style.width = `${((vslStep + 1) / chapters.length) * 100}%`;
+            };
+            const stopVsl = () => { clearInterval(vslTimer); vslTimer = null; vslPlayer.classList.remove('playing'); vslPlayer.setAttribute('aria-pressed','false'); vslPlayer.querySelector('[data-vsl-control]').textContent = 'REPLAY OVERVIEW'; };
+            vslPlayer.addEventListener('click', () => {
+                if (vslTimer) { stopVsl(); return; }
+                vslPlayer.classList.add('playing'); vslPlayer.setAttribute('aria-pressed','true'); vslPlayer.querySelector('[data-vsl-control]').textContent = 'PAUSE OVERVIEW';
+                vslStep = 0; renderVsl();
+                vslTimer = setInterval(() => { vslStep += 1; if (vslStep >= chapters.length) { stopVsl(); return; } renderVsl(); }, 4200);
+            });
+        }
+
+        // ========== SPLIT CARD SCROLL ANIMATION ==========
+        const splitCardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.split-card').forEach(card => {
+            splitCardObserver.observe(card);
+        });
+
+        // ========== CURSOR-TRACKING TILT FOR SPLIT CARDS ==========
+        document.querySelectorAll('.split-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+            });
+        });
+
+        // ========== FORM VALIDATION & BOOKING FLOW ==========
+        const qualifyForm = document.getElementById('qualifyForm');
+        const formStep = document.getElementById('formStep');
+        const calendarStep = document.getElementById('calendarStep');
+        const confirmationStep = document.getElementById('confirmationStep');
+        const stepIndicators = document.querySelectorAll('.step-indicator');
+
+        // Phone number - numbers only
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        });
+
+        // Email validation regex
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        // Clear error on input
+        document.querySelectorAll('#qualifyForm input, #qualifyForm select').forEach(input => {
+            input.addEventListener('input', () => {
+                input.classList.remove('error');
+                const errorEl = document.getElementById(input.id + 'Error');
+                if (errorEl) errorEl.classList.remove('show');
+            });
+        });
+
+        // Form submission
+        qualifyForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let isValid = true;
+
+            // Validate name
+            const name = document.getElementById('name');
+            if (!name.value.trim()) {
+                name.classList.add('error');
+                document.getElementById('nameError').classList.add('show');
+                isValid = false;
+            }
+
+            // Validate email
+            const email = document.getElementById('email');
+            if (!email.value.trim() || !emailRegex.test(email.value)) {
+                email.classList.add('error');
+                document.getElementById('emailError').classList.add('show');
+                isValid = false;
+            }
+
+            // Validate phone (numbers only, at least 10 digits)
+            const phone = document.getElementById('phone');
+            if (!phone.value || phone.value.length < 10) {
+                phone.classList.add('error');
+                document.getElementById('phoneError').classList.add('show');
+                isValid = false;
+            }
+
+            // Validate revenue
+            const revenue = document.getElementById('revenue');
+            if (!revenue.value) {
+                revenue.classList.add('error');
+                document.getElementById('revenueError').classList.add('show');
+                isValid = false;
+            }
+
+            // Validate leads
+            const leads = document.getElementById('leads');
+            if (!leads.value) {
+                leads.classList.add('error');
+                document.getElementById('leadsError').classList.add('show');
+                isValid = false;
+            }
+
+            // Validate consent
+            const consent = document.getElementById('consent');
+            if (!consent.checked) {
+                document.getElementById('consentError').classList.add('show');
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            // Weighted scoring qualification
+            let score = 0;
+
+            // Revenue scoring
+            switch(revenue.value) {
+                case '180plus': score += 3; break;     // $180k+ = 3 points
+                case '100to180': score += 2; break;   // $100k-$180k = 2 points
+                case '75to100': score += 1; break;    // $75k-$100k = 1 point
+                case 'under75': score += 0; break;    // Under $75k = 0 points
+            }
+
+            // Lead volume scoring
+            switch(leads.value) {
+                case '100plus': score += 3; break;    // 100+ leads = 3 points
+                case '50to100': score += 2; break;    // 50-100 leads = 2 points
+                case '25to50': score += 1; break;     // 25-50 leads = 1 point
+                case 'under25': score += 0; break;    // Under 25 = 0 points
+            }
+
+            // Qualified threshold: 4+ points
+            const isQualified = score >= 4;
+
+            if (isQualified) {
+                // Show calendar step
+                formStep.style.display = 'none';
+                calendarStep.classList.add('show');
+                updateStepIndicator(2);
+                initCalendar();
+            } else {
+                // Redirect to free value add page
+                window.location.href = 'value-add.html';
+            }
+        });
+
+        // Update step indicators
+        function updateStepIndicator(step) {
+            stepIndicators.forEach((indicator, index) => {
+                indicator.classList.remove('active', 'completed');
+                if (index + 1 < step) {
+                    indicator.classList.add('completed');
+                } else if (index + 1 === step) {
+                    indicator.classList.add('active');
+                }
+            });
+        }
+
+        // ========== CALENDAR BOOKING ==========
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let selectedDate = null;
+        let selectedTime = null;
+
+        const calendarGrid = document.getElementById('calendarGrid');
+        const calendarMonth = document.getElementById('calendarMonth');
+        const timeSlotContainer = document.getElementById('timeSlotContainer');
+        const selectedDateText = document.getElementById('selectedDateText');
+
+        function initCalendar() {
+            renderCalendar();
+        }
+
+        function renderCalendar() {
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'];
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+            calendarMonth.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const today = new Date();
+
+            let html = '';
+
+            // Day headers
+            dayNames.forEach(day => {
+                html += `<div class="calendar-day-header">${day}</div>`;
+            });
+
+            // Empty cells before first day
+            for (let i = 0; i < firstDay; i++) {
+                html += '<div class="calendar-day empty"></div>';
+            }
+
+            // Days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(currentYear, currentMonth, day);
+                const isPast = date < today && date.toDateString() !== today.toDateString();
+                const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+                const isDisabled = isPast || isWeekend;
+
+                html += `<div class="calendar-day ${isDisabled ? 'disabled' : 'hoverable'}"
+                    data-date="${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}"
+                    ${isDisabled ? '' : 'onclick="selectDate(this)"'}>${day}</div>`;
+            }
+
+            calendarGrid.innerHTML = html;
+        }
+
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar();
+        });
+
+        window.selectDate = function (el) {
+            document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedDate = el.dataset.date;
+
+            const dateObj = new Date(selectedDate + 'T12:00:00');
+            const options = { weekday: 'long', month: 'long', day: 'numeric' };
+            selectedDateText.textContent = dateObj.toLocaleDateString('en-US', options);
+
+            timeSlotContainer.style.display = 'block';
+            selectedTime = null;
+            document.querySelectorAll('.time-slot').forEach(t => t.classList.remove('selected'));
+        };
+
+        // Time slot selection
+        document.querySelectorAll('.time-slot').forEach(slot => {
+            slot.addEventListener('click', () => {
+                document.querySelectorAll('.time-slot').forEach(t => t.classList.remove('selected'));
+                slot.classList.add('selected');
+                selectedTime = slot.dataset.time;
+            });
+        });
+
+        // Confirm booking
+        document.getElementById('confirmBooking').addEventListener('click', () => {
+            if (!selectedDate || !selectedTime) {
+                alert('Please select both a date and time.');
+                return;
+            }
+
+            // Show confirmation
+            const dateObj = new Date(selectedDate + 'T12:00:00');
+            const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+            document.getElementById('confirmDate').textContent = dateObj.toLocaleDateString('en-US', options);
+
+            const hour = parseInt(selectedTime.split(':')[0]);
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            const hour12 = hour > 12 ? hour - 12 : hour;
+            document.getElementById('confirmTime').textContent = `${hour12}:00 ${ampm}`;
+
+            calendarStep.classList.remove('show');
+            confirmationStep.classList.add('show');
+            updateStepIndicator(3);
+
+            // Redirect to booking page after brief confirmation display
+            setTimeout(() => {
+                window.location.href = 'booking.html';
+            }, 2000);
+        });
+    </script>
+
+    <script>
+        // ========== SPLASH + CANVAS ANIMATION ==========
+        const CONFIG = {
+            dotCount: 150,
+            qualifiedRatio: 0.15,
+            gateYPercent: 0.6,
+            scrollTriggerEnd: window.innerHeight * 1.5,
+        };
+
+        const splash = document.getElementById('splash');
+        let scrollProgress = 0;
+
+        // Handle splash fade on scroll
+        function handleSplashScroll() {
+            const scrolled = window.scrollY;
+            const viewportHeight = window.innerHeight;
+
+            const splashFadeCutoff = viewportHeight * 0.5;
+            const splashRatio = Math.min(scrolled / splashFadeCutoff, 1);
+
+            splash.style.opacity = 1 - splashRatio;
+
+            // Remove active class when faded out (allows scrolling through on mobile)
+            if (splashRatio > 0.5) {
+                splash.classList.remove('active');
+            } else {
+                splash.classList.add('active');
+            }
+
+            const splashContent = document.querySelector('.splash-content');
+            if (splashContent) {
+                splashContent.style.transform = `scale(${1 + splashRatio * 0.3})`;
+                splashContent.style.opacity = 1 - splashRatio * 1.5;
+            }
+
+            // Fade out the animation stage (canvas) as we scroll past splash
+            const animStage = document.querySelector('.animation-stage');
+            if (animStage) {
+                const canvasFade = Math.max(0, 1 - (splashRatio * 1.2));
+                animStage.style.opacity = canvasFade;
+            }
+
+            scrollProgress = Math.min(Math.max(scrolled / CONFIG.scrollTriggerEnd, 0), 1);
+        }
+
+        window.addEventListener('scroll', handleSplashScroll, { passive: true });
+
+        // Initial check
+        handleSplashScroll();
+
+        // Parallax orb, quote, and testimonial animation
+        function updateParallaxElements() {
+            const scrollY = window.scrollY;
+            const orbs = document.querySelectorAll('.bg-orb');
+
+            orbs.forEach(orb => {
+                let speed = 0.1; // Default for far layer
+                if (orb.classList.contains('layer-mid')) speed = 0.2;
+                if (orb.classList.contains('layer-near')) speed = 0.35;
+
+                orb.style.transform = `translateY(${scrollY * speed}px)`;
+            });
+
+            // Parallax quotes in founder section
+            const founderCard = document.querySelector('.founder-card');
+            if (founderCard) {
+                const rect = founderCard.getBoundingClientRect();
+                const cardCenter = rect.top + rect.height / 2;
+                const viewportCenter = window.innerHeight / 2;
+                const offset = (cardCenter - viewportCenter) * 0.1;
+
+                const closeQuote = founderCard.querySelector('.parallax-quote');
+                if (closeQuote) {
+                    closeQuote.style.transform = `rotate(180deg) translateY(${offset * -1}px)`;
+                }
+            }
+
+        }
+
+        window.addEventListener('scroll', updateParallaxElements, { passive: true });
+        updateParallaxElements();
+
+        // Also handle touch events for mobile - allow scrolling through splash
+        splash.addEventListener('touchstart', (e) => {
+            // Allow touch to pass through for scrolling
+        }, { passive: true });
+
+        const canvas = document.getElementById('funnelCanvas');
+        const ctx = canvas.getContext('2d');
+        let dots = [];
+        let width, height, gateY;
+
+        class Dot {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * height * -1;
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * -100;
+                this.size = Math.random() * 2 + 1;
+                this.speed = Math.random() * 0.5 + 0.5;
+                this.isQualified = Math.random() < CONFIG.qualifiedRatio;
+                this.alpha = Math.random() * 0.5 + 0.1;
+                this.color = '#fff';
+            }
+
+            update(progress) {
+                const timelineY = (progress * (height * 1.5)) - (this.speed * 100);
+                this.y = timelineY * this.speed + this.initialOffsetY;
+
+                if (this.y > gateY) {
+                    if (this.isQualified) {
+                        this.color = '#a855f7';
+                        this.alpha = 1;
+                        const centerX = width / 2;
+                        this.x += (centerX - this.x) * 0.05;
+                    } else {
+                        this.color = '#ef4444';
+                        this.alpha -= 0.05;
+                    }
+                } else {
+                    this.color = '#ffffff';
+                    this.alpha = Math.random() * 0.5 + 0.1;
+                    if (Math.abs(this.x - this.initialX) > 1) {
+                        this.x += (this.initialX - this.x) * 0.1;
+                    }
+                }
+            }
+
+            draw() {
+                if (this.alpha <= 0) return;
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                if (this.isQualified && this.y > gateY) {
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = this.color;
+                } else {
+                    ctx.shadowBlur = 0;
+                }
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        function initDots() {
+            dots = [];
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            gateY = height * CONFIG.gateYPercent;
+
+            for (let i = 0; i < CONFIG.dotCount; i++) {
+                let d = new Dot();
+                d.initialOffsetY = Math.random() * height * 0.5;
+                d.initialX = d.x;
+                dots.push(d);
+            }
+        }
+
+        window.addEventListener('resize', initDots);
+        initDots();
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Fade filter line in then out (peaks at 30% scroll, gone by 70%)
+            let lineOpacity = 0;
+            if (scrollProgress < 0.3) {
+                lineOpacity = (scrollProgress / 0.3) * 0.5;
+            } else if (scrollProgress < 0.7) {
+                lineOpacity = ((0.7 - scrollProgress) / 0.4) * 0.5;
+            }
+
+            if (lineOpacity > 0.01) {
+                ctx.strokeStyle = `rgba(168, 85, 247, ${lineOpacity})`;
+                ctx.lineWidth = 2;
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = '#a855f7';
+                ctx.beginPath();
+                ctx.moveTo(0, gateY);
+                ctx.lineTo(width, gateY);
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+            }
+
+            dots.forEach(dot => {
+                dot.update(scrollProgress);
+                dot.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+
+</html>

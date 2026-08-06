@@ -24,3 +24,11 @@ python3 -m http.server 8000
 - `assets/favicon.svg`
 
 All company information, reviews, metrics, and case studies are fictional demonstration content.
+
+## Redesigned experience
+
+Fast local-service booking interface organized around three steps: choose the problem, enter a ZIP, and request a time. Image-led service pathways, visit expectations, pricing-before-work reassurance, and a sticky mobile Call / Book bar support the flow. See `REDESIGN-NOTES.md`.
+
+## Photography
+
+The homepage uses five remotely optimized photographs from Unsplash for technician arrival, homeowner consultation, plumbing, cooling, and electrical service. Unsplash photo IDs are retained in the image URLs for source traceability.

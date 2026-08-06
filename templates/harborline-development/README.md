@@ -24,3 +24,7 @@ python3 -m http.server 8000
 - `assets/favicon.svg`
 
 All company information, reviews, metrics, and case studies are fictional demonstration content.
+
+## Redesigned experience
+
+Restrained editorial portfolio with an investment thesis, large project stories, project-map fallback, development process, research notes, and confidential overview request. See `REDESIGN-NOTES.md`.

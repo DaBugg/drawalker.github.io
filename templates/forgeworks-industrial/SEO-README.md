@@ -26,4 +26,4 @@ Before production launch:
 
 **Meta description:** Request a technical quote for fabricated assemblies, process piping components, project supply packages, and organized documentation.
 
-**Layout recommendation:** Type A.
+**Layout:** Technical procurement console. Search intent is organized around process capabilities, materials, tolerances, traceability, lead times, and RFQ requirements.

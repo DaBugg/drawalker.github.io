@@ -26,4 +26,4 @@ Before production launch:
 
 **Meta description:** Review Harborline Development Partners projects, market thesis, execution milestones, and confidential investor opportunities.
 
-**Layout recommendation:** Type B.
+**Layout:** Editorial development portfolio. Search intent is organized around projects, investment thesis, submarkets, development stage, reporting, research, and partnership.

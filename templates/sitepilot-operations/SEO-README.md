@@ -26,4 +26,4 @@ Before production launch:
 
 **Meta description:** Book a SitePilot demo for work orders, materials, crews, photos, exceptions, and field operations reporting.
 
-**Layout recommendation:** Type A.
+**Layout:** Role-based product demonstration. Search intent is organized around work orders, dispatch, crews, materials, field evidence, exceptions, integrations, security, and implementation.
