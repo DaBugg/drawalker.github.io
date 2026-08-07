@@ -64,7 +64,6 @@ export function initializeMediaCarousel(options = {}) {
   const root = options.root || document;
   const documentImpl = options.documentImpl || document;
   const windowImpl = options.windowImpl || window;
-  const navigatorImpl = options.navigatorImpl || navigator;
   const items = options.items || MEDIA_ITEMS;
   const ensurePlayer = options.ensurePlayer || ensureMuxPlayer;
   const setTimer = options.setTimeoutImpl || windowImpl.setTimeout.bind(windowImpl);
@@ -78,7 +77,7 @@ export function initializeMediaCarousel(options = {}) {
   const poster = carousel.querySelector("[data-video-poster]");
   const conceptLink = carousel.querySelector("[data-video-concept]");
   const status = carousel.querySelector("[data-video-status]");
-  const playbackToggle = carousel.querySelector("[data-video-playback-toggle]");
+  const motionToggle = carousel.querySelector("[data-video-motion-toggle]");
   const count = carousel.querySelector("[data-video-count]");
   const indexLabel = carousel.querySelector("[data-video-index]");
   const title = carousel.querySelector("[data-video-label]");
@@ -86,19 +85,17 @@ export function initializeMediaCarousel(options = {}) {
   const selectors = [...carousel.querySelectorAll("[data-video-select]")];
   const previous = carousel.querySelector("[data-video-previous]");
   const next = carousel.querySelector("[data-video-next]");
-  if (!stage || !frame || !poster || !conceptLink || !status || !playbackToggle || !count || !indexLabel || !title || !caption || !previous || !next) {
+  if (!stage || !frame || !poster || !conceptLink || !status || !motionToggle || !count || !indexLabel || !title || !caption || !previous || !next) {
     return null;
   }
 
   const reduceMotion = windowImpl.matchMedia?.("(prefers-reduced-motion: reduce)").matches === true;
-  const saveData = navigatorImpl.connection?.saveData === true;
-  const preferenceRequiresManualPlayback = reduceMotion || saveData;
   let activeIndex = 0;
   let completedPlays = 0;
   let hasRendered = false;
   let isInViewport = !IntersectionObserverImpl;
   let isPageReady = documentImpl.readyState === "complete";
-  let userPaused = preferenceRequiresManualPlayback;
+  let userPaused = false;
   let loadFailed = false;
   let requestGeneration = 0;
   let loadTimer = null;
@@ -121,16 +118,17 @@ export function initializeMediaCarousel(options = {}) {
 
   const activeItem = () => items[activeIndex];
 
-  const updatePlaybackToggle = () => {
+  const updateMotionToggle = () => {
     const isConcept = Boolean(activeItem()?.href);
-    playbackToggle.hidden = isConcept;
-    if (isConcept) return;
-    const shouldOfferPlay = userPaused || loadFailed || !frame.dataset.activePlaybackId;
-    playbackToggle.textContent = loadFailed ? "Retry video" : shouldOfferPlay ? "Play video" : "Pause video";
-    playbackToggle.setAttribute("aria-pressed", String(!shouldOfferPlay));
-    playbackToggle.setAttribute(
+    const hasPlayback = Boolean(frame.dataset.activePlaybackId);
+    const isPlaying = hasPlayback && stage.classList.contains("is-playing");
+    motionToggle.hidden = isConcept || (!isPlaying && !userPaused && !loadFailed);
+    if (motionToggle.hidden) return;
+    motionToggle.textContent = loadFailed ? "Retry video" : userPaused ? "Resume video" : "Pause video";
+    motionToggle.setAttribute("aria-pressed", String(userPaused));
+    motionToggle.setAttribute(
       "aria-label",
-      `${loadFailed ? "Retry" : shouldOfferPlay ? "Play" : "Pause"} ${activeItem().label} video`,
+      `${loadFailed ? "Retry" : userPaused ? "Resume" : "Pause"} ${activeItem().label} video`,
     );
   };
 
@@ -147,7 +145,7 @@ export function initializeMediaCarousel(options = {}) {
     poster.hidden = false;
     stage.classList.remove("is-playing");
     if (!preserveStatus) clearMediaStatus();
-    updatePlaybackToggle();
+    updateMotionToggle();
   };
 
   const pauseMedia = ({ scheduleUnload = false } = {}) => {
@@ -173,7 +171,7 @@ export function initializeMediaCarousel(options = {}) {
     stage.classList.remove("is-playing");
     status.textContent = message;
     status.hidden = false;
-    updatePlaybackToggle();
+    updateMotionToggle();
   };
 
   const activateMedia = async ({ force = false } = {}) => {
@@ -187,7 +185,7 @@ export function initializeMediaCarousel(options = {}) {
       const playback = frame.play?.();
       if (playback?.catch) playback.catch(() => {
         userPaused = true;
-        updatePlaybackToggle();
+        updateMotionToggle();
       });
       return true;
     }
@@ -196,7 +194,7 @@ export function initializeMediaCarousel(options = {}) {
     loadFailed = false;
     status.textContent = `Loading ${item.label} video…`;
     status.hidden = false;
-    updatePlaybackToggle();
+    updateMotionToggle();
 
     try {
       await ensurePlayer();
@@ -220,12 +218,12 @@ export function initializeMediaCarousel(options = {}) {
         playback.catch(() => {
           if (generation !== requestGeneration) return;
           userPaused = true;
-          status.textContent = "The video is ready. Press Play to start it.";
+          status.textContent = "Automatic playback was blocked. Resume the video to continue.";
           status.hidden = false;
-          updatePlaybackToggle();
+          updateMotionToggle();
         });
       }
-      updatePlaybackToggle();
+      updateMotionToggle();
       return true;
     } catch {
       if (generation !== requestGeneration) return false;
@@ -281,7 +279,7 @@ export function initializeMediaCarousel(options = {}) {
     stage.classList.toggle("is-concept", isConcept);
     if (isConcept) frame.hidden = true;
     else void activateMedia();
-    updatePlaybackToggle();
+    updateMotionToggle();
     hasRendered = true;
   };
 
@@ -299,19 +297,19 @@ export function initializeMediaCarousel(options = {}) {
   previous.addEventListener("click", () => selectVideo(activeIndex - 1));
   next.addEventListener("click", () => selectVideo(activeIndex + 1));
 
-  playbackToggle.addEventListener("click", () => {
+  motionToggle.addEventListener("click", () => {
     if (userPaused || loadFailed || !frame.dataset.activePlaybackId) {
       userPaused = false;
       loadFailed = false;
       clearMediaStatus();
-      updatePlaybackToggle();
+      updateMotionToggle();
       void activateMedia({ force: true });
       return;
     }
     userPaused = true;
     pauseMedia();
     clearMediaStatus();
-    updatePlaybackToggle();
+    updateMotionToggle();
   });
 
   documentImpl.addEventListener("visibilitychange", () => {
@@ -326,7 +324,7 @@ export function initializeMediaCarousel(options = {}) {
     loadFailed = false;
     stage.classList.add("is-playing");
     poster.hidden = true;
-    updatePlaybackToggle();
+    updateMotionToggle();
   });
 
   frame.addEventListener("ended", () => {

@@ -272,9 +272,10 @@ The repository implementation now:
 - provides a visible pause/retry control, pauses playback when the document is
   hidden or the carousel leaves the viewport, and removes the active playback
   source after 20 seconds offscreen;
-- honors explicit Save-Data and reduced-motion preferences by keeping the poster
-  visible until the visitor presses Play; this preference-based exception is
-  the only manual hero-video start path;
+- starts hero videos automatically for every application-controlled path and
+  never presents a load or Play gate. A visible Pause/Resume control lets the
+  visitor stop motion, while browser-level autoplay policy may still require a
+  recovery action if muted autoplay is rejected;
 - loads the switchboard document automatically and loads its currently selected
   R2 model automatically. Selecting the shirt, shoe, building, or drone requests
   that scene without a global permission gate, while cancellation and element
@@ -331,8 +332,9 @@ Complete these checks after an authorized deployment:
    R2 URL loads without a permission click, the previous scene is detached or
    cancelled, the building remains available on mobile, and failure states show
    the static fallback plus a retry control. Repeat with Save-Data and reduced
-   motion: models may load automatically but must not rotate automatically, and
-   hero video playback must wait for Play.
+   motion: models may load automatically but must not rotate automatically.
+   Hero videos must still attempt muted autoplay and expose Pause/Resume rather
+   than a load or Play gate.
 3. Test iOS Safari and Android Chrome at `390x844` and `390x667`, including
    keyboard/focus behavior, poster and control sizing, orientation changes,
    horizontal overflow, load/error recovery, and the no-JavaScript contact

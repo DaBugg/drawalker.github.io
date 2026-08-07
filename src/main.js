@@ -123,15 +123,33 @@ function initializeMobileMenu() {
   });
 }
 
+function initializeHomepageFeature(label, initializer) {
+  try {
+    return initializer();
+  } catch (error) {
+    console.error(`[homepage] ${label} initialization failed`, error);
+    return null;
+  }
+}
+
 document.querySelectorAll("[data-year]").forEach((year) => {
   year.textContent = String(new Date().getFullYear());
 });
 
-initializeMediaCarousel();
-initializeSwitchboardEmbed();
-initializeMobileMenu();
-const projectReviewAnalytics = createProjectReviewAnalytics();
-initializeProjectReviewCtaTracking({ analytics: projectReviewAnalytics });
-initializeContactForm({ analytics: projectReviewAnalytics });
-initializeScrollReveals();
-initializeScrollProgress();
+initializeHomepageFeature("media carousel", () => initializeMediaCarousel());
+initializeHomepageFeature("switchboard embed", () => initializeSwitchboardEmbed());
+initializeHomepageFeature("mobile menu", () => initializeMobileMenu());
+const projectReviewAnalytics = initializeHomepageFeature(
+  "project-review analytics",
+  () => createProjectReviewAnalytics(),
+);
+initializeHomepageFeature(
+  "project-review CTA tracking",
+  () => initializeProjectReviewCtaTracking({ analytics: projectReviewAnalytics || undefined }),
+);
+initializeHomepageFeature(
+  "contact form",
+  () => initializeContactForm({ analytics: projectReviewAnalytics || undefined }),
+);
+initializeHomepageFeature("scroll reveals", () => initializeScrollReveals());
+initializeHomepageFeature("scroll progress", () => initializeScrollProgress());

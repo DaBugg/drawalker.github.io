@@ -398,7 +398,8 @@ test("selected media loads automatically without embedding heavy sources in raw 
   assert.match(playerTag, /preload="none"/);
   assert.doesNotMatch(playerTag, /playback-id=/);
   assert.doesNotMatch(playerTag, /autoplay=/);
-  assert.match(homepage, /data-video-playback-toggle/);
+  assert.match(homepage, /data-video-motion-toggle/);
+  assert.match(mediaCarousel, /querySelector\("\[data-video-motion-toggle\]"\)/);
   assert.match(mediaCarousel, /import\("@mux\/mux-player"\)/);
   assert.match(mediaCarousel, /frame\.setAttribute\("playback-id", item\.playbackId\)/);
   assert.match(mediaCarousel, /frame\.setAttribute\("autoplay", "muted"\)/);

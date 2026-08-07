@@ -45,3 +45,25 @@ test("homepage explorer does not inspect iframe contentDocument during load", ()
   assert.match(embed, /networks-nodes-switchboard-ready/);
   assert.match(embed, /completeRequest\(\);/);
 });
+
+test("one homepage feature failure cannot stop later initializers", () => {
+  const main = fs.readFileSync(path.join(repositoryRoot, "src/main.js"), "utf8");
+
+  assert.match(main, /function initializeHomepageFeature\(label, initializer\)[\s\S]*?try[\s\S]*?return initializer\(\);[\s\S]*?catch \(error\)/);
+  for (const feature of [
+    "media carousel",
+    "switchboard embed",
+    "mobile menu",
+    "project-review analytics",
+    "project-review CTA tracking",
+    "contact form",
+    "scroll reveals",
+    "scroll progress",
+  ]) {
+    assert.match(
+      main,
+      new RegExp(`initializeHomepageFeature\\(\\s*"${feature}"`),
+      `${feature} must initialize independently`,
+    );
+  }
+});

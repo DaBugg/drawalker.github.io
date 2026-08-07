@@ -207,7 +207,7 @@ No Critical failure was found. This phase contains the highest-dependency produc
 > **Owner policy update — 2026-08-07:** The original interaction-gate proposal
 > below is retained as audit history but is superseded for implementation.
 > Hero videos now start automatically, muted, when the carousel approaches the
-> viewport; reduced-motion and Save-Data remain manual exceptions. The
+> viewport, with Pause/Resume available instead of a load or Play gate. The
 > switchboard document and selected R2 model load automatically without a
 > permission button, while only the active GLB stays attached. See the Batch 4
 > follow-up in `docs/DEPLOYMENT-RUNBOOK.md` for the current acceptance checks and

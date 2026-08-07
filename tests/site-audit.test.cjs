@@ -781,16 +781,18 @@ test("rich media is progressively initialized", () => {
   const mediaCarousel = read("src/media-carousel.mjs");
   const switchboard = read("switchboard.html");
   const frameMarkup = homepage.match(/<mux-player\b[\s\S]*?<\/mux-player>/)?.[0] || "";
-  const playbackToggleMarkup = homepage.match(/<button\b[^>]*data-video-playback-toggle[^>]*>/i)?.[0] || "";
+  const motionToggleMarkup = homepage.match(/<button\b[^>]*data-video-motion-toggle[^>]*>/i)?.[0] || "";
   const switchboardFrame = homepage.match(/<iframe\b[^>]*data-switchboard-frame[^>]*>/i)?.[0] || "";
 
   assert.doesNotMatch(frameMarkup, /\splayback-id=/);
   assert.equal(attributeValue(frameMarkup, "preload"), "none");
-  assert.equal(attributeValue(playbackToggleMarkup, "aria-pressed"), "false");
-  assert.equal(attributeValue(playbackToggleMarkup, "aria-label"), "Play Immersive experiences video");
-  assert.match(playbackToggleMarkup, /\shidden(?:\s|>)/i);
+  assert.equal(attributeValue(motionToggleMarkup, "aria-pressed"), "false");
+  assert.equal(attributeValue(motionToggleMarkup, "aria-label"), "Pause Immersive experiences video");
+  assert.match(motionToggleMarkup, /\shidden(?:\s|>)/i);
   assert.match(homepage, /data-video-poster/);
-  assert.match(homepage, /data-video-playback-toggle/);
+  assert.match(homepage, /data-video-motion-toggle/);
+  assert.match(mediaCarousel, /querySelector\("\[data-video-motion-toggle\]"\)/);
+  assert.match(mediaCarousel, /motionToggle\.addEventListener\("click"/);
   assert.doesNotMatch(homepage, /<video\b/i);
   assert.equal(attributeValue(switchboardFrame, "src"), "/switchboard.html");
   assert.equal(attributeValue(switchboardFrame, "loading"), "eager");
@@ -886,17 +888,17 @@ test("hero videos start automatically near the viewport and selected Switchboard
   assert.equal(attributeValue(videoFrame, "tabindex"), "-1");
   assert.equal(attributeValue(switchboardFrame, "src"), "/switchboard.html");
   assert.equal(attributeValue(switchboardFrame, "data-src"), "/switchboard.html");
-  assert.match(homepage, /data-video-playback-toggle/);
+  assert.match(homepage, /data-video-motion-toggle/);
   assert.doesNotMatch(homepage, /data-switchboard-load/);
   assert.match(mediaCarousel, /IntersectionObserverImpl/);
-  assert.match(mediaCarousel, /navigatorImpl\.connection\?\.saveData === true/);
-  assert.match(mediaCarousel, /preferenceRequiresManualPlayback = reduceMotion \|\| saveData/);
+  assert.match(mediaCarousel, /let userPaused = false/);
+  assert.doesNotMatch(mediaCarousel, /preferenceRequiresManualPlayback/);
   assert.match(mediaCarousel, /frame\.setAttribute\("autoplay", "muted"\)/);
   assert.match(mediaCarousel, /frame\.addEventListener\("ended"/);
   assert.match(mediaCarousel, /completedPlays < 2/);
   assert.match(mediaCarousel, /selectVideo\(activeIndex \+ 1\)/);
   assert.match(css, /\.video-stage mux-player\s*\{[\s\S]*?--controls: none;[\s\S]*?pointer-events: none;[\s\S]*?user-select: none;/);
-  assert.match(css, /\.video-playback-toggle\s*\{[\s\S]*?min-width: 44px;[\s\S]*?min-height: 44px;/);
+  assert.match(css, /\.video-motion-toggle\s*\{[\s\S]*?min-width: 44px;[\s\S]*?min-height: 44px;/);
   assert.doesNotMatch(mediaCarousel, /setInterval/);
 
   assert.doesNotMatch(switchboard, /hasApproved3d|approvedProductScenes/);
@@ -953,12 +955,13 @@ test("production styles do not request assets from retired test-page trees", () 
   assert.doesNotMatch(css, /\/test-pages-(?:new|bad)\//);
 });
 
-test("Phase 4 reduced-motion paths avoid automatic media and decorative sequencing", () => {
+test("Phase 4 keeps autoplay controllable while reducing decorative motion", () => {
   const mediaCarousel = read("src/media-carousel.mjs");
   const switchboard = read("switchboard.html");
 
-  assert.match(mediaCarousel, /preferenceRequiresManualPlayback = reduceMotion \|\| saveData/);
-  assert.match(mediaCarousel, /let userPaused = preferenceRequiresManualPlayback/);
+  assert.match(mediaCarousel, /let userPaused = false/);
+  assert.match(mediaCarousel, /motionToggle\.textContent = loadFailed \? "Retry video" : userPaused \? "Resume video" : "Pause video"/);
+  assert.doesNotMatch(mediaCarousel, /preferenceRequiresManualPlayback/);
   assert.doesNotMatch(mediaCarousel, /setInterval/);
   assert.match(switchboard, /const saveProductData = navigator\.connection\?\.saveData === true/);
   assert.match(switchboard, /if \(reduceProductMotion \|\| saveProductData\)/);
