@@ -250,9 +250,8 @@ overwrite, or delete an R2 object, purge a cache, or change a Cloudflare, Mux,
 or Vercel setting. The original media remains available for rollback and no
 post-deployment result is claimed here.
 
-Before the change, the homepage could attach three full-file R2 videos totaling
-31,076,263 bytes, and the switchboard could load its runtime and initial model
-without a specific 3D-load decision. The public objects measured during the
+Before the current implementation, the homepage could attach three full-file
+R2 videos totaling 31,076,263 bytes. The public objects measured during the
 audit were:
 
 | Previous asset | Measured bytes | Relevant pre-change risk |
@@ -267,16 +266,47 @@ audit were:
 
 The repository implementation now:
 
-- keeps a responsive poster through homepage LCP and attaches only the selected
-  video after explicit interaction, using the site's existing Mux adaptive
-  playback IDs instead of the three direct R2 video files;
-- disables post-click autoplay when Save-Data or reduced-motion is active, so
-  playback then requires the player's own explicit control;
-- leaves the switchboard iframe source-free until its labeled load button is
-  activated, then leaves every 3D scene static until that scene's size-labeled
-  load button is activated; and
+- keeps the raw homepage HTML source-free for video delivery, dynamically loads
+  the Mux player when the carousel approaches the viewport, and starts the
+  selected hero video automatically, muted and inline, after page readiness;
+- provides a visible pause/retry control, pauses playback when the document is
+  hidden or the carousel leaves the viewport, and removes the active playback
+  source after 20 seconds offscreen;
+- honors explicit Save-Data and reduced-motion preferences by keeping the poster
+  visible until the visitor presses Play; this preference-based exception is
+  the only manual hero-video start path;
+- loads the switchboard document automatically and loads its currently selected
+  R2 model automatically. Selecting the shirt, shoe, building, or drone requests
+  that scene without a global permission gate, while cancellation and element
+  replacement keep only the active GLB attached;
+- keeps every scene available on mobile, disables decorative model rotation for
+  Save-Data or reduced-motion users, and exposes a retry action only after a
+  load error or timeout; and
 - appends ETag-derived version query tokens to GLB URLs. These tokens separate
   repository asset versions but do not themselves provide immutable caching.
+
+The automatic-loading policy above was approved by the owner on 2026-08-07.
+It replaces the earlier Batch 4 click-to-load policy. Do not reintroduce a
+per-video or per-model permission gate as a generic performance treatment.
+Preserve efficiency through adaptive delivery, proximity-based module loading,
+one-active-model lifecycle management, pause/unload behavior, responsive
+posters, explicit user preferences, and correct CDN caching.
+
+This policy intentionally accepts a measurable transfer tradeoff: the eager
+Switchboard can request the approximately 1 MB model-viewer runtime and 23.7 MB
+shirt GLB during a homepage visit, and selecting the building can request a
+40.6 MB GLB. R2 removes the need for a manual permission gate, but storage on a
+CDN hostname does not make those bytes free or prove an edge cache hit. Track
+this as an owner-approved M01 policy exception until production waterfall and
+field data show the impact is acceptable.
+
+On 2026-08-07, direct checks of all four deployed GLB URLs returned `200`,
+`Content-Type: model/gltf-binary`, byte-range support, and
+`Access-Control-Allow-Origin: https://www.networksandnodes.org`. This verifies
+object availability and production-origin CORS at that time. The same responses
+reported Cloudflare `DYNAMIC` and no explicit immutable `Cache-Control` policy,
+so an R2 custom hostname alone must not be treated as evidence of an edge cache
+hit or long-lived browser caching.
 
 Model compression was not performed because the required source assets and
 side-by-side visual-validation path were unavailable. The measured GLBs contain
@@ -293,36 +323,72 @@ versioned keys only when removing audio is correct.
 Complete these checks after an authorized deployment:
 
 1. Run a cold, cache-disabled network trace. Initial homepage load must request
-   no Mux player, switchboard document, model-viewer runtime, or GLB. A homepage
-   video activation must load only the selected Mux player. Switchboard
-   activation must load its document but no model runtime or GLB; activating one
-   scene must then load the runtime and only that selected GLB. Repeat with
-   Save-Data and reduced motion and confirm that neither mode starts playback or
-   rotates a model automatically.
-2. Test iOS Safari and Android Chrome at `390x844` and `390x667`, including
+   no Mux runtime or playback stream until the hero carousel reaches its
+   proximity threshold. At that point, only the selected adaptive Mux stream
+   should start. The automatically requested switchboard may load its viewer and
+   selected shirt GLB; it must not request all four GLBs.
+2. Select the shoe, building, drone, and shirt in sequence. Confirm each chosen
+   R2 URL loads without a permission click, the previous scene is detached or
+   cancelled, the building remains available on mobile, and failure states show
+   the static fallback plus a retry control. Repeat with Save-Data and reduced
+   motion: models may load automatically but must not rotate automatically, and
+   hero video playback must wait for Play.
+3. Test iOS Safari and Android Chrome at `390x844` and `390x667`, including
    keyboard/focus behavior, poster and control sizing, orientation changes,
    horizontal overflow, load/error recovery, and the no-JavaScript contact
    route.
-3. Run three comparable cold mobile Lighthouse or PageSpeed tests with the same
+4. Run three comparable cold mobile Lighthouse or PageSpeed tests with the same
    location and profile. Preserve every result and report the median request
    count, transferred bytes, LCP, INP or its lab proxy, and CLS against the
    earlier 5.0-second / 11.1-MB lab reference. Do not present lab results as
    field Core Web Vitals.
-4. Recheck response headers for every deployed media URL. Audit-time HEAD
-   responses for the measured R2 video and GLB objects did not expose an
+5. Recheck response headers for every deployed media URL. Audit-time responses
+   for the measured R2 GLB objects did not expose an
    immutable `Cache-Control` policy and were served as Cloudflare `DYNAMIC`.
    The Cloudflare/R2 owner must publish new versioned objects with an appropriate
    long-lived policy such as `public, max-age=31536000, immutable`, then confirm
-   the edge response. Change the version token whenever the bytes change; do not
-   overwrite an object behind an immutable URL.
-5. Inspect the effective production CSP and browser console. Permit only the
+   both browser policy and repeated-request `HIT`/`Age` evidence at the public
+   hostname. Change the version token whenever the bytes change; do not overwrite
+   an object behind an immutable URL.
+6. Inspect the effective production CSP and browser console. Permit only the
    exact Mux player, poster, and stream origins observed in the deployed flow,
    preserve the existing Turnstile and analytics rules, and do not add broad
    wildcards. Confirm that deferred iframe and media requests are not blocked.
-6. Record raw and rendered HTML, trace files, device/browser versions, the three
+7. Record raw and rendered HTML, trace files, device/browser versions, the three
    performance runs, response headers, errors, and acceptance decision in the
    release record. Until these checks pass, M01 is repository-implemented but
-   not production-verified.
+   not production-verified under the owner-approved automatic-loading policy.
+
+Local validation on 2026-08-07 passed 103 repository tests and a production
+Vite build. The build emitted the initial homepage script at approximately
+17.0 kB minified / 6.4 kB gzip and kept the approximately 1 MB Mux and
+model-viewer libraries in separate deferred chunks. A browser waterfall and
+real-device visual/accessibility pass were not available in the audit
+environment and remain required after deployment.
+
+## Batch 5 repository-safe progress
+
+The following owner-independent work is complete in the repository:
+
+- the numeric “approximately 10 hours per week” claim was removed in favor of
+  the approved qualitative reported-outcome wording across the homepage and
+  Transportation Solutions case study;
+- Redeemed Hands is reachable from the homepage as an additional documented
+  project, eliminating its internal-link orphan state without displacing the
+  four featured project cards;
+- the production build now copies only public template runtime files and blocks
+  internal `app`, `node_modules`, package/configuration, Markdown, and TypeScript
+  material from `dist/templates`; and
+- canonical/redirect coverage now includes the public template index variants
+  and AERON directory-index variants.
+
+The legal-policy and South Florida portions of Batch 5 remain open. Privacy and
+terms must stay clearly marked as drafts and `noindex` until the owner and an
+appropriate legal reviewer supply and approve text that matches the real form,
+processors, retention, contact, jurisdiction, and service practices. Do not add
+South Florida office, address, service-area, Google Business Profile, client, or
+city-page claims until the owner supplies the underlying facts. These open items
+are human-review dependencies, not repository implementation failures.
 
 ## Release record
 

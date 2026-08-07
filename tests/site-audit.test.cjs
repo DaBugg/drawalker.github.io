@@ -777,13 +777,18 @@ test("the website concept gallery ships its current noindex demos through the fi
 
 test("rich media is progressively initialized", () => {
   const homepage = read("index.html");
+  const css = read("css/site.css");
   const mediaCarousel = read("src/media-carousel.mjs");
   const switchboard = read("switchboard.html");
   const frameMarkup = homepage.match(/<mux-player\b[\s\S]*?<\/mux-player>/)?.[0] || "";
+  const playbackToggleMarkup = homepage.match(/<button\b[^>]*data-video-playback-toggle[^>]*>/i)?.[0] || "";
   const switchboardFrame = homepage.match(/<iframe\b[^>]*data-switchboard-frame[^>]*>/i)?.[0] || "";
 
   assert.doesNotMatch(frameMarkup, /\splayback-id=/);
   assert.equal(attributeValue(frameMarkup, "preload"), "none");
+  assert.equal(attributeValue(playbackToggleMarkup, "aria-pressed"), "false");
+  assert.equal(attributeValue(playbackToggleMarkup, "aria-label"), "Play Immersive experiences video");
+  assert.match(playbackToggleMarkup, /\shidden(?:\s|>)/i);
   assert.match(homepage, /data-video-poster/);
   assert.match(homepage, /data-video-playback-toggle/);
   assert.doesNotMatch(homepage, /<video\b/i);
@@ -794,6 +799,9 @@ test("rich media is progressively initialized", () => {
   assert.match(mediaCarousel, /IntersectionObserverImpl/);
   assert.match(mediaCarousel, /pauseMedia/);
   assert.match(mediaCarousel, /documentImpl\.hidden/);
+  assert.match(css, /\.video-stage mux-player\s*\{[\s\S]*?z-index:\s*1;/);
+  assert.match(css, /\.video-poster\s*\{[\s\S]*?z-index:\s*2;/);
+  assert.match(mediaCarousel, /frame\.addEventListener\("playing",[\s\S]*?poster\.hidden = true;/);
   assert.doesNotMatch(mediaCarousel, /setInterval/);
   assert.doesNotMatch(
     switchboard,
@@ -937,6 +945,12 @@ test("Phase 4 keeps reveal content visible if JavaScript or animation fails", ()
   assert.match(main, /window\.setTimeout\(\(\) => \{\s*targets\.forEach\(\(element\) => element\.classList\.add\("is-in-view"\)\);\s*\}, 2500\)/);
   assert.match(css, /html\.motion-ready \[data-reveal="rise"\]/);
   assert.doesNotMatch(css, /(?<!motion-ready )\[data-reveal="rise"\]\s*\{\s*opacity:\s*0/);
+});
+
+test("production styles do not request assets from retired test-page trees", () => {
+  const css = read("css/site.css");
+
+  assert.doesNotMatch(css, /\/test-pages-(?:new|bad)\//);
 });
 
 test("Phase 4 reduced-motion paths avoid automatic media and decorative sequencing", () => {

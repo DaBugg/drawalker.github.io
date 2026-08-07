@@ -530,9 +530,15 @@ h2 em {
 
 .video-stage mux-player {
   --controls: none;
+  z-index: 1;
   border: 0;
   pointer-events: none;
   user-select: none;
+}
+
+.video-poster {
+  z-index: 2;
+  pointer-events: none;
 }
 
 .video-playback-toggle {
@@ -1209,7 +1215,6 @@ h2 em {
   bottom: clamp(5rem, 8vw, 8rem);
   left: 4vw;
   width: 18%;
-  background-image: url("/test-pages-new/atlas.jpeg");
   background-repeat: no-repeat;
   background-position: center top;
   background-size: clamp(130px, 13vw, 190px) auto;

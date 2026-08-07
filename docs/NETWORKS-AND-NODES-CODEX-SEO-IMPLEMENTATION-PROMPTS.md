@@ -385,6 +385,14 @@ do not deploy production.
 
 ## Batch 4 — Mobile performance, video, R2, and interactive-media loading
 
+> **Superseded policy note — 2026-08-07:** The owner replaced the manual loading
+> policy preserved in this historical prompt. Current behavior is automatic,
+> muted hero playback near the viewport and automatic loading of the selected
+> Switchboard R2 model, with reduced-motion/Save-Data exceptions, one active GLB,
+> pause/unload controls, and bounded fallbacks. Use the current policy and
+> validation steps in `docs/DEPLOYMENT-RUNBOOK.md`; do not reuse the click-gate
+> instructions below for later work.
+
 ### Send this when
 
 - Original or best-available media assets are accessible.
