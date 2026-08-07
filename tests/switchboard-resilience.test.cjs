@@ -8,6 +8,10 @@ const repositoryRoot = path.resolve(__dirname, "..");
 test("interactive media components are bundled with the site", () => {
   const homepage = fs.readFileSync(path.join(repositoryRoot, "index.html"), "utf8");
   const main = fs.readFileSync(path.join(repositoryRoot, "src/main.js"), "utf8");
+  const mediaCarousel = fs.readFileSync(
+    path.join(repositoryRoot, "src/media-carousel.mjs"),
+    "utf8",
+  );
   const switchboard = fs.readFileSync(path.join(repositoryRoot, "switchboard.html"), "utf8");
   const viewerLoader = fs.readFileSync(
     path.join(repositoryRoot, "src/model-viewer-loader.mjs"),
@@ -15,7 +19,9 @@ test("interactive media components are bundled with the site", () => {
   );
 
   assert.doesNotMatch(homepage, /cdn\.jsdelivr\.net\/npm\/@mux\/mux-player/);
-  assert.match(main, /import "@mux\/mux-player";/);
+  assert.match(main, /import \{ initializeMediaCarousel \} from "\.\/media-carousel\.mjs";/);
+  assert.match(mediaCarousel, /import\("@mux\/mux-player"\)/);
+  assert.match(mediaCarousel, /IntersectionObserverImpl/);
   assert.doesNotMatch(switchboard, /ajax\.googleapis\.com\/ajax\/libs\/model-viewer/);
   assert.match(switchboard, /networks-nodes-switchboard-ready/);
   assert.match(

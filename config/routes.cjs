@@ -28,7 +28,8 @@ const routes = [
     sourcePath: "templates/template-gallery/index.html",
     publicPath: "/templates/template-gallery/index.html",
     indexable: false,
-    canonicalIntent: "none",
+    canonicalIntent: "target",
+    canonicalTarget: "/templates/",
     sitemap: false,
   },
   {

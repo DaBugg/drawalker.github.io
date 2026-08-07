@@ -390,14 +390,24 @@ test("the homepage promotes the gallery instead of Redeemed Hands", () => {
   assert.doesNotMatch(homepage, /<h3>Redeemed Hands<\/h3>/);
 });
 
-test("non-3D media loads automatically and 3D retains an explicit gate", () => {
+test("selected media loads automatically without embedding heavy sources in raw HTML", () => {
   const homepage = fs.readFileSync(path.join(repositoryRoot, "index.html"), "utf8");
+  const mediaCarousel = fs.readFileSync(path.join(repositoryRoot, "src/media-carousel.mjs"), "utf8");
   const switchboard = fs.readFileSync(path.join(repositoryRoot, "switchboard.html"), "utf8");
-  assert.match(homepage, /<mux-player[\s\S]*?playback-id="Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc"[\s\S]*?autoplay="muted"/);
+  const playerTag = homepage.match(/<mux-player[\s\S]*?<\/mux-player>/)?.[0] || "";
+  assert.match(playerTag, /preload="none"/);
+  assert.doesNotMatch(playerTag, /playback-id=/);
+  assert.doesNotMatch(playerTag, /autoplay=/);
+  assert.match(homepage, /data-video-playback-toggle/);
+  assert.match(mediaCarousel, /import\("@mux\/mux-player"\)/);
+  assert.match(mediaCarousel, /frame\.setAttribute\("playback-id", item\.playbackId\)/);
+  assert.match(mediaCarousel, /frame\.setAttribute\("autoplay", "muted"\)/);
   assert.match(homepage, /<iframe[\s\S]*?src="\/switchboard\.html"[\s\S]*?loading="eager"/);
   assert.doesNotMatch(homepage, /data-switchboard-load/);
-  assert.match(switchboard, /<div class="product-main"[^>]*>[\s\S]*?class="model-load-action"[\s\S]*?data-load-product-model/);
-  assert.match(switchboard, /if \(!hasApproved3d\) return;/);
+  assert.doesNotMatch(switchboard, /hasApproved3d|approvedProductScenes/);
+  assert.match(switchboard, /void loadCurrentProductModel\(\);/);
+  assert.match(switchboard, /data-load-product-model[\s\S]*?hidden/);
+  assert.match(switchboard, /models\.push\(architecture\)/);
   assert.match(switchboard, /background: linear-gradient\(145deg, #ef4444, #b91c1c\)/);
   assert.match(switchboard, /}, 90000\);/);
   assert.match(switchboard, /height: clamp\(132px, 11vw, 158px\)/);
@@ -407,7 +417,7 @@ test("every public gallery entry point resolves to the canonical templates route
   const galleryPath = "/templates/";
   const publicLinkFiles = [
     "index.html",
-    "src/main.js",
+    "src/media-carousel.mjs",
     "switchboard.html",
   ];
 

@@ -17,6 +17,16 @@
       "permanent": true
     },
     {
+      "source": "/templates/index.html",
+      "destination": "https://www.networksandnodes.org/templates/",
+      "permanent": true
+    },
+    {
+      "source": "/templates/index.html/",
+      "destination": "https://www.networksandnodes.org/templates/",
+      "permanent": true
+    },
+    {
       "source": "/templates/template-gallery",
       "destination": "https://www.networksandnodes.org/templates/",
       "permanent": true
@@ -34,6 +44,21 @@
     {
       "source": "/switchboard.html/",
       "destination": "https://www.networksandnodes.org/switchboard.html",
+      "permanent": true
+    },
+    {
+      "source": "/work/aeron",
+      "destination": "https://www.networksandnodes.org/work/aeron/",
+      "permanent": true
+    },
+    {
+      "source": "/work/aeron/index.html",
+      "destination": "https://www.networksandnodes.org/work/aeron/",
+      "permanent": true
+    },
+    {
+      "source": "/work/aeron/index.html/",
+      "destination": "https://www.networksandnodes.org/work/aeron/",
       "permanent": true
     },
     {
