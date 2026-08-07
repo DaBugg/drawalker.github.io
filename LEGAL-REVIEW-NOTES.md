@@ -19,8 +19,9 @@ Audit date: 2026-08-07
   account-level verification.
 - Public fictional website concepts do not transmit or store their displayed form entries in repository code, but
   some concepts request third-party fonts, images, scripts, or media.
-- The production SMTP provider is not established by source control because deployment environment values can override
-  the repository default.
+- The owner confirmed on August 7, 2026 that Porkbun provides production SMTP delivery for project-review inquiries.
+- The owner approved retaining inquiries that do not become active engagements for up to 24 months after the last
+  contact, with longer retention only when needed for an active contract, security, or a legal obligation.
 
 ## Decisions requiring owner confirmation
 
@@ -29,7 +30,6 @@ Audit date: 2026-08-07
 - Whether ongoing support is offered, under what service model, and with what response expectations.
 - The ownership and licensing policy for custom work, pre-existing materials, open-source software, and third-party services.
 - The approved client-agreement language governing confidentiality, warranties, liability, disputes, and governing law.
-- The form-submission retention period and the process for access, correction, and deletion requests.
 - The approved list of email, hosting, spam-protection, analytics, and other data-processing providers used in production.
 - Whether Networks & Nodes sells, shares, or uses inquiry information for any purpose beyond responding to the request.
 - The legal name and entity or DBA status of the website operator.

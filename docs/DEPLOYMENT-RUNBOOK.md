@@ -35,13 +35,9 @@ the blank variable inventory in `.env.example`; never commit or print values.
 | `SMTP_PORT` | SMTP port; source defaults to `587` | Configuration |
 | `SMTP_USER` | SMTP authentication and sender account | Sensitive |
 | `SMTP_PASS` | SMTP authentication secret | Secret |
-| `CONTACT_EMAIL` | Project-review and song-suggestion destination | Sensitive operational configuration |
+| `CONTACT_EMAIL` | Project-review destination | Sensitive operational configuration |
 | `TURNSTILE_SITE_KEY` | Browser-visible Turnstile site key | Public |
 | `TURNSTILE_SECRET_KEY` | Server-side Turnstile verification | Secret |
-| `SPOTIFY_CLIENT_ID` | Spotify integration client | Configuration |
-| `SPOTIFY_CLIENT_SECRET` | Spotify integration credential | Secret |
-| `SPOTIFY_REFRESH_TOKEN` | Spotify account refresh token | Secret |
-| `SPOTIFY_REDIRECT_URI` | Spotify authorization callback | Configuration |
 | `PORT` | Legacy local Express-server port | Local configuration |
 
 All environment values and their rotation are owned by the site owner. The
@@ -406,15 +402,26 @@ failures.
   customer locations. Do not add a private or virtual-office address.
 - The privacy and terms drafts now document repository-verified form, Umami,
   Vercel, Cloudflare, Mux, SMTP, case-study, and fictional-concept behavior. They
-  remain `Draft` and `noindex`; operator identity/entity status, the production
-  SMTP provider, retention/deletion policy, sale/marketing policy, children,
-  jurisdiction, effective date, and qualified legal approval remain open.
+  remain `Draft` and `noindex`; the owner has since confirmed Porkbun SMTP and a
+  24-month limit for inquiries that do not become active engagements. Operator
+  identity/entity status, sale/marketing policy, children, jurisdiction,
+  effective date, and qualified legal approval remain open.
 - Search Console evidence supplied by the owner: the query `transportation
   infrastructure network solutions` recorded 18 impressions. The landing page,
   date range, clicks, CTR, average position, country, and device remain
-  unverified. Do not place the query on fictional/noindex template pages or imply
-  physical network/ITS engineering that is not established by the current case
-  evidence.
+  unverified. Do not place the query on fictional/noindex template pages.
+- The owner subsequently confirmed that the Transportation Solutions & Lighting
+  engagement included physical networking and transportation-infrastructure
+  connectivity, server setup, cybersecurity, website, customer communication,
+  dispatch, and reporting. This is owner-attested evidence; implementation
+  artifacts, client approval, and any performance result beyond the approved
+  dispatch wording remain unverified.
+- The obsolete Spotify playback, authorization, callback, and song-suggestion
+  Vercel Functions were removed after owner confirmation that they are no longer
+  needed. Before the next deployment, remove the four `SPOTIFY_*` values from
+  every Vercel environment and revoke the old Spotify authorization or rotate its
+  client secret. After deployment, verify `/api/spotify`, `/api/spotify-login`,
+  `/api/spotify-callback`, and `/api/suggest-song` each return a genuine 404.
 
 ## Release record
 

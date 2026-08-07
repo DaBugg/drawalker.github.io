@@ -223,18 +223,25 @@ test("production governance identifies the source, owners, release evidence, and
     "CONTACT_EMAIL",
     "TURNSTILE_SITE_KEY",
     "TURNSTILE_SECRET_KEY",
-    "SPOTIFY_CLIENT_ID",
-    "SPOTIFY_CLIENT_SECRET",
-    "SPOTIFY_REFRESH_TOKEN",
-    "SPOTIFY_REDIRECT_URI",
     "PORT",
   ]) {
     assert.match(environmentExample, new RegExp(`^${variable}=$`, "m"));
+  }
+  assert.doesNotMatch(environmentExample, /^SPOTIFY_/m);
+  for (const retiredFunction of [
+    "api/spotify.js",
+    "api/spotify-login.js",
+    "api/spotify-callback.js",
+    "api/suggest-song.js",
+  ]) {
+    assert.equal(fs.existsSync(path.join(root, retiredFunction)), false, `${retiredFunction} must stay retired`);
   }
 });
 
 test("homepage exposes the approved commercial vocabulary in semantic HTML", () => {
   const html = read("index.html");
+  const siteCss = read("css/site.css");
+  const templateLibrary = read("templates/index.html");
 
   assert.match(html, /Websites · Custom software · Automation · Connected workflows/);
   assert.match(html, /custom software/i);
@@ -245,6 +252,8 @@ test("homepage exposes the approved commercial vocabulary in semantic HTML", () 
   assert.match(html, /reduce manual work/);
   assert.match(html, /established businesses, founder-led teams/);
   assert.equal((html.match(/<h1\b/g) || []).length, 1);
+  assert.match(siteCss, /\.site-header\s+\.brand-name::after[\s\S]*?content:\s*"™"/);
+  assert.match(templateLibrary, /NETWORKS &amp; NODES<sup class="brand-trademark" aria-hidden="true">™<\/sup>/);
 });
 
 test("homepage has clear conversion paths and complete service intents", () => {
@@ -321,6 +330,16 @@ test("the flagship project uses an owned case-study route", () => {
 
   assert.match(homepage, /href="\/work\/transportation-solutions-lighting\.html"/);
   assert.equal((caseStudy.match(/<h1\b/g) || []).length, 1);
+  assert.match(caseStudy, /Transportation Infrastructure Systems — TS&amp;L Case Study/);
+  for (const capability of [
+    "Physical networks",
+    "ITS connectivity",
+    "Servers + cybersecurity",
+    "Digital operations",
+  ]) {
+    assert.match(caseStudy, new RegExp(capability.replace("+", "\\+")));
+  }
+  assert.match(homepage, /Read the transportation infrastructure case study/);
   assert.match(caseStudy, /Reported outcome/);
   assert.match(caseStudy, /Reported manual dispatch work reduced through a connected operating workflow\./);
   assert.doesNotMatch(caseStudy, /approximately 10 hours per week/i);
@@ -516,7 +535,8 @@ test("draft legal pages and the branded 404 are visible, cautious, and built", (
     assert.match(page, /It is not legal advice/);
   }
   assert.match(privacy, /Cloudflare Turnstile/);
-  assert.match(privacy, /configured\s+SMTP provider/);
+  assert.match(privacy, /Porkbun’s SMTP service/);
+  assert.match(privacy, /for up to\s+24 months after the last contact/);
   assert.match(privacy, /Umami Cloud/);
   assert.match(privacy, /Vercel provides website hosting/);
   assert.match(privacy, /Mux provides streamed website\s+video/);
@@ -531,7 +551,7 @@ test("draft legal pages and the branded 404 are visible, cautious, and built", (
     assert.ok(routeManifest.some((route) => route.sourcePath === file));
   }
   assert.match(legalNotes, /ownership and licensing policy/i);
-  assert.match(legalNotes, /retention period/i);
+  assert.match(legalNotes, /up to 24 months after the last\s+contact/i);
 });
 
 test("raw contact links remain valid without Cloudflare decoder JavaScript", () => {

@@ -2,7 +2,7 @@
 
 Internal editorial record for the homepage work section. This file is not rendered by the production site.
 
-Audit date: 2026-08-03
+Audit date: 2026-08-07
 
 ## Transportation Solutions & Lighting
 
@@ -10,9 +10,12 @@ Audit date: 2026-08-03
 
 - Client name: Transportation Solutions & Lighting.
 - Business context: a Florida provider of safety infrastructure, traffic control systems, solar lighting, and transportation solutions.
-- Business problem: the website, customer communication, dispatch activity, and reporting needed to operate as a connected journey instead of separate touchpoints.
-- Networks & Nodes work represented in this repository: website experience, dispatch workflow, reporting, and customer communication treated as one connected operating system.
-- Supported capability count: four named touchpoints: website, customer communication, dispatch, and reporting.
+- Business problem: the network and server environment, cybersecurity, website, customer communication, dispatch
+  activity, and reporting needed to operate as a connected system instead of separate technical and operational layers.
+- Owner-attested Networks & Nodes scope: physical networking and transportation-infrastructure connectivity, server
+  setup, cybersecurity, website experience, dispatch workflow, reporting, and customer communication.
+- Evidence status for the expanded technical scope: owner-confirmed in this repository session on August 7, 2026;
+  supporting implementation artifacts and separate client approval have not been inspected.
 - Approved public outcome language: “Reported manual dispatch work reduced through a connected operating workflow.”
 - The earlier numerical estimate is intentionally not approved for publication without a retained measurement record and client approval.
 - Public status: the client website returned HTTP 200 during this audit.
@@ -23,12 +26,15 @@ Audit date: 2026-08-03
 - `index.html`
 - `assets/images/tsl-homepage-preview.jpg`
 - `https://www.tsandl.us/`
+- Owner confirmation supplied August 7, 2026.
 
 ### Do not claim yet
 
 - Revenue, lead, conversion, traffic, or financial impact.
 - A numerical or stronger dispatch metric without supporting records and client approval.
 - A project timeline or launch date.
+- Specific cybersecurity controls, standards, certifications, incident outcomes, or infrastructure-performance results
+  beyond the owner-confirmed scope.
 
 ## CodeLink
 

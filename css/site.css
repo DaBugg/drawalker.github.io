@@ -144,6 +144,15 @@ a {
   text-transform: uppercase;
 }
 
+.site-header .brand-name::after {
+  margin-left: 0.14em;
+  font-size: 0.58em;
+  line-height: 0;
+  letter-spacing: 0;
+  vertical-align: super;
+  content: "™";
+}
+
 .desktop-nav {
   display: flex;
   gap: 2rem;
