@@ -1521,6 +1521,20 @@ textarea:focus {
   font-size: 0.75rem;
 }
 
+.form-privacy {
+  margin: 0.75rem 0 0;
+  color: #535964;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.form-privacy a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
 .honeypot {
   position: absolute !important;
   width: 1px;

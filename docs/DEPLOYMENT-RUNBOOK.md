@@ -377,20 +377,44 @@ The following owner-independent work is complete in the repository:
   Transportation Solutions case study;
 - Redeemed Hands is reachable from the homepage as an additional documented
   project, eliminating its internal-link orphan state without displacing the
-  four featured project cards;
+  featured project cards;
 - the production build now copies only public template runtime files and blocks
   internal `app`, `node_modules`, package/configuration, Markdown, and TypeScript
   material from `dist/templates`; and
 - canonical/redirect coverage now includes the public template index variants
   and AERON directory-index variants.
 
-The legal-policy and South Florida portions of Batch 5 remain open. Privacy and
-terms must stay clearly marked as drafts and `noindex` until the owner and an
-appropriate legal reviewer supply and approve text that matches the real form,
-processors, retention, contact, jurisdiction, and service practices. Do not add
-South Florida office, address, service-area, Google Business Profile, client, or
-city-page claims until the owner supplies the underlying facts. These open items
-are human-review dependencies, not repository implementation failures.
+The legal-policy portion of Batch 5 remains open. Privacy and terms must stay
+clearly marked as drafts and `noindex` until the owner and an appropriate legal
+reviewer supply and approve text that matches the real form, processors,
+retention, contact, jurisdiction, and service practices. South Florida facts were
+initially open and were subsequently addressed by the owner update below. These
+open legal items are human-review dependencies, not repository implementation
+failures.
+
+### Batch 5 owner update — 2026-08-07
+
+- The owner approved public availability across South Florida from Miami through
+  West Palm Beach, remote project reviews for U.S. and international
+  organizations, and in-person meetings within that service area when practical.
+  The homepage now states those facts and the existing `Organization` data uses
+  the matching South Florida `areaServed` text. No street address,
+  `LocalBusiness`, coordinates, or city landing pages were added.
+- The owner reports an existing Google Business Profile with no public address.
+  Eligibility remains a dashboard/manual check: retain it as a service-area
+  profile only if Networks & Nodes currently provides in-person service at
+  customer locations. Do not add a private or virtual-office address.
+- The privacy and terms drafts now document repository-verified form, Umami,
+  Vercel, Cloudflare, Mux, SMTP, case-study, and fictional-concept behavior. They
+  remain `Draft` and `noindex`; operator identity/entity status, the production
+  SMTP provider, retention/deletion policy, sale/marketing policy, children,
+  jurisdiction, effective date, and qualified legal approval remain open.
+- Search Console evidence supplied by the owner: the query `transportation
+  infrastructure network solutions` recorded 18 impressions. The landing page,
+  date range, clicks, CTR, average position, country, and device remain
+  unverified. Do not place the query on fictional/noindex template pages or imply
+  physical network/ITS engineering that is not established by the current case
+  evidence.
 
 ## Release record
 

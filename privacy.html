@@ -71,11 +71,33 @@
           </p>
         </section>
         <section>
+          <h2>Website analytics</h2>
+          <p>
+            The site uses Umami Cloud to measure a limited set of project-review interactions. The current
+            implementation disables automatic pageview tracking and records only when the main project-review link is
+            selected, form interaction begins, a submission succeeds, or a broad failure category occurs. Networks
+            &amp; Nodes does not add form names, email addresses, company names, project details, security tokens, or
+            request identifiers to those analytics events. The script is also configured to honor browser Do Not
+            Track settings and exclude URL search parameters and fragments.
+          </p>
+        </section>
+        <section>
+          <h2>Hosting, content delivery, and media</h2>
+          <p>
+            Vercel provides website hosting and the server function that receives project-review requests. Cloudflare
+            provides domain, content-delivery, asset-storage, and security services. Mux provides streamed website
+            video. Requests to these services may include ordinary technical information such as an IP address,
+            browser or device information, requested URL, and request time under each provider’s applicable terms and
+            privacy notice.
+          </p>
+        </section>
+        <section>
           <h2>Spam protection and service providers</h2>
           <p>
-            The form can use Cloudflare Turnstile for spam protection. When enabled, the submission token and request
-            IP address are sent to Cloudflare for verification. Email delivery is handled through the site’s configured
-            SMTP provider. Those providers process information under their own terms and policies.
+            The form uses Cloudflare Turnstile for spam protection. A submission token, request IP address, request
+            identifier, action, and hostname are sent to Cloudflare for verification. Email delivery is handled through
+            the site’s configured SMTP provider. The production SMTP provider still requires owner confirmation before
+            this notice can be approved. These providers process information under their own terms and policies.
           </p>
         </section>
         <section>
@@ -87,15 +109,17 @@
           </p>
         </section>
         <section>
-          <h2>External links</h2>
+          <h2>External links and website concepts</h2>
           <p>
             Project pages may link to client or product websites. Their privacy practices are controlled by their
-            respective operators, not by this draft notice.
+            respective operators, not by this draft notice. Forms shown inside pages labeled as fictional website
+            concepts do not transmit or store their entries in the current implementation, although third-party fonts,
+            images, video, and other assets used by a concept may still receive ordinary network requests.
           </p>
         </section>
         <section>
           <h2>Draft status</h2>
-          <p>Draft updated August 3, 2026. The effective date and final policy language require owner and legal approval.</p>
+          <p>Draft updated August 7, 2026. The effective date and final policy language require owner and legal approval.</p>
         </section>
       </div>
     </main>

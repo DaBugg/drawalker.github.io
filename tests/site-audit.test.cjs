@@ -492,9 +492,13 @@ test("homepage has complete large-image social metadata and verified Organizatio
   assert.equal(schema.name, "Networks & Nodes");
   assert.equal(schema.url, "https://www.networksandnodes.org/");
   assert.equal(schema.email, "david@networksandnodes.org");
-  for (const unsupported of ["address", "areaServed", "aggregateRating", "foundingDate", "sameAs"]) {
+  assert.equal(schema.areaServed, "South Florida, from Miami through West Palm Beach");
+  assert.match(homepage, /available for projects across South Florida, from Miami through West Palm Beach/);
+  assert.match(homepage, /in-person meetings\s+within the South Florida service area can be arranged when practical/i);
+  for (const unsupported of ["address", "aggregateRating", "foundingDate", "sameAs"]) {
     assert.equal(schema[unsupported], undefined, `schema should not invent ${unsupported}`);
   }
+  assert.doesNotMatch(schemaSource, /LocalBusiness/);
 });
 
 test("draft legal pages and the branded 404 are visible, cautious, and built", () => {
@@ -513,7 +517,12 @@ test("draft legal pages and the branded 404 are visible, cautious, and built", (
   }
   assert.match(privacy, /Cloudflare Turnstile/);
   assert.match(privacy, /configured\s+SMTP provider/);
+  assert.match(privacy, /Umami Cloud/);
+  assert.match(privacy, /Vercel provides website hosting/);
+  assert.match(privacy, /Mux provides streamed website\s+video/);
+  assert.match(homepage, /href="\/privacy\.html">privacy notice<\/a> for how project-review information is handled/);
   assert.match(terms, /separate written agreement accepted by both parties/);
+  assert.match(terms, /fictional concept, demonstration,\s+or design direction/);
   assert.match(notFound, /Page not found\./);
   assert.match(notFound, /href="\/#top"/);
   assert.match(notFound, /href="\/#work"/);
