@@ -158,16 +158,23 @@
               height="900"
             />
             <mux-player
+              id="hero-video-player"
               data-video-frame
-              data-active-playback-id="Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc"
-              playback-id="Rgqqh00rKkzeGpQYUe00QDb7Tqtnfnhd6B016z44NacQzc"
               aria-hidden="true"
               tabindex="-1"
-              autoplay="muted"
               muted
               playsinline
-              preload="auto"
+              preload="none"
+              hidden
             ></mux-player>
+            <button
+              class="video-playback-toggle"
+              type="button"
+              aria-controls="hero-video-player"
+              aria-label="Pause Immersive experiences video"
+              aria-pressed="true"
+              data-video-playback-toggle
+            >Pause video</button>
             <a
               class="video-concept-link"
               data-video-concept

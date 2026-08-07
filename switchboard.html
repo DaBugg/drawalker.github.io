@@ -10,6 +10,7 @@
       content="Explore Networks &amp; Nodes capabilities across websites, automation, custom software and CRM, growth, U.S.-market adaptation, and digital experiences."
     />
     <meta name="robots" content="noindex, follow" />
+    <link rel="preconnect" href="https://assets.networksandnodes.org" crossorigin />
     <script>
       if (window.self !== window.top) document.documentElement.classList.add("is-embedded");
     </script>
@@ -3665,7 +3666,8 @@
                     type="button"
                     aria-controls="product-model website-product-model"
                     data-load-product-model
-                  >Load 3D experience</button>
+                    hidden
+                  >Try 3D experience again</button>
                   <div class="model-ground" aria-hidden="true"></div>
                   <div class="product-visual" data-model-shell data-model-state="static" hidden>
                     <img
@@ -4028,7 +4030,7 @@
         servicePanel.setAttribute("aria-labelledby", `key-${id}`);
         if (id === "experience") {
           renderProduct(currentProductIndex);
-          if (hasApproved3d) void loadCurrentProductModel();
+          void loadCurrentProductModel();
         } else {
           cancelModelLoad("product");
           cancelModelLoad("website");
@@ -4444,7 +4446,6 @@
         });
       });
 
-      const mobileProductQuery = window.matchMedia("(max-width: 700px)");
       const createProductModels = () => {
         const models = [
           {
@@ -4478,9 +4479,7 @@
           sizeLabel: "about 41 MB",
         };
 
-        if (!mobileProductQuery.matches) {
-          models.push(architecture);
-        }
+        models.push(architecture);
 
         models.push(
           {
@@ -4542,8 +4541,7 @@
       let transitionTimer = null;
       let transitionCleanupTimer = null;
       let hasShownProductCursor = false;
-      let hasApproved3d = false;
-      const approvedProductScenes = new Set();
+      const initializedProductScenes = new Set();
       const readyProductScenes = new Set();
       const pendingProductScenes = new Set();
 
@@ -4666,7 +4664,7 @@
           delete model.dataset.loadingRequest;
           delete model.dataset.loadingScene;
           model.removeAttribute("src");
-          approvedProductScenes.delete(scene);
+          initializedProductScenes.delete(scene);
           readyProductScenes.delete(scene);
           if (productModels[currentProductIndex]?.scene !== scene) return;
 
@@ -4719,10 +4717,10 @@
         ];
         const nextProduct = productModels[(currentProductIndex + 1) % productModels.length];
         const hasInteractiveModel = Boolean(product.src);
-        const sceneIsApproved = approvedProductScenes.has(product.scene);
+        const sceneIsInitialized = initializedProductScenes.has(product.scene);
         const sceneIsReady = readyProductScenes.has(product.scene);
-        const canUseInteractiveModel = hasInteractiveModel && supportsInteractive3d && sceneIsApproved;
-        const websiteIsInteractive = product.scene === "website" && supportsInteractive3d && sceneIsApproved;
+        const canUseInteractiveModel = hasInteractiveModel && supportsInteractive3d && sceneIsInitialized;
+        const websiteIsInteractive = product.scene === "website" && supportsInteractive3d && sceneIsInitialized;
         const productIsReady = canUseInteractiveModel && sceneIsReady;
         const websiteIsReady = websiteIsInteractive && sceneIsReady;
 
@@ -4755,7 +4753,7 @@
         if (!canUseInteractiveModel) {
           cancelModelLoad("product");
           if (product.scene !== "website") {
-            setProductModelState("static", "Load the 3D experience when you are ready.");
+            setProductModelState("static", "Preparing the interactive 3D preview…");
           }
         } else if (productModel.getAttribute("src") !== product.src) {
           setProductModelState("loading", "Loading interactive 3D preview…");
@@ -4765,7 +4763,7 @@
         if (!websiteIsInteractive) {
           cancelModelLoad("website");
           if (product.scene === "website") {
-            setWebsiteModelState("static", "Load the 3D experience when you are ready.");
+            setWebsiteModelState("static", "Preparing the interactive product preview…");
           }
         } else if (!websiteProductModel.hasAttribute("src")) {
           setWebsiteModelState("loading", "Loading interactive product preview…");
@@ -4790,7 +4788,7 @@
       function changeProduct(index) {
         if (reduceProductMotion) {
           renderProduct(index);
-          if (hasApproved3d) void loadCurrentProductModel();
+          void loadCurrentProductModel();
           return;
         }
 
@@ -4801,55 +4799,30 @@
         experienceStage.classList.add("is-transitioning");
         transitionTimer = window.setTimeout(() => {
           renderProduct(index);
-          if (hasApproved3d) void loadCurrentProductModel();
+          void loadCurrentProductModel();
         }, 250);
         transitionCleanupTimer = window.setTimeout(() => {
           experienceStage.classList.remove("is-transitioning");
         }, 650);
       }
 
-      function refreshProductModels() {
-        const currentScene = productModels[currentProductIndex]?.scene;
-        productModels = createProductModels();
-        const nextIndex = productModels.findIndex((product) => product.scene === currentScene);
-
-        if (nextIndex < 0) {
-          cancelModelLoad("product");
-          currentProductIndex = 0;
-          renderProduct(0);
-          if (hasApproved3d) void loadCurrentProductModel();
-          return;
-        }
-
-        cancelModelLoad("product");
-        renderProduct(nextIndex);
-        if (hasApproved3d) void loadCurrentProductModel();
-      }
-
-      if (mobileProductQuery.addEventListener) {
-        mobileProductQuery.addEventListener("change", refreshProductModels);
-      } else {
-        mobileProductQuery.addListener(refreshProductModels);
-      }
-
       async function loadCurrentProductModel() {
-        if (!hasApproved3d) return;
         if (!supportsInteractive3d) {
           markModelUnsupported();
           return;
         }
         const requestedProduct = productModels[currentProductIndex];
-        if (approvedProductScenes.has(requestedProduct.scene) || pendingProductScenes.has(requestedProduct.scene)) return;
+        if (initializedProductScenes.has(requestedProduct.scene) || pendingProductScenes.has(requestedProduct.scene)) return;
         pendingProductScenes.add(requestedProduct.scene);
         try {
           if (requestedProduct.src || requestedProduct.scene === "website") await loadModelViewer();
-          approvedProductScenes.add(requestedProduct.scene);
+          initializedProductScenes.add(requestedProduct.scene);
           loadProductButton.hidden = true;
           loadProductButton.disabled = false;
-          loadProductButton.textContent = "Load 3D experiences";
+          loadProductButton.textContent = "Try 3D experience again";
           if (productModels[currentProductIndex]?.scene === requestedProduct.scene) renderProduct(currentProductIndex);
         } catch (error) {
-          approvedProductScenes.delete(requestedProduct.scene);
+          initializedProductScenes.delete(requestedProduct.scene);
           readyProductScenes.delete(requestedProduct.scene);
           if (productModels[currentProductIndex]?.scene !== requestedProduct.scene) {
             renderProduct(currentProductIndex);
@@ -4925,7 +4898,7 @@
           delete model.dataset.loadingRequest;
           delete model.dataset.loadingScene;
           model.removeAttribute("src");
-          approvedProductScenes.delete(failedScene);
+          initializedProductScenes.delete(failedScene);
           readyProductScenes.delete(failedScene);
           if (productModels[currentProductIndex]?.scene !== failedScene) return;
 
@@ -4971,7 +4944,7 @@
           delete model.dataset.loadingRequest;
           delete model.dataset.loadingScene;
           model.removeAttribute("src");
-          approvedProductScenes.delete(failedScene);
+          initializedProductScenes.delete(failedScene);
           readyProductScenes.delete(failedScene);
           if (productModels[currentProductIndex]?.scene !== failedScene) return;
 
@@ -4988,9 +4961,8 @@
       bindProductModelEvents(productModel);
       bindWebsiteModelEvents(websiteProductModel);
       loadProductButton.addEventListener("click", () => {
-        hasApproved3d = true;
         loadProductButton.disabled = true;
-        loadProductButton.textContent = "Loading 3D experience…";
+        loadProductButton.textContent = "Retrying 3D experience…";
         void loadCurrentProductModel();
       });
       resetProductButton.addEventListener("click", resetProductView);
