@@ -541,7 +541,7 @@ h2 em {
   pointer-events: none;
 }
 
-.video-playback-toggle {
+.video-motion-toggle {
   position: absolute;
   z-index: 4;
   top: 1rem;
@@ -561,18 +561,18 @@ h2 em {
   backdrop-filter: blur(12px);
 }
 
-.video-playback-toggle:hover,
-.video-playback-toggle:focus-visible {
+.video-motion-toggle:hover,
+.video-motion-toggle:focus-visible {
   border-color: var(--cyan);
   color: var(--cyan);
 }
 
-.video-playback-toggle:focus-visible {
+.video-motion-toggle:focus-visible {
   outline: 2px solid var(--cyan);
   outline-offset: 3px;
 }
 
-.video-playback-toggle[hidden] {
+.video-motion-toggle[hidden] {
   display: none;
 }
 
