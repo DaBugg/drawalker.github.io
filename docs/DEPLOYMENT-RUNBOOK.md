@@ -431,7 +431,8 @@ website rebrand and the owner-attested purchase-order/task sorting workflow at a
 high level, with current work labeled `in progress` and future work labeled
 `planned` or `proposed`. The tracked repository has a public remote, so do not
 record or publish the private application URL, live or exported operational
-records, database details, credentials, or live screenshots.
+records, database details, credentials, or live screenshots. The owner separately supplied and approved the static,
+illustrative `images/sl-inventory-location-dashboard.webp` demonstration image on August 7, 2026.
 
 The limited page may be added to the homepage, production route manifest,
 sitemap, and indexed case-study set before client asset or backlink approval,
@@ -439,7 +440,8 @@ provided all of the following controls are satisfied:
 
 - use only public facts and the high-level owner-attested scope recorded in
   `PROJECT-PROOF-INVENTORY.md`;
-- do not add an S&L logo, client-supplied asset, screenshot, testimonial, outbound
+- apart from the specifically named owner-approved demonstration image, do not add
+  an S&L logo, client-supplied asset, additional screenshot, testimonial, outbound
   client link, or attribution backlink until written client approval covers that
   exact item, wording, file, and destination;
 - the website rebrand is accurately labeled `in progress` until launched;
@@ -456,10 +458,11 @@ text-only page may publish: require authenticated access, least-privilege
 authorization and database Row Level Security, and confirm unauthenticated reads
 and writes fail across production, previews, custom domains, and direct hosting
 URLs. Never embed or link the private application from a public page. Never use a
-live screenshot. Any later public media must be created from fictional data,
+live screenshot. Any additional public media must be created from fictional data,
 flattened, stripped of metadata, checked visually and with OCR, and approved by
-the client. `noindex` and `robots.txt` are defense-in-depth crawler controls, not
-access controls.
+the client. The approved static demonstration image does not waive these controls
+for later media. `noindex` and `robots.txt` are defense-in-depth crawler controls,
+not access controls.
 
 Any client-site backlink must be voluntary, branded or otherwise natural,
 client-approved, and must not be represented as guaranteeing rankings. Current

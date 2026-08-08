@@ -1,14 +1,16 @@
 # S&L Plumbing case-study and construction SEO brief
 
-Status: **LIMITED PUBLICATION AUTHORIZED — homepage case study #3; client assets, links, and application media remain gated**
+Status: **LIMITED PUBLICATION AUTHORIZED — homepage case study #3 and one owner-approved demonstration image; client assets, links, and live application media remain gated**
 
 Review date: 2026-08-07
 
 The Networks & Nodes owner authorized a limited public S&L case study and homepage placement as case study #3 on
 August 7, 2026. That authorization covers accurate, high-level descriptions of owner-attested work and its current
-status. It does not constitute client approval for a logo, supplied asset, screenshot, outbound link, attribution
-backlink, testimonial, or performance claim. The repository has a public GitHub remote, so the private application
-URL, live or exported operational records, live screenshots, credentials, and database details must not be added here.
+status. On August 7, 2026, the owner also supplied and approved one static demonstration screenshot for this page:
+`images/sl-inventory-location-dashboard.webp`. This does not constitute client approval for a logo, other supplied
+assets, additional screenshots, outbound links, attribution backlinks, testimonials, or performance claims. The
+repository has a public GitHub remote, so the private application URL, live or exported operational records, live
+screenshots, credentials, and database details must not be added here.
 
 ## Evidence and publication status
 
@@ -18,6 +20,9 @@ URL, live or exported operational records, live screenshots, credentials, and da
   project management, and commercial plumbing work.
 - A multi-page S&L website-rebrand demonstration exists at `templates/SL-Web-Demo/`. It is intentionally
   `noindex, nofollow` and is a demonstration, not proof of a completed production launch.
+- The owner-supplied material-location dashboard image contains illustrative demonstration data, no browser URL, and
+  no identified employee, supplier, project address, order identifier, or credential. It is not evidence of measured
+  business results or production security.
 - The current client website has material launch risks that must be corrected during the rebrand: HTTP does not
   redirect to HTTPS, the inspected HTTPS endpoint did not present a normally trusted certificate, and the homepage
   did not expose a canonical URL. Recheck all three conditions at launch rather than assuming they remain unchanged.
@@ -38,7 +43,8 @@ URL, live or exported operational records, live screenshots, credentials, and da
 Create one indexed Networks & Nodes case study at `/work/sl-plumbing.html` and place it as homepage case study #3.
 Keep the existing template demonstration noindex. The case study may link to that already-public Networks & Nodes
 design preview with a clear demonstration label. Do not link to the private application or the client website until
-the applicable destination is reviewed and approved.
+the applicable destination is reviewed and approved. The page may show the specifically approved static dashboard
+image when its caption states that the data is illustrative and not a live client record.
 
 The case study should separate:
 
@@ -120,9 +126,9 @@ Before the application is treated as private or used as case-study proof:
 - preserve and review relevant access logs; and
 - retest with unauthenticated, unauthorized-authenticated, authorized-user, and administrator roles.
 
-For public media, create a separate demonstration dataset. Export only a flattened static image, remove metadata, run
-visual and OCR review, and obtain written client approval for that exact asset. Do not capture the live dataset. The
-limited text-only case study may publish while this media gate remains closed.
+For any additional public media, create a separate demonstration dataset. Export only a flattened static image,
+remove metadata, run visual and OCR review, and obtain written client approval for that exact asset. Do not capture
+the live dataset. The single owner-approved demonstration image above does not waive the gate for any other media.
 
 ## Client approval checklist
 
@@ -143,8 +149,9 @@ limited text-only case study may publish while this media gate remains closed.
    public and owner-attested scope above, and label in-progress and proposed work precisely.
 2. Add the page to `config/routes.cjs`, the generated sitemap, contextual internal navigation, and homepage position
    #3. Do not delete or redirect the Redeemed Hands page solely because its homepage promotion changes.
-3. Validate social presentation, mobile layout, accessibility, links, and the conversion CTA. Do not use an S&L logo,
-   supplied asset, client-site link, private-application link, screenshot, testimonial, or performance claim yet.
+3. Validate social presentation, mobile layout, accessibility, links, and the conversion CTA. Apart from the named
+   owner-approved demonstration image, do not use an S&L logo, supplied asset, client-site link, private-application
+   link, additional screenshot, testimonial, or performance claim yet.
 4. Secure and retest the private application independently. Limited text publication does not waive this gate.
 5. Obtain and retain written client approval before adding branded assets, an outbound client link, an attribution
    backlink, or specifically identified sanitized media.

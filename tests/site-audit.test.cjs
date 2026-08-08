@@ -438,6 +438,13 @@ test("the limited S&L case study is indexable without exposing the private appli
   assert.ok(routeManifest.some((route) => route.sourcePath === "work/sl-plumbing.html" && route.sitemap));
   assert.match(caseStudy, /Construction Web Design &amp; Custom Software — S&amp;L Case Study/);
   assert.match(caseStudy, /AI-assisted bid-opportunity discovery are planned or proposed/);
+  assert.match(caseStudy, /src="\/images\/sl-inventory-location-dashboard\.webp"/);
+  assert.match(caseStudy, /width="2868"[\s\S]*height="1422"[\s\S]*loading="lazy"[\s\S]*decoding="async"/);
+  assert.match(caseStudy, /Illustrative demonstration data · No live client records/);
+  assert.ok(
+    fs.statSync(path.join(root, "images/sl-inventory-location-dashboard.webp")).size < 100_000,
+    "the S&L demonstration image should remain below 100 KB",
+  );
   assert.match(brief, /LIMITED PUBLICATION AUTHORIZED — homepage case study #3/);
   assert.doesNotMatch(caseStudy, /<a\b[^>]*href="https?:\/\//i);
   assert.match(brief, /private application[\s\S]*must not be added here/);

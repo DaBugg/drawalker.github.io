@@ -71,13 +71,16 @@ Audit date: 2026-08-07
   intentionally labeled `noindex, nofollow`.
 - Owner authorization: on August 7, 2026, the Networks & Nodes owner authorized a limited indexed S&L case study and
   homepage placement as case study #3 using accurate, high-level, status-qualified copy.
+- Owner-authorized media: on August 7, 2026, the owner supplied and approved the static demonstration image
+  `images/sl-inventory-location-dashboard.webp`. It uses illustrative data and contains no private application URL.
 - Owner-attested status: the website rebrand is in progress. A custom workflow processes submitted purchase-order/task
   information and uses sorting logic to map materials to jobsite floor locations. Implementation artifacts and client
   confirmation have not been inspected.
 - A planned 3D representation is not implemented and LinkedIn outreach/advertising and a bid-opportunity system remain
   in progress or proposed until their individual delivery status is confirmed.
-- Client approval for its logo, supplied assets, screenshots, testimonial, outbound link, attribution backlink, and
-  exact client-approved wording has not yet been obtained; none of those items is within the limited authorization.
+- Client approval for its logo, supplied assets, additional screenshots, testimonial, outbound link, attribution
+  backlink, and exact client-approved wording has not yet been obtained; none of those items is within the limited
+  authorization.
 - The case study may target construction-company web design and custom construction software/workflow automation.
   Material tracking is a supporting product/evaluation intent. AI-in-construction language must remain supporting or
   proposed because no delivered S&L AI capability has been verified.
@@ -86,6 +89,7 @@ Audit date: 2026-08-07
 ### Sources
 
 - `work/sl-plumbing.html`
+- `images/sl-inventory-location-dashboard.webp`
 - `index.html`
 - `templates/SL-Web-Demo/`
 - `docs/SL-PLUMBING-CASE-STUDY-SEO-BRIEF.md`
@@ -94,8 +98,8 @@ Audit date: 2026-08-07
 
 ### Do not claim or expose
 
-- The private application URL, records, credentials, database details, live screenshots, or functionality beyond the
-  high-level owner-attested workflow above.
+- The private application URL, records, credentials, database details, live screenshots, additional application media,
+  or functionality beyond the high-level owner-attested workflow above.
 - That the private application has verified authentication, authorization, or security controls.
 - A completed 3D experience, deployed S&L bid finder, completed marketing campaign, or launched rebrand.
 - A delivered AI system for S&L.
