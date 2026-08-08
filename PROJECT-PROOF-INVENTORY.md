@@ -60,7 +60,7 @@ Audit date: 2026-08-07
 - That every product feature is fully launched or generally available.
 - A measured business outcome or project timeline.
 
-## S&L Plumbing — publication hold
+## S&L Plumbing — limited publication authorized
 
 ### Supported facts
 
@@ -69,26 +69,36 @@ Audit date: 2026-08-07
   the current client website.
 - Repository evidence: a multi-page website-rebrand demonstration exists in `templates/SL-Web-Demo/` and is
   intentionally labeled `noindex, nofollow`.
-- Owner-attested status: the website rebrand is in progress. Additional private workflow work and possible follow-on
-  marketing/automation work have been described but are not approved for publication.
+- Owner authorization: on August 7, 2026, the Networks & Nodes owner authorized a limited indexed S&L case study and
+  homepage placement as case study #3 using accurate, high-level, status-qualified copy.
+- Owner-attested status: the website rebrand is in progress. A custom workflow processes submitted purchase-order/task
+  information and uses sorting logic to map materials to jobsite floor locations. Implementation artifacts and client
+  confirmation have not been inspected.
 - A planned 3D representation is not implemented and LinkedIn outreach/advertising and a bid-opportunity system remain
   in progress or proposed until their individual delivery status is confirmed.
-- Client permission to publish the relationship, exact scope, branding, or screenshots has not yet been obtained.
+- Client approval for its logo, supplied assets, screenshots, testimonial, outbound link, attribution backlink, and
+  exact client-approved wording has not yet been obtained; none of those items is within the limited authorization.
+- The case study may target construction-company web design and custom construction software/workflow automation.
+  Material tracking is a supporting product/evaluation intent. AI-in-construction language must remain supporting or
+  proposed because no delivered S&L AI capability has been verified.
 - No quantitative outcome is supported.
 
 ### Sources
 
+- `work/sl-plumbing.html`
+- `index.html`
 - `templates/SL-Web-Demo/`
 - `docs/SL-PLUMBING-CASE-STUDY-SEO-BRIEF.md`
 - The public S&L Plumbing website inspected August 7, 2026.
 - Owner confirmation supplied August 7, 2026.
 
-### Do not claim or expose yet
+### Do not claim or expose
 
-- The private application URL, records, credentials, database details, live screenshots, or unapproved workflow
-  description.
+- The private application URL, records, credentials, database details, live screenshots, or functionality beyond the
+  high-level owner-attested workflow above.
 - That the private application has verified authentication, authorization, or security controls.
 - A completed 3D experience, deployed S&L bid finder, completed marketing campaign, or launched rebrand.
+- A delivered AI system for S&L.
 - Full inventory-management capabilities unless the approved feature record establishes them.
 - Time savings, material-loss reduction, bid volume, lead volume, conversion, revenue, adoption, or other results.
 

@@ -423,36 +423,47 @@ failures.
   client secret. After deployment, verify `/api/spotify`, `/api/spotify-login`,
   `/api/spotify-callback`, and `/api/suggest-song` each return a genuine 404.
 
-## S&L case-study release gate
+## S&L limited case-study release gate
 
-S&L currently remains an editorial candidate, not a production Networks & Nodes
-case-study route. The tracked repository has a public remote, so do not record or
-publish the private application URL, operational records, database details,
-screenshots, or unapproved workflow description.
+On August 7, 2026, the Networks & Nodes owner authorized a limited indexed S&L
+case study and homepage placement as case study #3. The page may describe the
+website rebrand and the owner-attested purchase-order/task sorting workflow at a
+high level, with current work labeled `in progress` and future work labeled
+`planned` or `proposed`. The tracked repository has a public remote, so do not
+record or publish the private application URL, live or exported operational
+records, database details, credentials, or live screenshots.
 
-Do not add S&L to the homepage, production route manifest, sitemap, or indexed
-case-study set until all of the following are complete:
+The limited page may be added to the homepage, production route manifest,
+sitemap, and indexed case-study set before client asset or backlink approval,
+provided all of the following controls are satisfied:
 
-- written client approval covers the company name, logo, exact scope/status copy,
-  specifically identified sanitized media, and each outbound or attribution link;
-- the private application requires authenticated access, least-privilege
-  authorization and database Row Level Security, and unauthenticated read and
-  write tests fail across production, previews, custom domains, and direct hosting
-  URLs;
-- the public screenshot is created from fictional demonstration data, flattened,
-  stripped of metadata, checked visually and with OCR, and approved by the client;
+- use only public facts and the high-level owner-attested scope recorded in
+  `PROJECT-PROOF-INVENTORY.md`;
+- do not add an S&L logo, client-supplied asset, screenshot, testimonial, outbound
+  client link, or attribution backlink until written client approval covers that
+  exact item, wording, file, and destination;
 - the website rebrand is accurately labeled `in progress` until launched;
 - the 3D project representation stays labeled `planned` until implemented;
 - LinkedIn and bid-opportunity work is described as proposed until its individual
-  delivery status is confirmed; and
+  delivery status is confirmed;
+- AI-in-construction remains supporting or proposed unless a specific delivered
+  capability is verified; and
 - no performance or business outcome is added without a retained evidence record
   and client approval.
 
-Never embed or link the private application from a public page. `noindex` and
-`robots.txt` are defense-in-depth crawler controls, not access controls. Any
-client-site backlink must be voluntary, branded or otherwise natural,
-client-approved, and must not be represented as guaranteeing rankings. The
-complete activation and validation sequence is maintained in
+The private-application security gate remains mandatory even though the limited
+text-only page may publish: require authenticated access, least-privilege
+authorization and database Row Level Security, and confirm unauthenticated reads
+and writes fail across production, previews, custom domains, and direct hosting
+URLs. Never embed or link the private application from a public page. Never use a
+live screenshot. Any later public media must be created from fictional data,
+flattened, stripped of metadata, checked visually and with OCR, and approved by
+the client. `noindex` and `robots.txt` are defense-in-depth crawler controls, not
+access controls.
+
+Any client-site backlink must be voluntary, branded or otherwise natural,
+client-approved, and must not be represented as guaranteeing rankings. Current
+SERP sampling and the complete activation and validation sequence are maintained in
 `docs/SL-PLUMBING-CASE-STUDY-SEO-BRIEF.md`.
 
 ## Release record

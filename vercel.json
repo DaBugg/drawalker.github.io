@@ -77,6 +77,11 @@
       "permanent": true
     },
     {
+      "source": "/work/sl-plumbing.html/",
+      "destination": "https://www.networksandnodes.org/work/sl-plumbing.html",
+      "permanent": true
+    },
+    {
       "source": "/privacy.html/",
       "destination": "https://www.networksandnodes.org/privacy.html",
       "permanent": true

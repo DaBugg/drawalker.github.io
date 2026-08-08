@@ -1,12 +1,14 @@
 # S&L Plumbing case-study and construction SEO brief
 
-Status: **HOLD — client approval and private-application security review required before publication**
+Status: **LIMITED PUBLICATION AUTHORIZED — homepage case study #3; client assets, links, and application media remain gated**
 
 Review date: 2026-08-07
 
-This is an editorial and implementation brief, not a public case study. The repository has a public GitHub remote, so
-the private application URL, operational records, screenshots, credentials, database details, and unapproved client
-workflow description must not be added here.
+The Networks & Nodes owner authorized a limited public S&L case study and homepage placement as case study #3 on
+August 7, 2026. That authorization covers accurate, high-level descriptions of owner-attested work and its current
+status. It does not constitute client approval for a logo, supplied asset, screenshot, outbound link, attribution
+backlink, testimonial, or performance claim. The repository has a public GitHub remote, so the private application
+URL, live or exported operational records, live screenshots, credentials, and database details must not be added here.
 
 ## Evidence and publication status
 
@@ -20,25 +22,27 @@ workflow description must not be added here.
   redirect to HTTPS, the inspected HTTPS endpoint did not present a normally trusted certificate, and the homepage
   did not expose a canonical URL. Recheck all three conditions at launch rather than assuming they remain unchanged.
 
-### Owner-attested but not approved for publication
+### Owner-attested limited-publication scope
 
 - The website rebrand is in progress.
-- Additional private workflow work and possible follow-on marketing/automation work were described by the owner.
-  Exact functionality is intentionally embargoed from this public repository until the client approves the scope and
-  the application passes the security gate below.
+- A custom construction workflow processes submitted purchase-order/task information and uses sorting logic to map
+  materials to jobsite floor locations. This is an owner-attested, high-level description; implementation artifacts
+  and client confirmation have not been inspected.
 - A 3D project representation is planned and must not be described as implemented.
-- LinkedIn outreach/advertising and a bid-opportunity system are in progress or proposed. Treat both as proposed until
-  their individual delivery status is confirmed.
+- LinkedIn outreach/advertising and a bid-opportunity system are in progress or proposed. Treat each as proposed until
+  its individual delivery status is confirmed. Do not imply that an AI bid finder has been delivered for S&L.
 - No traffic, lead, bid, revenue, time-saving, adoption, or operational outcome is verified.
 
-## Conditional public page
+## Authorized limited public page
 
-After approval, create one indexed Networks & Nodes case study at `/work/sl-plumbing.html`. Keep the existing template
-demonstration noindex and link to it only as a clearly labeled design preview.
+Create one indexed Networks & Nodes case study at `/work/sl-plumbing.html` and place it as homepage case study #3.
+Keep the existing template demonstration noindex. The case study may link to that already-public Networks & Nodes
+design preview with a clear demonstration label. Do not link to the private application or the client website until
+the applicable destination is reviewed and approved.
 
 The case study should separate:
 
-1. completed and client-approved work;
+1. owner-attested work already performed, clearly labeled when not independently verified;
 2. work currently in progress;
 3. planned or proposed additions; and
 4. measured outcomes, which must remain absent until documented and approved.
@@ -48,14 +52,18 @@ the process your team needs to improve.” Do not promise that another company w
 
 ## Search-intent map
 
-These are candidate topic clusters, not keyword-volume findings or ranking guarantees.
+These are candidate topic clusters, not keyword-volume findings or ranking guarantees. The recommended primary
+service intents are **construction company web design** and **custom construction software development / workflow
+automation**. Material tracking can support the software narrative. Broad AI-in-construction language is supporting
+or proposed only because the current evidence does not establish a delivered S&L AI system.
 
 | Intent cluster | Dominant buyer need | Recommended page | Current decision |
 |---|---|---|---|
-| Construction company web design / contractor website redesign | Hire a team to improve positioning, proof, and project inquiries | `/services/construction-web-design.html` | Consider after offer review |
+| Construction company web design / contractor website redesign | Hire a team to improve positioning, proof, and project inquiries | S&L case study; later `/services/construction-web-design.html` if the offer warrants a distinct page | Primary transactional service intent |
 | Commercial plumbing website design | Evaluate relevant industry experience | S&L case study plus the construction web-design page | Supporting intent only |
-| Custom construction software / construction workflow automation | Hire a team to improve an internal process | `/services/custom-construction-software.html` | Consider after offer review |
-| Construction material receiving or location tracking | Understand or procure a material-coordination workflow | Approved S&L case-study section; later an original process guide | Conditional on approval |
+| Custom construction software development / construction workflow automation | Hire a team to improve an internal process | S&L case study; later `/services/custom-construction-software.html` if the offer warrants a distinct page | Primary transactional service intent |
+| Construction material receiving or location tracking | Compare products and workflows for material coordination | Supporting S&L case-study section; later an original process or evaluation guide | Product/evaluation intent |
+| AI in construction | Learn about applications, products, risks, or providers | Supporting/proposed context only until a specific delivered capability is verified | Mixed, often informational; not the primary case-study target |
 | Construction bid opportunity alerts / bid finder | Find and filter relevant project opportunities | A future solution page only after the system and source permissions are verified | Proposed |
 | Construction bid tracker | Manage received bids, deadlines, documents, and awards | Do not target unless the delivered product performs those functions | Avoid for current scope |
 
@@ -63,6 +71,19 @@ Do not generate separate near-duplicate pages for every construction trade or So
 published only when the offer, audience, examples, constraints, and buyer questions are materially distinct. This
 follows the search-intent and pattern-approval requirements in `docs/SEO-GUIDANCE-RESEARCH-STANDARD.md` §§12–13 and
 the claim controls in §16.5.
+
+### Current SERP sample
+
+Manual US-English result sampling on August 7, 2026, with no fixed city produced the following intent patterns. This
+is a qualitative result-page classification only; search volume, competitiveness, personalization, and conversion
+potential are unverified.
+
+| Sample query | Observed dominant result pattern | Intent classification |
+|---|---|---|
+| `construction company web design` / `commercial construction web design` | Agencies and industry-specific web-design service pages | Transactional service intent |
+| `custom construction software development` / `construction workflow automation` | Custom-development firms, software providers, and solution pages | Transactional and commercial-evaluation intent |
+| `construction material tracking software` | Product, platform, comparison, and feature pages | Product/evaluation intent |
+| `AI in construction` | Explanations, industry articles, technology roundups, and some vendors | Mixed and frequently informational |
 
 ## Backlink and distribution plan
 
@@ -100,7 +121,8 @@ Before the application is treated as private or used as case-study proof:
 - retest with unauthenticated, unauthorized-authenticated, authorized-user, and administrator roles.
 
 For public media, create a separate demonstration dataset. Export only a flattened static image, remove metadata, run
-visual and OCR review, and obtain written client approval for that exact asset. Do not capture the live dataset.
+visual and OCR review, and obtain written client approval for that exact asset. Do not capture the live dataset. The
+limited text-only case study may publish while this media gate remains closed.
 
 ## Client approval checklist
 
@@ -117,16 +139,17 @@ visual and OCR review, and obtain written client approval for that exact asset. 
 
 ## Activation and validation sequence
 
-1. Secure and retest the private application.
-2. Obtain and retain written client approval.
-3. Create sanitized demonstration media from fictional data.
-4. Build the case-study page in complete raw HTML with unique metadata and a self-canonical.
-5. Add the approved page to `config/routes.cjs`, the generated sitemap, and contextual internal navigation.
-6. Replace the small Redeemed Hands homepage promotion only after the concurrent Redeemed Hands update is reviewed.
-   Keep the Redeemed Hands page if it remains useful; do not redirect an unrelated client URL to S&L.
-7. Validate the case study, demo label, social presentation, mobile layout, accessibility, links, and conversion CTA.
-8. At the S&L production launch, verify trusted HTTPS, direct HTTP-to-HTTPS redirects, preferred-host redirects,
+1. Build the limited case-study page in complete raw HTML with unique metadata and a self-canonical. Use only the
+   public and owner-attested scope above, and label in-progress and proposed work precisely.
+2. Add the page to `config/routes.cjs`, the generated sitemap, contextual internal navigation, and homepage position
+   #3. Do not delete or redirect the Redeemed Hands page solely because its homepage promotion changes.
+3. Validate social presentation, mobile layout, accessibility, links, and the conversion CTA. Do not use an S&L logo,
+   supplied asset, client-site link, private-application link, screenshot, testimonial, or performance claim yet.
+4. Secure and retest the private application independently. Limited text publication does not waive this gate.
+5. Obtain and retain written client approval before adding branded assets, an outbound client link, an attribution
+   backlink, or specifically identified sanitized media.
+6. If media is approved, create it from fictional demonstration data and repeat visual, metadata, and OCR checks.
+7. At the S&L production launch, verify trusted HTTPS, direct HTTP-to-HTTPS redirects, preferred-host redirects,
    canonicals, robots, sitemap, old-to-new URL mappings, analytics, and webmaster-tool ownership.
-9. Monitor impressions, clicks, referring pages, approved engagement events, and project-review submissions. Do not
+8. Monitor impressions, clicks, referring pages, approved engagement events, and project-review submissions. Do not
    attribute a ranking or conversion change to one backlink or page without adequate evidence.
-

@@ -147,6 +147,7 @@ test("Vercel config declares direct permanent redirects for duplicate URL varian
     ["/work/transportation-solutions-lighting.html/", `${siteOrigin}/work/transportation-solutions-lighting.html`],
     ["/work/codelink.html/", `${siteOrigin}/work/codelink.html`],
     ["/work/redeemed-hands.html/", `${siteOrigin}/work/redeemed-hands.html`],
+    ["/work/sl-plumbing.html/", `${siteOrigin}/work/sl-plumbing.html`],
     ["/privacy.html/", `${siteOrigin}/privacy.html`],
     ["/terms.html/", `${siteOrigin}/terms.html`],
   ]);
@@ -361,18 +362,23 @@ test("Phase 2 gives every featured project defensible problem, delivery, and sta
   assert.match(workSection, /Reported manual dispatch work reduced through a connected operating workflow\./);
   assert.doesNotMatch(workSection, /~10|MVP → market|Clearer path/);
   assert.doesNotMatch(workSection, /approximately 10 hours per week/i);
-  assert.match(workSection, /Two featured systems, an in-depth concept case study, and a growing website library/);
+  assert.match(workSection, /Three featured systems, an in-depth concept case study, and a growing website library/);
 });
 
 test("project cards lead to internal details before explicit external actions", () => {
   const homepage = read("index.html");
-  const tsl = homepage.match(/<article class="project">[\s\S]*?<\/article>/)?.[0] || "";
-  const codeLink = homepage.match(/<article class="project">[\s\S]*?CodeLink[\s\S]*?<\/article>/)?.[0] || "";
+  const projectCards = [...homepage.matchAll(/<article class="project">[\s\S]*?<\/article>/g)]
+    .map((match) => match[0]);
+  const tsl = projectCards.find((card) => card.includes("Transportation Solutions &amp; Lighting")) || "";
+  const codeLink = projectCards.find((card) => card.includes("<h3>CodeLink</h3>")) || "";
+  const slPlumbing = projectCards.find((card) => card.includes("<h3>S&amp;L Plumbing and Heating</h3>")) || "";
 
   assert.ok(tsl.indexOf('/work/transportation-solutions-lighting.html') < tsl.indexOf('https://www.tsandl.us/'));
   assert.ok(codeLink.indexOf('/work/codelink.html') < codeLink.indexOf('https://www.codelink.live/waitlist'));
+  assert.ok(slPlumbing.indexOf('/work/sl-plumbing.html') < slPlumbing.indexOf('/templates/SL-Web-Demo/'));
   assert.match(homepage, /Additional documented project[\s\S]*?href="\/work\/redeemed-hands\.html"/);
   assert.doesNotMatch(homepage, /redeemedhands\.com/);
+  assert.doesNotMatch(slPlumbing, /href="https?:\/\//i);
   assert.match(tsl, /Visit the client website/);
   assert.match(codeLink, /View the product page/);
 });
@@ -382,6 +388,7 @@ test("all featured projects have reusable detail pages and indexed routes", () =
   const cases = [
     ["work/transportation-solutions-lighting.html", "Reported project outcome"],
     ["work/codelink.html", "Public product page available. No quantitative outcome published."],
+    ["work/sl-plumbing.html", "The website rebrand and custom workflow remain ongoing."],
     ["work/redeemed-hands.html", "Completed homepage preview documented in the repository."],
   ];
 
@@ -419,18 +426,21 @@ test("owner proof requests stay in an internal repository checklist", () => {
   assert.doesNotMatch(homepage, /Client approved testimonial|Baseline and after state metric|Permission to name the client/);
 });
 
-test("the unapproved S&L case study stays out of production surfaces", () => {
+test("the limited S&L case study is indexable without exposing the private application", () => {
   const homepage = read("index.html");
   const sitemap = read("sitemap.xml");
+  const caseStudy = read("work/sl-plumbing.html");
   const runbook = read("docs/DEPLOYMENT-RUNBOOK.md");
   const brief = read("docs/SL-PLUMBING-CASE-STUDY-SEO-BRIEF.md");
 
-  assert.doesNotMatch(homepage, /mats-r-us\.vercel\.app/i);
-  assert.doesNotMatch(homepage, /href="\/work\/sl-plumbing\.html"/i);
-  assert.doesNotMatch(sitemap, /mats-r-us\.vercel\.app|\/work\/sl-plumbing/i);
-  assert.equal(routeManifest.some((route) => route.sourcePath === "work/sl-plumbing.html"), false);
-  assert.match(brief, /HOLD — client approval and private-application security review required before publication/);
-  assert.doesNotMatch(brief, /mats-r-us\.vercel\.app/i);
+  assert.match(homepage, /href="\/work\/sl-plumbing\.html"/i);
+  assert.match(sitemap, /\/work\/sl-plumbing\.html/);
+  assert.ok(routeManifest.some((route) => route.sourcePath === "work/sl-plumbing.html" && route.sitemap));
+  assert.match(caseStudy, /Construction Web Design &amp; Custom Software — S&amp;L Case Study/);
+  assert.match(caseStudy, /AI-assisted bid-opportunity discovery are planned or proposed/);
+  assert.match(brief, /LIMITED PUBLICATION AUTHORIZED — homepage case study #3/);
+  assert.doesNotMatch(caseStudy, /<a\b[^>]*href="https?:\/\//i);
+  assert.match(brief, /private application[\s\S]*must not be added here/);
   assert.match(runbook, /Never embed or link the private application from a public page/);
 });
 
@@ -456,6 +466,7 @@ test("Phase 3 navigation uses durable fragment URLs with focus-safe enhancement"
     "index.html",
     "work/transportation-solutions-lighting.html",
     "work/codelink.html",
+    "work/sl-plumbing.html",
     "work/redeemed-hands.html",
     "privacy.html",
     "terms.html",
@@ -609,6 +620,7 @@ test("raw page footers contain the current year before JavaScript runs", () => {
     "404.html",
     "work/transportation-solutions-lighting.html",
     "work/codelink.html",
+    "work/sl-plumbing.html",
     "work/redeemed-hands.html",
   ];
 

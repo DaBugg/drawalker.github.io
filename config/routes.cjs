@@ -65,6 +65,14 @@ const routes = [
     sitemap: true,
   },
   {
+    id: "slPlumbingCaseStudy",
+    sourcePath: "work/sl-plumbing.html",
+    publicPath: "/work/sl-plumbing.html",
+    indexable: true,
+    canonicalIntent: "self",
+    sitemap: true,
+  },
+  {
     id: "privacy",
     sourcePath: "privacy.html",
     publicPath: "/privacy.html",
