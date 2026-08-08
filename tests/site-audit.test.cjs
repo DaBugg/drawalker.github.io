@@ -439,6 +439,10 @@ test("the limited S&L case study is indexable without exposing the private appli
   assert.match(caseStudy, /Construction Web Design &amp; Custom Software — S&amp;L Case Study/);
   assert.match(caseStudy, /AI-assisted bid-opportunity discovery are planned or proposed/);
   assert.match(caseStudy, /src="\/images\/sl-inventory-location-dashboard\.webp"/);
+  assert.match(caseStudy, /class="sl-dashboard-desktop"[\s\S]*role="img"/);
+  assert.match(caseStudy, /class="sl-dashboard-crop sl-dashboard-crop-building"/);
+  assert.match(caseStudy, /class="sl-dashboard-crop sl-dashboard-crop-inventory"/);
+  assert.match(caseStudy, /class="sl-dashboard-mobile"/);
   assert.match(caseStudy, /width="2868"[\s\S]*height="1422"[\s\S]*loading="lazy"[\s\S]*decoding="async"/);
   assert.match(caseStudy, /Illustrative demonstration data · No live client records/);
   assert.ok(
@@ -449,6 +453,18 @@ test("the limited S&L case study is indexable without exposing the private appli
   assert.doesNotMatch(caseStudy, /<a\b[^>]*href="https?:\/\//i);
   assert.match(brief, /private application[\s\S]*must not be added here/);
   assert.match(runbook, /Never embed or link the private application from a public page/);
+});
+
+test("the S&L dashboard uses focused desktop crops and preserves the full mobile view", () => {
+  const css = read("css/case-study.css");
+
+  assert.match(css, /\.sl-dashboard-desktop\s*\{[\s\S]*?grid-template-columns:/);
+  assert.match(css, /\.sl-dashboard-crop-building\s*\{[\s\S]*?aspect-ratio:\s*1475\s*\/\s*992;/);
+  assert.match(css, /\.sl-dashboard-crop-inventory\s*\{[\s\S]*?aspect-ratio:\s*1093\s*\/\s*885;/);
+  assert.match(css, /\.sl-dashboard-crop-building img\s*\{[\s\S]*?width:\s*194\.44%;/);
+  assert.match(css, /\.sl-dashboard-crop-inventory img\s*\{[\s\S]*?width:\s*262\.4%;/);
+  assert.match(css, /@media \(max-width: 899px\)[\s\S]*?\.sl-dashboard-desktop\s*\{\s*display:\s*none;/);
+  assert.match(css, /@media \(max-width: 899px\)[\s\S]*?\.case-media \.sl-dashboard-mobile\s*\{\s*display:\s*block;/);
 });
 
 test("section navigation has real fragment fallbacks and case studies preserve the portfolio tab", () => {

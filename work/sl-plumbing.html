@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="/css/case-study.css" />
     <script type="module" src="/js/in-page-navigation.js"></script>
   </head>
-  <body>
+  <body class="case-study-sl">
     <a class="skip-link" href="#case-study">Skip to case study</a>
 
     <header class="site-header">
@@ -84,9 +84,40 @@
         </dl>
       </section>
 
-      <section class="case-media" aria-label="Custom construction software demonstration">
+      <section class="case-media case-media-dashboard" aria-label="Custom construction software demonstration">
         <figure>
+          <div
+            class="sl-dashboard-desktop"
+            role="img"
+            aria-label="Demonstration construction dashboard showing a building floor-location view beside its material inventory panel"
+          >
+            <div class="sl-dashboard-crop sl-dashboard-crop-building">
+              <img
+                src="/images/sl-inventory-location-dashboard.webp"
+                alt=""
+                width="2868"
+                height="1422"
+                loading="lazy"
+                decoding="async"
+                aria-hidden="true"
+              />
+              <span>Building and floor locations</span>
+            </div>
+            <div class="sl-dashboard-crop sl-dashboard-crop-inventory">
+              <img
+                src="/images/sl-inventory-location-dashboard.webp"
+                alt=""
+                width="2868"
+                height="1422"
+                loading="lazy"
+                decoding="async"
+                aria-hidden="true"
+              />
+              <span>Floor inventory</span>
+            </div>
+          </div>
           <img
+            class="sl-dashboard-mobile"
             src="/images/sl-inventory-location-dashboard.webp"
             alt="Demonstration dashboard organizing construction materials by building floor and storage location"
             width="2868"
