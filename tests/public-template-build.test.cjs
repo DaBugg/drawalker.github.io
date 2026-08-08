@@ -47,3 +47,35 @@ test("production build uses the filtered template copier", () => {
   assert.match(packageJson.scripts.build, /node scripts\/copy-public-templates\.mjs/);
   assert.doesNotMatch(packageJson.scripts.build, /cp -R templates dist/);
 });
+
+test("unlisted client demos ship at stable paths with layered noindex controls", () => {
+  const sitemap = fs.readFileSync(path.join(repositoryRoot, "sitemap.xml"), "utf8");
+  const homepage = fs.readFileSync(path.join(repositoryRoot, "index.html"), "utf8");
+  const gallery = fs.readFileSync(path.join(repositoryRoot, "templates", "index.html"), "utf8");
+  const vercel = JSON.parse(fs.readFileSync(path.join(repositoryRoot, "vercel.json"), "utf8"));
+  const demos = ["addison-trace-simple", "addison-trace-balanced"];
+
+  for (const demo of demos) {
+    const demoDirectory = path.join(repositoryRoot, "templates", "hidden", demo);
+    assert.ok(fs.existsSync(path.join(demoDirectory, "index.html")), `${demo} needs an entry page`);
+    for (const filename of fs.readdirSync(demoDirectory).filter((file) => file.endsWith(".html"))) {
+      const html = fs.readFileSync(path.join(demoDirectory, filename), "utf8");
+      assert.match(
+        html,
+        /<meta\s+name="robots"\s+content="noindex, nofollow, noarchive">/i,
+        `${demo}/${filename} must remain unlisted`,
+      );
+    }
+    assert.doesNotMatch(sitemap, new RegExp(demo));
+    assert.doesNotMatch(homepage, new RegExp(demo));
+    assert.doesNotMatch(gallery, new RegExp(demo));
+  }
+
+  const hiddenHeader = vercel.headers?.find((entry) => entry.source === "/templates/hidden/:path*");
+  assert.ok(hiddenHeader, "hidden client demos need a route-wide X-Robots-Tag");
+  assert.ok(
+    hiddenHeader.headers.some(
+      (header) => header.key === "X-Robots-Tag" && header.value === "noindex, nofollow, noarchive",
+    ),
+  );
+});
