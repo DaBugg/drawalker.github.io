@@ -226,81 +226,89 @@
   color: var(--text);
 }
 
-.case-study-sl .case-media-dashboard {
-  max-width: min(var(--max), 1120px);
+.case-study-sl .case-hero {
+  grid-template-columns: minmax(0, 1.28fr) minmax(380px, 0.72fr);
+  grid-template-areas:
+    "copy media"
+    "facts facts";
+  grid-template-rows: minmax(560px, 1fr) auto;
+  gap: 0;
+  align-items: stretch;
+  padding: 0;
 }
 
-.case-media-dashboard figcaption {
-  max-width: 860px;
-  margin: 0 auto;
+.case-study-sl .case-hero-copy {
+  grid-area: copy;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(4rem, 7vw, 7rem) clamp(2.5rem, 6vw, 6rem) clamp(4rem, 7vw, 7rem) 4vw;
+  border-right: 1px solid var(--line);
 }
 
-.sl-dashboard-desktop {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: clamp(0.75rem, 1.2vw, 1rem);
-  max-width: 860px;
-  margin: 0 auto;
+.sl-dashboard-hero {
+  grid-area: media;
+  display: flex;
+  flex-direction: column;
+  min-height: 560px;
+  margin: 0;
+  padding: clamp(1.25rem, 2.5vw, 2.5rem);
+  background: var(--navy);
 }
 
-.sl-dashboard-crop {
+.sl-dashboard-hero-header,
+.sl-dashboard-hero figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--muted);
+  font-size: 0.67rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.sl-dashboard-hero-stage {
   position: relative;
+  flex: 1;
+  min-height: 430px;
+  margin: 1.25rem 0;
   overflow: hidden;
   border: 1px solid var(--line);
   background: #eef2f7;
-  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
 }
 
-.sl-dashboard-crop-building {
-  aspect-ratio: 1475 / 992;
-}
-
-.sl-dashboard-crop-inventory {
-  aspect-ratio: 1093 / 885;
-}
-
-.case-media .sl-dashboard-crop img {
+.sl-dashboard-hero-stage img {
   position: absolute;
-  max-width: none;
-  height: auto;
-  border: 0;
-  background: transparent;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 58% center;
 }
 
-.case-media .sl-dashboard-crop-building img {
-  top: 0;
-  left: 0;
-  width: 194.44%;
-  transform: translate(-10.11%, -30.24%);
-}
-
-.case-media .sl-dashboard-crop-inventory img {
-  top: 0;
-  left: 0;
-  width: 262.4%;
-  transform: translate(-61.89%, -30.24%);
-}
-
-.sl-dashboard-crop > span {
-  position: absolute;
-  z-index: 1;
-  top: 1rem;
-  left: 1rem;
-  padding: 0.48rem 0.65rem;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 999px;
-  background: rgba(7, 13, 24, 0.84);
+.sl-dashboard-hero figcaption span:first-child {
   color: var(--text);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  line-height: 1;
-  text-transform: uppercase;
-  backdrop-filter: blur(8px);
 }
 
-.case-media .sl-dashboard-mobile {
-  display: none;
+.case-study-sl .case-facts {
+  grid-area: facts;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  border-top: 1px solid var(--line);
+  background: var(--navy);
+}
+
+.case-study-sl .case-facts div {
+  min-width: 0;
+  padding: 1.25rem clamp(1.25rem, 3vw, 2.5rem);
+  border-right: 1px solid var(--line);
+  border-bottom: 0;
+}
+
+.case-study-sl .case-facts div:last-child {
+  border-right: 0;
 }
 
 .case-media-pair {
@@ -341,15 +349,34 @@
   .case-system-map {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
 
-@media (max-width: 899px) {
-  .sl-dashboard-desktop {
-    display: none;
+  .case-study-sl .case-hero {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "copy"
+      "media"
+      "facts";
+    grid-template-rows: auto;
   }
 
-  .case-media .sl-dashboard-mobile {
-    display: block;
+  .case-study-sl .case-hero-copy {
+    padding: 5rem 6vw;
+    border-right: 0;
+  }
+
+  .sl-dashboard-hero {
+    min-height: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .sl-dashboard-hero-stage {
+    min-height: 0;
+    aspect-ratio: 2868 / 1422;
+  }
+
+  .sl-dashboard-hero-stage img {
+    object-fit: contain;
+    object-position: center;
   }
 }
 
@@ -387,5 +414,26 @@
   .case-actions {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .case-study-sl .case-hero-copy {
+    padding: 4rem 1.15rem;
+  }
+
+  .sl-dashboard-hero {
+    padding: 1.15rem;
+  }
+
+  .case-study-sl .case-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .case-study-sl .case-facts div {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .case-study-sl .case-facts div:last-child {
+    border-bottom: 0;
   }
 }
