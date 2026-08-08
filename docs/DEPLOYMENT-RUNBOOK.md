@@ -423,6 +423,38 @@ failures.
   client secret. After deployment, verify `/api/spotify`, `/api/spotify-login`,
   `/api/spotify-callback`, and `/api/suggest-song` each return a genuine 404.
 
+## S&L case-study release gate
+
+S&L currently remains an editorial candidate, not a production Networks & Nodes
+case-study route. The tracked repository has a public remote, so do not record or
+publish the private application URL, operational records, database details,
+screenshots, or unapproved workflow description.
+
+Do not add S&L to the homepage, production route manifest, sitemap, or indexed
+case-study set until all of the following are complete:
+
+- written client approval covers the company name, logo, exact scope/status copy,
+  specifically identified sanitized media, and each outbound or attribution link;
+- the private application requires authenticated access, least-privilege
+  authorization and database Row Level Security, and unauthenticated read and
+  write tests fail across production, previews, custom domains, and direct hosting
+  URLs;
+- the public screenshot is created from fictional demonstration data, flattened,
+  stripped of metadata, checked visually and with OCR, and approved by the client;
+- the website rebrand is accurately labeled `in progress` until launched;
+- the 3D project representation stays labeled `planned` until implemented;
+- LinkedIn and bid-opportunity work is described as proposed until its individual
+  delivery status is confirmed; and
+- no performance or business outcome is added without a retained evidence record
+  and client approval.
+
+Never embed or link the private application from a public page. `noindex` and
+`robots.txt` are defense-in-depth crawler controls, not access controls. Any
+client-site backlink must be voluntary, branded or otherwise natural,
+client-approved, and must not be represented as guaranteeing rankings. The
+complete activation and validation sequence is maintained in
+`docs/SL-PLUMBING-CASE-STUDY-SEO-BRIEF.md`.
+
 ## Release record
 
 Retain one record per preview and production release. Do not include secrets,

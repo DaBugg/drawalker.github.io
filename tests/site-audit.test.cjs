@@ -408,11 +408,30 @@ test("owner proof requests stay in an internal repository checklist", () => {
     "Project timeline",
     "Public launch URL",
     "Permission to name the client",
+    "Approved scope and status wording",
+    "Permission to use the client name and logo",
+    "Approval for each sanitized screenshot",
+    "Permission for a client-site attribution link",
   ]) {
     assert.match(inventory, new RegExp(item));
   }
   assert.doesNotMatch(homepage, /Owner supplied proof checklist/);
   assert.doesNotMatch(homepage, /Client approved testimonial|Baseline and after state metric|Permission to name the client/);
+});
+
+test("the unapproved S&L case study stays out of production surfaces", () => {
+  const homepage = read("index.html");
+  const sitemap = read("sitemap.xml");
+  const runbook = read("docs/DEPLOYMENT-RUNBOOK.md");
+  const brief = read("docs/SL-PLUMBING-CASE-STUDY-SEO-BRIEF.md");
+
+  assert.doesNotMatch(homepage, /mats-r-us\.vercel\.app/i);
+  assert.doesNotMatch(homepage, /href="\/work\/sl-plumbing\.html"/i);
+  assert.doesNotMatch(sitemap, /mats-r-us\.vercel\.app|\/work\/sl-plumbing/i);
+  assert.equal(routeManifest.some((route) => route.sourcePath === "work/sl-plumbing.html"), false);
+  assert.match(brief, /HOLD — client approval and private-application security review required before publication/);
+  assert.doesNotMatch(brief, /mats-r-us\.vercel\.app/i);
+  assert.match(runbook, /Never embed or link the private application from a public page/);
 });
 
 test("section navigation has real fragment fallbacks and case studies preserve the portfolio tab", () => {

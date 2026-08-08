@@ -60,6 +60,38 @@ Audit date: 2026-08-07
 - That every product feature is fully launched or generally available.
 - A measured business outcome or project timeline.
 
+## S&L Plumbing — publication hold
+
+### Supported facts
+
+- Public company name: S&L Plumbing and Heating Corp.
+- Public business context: commercial plumbing, estimating, drafting/design, and project management are visible on
+  the current client website.
+- Repository evidence: a multi-page website-rebrand demonstration exists in `templates/SL-Web-Demo/` and is
+  intentionally labeled `noindex, nofollow`.
+- Owner-attested status: the website rebrand is in progress. Additional private workflow work and possible follow-on
+  marketing/automation work have been described but are not approved for publication.
+- A planned 3D representation is not implemented and LinkedIn outreach/advertising and a bid-opportunity system remain
+  in progress or proposed until their individual delivery status is confirmed.
+- Client permission to publish the relationship, exact scope, branding, or screenshots has not yet been obtained.
+- No quantitative outcome is supported.
+
+### Sources
+
+- `templates/SL-Web-Demo/`
+- `docs/SL-PLUMBING-CASE-STUDY-SEO-BRIEF.md`
+- The public S&L Plumbing website inspected August 7, 2026.
+- Owner confirmation supplied August 7, 2026.
+
+### Do not claim or expose yet
+
+- The private application URL, records, credentials, database details, live screenshots, or unapproved workflow
+  description.
+- That the private application has verified authentication, authorization, or security controls.
+- A completed 3D experience, deployed S&L bid finder, completed marketing campaign, or launched rebrand.
+- Full inventory-management capabilities unless the approved feature record establishes them.
+- Time savings, material-loss reduction, bid volume, lead volume, conversion, revenue, adoption, or other results.
+
 ## Redeemed Hands
 
 ### Supported facts
@@ -92,5 +124,10 @@ Collect and record these per project before adding stronger proof:
 - [ ] Project timeline
 - [ ] Public launch URL
 - [ ] Permission to name the client
+- [ ] Approved scope and status wording
+- [ ] Permission to use the client name and logo
+- [ ] Approval for each sanitized screenshot
+- [ ] Confirmation that approved media contains no private operational data or identifiers
+- [ ] Permission for a client-site attribution link and its exact wording and destination
 
 Also retain the source document, approval date, and exact approved wording for every quantitative claim or testimonial.
