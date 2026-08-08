@@ -101,7 +101,7 @@ function readOriginalOrder() {
 
 function collectTemplateEntries(directory, entries = []) {
   for (const item of fs.readdirSync(directory, { withFileTypes: true })) {
-    if (item.name === "node_modules" || item.name === "template-gallery") continue;
+    if (item.name === "node_modules" || item.name === "template-gallery" || item.name === "hidden") continue;
 
     const itemPath = path.join(directory, item.name);
     if (item.isDirectory()) {
